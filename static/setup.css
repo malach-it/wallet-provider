@@ -1,0 +1,56 @@
+p{margin: 0;}
+
+.displayNone {
+    display: none;
+}
+
+.stepDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    height: 100%;
+}
+
+.optionDiv {
+    display: flex;
+    flex-direction: row;
+}
+
+.nextStep {
+    width: fit-content;
+    height: fit-content;
+    padding: 6px;
+    border: none;
+    background-color: purple;
+    color: white;
+}
+
+.buttonsStep {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+body {
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#mainBox {
+    display: flex;
+    flex-direction: column;
+    max-width: 60vw;
+    min-width: 30vw;
+}
+
+.blockchainRow {
+    display: flex;
+    flex-direction: row;
+}
+
+#blockchainDiv {
+    display: flex;
+    flex-direction: column;
+}

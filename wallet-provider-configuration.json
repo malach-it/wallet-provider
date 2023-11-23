@@ -1,0 +1,71 @@
+{
+    "version": 1.0,
+    "published": "2023-11-23",
+    "generalOptions":
+    {
+        "walletType": "altme",
+        "companyName": "Altme",
+        "companyWebsite": "https://altme.io",
+        "companyLogo": "https://talao.co/static/img/icon.png",
+        "profileName": "EBSI-V3"
+
+    },
+    "settingsMenu": 
+    {
+        "profile": true,
+        "walletSecurity": true,
+        "blockchainSetting": true,
+        "selfSovereignIdentity": true,
+        "developerMode": false,
+        "helpCenter": true,
+        "about": true,
+        "resetWallet": true
+
+    },
+    "walletSecurityOptions":
+    {
+        "displayAdvancedSettings": false,
+        "verifyIssuerWebsiteIdentity": false,
+        "confirmVerifier>Access": false,
+        "secureAuthenticationWithPinCode": true
+    },
+    "blockchainOptions":
+    {
+        "tezosSupport": true,
+        "ethereumSupport": true,
+        "hederaSupport": true,
+        "bnbSupport": true,
+        "fantomSupport": true,
+        "polygonSupport": true,
+        "tzproRpcNode": false,
+        "tzproApiKey": null,
+        "infuraRpcNode": false,
+        "infuraApiKey": null
+
+    },
+    "selfSovereignIdentityOptions":
+    {
+        "displayManageDecentralizedId": true,
+        "displayAdvancedSettings": true,
+        "oidv4vcProfile": "ebsi",
+        "verifiableDataRegistry": true,
+        "securityLevel": "low",
+        "userPinDigits": "4",
+        "defaultDid": "did:key:ebsi",
+        "crv": "P-256",
+        "subjectSyntaxeType": "did",
+        "cryptoHolderBinding": true,
+        "scope": false,
+        "clientAuthentication": "none",
+        "client_id": null,
+        "client_secret": null
+    },
+    "helpCenterOptions":
+    {
+        "chatSupport": true,
+        "customChatSupportName": null,
+        "sendSupportEmail": true,
+        "customSupportEmail": null
+    }
+
+}

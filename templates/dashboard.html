@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Dashboard</title>
+</head>
+
+<body>
+  <p>Dashboard {{organisation}}</p>
+  <input type="text" id="emailAdd" name="email">
+  <button onclick="addUser()">ADD</button>
+  <div id="usersRows">
+    {% for row in rows %}
+
+    <p>{{row[0]}}</p>
+    {% endfor %}
+  </div>
+  <a href="/setup">Modify configuration</a>
+  <script>
+    function addUser() {
+      fetch('/add_user', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ email: document.getElementById("emailAdd").value })
+      })
+        .then(response => console.log(response.status))
+        .catch(error => console.error('Error:', error));
+    }
+  </script>
+</body>
+
+</html>

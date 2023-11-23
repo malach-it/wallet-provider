@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Login</title>
+</head>
+
+<body>
+  <input type="text" id="password">
+  <button id="loginButton" onclick="login()">Login</button>
+  <script>
+     
+    function login() {
+      data = { password: document.getElementById("password").value };
+      fetch("{{server}}/login_password", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+      }).then(response => {
+        if(response.status != 200) {
+          console.log("Invalid password or email")
+        }
+        response.json().then((data)=>{
+          if(data.organisation === "Talao" || data.configured === 1){
+            window.location.replace("/dashboard")
+          }
+          else {
+            window.location.replace("/setup")
+          }
+        })
+      })
+    }
+  </script>
+</body>
+
+</html>

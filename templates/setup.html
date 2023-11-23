@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Setup</title>
+    <link rel="stylesheet" type="text/css" href="/static/setup.css">
+</head>
+
+<body>
+
+    <div id="mainBox">
+        <form action="/set_config" method="post" enctype="multipart/form-data">
+            <div id="step1Div" class="stepDiv">
+                <div class="optionDiv">
+                    <p>Choose wallet type :</p>
+                    <p>Altme</p><input type="radio" id="altme" name="typeWallet" value="altme" checked>
+                    <p>Talao</p><input type="radio" id="talao" name="typeWallet" value="talao">
+                </div>
+                <div class="optionDiv">
+                    <p>Insert company name :</p>
+                    <input type="text" id="companyName" name="companyName">
+                </div>
+                <div class="optionDiv">
+                    <p>Your logo</p>
+                    <input type="file" id="file" name="file">
+                </div>
+                <div class="optionDiv">
+                    <p>Menu - Developer mode</p>
+                    <input checked type="checkbox" name="developerMode">
+                </div>
+                <div class="buttonsStep">
+                    <button type="button" style="margin-left: auto;" class="nextStep" onclick="goStep2()">Next
+                        step</button>
+                </div>
+
+            </div>
+            <div id="step2Div" class="displayNone">
+                <div class="optionDiv">
+                    <p>Menu - Advanced settings</p>
+                    <input checked type="checkbox" name="advancedSettings">
+
+                </div>
+                <div class="optionDiv">
+                    <p>Verify issuer website identity</p>
+                    <input type="checkbox" name="verifyIssuerWebsiteIdentity">
+                </div>
+                <div class="optionDiv">
+                    <p>Confirm verifier access </p>
+                    <input type="checkbox" name="confirmVerifierAccess">
+                </div>
+                <div class="optionDiv">
+                    <p>secure authentication with user action</p>
+                    <input type="checkbox" checked name="secureAuthentification">
+                </div>
+                <div class="optionDiv">
+                    <p>2FA</p>
+                    <input type="checkbox" name="2FA">
+                </div>
+                <div class="buttonsStep">
+                    <button type="button" class="nextStep" onclick="goStep1()">Previous step</button>
+                    <button type="button" class="nextStep" onclick="goStep3()">Next step</button>
+                </div>
+
+
+            </div>
+            <div id="step3Div" class="displayNone">
+                <div id="blockchainDiv">
+                    <p>Blockchain supported</p>
+                    <div class="blockchainRow">
+                        <p>Tezos</p>
+                        <input type="checkbox" name="tezos" checked>
+                        <input placeholder="Tezos RPC url" type="text" name="tezosRPC" id="tezosRPC"
+                            class="displayNone">
+                        <input placeholder="Tezos RPC api key" type="text" name="tezosAPI" id="tezosAPI"
+                            class="displayNone">
+                    </div>
+                    <div class="blockchainRow">
+
+                        <p>Hedera</p>
+                        <input type="checkbox" name="hedera" checked>
+                        <input type="text" placeholder="Hedera RPC url" name="hederaRPC" id="hederaRPC"
+                            class="displayNone">
+                        <input placeholder="Hedera RPC api key" type="text" name="hederaAPI" id="hederaAPI"
+                            class="displayNone">
+                    </div>
+
+                    <div class="blockchainRow">
+
+                        <p>Ethereum</p>
+                        <input type="checkbox" name="eth" checked>
+                        <input type="text" placeholder="Ethereum RPC url" name="ethRPC" id="ethRPC" class="displayNone">
+                        <input placeholder="Ethereum RPC api key" type="text" name="ethAPI" id="ethAPI"
+                            class="displayNone">
+                    </div>
+
+                    <div class="blockchainRow">
+
+                        <p>BNB chain</p>
+                        <input type="checkbox" name="bnb" checked>
+                        <input type="text" placeholder="BNB RPC url" name="bnbRPC" id="bnbRPC" class="displayNone">
+                        <input placeholder="BNB RPC api key" type="text" name="bnbAPI" id="bnbAPI" class="displayNone">
+                    </div>
+
+                    <div class="blockchainRow">
+
+                        <p>Fantom</p>
+                        <input type="checkbox" name="fantom" checked>
+                        <input type="text" placeholder="Fantom RPC url" name="ftmRPC" id="ftmRPC" class="displayNone">
+                        <input placeholder="Fantom RPC api key" type="text" name="ftmAPI" id="ftmAPI"
+                            class="displayNone">
+                    </div>
+
+                    <div class="blockchainRow">
+
+                        <p>Polygon</p>
+                        <input type="checkbox" name="polygon" checked>
+                        <input type="text" placeholder="Polygon RPC url" name="polRPC" id="polRPC" class="displayNone">
+                        <input placeholder="Polygon RPC api key" type="text" name="polAPI" id="polAPI"
+                            class="displayNone">
+                    </div>
+
+                </div>
+                <div class="optionDiv">
+                    <p>RPC nodes</p>
+                    <input type="checkbox" onclick="switchRpc()" id="rpcCheck">
+                </div>
+                <div class="optionDiv">
+                    <p>Menu - Advanced Settings</p>
+                    <input name="blockchainAdvancedSettings" type="checkbox" checked>
+                </div>
+
+                <div class="buttonsStep">
+
+                    <button type="button" class="nextStep" onclick="goStep2()">Previous step</button>
+                    <button type="button" class="nextStep" onclick="goStep4()">Next step</button>
+                </div>
+
+            </div>
+            <div id="step4Div" class="displayNone">
+                <div class="optionDiv">
+                    <p>PolygonID</p>
+                    <input type="checkbox" name="polygonID" checked>
+                </div>
+                <div class="optionDiv">
+                    <p>OIDC4VC profile</p>
+                    <select id="profile" name="profile">
+                        <option onclick="switchProfile()" value="ebsi">EBSI-V3</option>
+                        <option onclick="switchProfile()" value="diip">DIIP</option>
+                        <option onclick="switchProfile()" value="custom">Custom</option>
+                        <option onclick="switchProfile()" value="none">None</option>
+                    </select>
+                </div>
+                <div id="customProfileDiv" class="displayNone">
+                    <div class="optionDiv">
+                        <p>Advanced settings menu</p>
+                        <input name="customProfileAdvancedSettings" type="checkbox" checked>
+
+                    </div>
+                    <div class="optionDiv">
+                        <p>Choose security level :</p>
+                        <p>LOW</p><input type="radio" id="low" name="securityLevel" value="low" checked>
+                        <p>HIGH</p><input type="radio" id="high" name="securityLevel" value="high">
+                    </div>
+                    <div class="optionDiv">
+                        <p>User pin digits:</p>
+                        <p>4</p><input type="radio" id="four" name="pinDigits" value="4" checked>
+                        <p>6</p><input type="radio" id="six" name="pinDigits" value="6">
+                    </div>
+                    <div class="optionDiv">
+                        <p>default DID</p>
+                        <p>did:ket seckp256k1</p><input type="radio" id="seckp256k1" name="defaultDID"
+                            value="seckp256k1">
+                        <p>did:ket P-256</p><input type="radio" id="ket-256" name="defaultDID" value="ket-256" checked>
+                        <p>did:jwk P-256</p><input type="radio" id="jwk-256" name="defaultDID" value="jwk-256">
+
+                    </div>
+                    <div class="optionDiv">
+                        <p>Subject syntax type :</p>
+                        <p>did</p><input type="radio" id="did" name="syntaxType" value="did" checked>
+                        <p>jwk</p><input type="radio" id="jwk" name="syntaxType" value="jwk">
+                    </div>
+                    <div class="optionDiv">
+                        <p>Cryptogtraphic Holder binding (bearer credentials else)</p>
+                        <input name="CryptogtraphicHolderBinding" type="checkbox" checked>
+                    </div>
+                    <div class="optionDiv">
+                        <p>Scope parameters</p>
+                        <input name="scoreParameters" type="checkbox">
+                    </div>
+                    <div class="optionDiv">
+                        <p>Client authentication :</p>
+                        <p>Public</p><input onClick="switchClientAuth()" type="radio" id="public"
+                            name="clientAuthentification" value="public" checked>
+                        <p>Basic</p><input onClick="switchClientAuth()" type="radio" id="basic"
+                            name="clientAuthentification" value="basic">
+                        <div id="basicAuthDiv" class="displayNone">
+                            <input type="text" placeholder="client_id" name="basicAuthDivClientId" id="client_id">
+                            <input placeholder="client_secret" type="text" name="basicAuthDivClientSecret"
+                                id="client_secret">
+                        </div>
+                    </div>
+                </div>
+                <div class="optionDiv">
+                    <p>Menu - Manage DID</p>
+                    <input name="manageDid" type="checkbox" checked>
+
+                </div>
+                <div class="buttonsStep">
+
+                    <button type="button" class="nextStep" onclick="goBackStep4()">Previous step</button>
+                    <button type="button" class="nextStep" onclick="goStep5()">Next step</button>
+                </div>
+
+            </div>
+            <div id="step5Div" class="displayNone">
+                <div class="optionDiv">
+                    <p>Custom email support</p>
+                    <input name="emailSupport" type="checkbox">
+
+                </div>
+                <div class="optionDiv">
+                    <p>Menu - Chat with Altme support </p>
+                    <input name="chatAltme" type="checkbox">
+
+                </div>
+                <div class="optionDiv">
+                    <p>Menu - Official website</p>
+                    <input name="menuOfficialWebsite" type="checkbox" checked>
+
+                </div>
+                <div class="buttonsStep">
+
+                    <button type="button" class="nextStep" onclick="goStep4()">Previous step</button>
+                    <input type="submit" value="Set up config">
+                </div>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById("rpcCheck").checked = false
+        document.getElementById("basic").checked = false
+        document.getElementById("public").checked = true
+
+        document.getElementById("profile").value = "ebsi"
+        function goStep1() {
+            document.getElementById("step2Div").setAttribute("class", "displayNone")
+            document.getElementById("step1Div").setAttribute("class", "stepDiv")
+        }
+        function goStep2() {
+            document.getElementById("step2Div").setAttribute("class", "stepDiv")
+            document.getElementById("step1Div").setAttribute("class", "displayNone")
+            document.getElementById("step3Div").setAttribute("class", "displayNone")
+            document.getElementById("step4Div").setAttribute("class", "displayNone")
+
+        }
+        function goStep3() {
+            if (document.getElementById("altme").checked) {
+                document.getElementById("step2Div").setAttribute("class", "displayNone")
+                document.getElementById("step3Div").setAttribute("class", "stepDiv")
+                document.getElementById("step4Div").setAttribute("class", "displayNone")
+
+            }
+            else {
+                goStep4()
+            }
+
+        }
+        function goStep4() {
+            document.getElementById("step2Div").setAttribute("class", "displayNone")
+            document.getElementById("step5Div").setAttribute("class", "displayNone")
+            document.getElementById("step3Div").setAttribute("class", "displayNone")
+            document.getElementById("step4Div").setAttribute("class", "stepDiv")
+        }
+        function goBackStep4() {
+            if (document.getElementById("altme").checked) {
+                document.getElementById("step2Div").setAttribute("class", "displayNone")
+                document.getElementById("step3Div").setAttribute("class", "stepDiv")
+                document.getElementById("step4Div").setAttribute("class", "displayNone")
+
+            }
+            else {
+                goStep2()
+            }
+        }
+        function goStep5() {
+            document.getElementById("step4Div").setAttribute("class", "displayNone")
+            document.getElementById("step5Div").setAttribute("class", "stepDiv")
+        }
+        function switchRpc() {
+            if (document.getElementById("rpcCheck").checked) {
+                document.getElementById("tezosRPC").setAttribute("class", "")
+                document.getElementById("tezosAPI").setAttribute("class", "")
+                document.getElementById("hederaRPC").setAttribute("class", "")
+                document.getElementById("hederaAPI").setAttribute("class", "")
+                document.getElementById("ethRPC").setAttribute("class", "")
+                document.getElementById("ethAPI").setAttribute("class", "")
+                document.getElementById("bnbRPC").setAttribute("class", "")
+                document.getElementById("bnbAPI").setAttribute("class", "")
+                document.getElementById("ftmRPC").setAttribute("class", "")
+                document.getElementById("ftmAPI").setAttribute("class", "")
+                document.getElementById("polRPC").setAttribute("class", "")
+                document.getElementById("polAPI").setAttribute("class", "")
+            }
+            else {
+                document.getElementById("tezosRPC").setAttribute("class", "displayNone")
+                document.getElementById("tezosAPI").setAttribute("class", "displayNone")
+                document.getElementById("hederaRPC").setAttribute("class", "displayNone")
+                document.getElementById("hederaAPI").setAttribute("class", "displayNone")
+                document.getElementById("ethRPC").setAttribute("class", "displayNone")
+                document.getElementById("ethAPI").setAttribute("class", "displayNone")
+                document.getElementById("bnbRPC").setAttribute("class", "displayNone")
+                document.getElementById("bnbAPI").setAttribute("class", "displayNone")
+                document.getElementById("ftmRPC").setAttribute("class", "displayNone")
+                document.getElementById("ftmAPI").setAttribute("class", "displayNone")
+                document.getElementById("polRPC").setAttribute("class", "displayNone")
+                document.getElementById("polAPI").setAttribute("class", "displayNone")
+            }
+        }
+        function switchProfile() {
+            if (document.getElementById("profile").value === "custom") {
+                document.getElementById("customProfileDiv").setAttribute("class", "")
+            }
+            else {
+                document.getElementById("customProfileDiv").setAttribute("class", "displayNone")
+            }
+        }
+        function switchClientAuth() {
+            if (document.getElementById("basic").checked === true) {
+                document.getElementById("basicAuthDiv").setAttribute("class", "")
+            } else {
+                document.getElementById("basicAuthDiv").setAttribute("class", "displayNone")
+
+            }
+        }
+    </script>
+</body>
+
+</html>
