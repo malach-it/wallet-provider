@@ -117,7 +117,6 @@ def login():
 
 def login_password():
     password = request.get_json().get("password")
-    password = sha256(password.encode('utf-8')).hexdigest()
     verif = db.verify_password_admin(session.get("email"), password)
     if not verif:
         return "Not found", 404
