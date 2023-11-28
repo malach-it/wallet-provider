@@ -23,6 +23,8 @@ def verify_password_admin(email, password):
     c.execute("select json_extract(data,'$.organisation'),configured from admins,organisations where email ='{email}' and json_extract(data,'$.password') = '{password}' and json_extract(data,'$.organisation')=name".format(
         email=email, password=password))
     rows = c.fetchall()
+    if (len(rows) < 2):
+        return False
     return [rows[0][0], rows[0][1]]
 
 

@@ -57,7 +57,7 @@ red = redis.Redis(host='127.0.0.1', port=6379, db=0)
 
 
 def generate_random_string(length):
-    characters = string.ascii_uppercase #+ string.digits + string.ascii_lowercase
+    characters = string.ascii_uppercase  # + string.digits + string.ascii_lowercase
     return ''.join(random.choice(characters) for _ in range(length))
 
 
@@ -108,11 +108,10 @@ def error_500(e):
 @auth.oidc_auth('default')
 def login():
     user_session = UserSession(flask.session)
-    logging.info(get_payload_from_token(
-        user_session.userinfo["vp_token_payload"]["vp"]["verifiableCredential"][0]))
-    session["email"] = get_payload_from_token(
-        user_session.userinfo["vp_token_payload"]["vp"]["verifiableCredential"][0])
-    #session["email"] = "achille@talao.io"
+    logging.info(user_session.userinfo["vp_token_payload"]
+                 ["verifiableCredential"]["credentialSubject"]["email"])
+    session["email"] = user_session.userinfo["vp_token_payload"]["verifiableCredential"]["credentialSubject"]["email"]
+    # session["email"] = "achille@talao.io"
     return (render_template("login.html"))
 
 
@@ -120,6 +119,8 @@ def login_password():
     password = request.get_json().get("password")
     password = sha256(password.encode('utf-8')).hexdigest()
     verif = db.verify_password_admin(session.get("email"), password)
+    if not verif:
+        return "Not found", 404
     organisation = verif[0]
     configured = verif[1]
     if not organisation:
@@ -196,8 +197,6 @@ def add_organisation():
                         'code_auth_en', {'code': str(password)})
     db.create_organisation(organisation)
     return ("ok")
-
-
 
 
 def logout():
