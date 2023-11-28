@@ -1,0 +1,25 @@
+#dashboardTitle {
+    font-size: 30px;
+}
+
+#usersTitle {
+    font-size: 20px;
+}
+
+#modifyConfiguration {
+    background-color: purple;
+    color: white;
+    text-decoration: none;
+    padding: 12px;
+    width: fit-content;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+#logout{
+    width: fit-content;
+}

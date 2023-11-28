@@ -9,7 +9,7 @@
   <input type="text" id="password">
   <button id="loginButton" onclick="login()">Login</button>
   <script>
-     
+
     function login() {
       data = { password: document.getElementById("password").value };
       fetch("{{server}}/login_password", {
@@ -19,11 +19,14 @@
         },
         body: JSON.stringify(data)
       }).then(response => {
-        if(response.status != 200) {
+        if (response.status != 200) {
           console.log("Invalid password or email")
         }
-        response.json().then((data)=>{
-          if(data.organisation === "Talao" || data.configured === 1){
+        response.json().then((data) => {
+          if (data.organisation === "Talao") {
+            window.location.replace("/dashboard_talao")
+          }
+          else if (data.configured === 1) {
             window.location.replace("/dashboard")
           }
           else {

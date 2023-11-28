@@ -1,0 +1,14 @@
+sqlite3
+smtplib
+email
+codecs
+logging
+json
+flask
+redis
+flask_session
+flask_pyoidc
+base64
+hashlib
+random
+string

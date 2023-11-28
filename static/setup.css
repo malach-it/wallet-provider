@@ -1,4 +1,6 @@
-p{margin: 0;}
+p {
+    margin: 0;
+}
 
 .displayNone {
     display: none;
@@ -14,6 +16,10 @@ p{margin: 0;}
 .optionDiv {
     display: flex;
     flex-direction: row;
+    gap: 20px;
+    background-color: wheat;
+    padding: 10px;
+    border-radius: 10px;
 }
 
 .nextStep {
@@ -53,4 +59,15 @@ body {
 #blockchainDiv {
     display: flex;
     flex-direction: column;
+}
+
+.title {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+#customProfileDiv{
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
 }

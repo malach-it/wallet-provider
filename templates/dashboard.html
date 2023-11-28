@@ -3,19 +3,26 @@
 
 <head>
   <title>Dashboard</title>
+  <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
+
 </head>
 
 <body>
-  <p>Dashboard {{organisation}}</p>
-  <input type="text" id="emailAdd" name="email">
-  <button onclick="addUser()">ADD</button>
-  <div id="usersRows">
-    {% for row in rows %}
-
-    <p>{{row[0]}}</p>
-    {% endfor %}
+  <p id="dashboardTitle">Dashboard admin {{organisation}}</p> 
+  <button onclick="logout()">Logout</button>
+  <div><input placeholder="email" type="text" id="emailAdd" name="email">
+    <button onclick="addUser()">Add user</button>
   </div>
-  <a href="/setup">Modify configuration</a>
+  <div>
+    <p id="usersTitle">Users</p>
+    <div id="usersRows">
+      {% for row in rows %}
+
+      <p>{{row[0]}}</p>
+      {% endfor %}
+    </div>
+  </div>
+  <a id="modifyConfiguration" href="/setup">Modify configuration</a>
   <script>
     function addUser() {
       fetch('/add_user', {
@@ -26,6 +33,16 @@
         body: JSON.stringify({ email: document.getElementById("emailAdd").value })
       })
         .then(response => console.log(response.status))
+        .catch(error => console.error('Error:', error));
+    }
+    function logout(){
+      fetch('/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+        .then(response => {console.log(response.status); window.location.replace("/")})
         .catch(error => console.error('Error:', error));
     }
   </script>

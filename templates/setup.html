@@ -11,22 +11,31 @@
     <div id="mainBox">
         <form action="/set_config" method="post" enctype="multipart/form-data">
             <div id="step1Div" class="stepDiv">
+                <p class="title">General options</p>
                 <div class="optionDiv">
                     <p>Choose wallet type :</p>
-                    <p>Altme</p><input type="radio" id="altme" name="typeWallet" value="altme" checked>
-                    <p>Talao</p><input type="radio" id="talao" name="typeWallet" value="talao">
+                    <p>Altme</p><input type="radio" id="altme" name="walletType" value="altme" checked>
+                    <p>Talao</p><input type="radio" id="talao" name="walletType" value="talao">
                 </div>
                 <div class="optionDiv">
                     <p>Insert company name :</p>
                     <input type="text" id="companyName" name="companyName">
                 </div>
                 <div class="optionDiv">
+                    <p>Insert company website :</p>
+                    <input type="text" id="companyWebsite" name="companyWebsite">
+                </div>
+                <div class="optionDiv">
                     <p>Your logo</p>
                     <input type="file" id="file" name="file">
                 </div>
                 <div class="optionDiv">
-                    <p>Menu - Developer mode</p>
-                    <input checked type="checkbox" name="developerMode">
+                    <p>Insert profile :</p>
+                    <input type="text" id="profileName" name="profileName">
+                </div>
+                <div class="optionDiv">
+                    <p>Profile version :</p>
+                    <input type="text" id="profileVersion" name="profileVersion">
                 </div>
                 <div class="buttonsStep">
                     <button type="button" style="margin-left: auto;" class="nextStep" onclick="goStep2()">Next
@@ -35,102 +44,125 @@
 
             </div>
             <div id="step2Div" class="displayNone">
+                <p class="title">Menu Settings</p>
                 <div class="optionDiv">
-                    <p>Menu - Advanced settings</p>
-                    <input checked type="checkbox" name="advancedSettings">
+                    <p>Display profile list in settings</p>
+                    <input checked type="checkbox" name="displayProfile" id="displayProfile">
 
                 </div>
                 <div class="optionDiv">
-                    <p>Verify issuer website identity</p>
-                    <input type="checkbox" name="verifyIssuerWebsiteIdentity">
+                    <p>Display developer mode in settings</p>
+                    <input checked type="checkbox" name="displayDeveloperMode" id="displayDeveloperMode">
+
+                </div>
+
+                <div class="optionDiv">
+                    <p>Display help center in settings</p>
+                    <input checked type="checkbox" name="displayHelpCenter" id="displayHelpCenter">
+                </div>
+                <!--
+                <div class="optionDiv">
+                    <p>Developer mode</p>
+                    <input type="checkbox" name="developerMode">
                 </div>
                 <div class="optionDiv">
-                    <p>Confirm verifier access </p>
-                    <input type="checkbox" name="confirmVerifierAccess">
+                    <p>Help center</p>
+                    <input checked type="checkbox" name="helpCenter">
                 </div>
                 <div class="optionDiv">
-                    <p>secure authentication with user action</p>
-                    <input type="checkbox" checked name="secureAuthentification">
+                    <p>About</p>
+                    <input checked type="checkbox" name="about">
                 </div>
                 <div class="optionDiv">
-                    <p>2FA</p>
-                    <input type="checkbox" name="2FA">
+                    <p>Reset wallet</p>
+                    <input checked type="checkbox" name="resetWallet">
+                </div>-->
+
+                <p class="title">Wallet security options</p>
+                <div class="optionDiv">
+                    <p>Display security advancedS settings</p>
+                    <input type="checkbox" name="displaySecurityAdvancedSettings" id="displaySecurityAdvancedSettings">
+                </div>
+                <div class="optionDiv">
+                    <p>Request the user consent to access issuers</p>
+                    <input type="checkbox" name="verifySecurityIssuerWebsiteIdentity"
+                        id="verifySecurityIssuerWebsiteIdentity">
+                </div>
+                <div class="optionDiv">
+                    <p>Request the user consent to access verifiers</p>
+                    <input type="checkbox" name="confirmSecurityVerifierAccess" id="confirmSecurityVerifierAccess">
+                </div>
+                <div class="optionDiv">
+                    <p>Secure authentication with pin ccode</p>
+                    <input checked type="checkbox" name="secureSecurityAuthenticationWithPinCode"
+                        id="secureSecurityAuthenticationWithPinCode">
                 </div>
                 <div class="buttonsStep">
                     <button type="button" class="nextStep" onclick="goStep1()">Previous step</button>
                     <button type="button" class="nextStep" onclick="goStep3()">Next step</button>
                 </div>
-
-
             </div>
             <div id="step3Div" class="displayNone">
                 <div id="blockchainDiv">
-                    <p>Blockchain supported</p>
+                    <p class="title">Blockchain options</p>
+                    <p>Check below blockchains that you want to be supported by the wallet</p>
                     <div class="blockchainRow">
                         <p>Tezos</p>
-                        <input type="checkbox" name="tezos" checked>
-                        <input placeholder="Tezos RPC url" type="text" name="tezosRPC" id="tezosRPC"
-                            class="displayNone">
-                        <input placeholder="Tezos RPC api key" type="text" name="tezosAPI" id="tezosAPI"
-                            class="displayNone">
+                        <input type="checkbox" name="tezosSupport" id="tezosSupport" checked>
                     </div>
                     <div class="blockchainRow">
 
                         <p>Hedera</p>
-                        <input type="checkbox" name="hedera" checked>
-                        <input type="text" placeholder="Hedera RPC url" name="hederaRPC" id="hederaRPC"
-                            class="displayNone">
-                        <input placeholder="Hedera RPC api key" type="text" name="hederaAPI" id="hederaAPI"
-                            class="displayNone">
+                        <input type="checkbox" name="hederaSupport" id="hederaSupport" checked>
+
                     </div>
 
                     <div class="blockchainRow">
 
                         <p>Ethereum</p>
-                        <input type="checkbox" name="eth" checked>
-                        <input type="text" placeholder="Ethereum RPC url" name="ethRPC" id="ethRPC" class="displayNone">
-                        <input placeholder="Ethereum RPC api key" type="text" name="ethAPI" id="ethAPI"
-                            class="displayNone">
+                        <input type="checkbox" name="ethereumSupport" id="ethereumSupport" checked>
+
                     </div>
 
                     <div class="blockchainRow">
 
                         <p>BNB chain</p>
-                        <input type="checkbox" name="bnb" checked>
-                        <input type="text" placeholder="BNB RPC url" name="bnbRPC" id="bnbRPC" class="displayNone">
-                        <input placeholder="BNB RPC api key" type="text" name="bnbAPI" id="bnbAPI" class="displayNone">
+                        <input type="checkbox" name="bnbSupport" id="bnbSupport" checked>
+
                     </div>
 
                     <div class="blockchainRow">
 
                         <p>Fantom</p>
-                        <input type="checkbox" name="fantom" checked>
-                        <input type="text" placeholder="Fantom RPC url" name="ftmRPC" id="ftmRPC" class="displayNone">
-                        <input placeholder="Fantom RPC api key" type="text" name="ftmAPI" id="ftmAPI"
-                            class="displayNone">
+                        <input type="checkbox" name="fantomSupport" id="fantomSupport" checked>
+
                     </div>
 
                     <div class="blockchainRow">
 
                         <p>Polygon</p>
-                        <input type="checkbox" name="polygon" checked>
-                        <input type="text" placeholder="Polygon RPC url" name="polRPC" id="polRPC" class="displayNone">
-                        <input placeholder="Polygon RPC api key" type="text" name="polAPI" id="polAPI"
-                            class="displayNone">
+                        <input type="checkbox" name="polygonSupport" id="polygonSupport" checked>
+
                     </div>
 
                 </div>
                 <div class="optionDiv">
-                    <p>RPC nodes</p>
-                    <input type="checkbox" onclick="switchRpc()" id="rpcCheck">
+                    <p>Use Tzpro rpc node</p>
+                    <input type="checkbox" onclick="switchTzproRpcNode()" id="tzproRpcNode" name="tzproRpcNode">
+                </div>
+                <div id="tzproApiKeyDiv" class="displayNone">
+                    <p>Tzpro api key</p>
+                    <input type="text" id="tzproApiKey" name="tzproApiKey">
                 </div>
                 <div class="optionDiv">
-                    <p>Menu - Advanced Settings</p>
-                    <input name="blockchainAdvancedSettings" type="checkbox" checked>
+                    <p>Use Infura rpc node</p>
+                    <input type="checkbox" onclick="switchInfuraRpcNode()" id="infuraRpcNode" name="infuraRpcNode">
                 </div>
-
+                <div id="infuraApiKeyDiv" class="displayNone">
+                    <p>Infura api key</p>
+                    <input type="text" id="infuraApiKey" name="infuraApiKey">
+                </div>
                 <div class="buttonsStep">
-
                     <button type="button" class="nextStep" onclick="goStep2()">Previous step</button>
                     <button type="button" class="nextStep" onclick="goStep4()">Next step</button>
                 </div>
@@ -138,71 +170,111 @@
             </div>
             <div id="step4Div" class="displayNone">
                 <div class="optionDiv">
-                    <p>PolygonID</p>
-                    <input type="checkbox" name="polygonID" checked>
+                    <p>Display Manage Decentralized ID menu in SSI screen</p>
+                    <input type="checkbox" name="displayManageDecentralizedId" id="displayManageDecentralizedId"
+                        checked="true">
+                </div>
+                <div class="optionDiv">
+                    <p>Display advanced settings option menu in SSI screen</p>
+                    <input type="checkbox" name="displaySsiAdvancedSettings" id="displaySsiAdvancedSettings"
+                        checked="true">
+                </div>
+                <div class="optionDiv">
+                    <p>Display verifiable data registry menu in SSI screen</p>
+                    <input type="checkbox" name="displayVerifiableDataRegistry" id="displayVerifiableDataRegistry"
+                        checked="true">
                 </div>
                 <div class="optionDiv">
                     <p>OIDC4VC profile</p>
-                    <select id="profile" name="profile">
+                    <select id="oidv4vcProfile" name="oidv4vcProfile">
                         <option onclick="switchProfile()" value="ebsi">EBSI-V3</option>
                         <option onclick="switchProfile()" value="diip">DIIP</option>
                         <option onclick="switchProfile()" value="custom">Custom</option>
-                        <option onclick="switchProfile()" value="none">None</option>
                     </select>
                 </div>
                 <div id="customProfileDiv" class="displayNone">
                     <div class="optionDiv">
-                        <p>Advanced settings menu</p>
-                        <input name="customProfileAdvancedSettings" type="checkbox" checked>
-
+                        <p>VC format</p>
+                        <p>LDP VC</p><input type="radio" name="vcFormat" value="ldp_vc" checked id="ldp_vc">
+                        <p>JWT VC JSON LD</p><input type="radio" name="vcFormat" value="jwt_vc_json-ld"
+                            id="jwt_vc_json-ld">
                     </div>
                     <div class="optionDiv">
-                        <p>Choose security level :</p>
+                        <p>Security level </p>
                         <p>LOW</p><input type="radio" id="low" name="securityLevel" value="low" checked>
                         <p>HIGH</p><input type="radio" id="high" name="securityLevel" value="high">
                     </div>
                     <div class="optionDiv">
-                        <p>User pin digits:</p>
+                        <p>User pin digits</p>
                         <p>4</p><input type="radio" id="four" name="pinDigits" value="4" checked>
                         <p>6</p><input type="radio" id="six" name="pinDigits" value="6">
                     </div>
                     <div class="optionDiv">
-                        <p>default DID</p>
-                        <p>did:ket seckp256k1</p><input type="radio" id="seckp256k1" name="defaultDID"
-                            value="seckp256k1">
-                        <p>did:ket P-256</p><input type="radio" id="ket-256" name="defaultDID" value="ket-256" checked>
-                        <p>did:jwk P-256</p><input type="radio" id="jwk-256" name="defaultDID" value="jwk-256">
-
+                        <p>Default Did Method</p>
+                        <select id="defaultDidMethod" name="defaultDidMethod">
+                            <option value="did:key:ebsi">did:key:ebsi</option>
+                            <option value="did:jwk:p-256">did:jwk:p-256</option>
+                            <option value="did:key:secp256k1">did:key:secp256k1</option>
+                            <option value="did:key:p-256">did:key:p-256</option>
+                            <option value="did:key:eddsa">did:key:eddsa</option>
+                        </select>
                     </div>
+                    <!--
                     <div class="optionDiv">
-                        <p>Subject syntax type :</p>
+                        <p>CRV</p>
+                        <p>P-256</p><input type="radio" name="crv" value="P-256">
+                        <p>secp256k1</p><input type="radio" name="crv" value="  secp256k1" checked>
+                        <p>Ed25519</p><input type="radio" name="crv" value="Ed25519">
+                    </div>
+                -->
+                    <div class="optionDiv">
+                        <p>Subject syntax type</p>
                         <p>did</p><input type="radio" id="did" name="syntaxType" value="did" checked>
-                        <p>jwk</p><input type="radio" id="jwk" name="syntaxType" value="jwk">
+                        <p>urn:ietf:params:oauth:jwk-thumbprint</p><input type="radio"
+                            id="urn:ietf:params:oauth:jwk-thumbprint" name="syntaxType"
+                            value="urn:ietf:params:oauth:jwk-thumbprint">
                     </div>
                     <div class="optionDiv">
                         <p>Cryptogtraphic Holder binding (bearer credentials else)</p>
-                        <input name="CryptogtraphicHolderBinding" type="checkbox" checked>
+                        <input name="cryptoHolderBinding" type="checkbox" checked>
                     </div>
                     <div class="optionDiv">
                         <p>Scope parameters</p>
-                        <input name="scoreParameters" type="checkbox">
+                        <input name="scope" type="checkbox" id="scope">
                     </div>
                     <div class="optionDiv">
-                        <p>Client authentication :</p>
-                        <p>Public</p><input onClick="switchClientAuth()" type="radio" id="public"
-                            name="clientAuthentification" value="public" checked>
-                        <p>Basic</p><input onClick="switchClientAuth()" type="radio" id="basic"
-                            name="clientAuthentification" value="basic">
+                        <p>Client authentication</p>
+                        <p>None</p><input onClick="switchClientAuth()" type="radio" id="public"
+                            name="clientAuthentification" value="none" checked>
+                        <p>Client secret basic</p><input onClick="switchClientAuth()" type="radio" id="basic"
+                            name="clientAuthentification" value="client_secret_basic">
                         <div id="basicAuthDiv" class="displayNone">
-                            <input type="text" placeholder="client_id" name="basicAuthDivClientId" id="client_id">
-                            <input placeholder="client_secret" type="text" name="basicAuthDivClientSecret"
-                                id="client_secret">
+                            <input type="text" placeholder="client_id" name="client_id" id="client_id">
+                            <input placeholder="client_secret" type="text" name="client_secret" id="client_secret">
                         </div>
                     </div>
-                </div>
-                <div class="optionDiv">
-                    <p>Menu - Manage DID</p>
-                    <input name="manageDid" type="checkbox" checked>
+                    <div class="optionDiv">
+                        <p>Standard oidc4vciDraft version</p>
+                        <p>10</p><input type="radio" name="oidc4vciDraft" value="10" id="tenvci">
+                        <p>11</p><input type="radio" name="oidc4vciDraft" value="11" id="elevenvci">
+                        <!--<p>13</p><input type="radio" name="oidc4vciDraft" value="13">-->
+                    </div>
+                    <div class="optionDiv">
+                        <p>Standard oidc4vpDraft version</p>
+                        <p>10</p><input type="radio" name="oidc4vpDraft" value="10" id="tenvp">
+                        <p>13</p><input type="radio" name="oidc4vpDraft" value="13" id="thirteenvp">
+                        <p>18</p><input type="radio" name="oidc4vpDraft" value="18" id="eighteenvp">
+                        <!--<p>20</p><input type="radio" name="oidc4vpDraft" value="20">-->
+                    </div>
+                    <div class="optionDiv">
+                        <p>Standard siopv2Draft version</p>
+                        <!--<p>7</p><input type="radio" name="siopv2Draft" value="7" id="sevenssiop">-->
+
+                        <p>12</p><input type="radio" name="siopv2Draft" value="12" id="twelvesiop">
+                        <!--<p>5</p><input type="radio" name="siopv2Draft" value="5">-->
+                    </div>
+
+
 
                 </div>
                 <div class="buttonsStep">
@@ -213,19 +285,35 @@
 
             </div>
             <div id="step5Div" class="displayNone">
+                <p class="title">Help center option</p>
                 <div class="optionDiv">
-                    <p>Custom email support</p>
-                    <input name="emailSupport" type="checkbox">
+                    <p>Display chat support in menu</p>
+                    <input id="displayChatSupport" name="displayChatSupport" type="checkbox" checked>
 
                 </div>
                 <div class="optionDiv">
-                    <p>Menu - Chat with Altme support </p>
-                    <input name="chatAltme" type="checkbox">
+                    <p>Customize chat </p>
+                    <input id="customChatSupport" name="customChatSupport" type="checkbox" checked>
 
                 </div>
                 <div class="optionDiv">
-                    <p>Menu - Official website</p>
-                    <input name="menuOfficialWebsite" type="checkbox" checked>
+                    <p>Custom chat support name </p>
+                    <input id="customChatSupportName" name="customChatSupportName" type="text">
+
+                </div>
+                <div class="optionDiv">
+                    <p>Display email support in menu</p>
+                    <input id="displayEmailSupport" name="displayEmailSupport" type="checkbox" checked>
+
+                </div>
+                <div class="optionDiv">
+                    <p>Custom support email</p>
+                    <input id="customEmailSupport" name="customEmailSupport" type="checkbox">
+
+                </div>
+                <div class="optionDiv">
+                    <p>Custom email</p>
+                    <input id="customEmail" name="customEmail" type="text">
 
                 </div>
                 <div class="buttonsStep">
@@ -238,11 +326,59 @@
     </div>
 
     <script>
-        document.getElementById("rpcCheck").checked = false
-        document.getElementById("basic").checked = false
+        document.getElementById("oidv4vcProfile").value = "custom"
+        document.getElementById("defaultDidMethod").value = "did:key:ebsi"
+        document.getElementById("displayProfile").checked = true
+        document.getElementById("displayDeveloperMode").checked = true
+        document.getElementById("displayHelpCenter").checked = true
+        document.getElementById("displaySecurityAdvancedSettings").checked = true
+        document.getElementById("verifySecurityIssuerWebsiteIdentity").checked = false
+        document.getElementById("confirmSecurityVerifierAccess").checked = false
+        document.getElementById("secureSecurityAuthenticationWithPinCode").checked = true
+        document.getElementById("tezosSupport").checked = true
+        document.getElementById("ethereumSupport").checked = true
+        document.getElementById("hederaSupport").checked = true
+        document.getElementById("bnbSupport").checked = true
+        document.getElementById("fantomSupport").checked = true
+        document.getElementById("polygonSupport").checked = true
+        document.getElementById("tzproRpcNode").checked = false
+        document.getElementById("infuraRpcNode").checked = false
+        document.getElementById("displayManageDecentralizedId").checked = true
+        document.getElementById("displaySsiAdvancedSettings").checked = true
+        document.getElementById("displayVerifiableDataRegistry").checked = true
+        document.getElementById("oidv4vcProfile").value = "custom"
+        document.getElementById("altme").checked = true
+        document.getElementById("talao").checked = false
+        document.getElementById("ldp_vc").checked = false
+        document.getElementById("jwt_vc_json-ld").checked = true
+        document.getElementById("low").checked = true
+        document.getElementById("high").checked = false
+        document.getElementById("four").checked = false
+        document.getElementById("six").checked = true
+        document.getElementById("did").checked = true
+        document.getElementById("urn:ietf:params:oauth:jwk-thumbprint").checked = false
+        document.getElementById("did:key:ebsi").checked = true
+        document.getElementById("did:jwk:p-256").checked = false
+        document.getElementById("did:key:secp256k1").checked = false
+        document.getElementById("did:key:p-256").checked = false
+        document.getElementById("did:key:eddsa").checked = false
+        document.getElementById("scope").checked = false
         document.getElementById("public").checked = true
+        document.getElementById("basic").checked = false
+        document.getElementById("tenvci").checked = false
+        document.getElementById("elevenvci").checked = true
+        document.getElementById("tenvp").checked = false
+        document.getElementById("thirteenvp").checked = false
+        document.getElementById("eighteenvp").checked = true
+        //document.getElementById("sevensiop").checked = false
+        document.getElementById("twelvesiop").checked = true
+        document.getElementById("displayChatSupport").checked = true
+        document.getElementById("customChatSupport").checked = false
+        document.getElementById("displayEmailSupport").checked = true
+        document.getElementById("customEmailSupport").checked = false
 
-        document.getElementById("profile").value = "ebsi"
+        switchProfile()
+
         function goStep1() {
             document.getElementById("step2Div").setAttribute("class", "displayNone")
             document.getElementById("step1Div").setAttribute("class", "stepDiv")
@@ -287,38 +423,28 @@
             document.getElementById("step4Div").setAttribute("class", "displayNone")
             document.getElementById("step5Div").setAttribute("class", "stepDiv")
         }
-        function switchRpc() {
-            if (document.getElementById("rpcCheck").checked) {
-                document.getElementById("tezosRPC").setAttribute("class", "")
-                document.getElementById("tezosAPI").setAttribute("class", "")
-                document.getElementById("hederaRPC").setAttribute("class", "")
-                document.getElementById("hederaAPI").setAttribute("class", "")
-                document.getElementById("ethRPC").setAttribute("class", "")
-                document.getElementById("ethAPI").setAttribute("class", "")
-                document.getElementById("bnbRPC").setAttribute("class", "")
-                document.getElementById("bnbAPI").setAttribute("class", "")
-                document.getElementById("ftmRPC").setAttribute("class", "")
-                document.getElementById("ftmAPI").setAttribute("class", "")
-                document.getElementById("polRPC").setAttribute("class", "")
-                document.getElementById("polAPI").setAttribute("class", "")
+        function switchTzproRpcNode() {
+            if (document.getElementById("tzproRpcNode").checked) {
+
+                document.getElementById("tzproApiKeyDiv").setAttribute("class", "optionDiv")
             }
             else {
-                document.getElementById("tezosRPC").setAttribute("class", "displayNone")
-                document.getElementById("tezosAPI").setAttribute("class", "displayNone")
-                document.getElementById("hederaRPC").setAttribute("class", "displayNone")
-                document.getElementById("hederaAPI").setAttribute("class", "displayNone")
-                document.getElementById("ethRPC").setAttribute("class", "displayNone")
-                document.getElementById("ethAPI").setAttribute("class", "displayNone")
-                document.getElementById("bnbRPC").setAttribute("class", "displayNone")
-                document.getElementById("bnbAPI").setAttribute("class", "displayNone")
-                document.getElementById("ftmRPC").setAttribute("class", "displayNone")
-                document.getElementById("ftmAPI").setAttribute("class", "displayNone")
-                document.getElementById("polRPC").setAttribute("class", "displayNone")
-                document.getElementById("polAPI").setAttribute("class", "displayNone")
+
+                document.getElementById("tzproApiKeyDiv").setAttribute("class", "displayNone")
+            }
+        }
+        function switchInfuraRpcNode() {
+            if (document.getElementById("infuraRpcNode").checked) {
+
+                document.getElementById("infuraApiKeyDiv").setAttribute("class", "optionDiv")
+            }
+            else {
+
+                document.getElementById("infuraApiKeyDiv").setAttribute("class", "displayNone")
             }
         }
         function switchProfile() {
-            if (document.getElementById("profile").value === "custom") {
+            if (document.getElementById("oidv4vcProfile").value === "custom") {
                 document.getElementById("customProfileDiv").setAttribute("class", "")
             }
             else {

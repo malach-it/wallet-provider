@@ -13,14 +13,14 @@ class currentMode() :
 		if self.myenv == 'aws':
 			#self.yoti_pem_file = '/home/admin/issuer/key.pem'
 			#self.sys_path = '/home/admin'
-			self.server = 'https://tezos-ebsi.talao.co/'
+			self.server = ''
 			self.IP = '18.190.21.227' 
 		elif self.myenv == 'thierry' :
 			self.server = 'http://' + extract_ip() + ':5000/'
 			self.IP = extract_ip()
 			self.port = 5000
 		elif self.myenv == 'achille' :
-			self.server = "https://6efd-86-237-18-188.ngrok-free.app"
+			self.server = "https://a0ef-86-237-18-188.ngrok-free.app"
 			self.IP = "localhost"
 			self.port = 3000
 		else :

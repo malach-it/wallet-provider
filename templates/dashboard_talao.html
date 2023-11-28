@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Dashboard</title>
+    <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
+
+</head>
+
+<body>
+    <p id="dashboardTitle">Dashboard admin Talao</p>
+    <button id="logout" onclick="logout()">Logout</button>
+    <div><input type="text" id="newOrganisation" placeholder="Name of the organisation"><button
+            onclick="addOrganisation()">Add organisation</button></div>
+    <div><input type="text" id="emailAdmin" placeholder="Email of the admin"><input type="text" id="organisationName"
+            placeholder="Name of the organisation"><button onclick="addAdmin()">Add
+            admin</button></div>
+    <script>
+
+        function logout() {
+            fetch('/logout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            })
+                .then(response => { console.log(response.status); window.location.replace("/") })
+                .catch(error => console.error('Error:', error));
+        }
+        function addOrganisation() {
+            fetch('/add_organisation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ organisation: document.getElementById("newOrganisation").value })
+            })
+                .then(response => console.log(response.status))
+                .catch(error => console.error('Error:', error));
+        }
+        function addAdmin() {
+            fetch('/add_admin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ organisation: document.getElementById("organisationName").value, email: document.getElementById("emailAdmin").value })
+            })
+                .then(response => console.log(response.status))
+                .catch(error => console.error('Error:', error));
+        }
+    </script>
+</body>
+
+</html>

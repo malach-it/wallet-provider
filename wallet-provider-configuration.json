@@ -1,36 +1,26 @@
 {
-    "version": 1.0,
-    "published": "2023-11-23",
-    "generalOptions":
-    {
+    "version": "1.5",
+    "published": "2023-11-24",
+    "generalOptions": {
         "walletType": "altme",
         "companyName": "Altme",
         "companyWebsite": "https://altme.io",
         "companyLogo": "https://talao.co/static/img/icon.png",
-        "profileName": "EBSI-V3"
-
+        "profileName": "Wallet Profile Demo",
+        "profileVersion": "1.0"
     },
-    "settingsMenu": 
-    {
-        "profile": true,
-        "walletSecurity": true,
-        "blockchainSetting": true,
-        "selfSovereignIdentity": true,
-        "developerMode": false,
-        "helpCenter": true,
-        "about": true,
-        "resetWallet": true
-
+    "settingsMenu": {
+        "displayProfile": true,
+        "displayDeveloperMode": false,
+        "displayHelpCenter": true
     },
-    "walletSecurityOptions":
-    {
-        "displayAdvancedSettings": false,
-        "verifyIssuerWebsiteIdentity": false,
-        "confirmVerifier>Access": false,
-        "secureAuthenticationWithPinCode": true
+    "walletSecurityOptions": {
+        "displaySecurityAdvancedSettings": false,
+        "verifySecurityIssuerWebsiteIdentity": false,
+        "confirmSecurityVerifierAccess": false,
+        "secureSecurityAuthenticationWithPinCode": true
     },
-    "blockchainOptions":
-    {
+    "blockchainOptions": {
         "tezosSupport": true,
         "ethereumSupport": true,
         "hederaSupport": true,
@@ -41,31 +31,34 @@
         "tzproApiKey": null,
         "infuraRpcNode": false,
         "infuraApiKey": null
-
     },
-    "selfSovereignIdentityOptions":
-    {
+    "selfSovereignIdentityOptions": {
         "displayManageDecentralizedId": true,
-        "displayAdvancedSettings": true,
+        "displaySsiAdvancedSettings": true,
+        "displayVerifiableDataRegistry": true,
         "oidv4vcProfile": "ebsi",
-        "verifiableDataRegistry": true,
-        "securityLevel": "low",
-        "userPinDigits": "4",
-        "defaultDid": "did:key:ebsi",
-        "crv": "P-256",
-        "subjectSyntaxeType": "did",
-        "cryptoHolderBinding": true,
-        "scope": false,
-        "clientAuthentication": "none",
-        "client_id": null,
-        "client_secret": null
+        "customOidc4vcProfile": {
+            "vcFormat": "ldp-vc",
+            "securityLevel": "low",
+            "userPinDigits": "4",
+            "defaultDid": "did:key:ebsi",
+            "subjectSyntaxeType": "did",
+            "cryptoHolderBinding": true,
+            "scope": false,
+            "clientAuthentication": "none",
+            "client_id": null,
+            "client_secret": null,
+            "oidc4vciDraft": "11",
+            "oidc4vpDraft": "18",
+            "siopv2Draft": "12"
+        }
     },
-    "helpCenterOptions":
-    {
-        "chatSupport": true,
+    "helpCenterOptions": {
+        "displayChatSupport": true,
+        "customChatSupport": false,
         "customChatSupportName": null,
-        "sendSupportEmail": true,
-        "customSupportEmail": null
+        "displayEmailSupport": true,
+        "customEmailSupport": false,
+        "customEmail": null
     }
-
 }
