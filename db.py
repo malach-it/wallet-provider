@@ -1,4 +1,5 @@
 import sqlite3
+from hashlib import sha256
 
 
 conn = sqlite3.connect('db.sqlite')
@@ -36,7 +37,7 @@ def verify_password_user(email, password):
     c.execute("select json_extract(data,'$.organisation') from users where email ='{email}' and json_extract(data,'$.password') = '{password}'".format(
         email=email, password=password))
     rows = c.fetchall()
-    if len(rows) < 2:
+    if len(rows) < 1:
         return False
     return rows[0][0]
 
@@ -108,5 +109,8 @@ def create_admin(email, password, organisation):
     c.execute("""insert into admins values ('{email}','{data}')""".format(
         email=email, data=data))
     conn.commit()
+
+
 # email => config
 # ajouter thumbprint du wallet à data du user
+print(verify_password_user("thierry@altme.io", "talao"))
