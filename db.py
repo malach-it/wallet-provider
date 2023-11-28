@@ -39,7 +39,7 @@ def verify_password_user(email, password):
     rows = c.fetchall()
     if len(rows) < 1:
         return False
-    return rows[0][0]
+    return True
 
 
 def update_config(config, organisation):
@@ -113,4 +113,3 @@ def create_admin(email, password, organisation):
 
 # email => config
 # ajouter thumbprint du wallet à data du user
-print(verify_password_user("thierry@altme.io", "talao"))
