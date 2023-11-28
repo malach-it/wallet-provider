@@ -10,11 +10,15 @@
 <body>
     <p id="dashboardTitle">Dashboard admin Talao</p>
     <button id="logout" onclick="logout()">Logout</button>
-    <div><input type="text" id="newOrganisation" placeholder="Name of the organisation"><button
-            onclick="addOrganisation()">Add organisation</button></div>
-    <div><input type="text" id="emailAdmin" placeholder="Email of the admin"><input type="text" id="organisationName"
-            placeholder="Name of the organisation"><button onclick="addAdmin()">Add
-            admin</button></div>
+    <div>
+        <input type="text" id="newOrganisation" placeholder="Name of the organisation">
+        <input type="text" id="emailAdmin" placeholder="Email of the admin">
+        <input type="text" id="firstNameAdmin" placeholder="First name of the admin">
+        <input type="text" id="lastNameAdmin" placeholder="Last name of the admin">
+        <input type="text" id="companyName" placeholder="Company name">
+        <input type="text" id="companyWebsite" placeholder="Company website">
+        <button onclick="addAdmin()">Add admin</button>
+    </div>
     <script>
 
         function logout() {
@@ -33,22 +37,19 @@
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ organisation: document.getElementById("newOrganisation").value })
+                body: JSON.stringify({
+                    organisation: document.getElementById("newOrganisation").value,
+                    emailAdmin: document.getElementById("emailAdmin").value,
+                    firstNameAdmin: document.getElementById("firstNameAdmin").value,
+                    lastNameAdmin: document.getElementById("lastNameAdmin").value,
+                    companyName: document.getElementById("companyName").value,
+                    companyWebsite: document.getElementById("companyWebsite").value,
+                })
             })
                 .then(response => console.log(response.status))
                 .catch(error => console.error('Error:', error));
         }
-        function addAdmin() {
-            fetch('/add_admin', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ organisation: document.getElementById("organisationName").value, email: document.getElementById("emailAdmin").value })
-            })
-                .then(response => console.log(response.status))
-                .catch(error => console.error('Error:', error));
-        }
+
     </script>
 </body>
 

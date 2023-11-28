@@ -57,7 +57,7 @@ red = redis.Redis(host='127.0.0.1', port=6379, db=0)
 
 
 def generate_random_string(length):
-    characters = string.ascii_uppercase + string.digits + string.ascii_lowercase
+    characters = string.ascii_uppercase #+ string.digits + string.ascii_lowercase
     return ''.join(random.choice(characters) for _ in range(length))
 
 
@@ -88,7 +88,6 @@ def init_app(app, red):
                      view_func=dashboard_talao, methods=['GET'])
     app.add_url_rule('/add_organisation',
                      view_func=add_organisation, methods=['POST'])
-    app.add_url_rule('/add_admin', view_func=add_admin, methods=['POST'])
     return
 
 
@@ -119,6 +118,7 @@ def login():
 
 def login_password():
     password = request.get_json().get("password")
+    password = sha256(password.encode('utf-8')).hexdigest()
     verif = db.verify_password_admin(session.get("email"), password)
     organisation = verif[0]
     configured = verif[1]
@@ -174,7 +174,7 @@ def dashboard_talao():
 def add_user():
     email = request.get_json().get("email")
     organisation = session["organisation"]
-    password = generate_random_string(10)
+    password = generate_random_string(6)
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
     db.add_user(email, sha256_hash, organisation)
     message.messageHTML("Your altme password", email,
@@ -184,19 +184,20 @@ def add_user():
 
 def add_organisation():
     organisation = request.get_json().get("organisation")
-    db.create_organisation(organisation)
-    return ("ok")
-
-
-def add_admin():
-    email = request.get_json().get("email")
-    organisation = request.get_json().get("organisation")
+    email = request.get_json().get("emailAdmin")
+    first_name = request.get_json().get("firstNameAdmin")
+    last_name = request.get_json().get("lastNameAdmin")
+    company_name = request.get_json().get("companyName")
+    company_website = request.get_json().get("companyWebsite")
     password = generate_random_string(10)
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
     db.create_admin(email, sha256_hash, organisation)
     message.messageHTML("Your altme password", email,
                         'code_auth_en', {'code': str(password)})
+    db.create_organisation(organisation)
     return ("ok")
+
+
 
 
 def logout():
@@ -206,8 +207,6 @@ def logout():
 
 
 init_app(app, red)
-
-
 if __name__ == '__main__':
     logging.info("app init")
     app.run(host=mode.IP, port=mode.port, debug=True)

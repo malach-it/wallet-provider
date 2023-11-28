@@ -78,11 +78,11 @@ def update_data_user(email, data):
     conn.commit()
 
 
-def read_config(organisation):
+def read_config(email):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute("SELECT config FROM organisations where name = '{organisation}' ".format(
-        organisation=organisation))
+    c.execute("select config from organisations,users where name=json_extract(data,'$.organisation') and email='{email}'".format(
+        email=email))
     rows = c.fetchall()
     return [rows[0][0]]
 
@@ -102,3 +102,5 @@ def create_admin(email, password, organisation):
     c.execute("""insert into admins values ('{email}','{data}')""".format(
         email=email, data=data))
     conn.commit()
+# email => config
+# ajouter thumbprint du wallet à data du user
