@@ -105,13 +105,13 @@ def error_500(e):
     return redirect(mode.server + '/')
 
 
-@auth.oidc_auth('default')
+#@auth.oidc_auth('default')
 def login():
-    user_session = UserSession(flask.session)
+    """user_session = UserSession(flask.session)
     logging.info(user_session.userinfo["vp_token_payload"]
                  ["verifiableCredential"]["credentialSubject"]["email"])
-    session["email"] = user_session.userinfo["vp_token_payload"]["verifiableCredential"]["credentialSubject"]["email"]
-    # session["email"] = "achille@talao.io"
+    session["email"] = user_session.userinfo["vp_token_payload"]["verifiableCredential"]["credentialSubject"]["email"]"""
+    session["email"] = "achille@talao.io"
     return (render_template("login.html", email=session.get("email")))
 
 
@@ -308,7 +308,9 @@ def dashboard():
 def dashboard_talao():
     if session.get("organisation") != "Talao":
         return "Unauthorized", 401
-    return render_template("dashboard_talao.html")
+    organisations = db.read_organisations()
+    admins = db.read_admins()
+    return render_template("dashboard_talao.html",organisations=organisations,admins=admins)
 
 
 def add_user():
@@ -329,12 +331,12 @@ def add_organisation():
     last_name = request.get_json().get("lastNameAdmin")
     company_name = request.get_json().get("companyName")
     company_website = request.get_json().get("companyWebsite")
-    password = generate_random_string(10)
+    password = generate_random_string(6)
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
-    db.create_admin(email, sha256_hash, organisation)
     message.messageHTML("Your altme password", email,
                         'code_auth_en', {'code': str(password)})
     db.create_organisation(organisation)
+    db.create_admin(email, sha256_hash, organisation)
     return ("ok")
 
 

@@ -20,6 +20,10 @@ body {
     gap: 40px;
 }
 
-#logout{
+button {
     width: fit-content;
+}
+
+td {
+    padding: 6px;
 }

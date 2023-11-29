@@ -146,4 +146,23 @@ def read_config(email: str) -> dict:
     return json.loads(rows[0][0])
 
 
+def read_organisations():
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("select * from organisations")
+    rows = c.fetchall()
+    print(rows)
+    return rows
+
+
+def read_admins():
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute('select email, json_extract(data,"$.organisation") as organisation,json_extract(data,"$.password") as password from admins')
+    rows = c.fetchall()
+    print(rows)
+    return rows
+
+
 # ajouter thumbprint du wallet à data du user
+read_organisations()
