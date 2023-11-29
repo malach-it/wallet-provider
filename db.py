@@ -1,6 +1,8 @@
 import sqlite3
 from hashlib import sha256
 import logging
+import json
+
 
 conn = sqlite3.connect('db.sqlite')
 c = conn.cursor()
@@ -42,23 +44,13 @@ def verify_password_user(email, password):
     return True
 
 
-def update_config(config, organisation):
+def create_admin(email, password, organisation):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    print("update organisations set configured=1 , config=('{config}') where name='{organisation}'".format(
-        config=config, organisation=organisation))
-    c.execute("update organisations set configured=1 , config=('{config}') where name='{organisation}'".format(
-        config=config, organisation=organisation))
+    data = '{"password": "'+password+'", "organisation": "'+organisation+'"}'
+    c.execute("""insert into admins values ('{email}','{data}')""".format(
+        email=email, data=data))
     conn.commit()
-
-
-def read_configured(organisation):
-    conn = sqlite3.connect('db.sqlite')
-    c = conn.cursor()
-    c.execute("SELECT configured FROM organisations where  name = '{organisation}' ".format(
-        organisation=organisation))
-    rows = c.fetchall()
-    return [rows[0][0]]
 
 
 def create_user(email, password, organisation):
@@ -70,12 +62,49 @@ def create_user(email, password, organisation):
     conn.commit()
 
 
+def create_organisation(name):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("""insert into organisations values ('{name}',NULL,0)""".format(
+        name=name))
+    conn.commit()
+
+
+def update_config(config, organisation):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("update organisations set configured=1 , config=('{config}') where name='{organisation}'".format(
+        config=config, organisation=organisation))
+    conn.commit()
+
+
+def update_data_user(email: str, data: str):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("update users set data='{data}'  where email='{email}'".format(
+        data=data, email=email))
+    conn.commit()
+
+
+def read_configured(organisation):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("SELECT configured FROM organisations where  name = '{organisation}' ".format(
+        organisation=organisation))
+    rows = c.fetchall()
+    if len(rows) < 1:
+        return None
+    return rows[0][0]
+
+
 def read_users(organisation):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute("SELECT email  FROM users as email where json_extract(data,'$.organisation')='{organisation}' ".format(
         organisation=organisation))
     rows = c.fetchall()
+    if len(rows) < 1:
+        return None
     return rows
 
 
@@ -85,15 +114,9 @@ def read_data_user(email):
     c.execute("select data from users where email='{email}'".format(
         email=email))
     rows = c.fetchall()
-    return [rows[0][0]]
-
-
-def update_data_user(email, data):
-    conn = sqlite3.connect('db.sqlite')
-    c = conn.cursor()
-    c.execute('update users set data={data}  where email="{email}"'.format(
-        data=data, email=email))
-    conn.commit()
+    if len(rows) < 1:
+        return None
+    return json.loads(rows[0][0])
 
 
 def read_config(email):
@@ -102,25 +125,34 @@ def read_config(email):
     c.execute("select config from organisations,users where name=json_extract(data,'$.organisation') and email='{email}'".format(
         email=email))
     rows = c.fetchall()
-    return [rows[0][0]]
+    if len(rows) < 1:
+        return None
+    return json.loads(rows[0][0])
 
 
-def create_organisation(name):
+def verify_password_admin(email, password):
+    password = sha256(password.encode('utf-8')).hexdigest()
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute("""insert into organisations values ('{name}',NULL,0)""".format(
-        name=name))
-    conn.commit()
+    c.execute("select json_extract(data,'$.organisation'),configured from admins,organisations where email='{email}' and json_extract(data,'$.password')='{password}' and json_extract(data,'$.organisation')=name".format(
+        email=email, password=password))
+    rows = c.fetchall()
+    if len(rows) < 1:
+        return False
+    return [rows[0][0], rows[0][1]]
 
 
-def create_admin(email, password, organisation):
+def verify_password_user(email, password):
+    password = sha256(password.encode('utf-8')).hexdigest()
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    data = '{"password": "'+password+'", "organisation": "'+organisation+'"}'
-    c.execute("""insert into admins values ('{email}','{data}')""".format(
-        email=email, data=data))
-    conn.commit()
+    c.execute("select json_extract(data,'$.organisation') from users where email ='{email}' and json_extract(data,'$.password') = '{password}'".format(
+        email=email, password=password))
+    rows = c.fetchall()
+    if len(rows) < 1:
+        return False
+    return True
 
 
-# email => config
 # ajouter thumbprint du wallet à data du user
+
