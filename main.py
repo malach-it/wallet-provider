@@ -112,7 +112,7 @@ def login():
                  ["verifiableCredential"]["credentialSubject"]["email"])
     session["email"] = user_session.userinfo["vp_token_payload"]["verifiableCredential"]["credentialSubject"]["email"]
     # session["email"] = "achille@talao.io"
-    return (render_template("login.html"), email=session.get("email"))
+    return (render_template("login.html", email=session.get("email")))
 
 
 def login_password():
