@@ -105,13 +105,13 @@ def error_500(e):
     return redirect(mode.server + '/')
 
 
-#@auth.oidc_auth('default')
+@auth.oidc_auth('default')
 def login():
-    """user_session = UserSession(flask.session)
+    user_session = UserSession(flask.session)
     logging.info(user_session.userinfo["vp_token_payload"]
                  ["verifiableCredential"]["credentialSubject"]["email"])
-    session["email"] = user_session.userinfo["vp_token_payload"]["verifiableCredential"]["credentialSubject"]["email"]"""
-    session["email"] = "achille@talao.io"
+    session["email"] = user_session.userinfo["vp_token_payload"]["verifiableCredential"]["credentialSubject"]["email"]
+    #session["email"] = "achille@talao.io"
     return (render_template("login.html", email=session.get("email")))
 
 
