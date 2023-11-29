@@ -15,7 +15,7 @@ from hashlib import sha256
 import random
 import string
 import message
-
+import wallet_provider
 
 logging.basicConfig(level=logging.INFO)
 myenv = os.getenv('MYENV')
@@ -347,7 +347,10 @@ def logout():
     return ("ok")
 
 
-init_app(app, red)
+
+
 if __name__ == '__main__':
     logging.info("app init")
+    init_app(app, red)
+    wallet_provider.init_app(app, red, mode)
     app.run(host=mode.IP, port=mode.port, debug=True)
