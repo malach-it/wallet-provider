@@ -11,7 +11,7 @@ c.execute('''CREATE TABLE IF NOT EXISTS admins (
              data TEXT
           )''')
 c.execute('''CREATE TABLE IF NOT EXISTS organisations (
-             id TEXT PRIMARY KEY,
+             name TEXT PRIMARY KEY,
              config TEXT,
           configured INTEGER)''')
 c.execute('''CREATE TABLE IF NOT EXISTS users (
