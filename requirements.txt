@@ -1,9 +1,13 @@
+Flask
+Flask-Session
+Flask-QRcode
+smtplib
+codecs
 logging
-flask
 redis
-flask_session
-flask_pyoidc
+Flask_pyoidc
 base64
 hashlib
 random
 string
+jwcrypto

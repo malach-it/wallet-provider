@@ -347,10 +347,10 @@ def logout():
     return ("ok")
 
 
-
+init_app(app, red)
+wallet_provider.init_app(app, red, mode)
 
 if __name__ == '__main__':
     logging.info("app init")
-    init_app(app, red)
-    wallet_provider.init_app(app, red, mode)
+    
     app.run(host=mode.IP, port=mode.port, debug=True)
