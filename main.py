@@ -147,7 +147,6 @@ def allowed_file(filename):
 
 
 def set_config():
-    print(request.form.to_dict())
     wallet_provier_configuration = json.load(
         open('./wallet-provider-configuration.json', 'r'))
     wallet_provier_configuration["generalOptions"]["walletType"] = request.form.to_dict()[

@@ -139,9 +139,9 @@ def read_config(email: str) -> dict:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute("select config from organisations,users where name=json_extract(data,'$.organisation') and email='{email}'".format(
-        email=email))
+    email=email))
     rows = c.fetchall()
-    if len(rows) < 1:
+    if len(rows) < 1 or rows[0][0] == None:
         return None
     return json.loads(rows[0][0])
 
@@ -171,6 +171,5 @@ def verify_password_user(email: str, password: str) -> bool:
 
 
 # ajouter thumbprint du wallet à data du user
-print(read_config("user@mmm.fr"))
-print(read_config("Org"))
+
 
