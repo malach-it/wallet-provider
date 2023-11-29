@@ -318,7 +318,7 @@ def add_user():
     organisation = session["organisation"]
     password = generate_random_string(6)
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
-    db.add_user(email, sha256_hash, organisation)
+    db.create_user(email, sha256_hash, organisation)
     message.messageHTML("Your altme password", email,
                         'code_auth_en', {'code': str(password)})
     return ("ok")

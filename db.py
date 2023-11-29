@@ -79,6 +79,15 @@ def read_users(organisation):
     return rows
 
 
+def read_data_user(email):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("select data from users where email='{email}'".format(
+        email=email))
+    rows = c.fetchall()
+    return [rows[0][0]]
+
+
 def update_data_user(email, data):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
