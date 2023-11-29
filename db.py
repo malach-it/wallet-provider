@@ -146,28 +146,4 @@ def read_config(email: str) -> dict:
     return json.loads(rows[0][0])
 
 
-def verify_password_admin(email: str, password: str) -> list:
-    password = sha256(password.encode('utf-8')).hexdigest()
-    conn = sqlite3.connect('db.sqlite')
-    c = conn.cursor()
-    c.execute("select json_extract(data,'$.organisation'),configured from admins,organisations where email='{email}' and json_extract(data,'$.password')='{password}' and json_extract(data,'$.organisation')=name".format(
-        email=email, password=password))
-    rows = c.fetchall()
-    if len(rows) < 1:
-        return False
-    return [rows[0][0], rows[0][1]]
-
-
-def verify_password_user(email: str, password: str) -> bool:
-    password = sha256(password.encode('utf-8')).hexdigest()
-    conn = sqlite3.connect('db.sqlite')
-    c = conn.cursor()
-    c.execute("select json_extract(data,'$.organisation') from users where email ='{email}' and json_extract(data,'$.password') = '{password}'".format(
-        email=email, password=password))
-    rows = c.fetchall()
-    if len(rows) < 1:
-        return False
-    return True
-
-
 # ajouter thumbprint du wallet à data du user
