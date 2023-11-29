@@ -118,6 +118,7 @@ def login():
 def login_password():
     password = request.get_json().get("password")
     verif = db.verify_password_admin(session.get("email"), password)
+    print(verif)
     if not verif:
         return "Not found", 404
     organisation = verif[0]
@@ -147,12 +148,153 @@ def allowed_file(filename):
 
 
 def set_config():
+    print(request.form.to_dict())
+    wallet_provier_configuration = json.load(
+        open('./wallet-provider-configuration.json', 'r'))
+    wallet_provier_configuration["generalOptions"]["walletType"] = request.form.to_dict()[
+        "walletType"]
+    wallet_provier_configuration["generalOptions"]["companyName"] = request.form.to_dict()[
+        "companyName"]
+    wallet_provier_configuration["generalOptions"]["companyWebsite"] = request.form.to_dict()[
+        "companyWebsite"]
+    wallet_provier_configuration["generalOptions"]["profileName"] = request.form.to_dict()[
+        "profileName"]
+    wallet_provier_configuration["generalOptions"]["profileVersion"] = request.form.to_dict()[
+        "profileVersion"]
+    if request.form.to_dict().get("displayProfile"):
+        wallet_provier_configuration["settingsMenu"]["displayProfile"] = True
+    else:
+        wallet_provier_configuration["settingsMenu"]["displayProfile"] = False
+    if request.form.to_dict().get("displayDeveloperMode"):
+        wallet_provier_configuration["settingsMenu"]["displayDeveloperMode"] = True
+    else:
+        wallet_provier_configuration["settingsMenu"]["displayDeveloperMode"] = False
+    if request.form.to_dict().get("displayHelpCenter"):
+        wallet_provier_configuration["settingsMenu"]["displayHelpCenter"] = True
+    else:
+        wallet_provier_configuration["settingsMenu"]["displayHelpCenter"] = False
+    if request.form.to_dict().get("displaySecurityAdvancedSettings"):
+        wallet_provier_configuration["walletSecurityOptions"]["displaySecurityAdvancedSettings"] = True
+    else:
+        wallet_provier_configuration["walletSecurityOptions"]["displaySecurityAdvancedSettings"] = False
+    if request.form.to_dict().get("verifySecurityIssuerWebsiteIdentity"):
+        wallet_provier_configuration["walletSecurityOptions"]["verifySecurityIssuerWebsiteIdentity"] = True
+    else:
+        wallet_provier_configuration["walletSecurityOptions"]["verifySecurityIssuerWebsiteIdentity"] = False
+
+    if request.form.to_dict().get("confirmSecurityVerifierAccess"):
+        wallet_provier_configuration["walletSecurityOptions"]["confirmSecurityVerifierAccess"] = True
+    else:
+        wallet_provier_configuration["walletSecurityOptions"]["confirmSecurityVerifierAccess"] = False
+    if request.form.to_dict().get("secureSecurityAuthenticationWithPinCode"):
+        wallet_provier_configuration["walletSecurityOptions"]["secureSecurityAuthenticationWithPinCode"] = True
+    else:
+        wallet_provier_configuration["walletSecurityOptions"]["secureSecurityAuthenticationWithPinCode"] = False
+    if request.form.to_dict().get("tezosSupport"):
+        wallet_provier_configuration["blockchainOptions"]["tezosSupport"] = True
+    else:
+        wallet_provier_configuration["blockchainOptions"]["tezosSupport"] = False
+    if request.form.to_dict().get("ethereumSupport"):
+        wallet_provier_configuration["blockchainOptions"]["ethereumSupport"] = True
+    else:
+        wallet_provier_configuration["blockchainOptions"]["ethereumSupport"] = False
+    if request.form.to_dict().get("hederaSupport"):
+        wallet_provier_configuration["blockchainOptions"]["hederaSupport"] = True
+    else:
+        wallet_provier_configuration["blockchainOptions"]["hederaSupport"] = False
+    if request.form.to_dict().get("bnbSupport"):
+        wallet_provier_configuration["blockchainOptions"]["bnbSupport"] = True
+    else:
+        wallet_provier_configuration["blockchainOptions"]["bnbSupport"] = False
+    if request.form.to_dict().get("fantomSupport"):
+        wallet_provier_configuration["blockchainOptions"]["fantomSupport"] = True
+    else:
+        wallet_provier_configuration["blockchainOptions"]["fantomSupport"] = False
+    if request.form.to_dict().get("polygonSupport"):
+        wallet_provier_configuration["blockchainOptions"]["polygonSupport"] = True
+    else:
+        wallet_provier_configuration["blockchainOptions"]["polygonSupport"] = False
+    if request.form.to_dict().get("tzproRpcNode"):
+        wallet_provier_configuration["blockchainOptions"]["tzproRpcNode"] = True
+    else:
+        wallet_provier_configuration["blockchainOptions"]["tzproRpcNode"] = False
+    if request.form.to_dict().get("infuraRpcNode"):
+        wallet_provier_configuration["blockchainOptions"]["infuraRpcNode"] = True
+    else:
+        wallet_provier_configuration["blockchainOptions"]["infuraRpcNode"] = False
+    wallet_provier_configuration["blockchainOptions"]["tzproApiKey"] = request.form.to_dict()[
+        "tzproApiKey"]
+    wallet_provier_configuration["blockchainOptions"]["infuraApiKey"] = request.form.to_dict()[
+        "infuraApiKey"]
+    if request.form.to_dict().get("displayManageDecentralizedId"):
+        wallet_provier_configuration["selfSovereignIdentityOptions"]["displayManageDecentralizedId"] = True
+    else:
+        wallet_provier_configuration["selfSovereignIdentityOptions"]["displayManageDecentralizedId"] = False
+    if request.form.to_dict().get("displaySsiAdvancedSettings"):
+        wallet_provier_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = True
+    else:
+        wallet_provier_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = False
+    if request.form.to_dict().get("displayVerifiableDataRegistry"):
+        wallet_provier_configuration["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"] = True
+    else:
+        wallet_provier_configuration["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"] = False
+    if request.form.to_dict().get("cryptoHolderBinding"):
+        wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["cryptoHolderBinding"] = True
+    else:
+        wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["cryptoHolderBinding"] = False
+    if request.form.to_dict().get("scope"):
+        wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"] = True
+    else:
+        wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"] = False
+    if request.form.to_dict().get("displayChatSupport"):
+        wallet_provier_configuration["helpCenterOptions"]["displayChatSupport"] = True
+    else:
+        wallet_provier_configuration["helpCenterOptions"]["displayChatSupport"] = False
+    if request.form.to_dict().get("customChatSupport"):
+        wallet_provier_configuration["helpCenterOptions"]["customChatSupport"] = True
+    else:
+        wallet_provier_configuration["helpCenterOptions"]["customChatSupport"] = False
+    if request.form.to_dict().get("displayEmailSupport"):
+        wallet_provier_configuration["helpCenterOptions"]["displayEmailSupport"] = True
+    else:
+        wallet_provier_configuration["helpCenterOptions"]["displayEmailSupport"] = False
+    if request.form.to_dict().get("customEmailSupport"):
+        wallet_provier_configuration["helpCenterOptions"]["customEmailSupport"] = True
+    else:
+        wallet_provier_configuration["helpCenterOptions"]["customEmailSupport"] = False
+    wallet_provier_configuration["selfSovereignIdentityOptions"]["oidv4vcProfile"] = request.form.to_dict()[
+        "oidv4vcProfile"]
+    wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"] = request.form.to_dict()[
+        "securityLevel"]
+    wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["userPinDigits"] = request.form.to_dict()[
+        "userPinDigits"]
+    wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["defaultDid"] = request.form.to_dict()[
+        "defaultDid"]
+    wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["subjectSyntaxeType"] = request.form.to_dict()[
+        "subjectSyntaxeType"]
+    wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["clientAuthentication"] = request.form.to_dict()[
+        "clientAuthentication"]
+    wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_id"] = request.form.to_dict()[
+        "client_id"]
+    wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_secret"] = request.form.to_dict()[
+        "client_secret"]
+    wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["oidc4vciDraft"] = request.form.to_dict()[
+        "oidc4vciDraft"]
+    wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["oidc4vpDraft"] = request.form.to_dict()[
+        "oidc4vpDraft"]
+    wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["siopv2Draft"] = request.form.to_dict()[
+        "siopv2Draft"]
+    wallet_provier_configuration["helpCenterOptions"]["customChatSupportName"] = request.form.to_dict()[
+        "customChatSupportName"]
+    wallet_provier_configuration["helpCenterOptions"]["customEmail"] = request.form.to_dict()[
+        "customEmail"]
     file = request.files.get('file')
     if file and allowed_file(file.filename):
         filename = session["organisation"] + \
             "."+file.filename.rsplit('.', 1)[1].lower()
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-    db.update_config(request.form.to_dict(), session["organisation"])
+    db.update_config(json.dumps(wallet_provier_configuration),
+                     session["organisation"])
     return redirect("/dashboard")
 
 
@@ -201,6 +343,9 @@ def add_organisation():
 def logout():
     session["organisation"] = None
     session["configured"] = None
+    user_session = UserSession(flask.session)
+    user_session.clear()
+    session.clear()
     return ("ok")
 
 

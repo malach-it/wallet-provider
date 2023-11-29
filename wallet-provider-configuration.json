@@ -1,13 +1,14 @@
 {
-    "version": "1.5",
-    "published": "2023-11-24",
+    "version": "1.6",
+    "published": "2023-11-28",
     "generalOptions": {
         "walletType": "altme",
         "companyName": "Altme",
         "companyWebsite": "https://altme.io",
         "companyLogo": "https://talao.co/static/img/icon.png",
         "profileName": "Wallet Profile Demo",
-        "profileVersion": "1.0"
+        "profileVersion": "1.0",
+        "customerPlan": "free"
     },
     "settingsMenu": {
         "displayProfile": true,
@@ -38,7 +39,6 @@
         "displayVerifiableDataRegistry": true,
         "oidv4vcProfile": "ebsi",
         "customOidc4vcProfile": {
-            "vcFormat": "ldp-vc",
             "securityLevel": "low",
             "userPinDigits": "4",
             "defaultDid": "did:key:ebsi",

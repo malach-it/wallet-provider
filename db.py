@@ -1,6 +1,6 @@
 import sqlite3
 from hashlib import sha256
-
+import logging
 
 conn = sqlite3.connect('db.sqlite')
 c = conn.cursor()
@@ -22,10 +22,10 @@ def verify_password_admin(email, password):
     password = sha256(password.encode('utf-8')).hexdigest()
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute("select json_extract(data,'$.organisation'),configured from admins,organisations where email ='{email}' and json_extract(data,'$.password') = '{password}' and json_extract(data,'$.organisation')=name".format(
+    c.execute("select json_extract(data,'$.organisation'),configured from admins,organisations where email='{email}' and json_extract(data,'$.password')='{password}' and json_extract(data,'$.organisation')=name".format(
         email=email, password=password))
     rows = c.fetchall()
-    if len(rows) < 2:
+    if len(rows) < 1:
         return False
     return [rows[0][0], rows[0][1]]
 
@@ -45,7 +45,9 @@ def verify_password_user(email, password):
 def update_config(config, organisation):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute('update organisations set configured=1 , config=("{config}") where name="{organisation}"'.format(
+    print("update organisations set configured=1 , config=('{config}') where name='{organisation}'".format(
+        config=config, organisation=organisation))
+    c.execute("update organisations set configured=1 , config=('{config}') where name='{organisation}'".format(
         config=config, organisation=organisation))
     conn.commit()
 

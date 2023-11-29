@@ -80,7 +80,7 @@
 
                 <p class="title">Wallet security options</p>
                 <div class="optionDiv">
-                    <p>Display security advancedS settings</p>
+                    <p>Display security advanced settings</p>
                     <input type="checkbox" name="displaySecurityAdvancedSettings" id="displaySecurityAdvancedSettings">
                 </div>
                 <div class="optionDiv">
@@ -206,12 +206,12 @@
                     </div>
                     <div class="optionDiv">
                         <p>User pin digits</p>
-                        <p>4</p><input type="radio" id="four" name="pinDigits" value="4" checked>
-                        <p>6</p><input type="radio" id="six" name="pinDigits" value="6">
+                        <p>4</p><input type="radio" id="four" name="userPinDigits" value="4" checked>
+                        <p>6</p><input type="radio" id="six" name="userPinDigits" value="6">
                     </div>
                     <div class="optionDiv">
                         <p>Default Did Method</p>
-                        <select id="defaultDidMethod" name="defaultDidMethod">
+                        <select id="defaultDid" name="defaultDid">
                             <option value="did:key:ebsi">did:key:ebsi</option>
                             <option value="did:jwk:p-256">did:jwk:p-256</option>
                             <option value="did:key:secp256k1">did:key:secp256k1</option>
@@ -229,9 +229,10 @@
                 -->
                     <div class="optionDiv">
                         <p>Subject syntax type</p>
-                        <p>did</p><input type="radio" id="did" name="syntaxType" value="did" checked>
-                        <p>urn:ietf:params:oauth:jwk-thumbprint</p><input type="radio"
-                            id="urn:ietf:params:oauth:jwk-thumbprint" name="syntaxType"
+                        <p>did</p>
+                        <input type="radio" id="did" name="subjectSyntaxeType" value="did" checked>
+                        <p>urn:ietf:params:oauth:jwk-thumbprint</p>
+                        <input type="radio" id="urn:ietf:params:oauth:jwk-thumbprint" name="subjectSyntaxeType"
                             value="urn:ietf:params:oauth:jwk-thumbprint">
                     </div>
                     <div class="optionDiv">
@@ -245,9 +246,9 @@
                     <div class="optionDiv">
                         <p>Client authentication</p>
                         <p>None</p><input onClick="switchClientAuth()" type="radio" id="public"
-                            name="clientAuthentification" value="none" checked>
+                            name="clientAuthentication" value="none" checked>
                         <p>Client secret basic</p><input onClick="switchClientAuth()" type="radio" id="basic"
-                            name="clientAuthentification" value="client_secret_basic">
+                            name="clientAuthentication" value="client_secret_basic">
                         <div id="basicAuthDiv" class="displayNone">
                             <input type="text" placeholder="client_id" name="client_id" id="client_id">
                             <input placeholder="client_secret" type="text" name="client_secret" id="client_secret">
@@ -327,7 +328,7 @@
 
     <script>
         document.getElementById("oidv4vcProfile").value = "custom"
-        document.getElementById("defaultDidMethod").value = "did:key:ebsi"
+        document.getElementById("defaultDid").value = "did:key:ebsi"
         document.getElementById("displayProfile").checked = true
         document.getElementById("displayDeveloperMode").checked = true
         document.getElementById("displayHelpCenter").checked = true
