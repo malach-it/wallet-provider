@@ -20,7 +20,7 @@ c.execute('''CREATE TABLE IF NOT EXISTS users (
 conn.commit()
 
 
-def verify_password_admin(email, password):
+def verify_password_admin(email: str, password: str) -> list:
     password = sha256(password.encode('utf-8')).hexdigest()
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
@@ -32,7 +32,7 @@ def verify_password_admin(email, password):
     return [rows[0][0], rows[0][1]]
 
 
-def verify_password_user(email, password):
+def verify_password_user(email: str, password: str) -> bool:
     password = sha256(password.encode('utf-8')).hexdigest()
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
@@ -44,49 +44,54 @@ def verify_password_user(email, password):
     return True
 
 
-def create_admin(email, password, organisation):
+def create_admin(email: str, password: str, organisation: str) -> bool:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     data = '{"password": "'+password+'", "organisation": "'+organisation+'"}'
     c.execute("""insert into admins values ('{email}','{data}')""".format(
         email=email, data=data))
     conn.commit()
+    return True
 
 
-def create_user(email, password, organisation):
+def create_user(email: str, password: str, organisation: str) -> bool:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     data = '{"password": "'+password+'", "organisation": "'+organisation+'"}'
     c.execute("""insert into users values ('{email}','{data}')""".format(
         email=email, data=data))
     conn.commit()
+    return True
 
 
-def create_organisation(name):
+def create_organisation(name: str) -> bool:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute("""insert into organisations values ('{name}',NULL,0)""".format(
         name=name))
     conn.commit()
+    return True
 
 
-def update_config(config, organisation):
+def update_config(config: str, organisation: str) -> bool:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute("update organisations set configured=1 , config=('{config}') where name='{organisation}'".format(
         config=config, organisation=organisation))
     conn.commit()
+    return True
 
 
-def update_data_user(email: str, data: str):
+def update_data_user(email: str, data: str) -> bool:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute("update users set data='{data}'  where email='{email}'".format(
         data=data, email=email))
     conn.commit()
+    return True
 
 
-def read_configured(organisation):
+def read_configured(organisation: str) -> int:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute("SELECT configured FROM organisations where  name = '{organisation}' ".format(
@@ -97,7 +102,7 @@ def read_configured(organisation):
     return rows[0][0]
 
 
-def read_users(organisation):
+def read_users(organisation: str) -> list:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute("SELECT email  FROM users as email where json_extract(data,'$.organisation')='{organisation}' ".format(
@@ -108,7 +113,7 @@ def read_users(organisation):
     return rows
 
 
-def read_data_user(email):
+def read_data_user(email: str) -> dict:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute("select data from users where email='{email}'".format(
@@ -119,7 +124,7 @@ def read_data_user(email):
     return json.loads(rows[0][0])
 
 
-def read_config(email):
+def read_config(email: str) -> dict:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute("select config from organisations,users where name=json_extract(data,'$.organisation') and email='{email}'".format(
@@ -130,7 +135,7 @@ def read_config(email):
     return json.loads(rows[0][0])
 
 
-def verify_password_admin(email, password):
+def verify_password_admin(email: str, password: str) -> list:
     password = sha256(password.encode('utf-8')).hexdigest()
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
@@ -142,7 +147,7 @@ def verify_password_admin(email, password):
     return [rows[0][0], rows[0][1]]
 
 
-def verify_password_user(email, password):
+def verify_password_user(email: str, password: str) -> bool:
     password = sha256(password.encode('utf-8')).hexdigest()
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
@@ -155,4 +160,3 @@ def verify_password_user(email, password):
 
 
 # ajouter thumbprint du wallet à data du user
-
