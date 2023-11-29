@@ -24,7 +24,7 @@ def verify_password_admin(email: str, password: str) -> bool:
     password = sha256(password.encode('utf-8')).hexdigest()
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute("select json_extract(data,'$.organisation'),configured from admins,organisations where email='{email}' and json_extract(data,'$.password')='{password}' and json_extract(data,'$.organisation')=name".format(
+    c.execute("select json_extract(data,'$.organisation') from admins where email='{email}' and json_extract(data,'$.password')='{password}'".format(
         email=email, password=password))
     rows = c.fetchall()
     if len(rows) < 1:
@@ -124,7 +124,7 @@ def read_data_user(email: str) -> dict:
     return json.loads(rows[0][0])
 
 
-def read_organisation(email : str) ->str:
+def read_organisation(email: str) -> str:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute("select json_extract(data,'$.organisation') from admins where email='{email}'".format(
@@ -139,7 +139,7 @@ def read_config(email: str) -> dict:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute("select config from organisations,users where name=json_extract(data,'$.organisation') and email='{email}'".format(
-    email=email))
+        email=email))
     rows = c.fetchall()
     if len(rows) < 1 or rows[0][0] == None:
         return None
@@ -171,5 +171,3 @@ def verify_password_user(email: str, password: str) -> bool:
 
 
 # ajouter thumbprint du wallet à data du user
-
-
