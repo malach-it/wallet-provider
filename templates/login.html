@@ -5,10 +5,12 @@
   <title>Login</title>
 </head>
 
-<body>  
-  <p>Enter your password</p>
+<body>
+  <p>Enter your password for {{email}}</p>
   <input type="password" placeholder="Your password" id="password">
   <button id="loginButton" onclick="login()">Go</button>
+  <button onclick="logout()">Change email</button>
+
   <script>
 
     function login() {
@@ -35,6 +37,16 @@
           }
         })
       })
+    }
+    function logout() {
+      fetch('/logout', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+      })
+        .then(response => { console.log(response.status); window.location.replace("/") })
+        .catch(error => console.error('Error:', error));
     }
   </script>
 </body>

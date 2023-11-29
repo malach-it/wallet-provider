@@ -112,7 +112,7 @@ def login():
                  ["verifiableCredential"]["credentialSubject"]["email"])
     session["email"] = user_session.userinfo["vp_token_payload"]["verifiableCredential"]["credentialSubject"]["email"]
     # session["email"] = "achille@talao.io"
-    return (render_template("login.html"))
+    return (render_template("login.html"), email=session.get("email"))
 
 
 def login_password():
@@ -352,5 +352,5 @@ wallet_provider.init_app(app, red, mode)
 
 if __name__ == '__main__':
     logging.info("app init")
-    
+
     app.run(host=mode.IP, port=mode.port, debug=True)
