@@ -13,7 +13,7 @@ class currentMode() :
 		if self.myenv == 'aws':
 			#self.yoti_pem_file = '/home/admin/issuer/key.pem'
 			#self.sys_path = '/home/admin'
-			self.server = ''
+			self.server = 'https://wallet-provider.talao.co/'
 			self.IP = '18.190.21.227' 
 		elif self.myenv == 'thierry' :
 			self.server = 'http://' + extract_ip() + ':5000/'
