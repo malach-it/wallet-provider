@@ -20,7 +20,7 @@ c.execute('''CREATE TABLE IF NOT EXISTS users (
 conn.commit()
 
 
-def verify_password_admin(email: str, password: str) -> list:
+def verify_password_admin(email: str, password: str) -> bool:
     password = sha256(password.encode('utf-8')).hexdigest()
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
@@ -29,7 +29,7 @@ def verify_password_admin(email: str, password: str) -> list:
     rows = c.fetchall()
     if len(rows) < 1:
         return False
-    return [rows[0][0], rows[0][1]]
+    return True
 
 
 def verify_password_user(email: str, password: str) -> bool:
@@ -124,6 +124,17 @@ def read_data_user(email: str) -> dict:
     return json.loads(rows[0][0])
 
 
+def read_organisation(email : str) ->str:
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("select json_extract(data,'$.organisation') from admins where email='{email}'".format(
+        email=email))
+    rows = c.fetchall()
+    if len(rows) < 1:
+        return None
+    return rows[0][0]
+
+
 def read_config(email: str) -> dict:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
@@ -160,3 +171,6 @@ def verify_password_user(email: str, password: str) -> bool:
 
 
 # ajouter thumbprint du wallet à data du user
+print(read_config("user@mmm.fr"))
+print(read_config("Org"))
+

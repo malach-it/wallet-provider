@@ -118,11 +118,10 @@ def login():
 def login_password():
     password = request.get_json().get("password")
     verif = db.verify_password_admin(session.get("email"), password)
-    print(verif)
     if not verif:
         return "Not found", 404
-    organisation = verif[0]
-    configured = verif[1]
+    organisation = db.read_organisation(session.get("email"))
+    configured = db.read_configured(organisation)
     if not organisation:
         return "Not found", 404
     elif organisation == "Talao":
