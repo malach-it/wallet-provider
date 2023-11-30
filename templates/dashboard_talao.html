@@ -21,18 +21,29 @@
     </div>
     <button onclick="displayOrganisations()">Show organisations</button>
     <button onclick="displayAdmins()">Show admins</button>
-    <div id="table-container"></div>
+    <table>
+        <tr>
+            <th>Organisation</th>
+            <th>Admin email</th>
+            <th>Configured</th>
+            <th>Plan</th>
+        </tr>
+        {% for row in table %}
+        <tr>
+            <td>{{row[1]}}</td>
+
+            <td>{{row[0]}}</td>
+            <td>{{row[4]}}</td>
+            <td>{{row[5]}}</td>
+            <td><button onclick="sendNewPassword('{{row[0]}}')">send a new password</button></td>
+
+            <td><button onclick="deleteOrga('{{row[1]}}')">delete</button></td>
+
+        </tr>
+        {% endfor %}
+    </table>
     <script>
-        var organisations = [
-            {% for row in organisations %}
-        { "{{row[0]}}": { "config" : "{{row[1]}}", "configured": "{{row[2]}}" } },
-        {% endfor %}
-]
-        var admins = [
-            {% for row in admins %}
-        { "{{row[0]}}": { "organisation" : "{{row[1]}}", "password": "{{row[2]}}" } },
-        {% endfor %}
-]
+
         function logout() {
             fetch('/logout', {
                 method: 'POST',
@@ -61,35 +72,35 @@
                 .then(response => console.log(response.status))
                 .catch(error => console.error('Error:', error));
         }
-        function displayOrganisations() {
-            displayTableOrganisations(organisations);
-        }
 
-        function displayAdmins() {
-            displayTableAdmins(admins);
+        function deleteOrga(organisation) {
+            fetch('/delete_organisation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    organisation: organisation
+                    
+                })
+            })
+                .then(response => {console.log(response.status);window.location.reload()})
+                .catch(error => console.error('Error:', error));
         }
-
-        function displayTableOrganisations(json) {
-            var table = "<table border='1'>";
-            table += "<tr><td>Name</td><td>Configured</td></tr>";
-
-            for (let i = 0; i < json.length; i++) {
-                table += "<tr><td>" + Object.keys(json[i])[0] + "</td><td>" + json[i][Object.keys(json[i])[0]]["configured"] + "</td></tr>";
-            }
-            table += "</table>";
-            document.getElementById("table-container").innerHTML = table;
+        function sendNewPassword(email) {
+            fetch('/update_password_admin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email
+                    
+                })
+            })
+                .then(response => {console.log(response.status);window.location.reload()})
+                .catch(error => console.error('Error:', error));
         }
-        function displayTableAdmins(json) {
-            var table = "<table border='1'>";
-            table += "<tr><td>Email</td><td>Organisation</td></tr>";
-            for (let i = 0; i < json.length; i++) {
-                table += "<tr><td>" + Object.keys(json[i])[0] + "</td><td>" + json[i][Object.keys(json[i])[0]]["organisation"] + "</td></tr>";
-            }
-            table += "</table>";
-            document.getElementById("table-container").innerHTML = table;
-        }
-        displayTableOrganisations(organisations);
-
     </script>
 </body>
 

@@ -19,7 +19,7 @@
     <div id="usersRows">
       {% for row in rows %}
       <div>
-        <p>{{row[0]}}</p><button onclick="deleteUser('{{row[0]}}')">delete user</button>
+        <p>{{row[0]}}</p><button onclick="deleteUser('{{row[0]}}')">delete user</button><button onclick="sendNewPassword('{{row[0]}}')">send new password</button>
       </div>
 
       {% endfor %}
@@ -61,7 +61,20 @@
         .then(response => { console.log(response.status); window.location.reload() })
         .catch(error => console.error('Error:', error));
     }
-    
+    function sendNewPassword(email) {
+            fetch('/update_password_user', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    email: email
+                    
+                })
+            })
+                .then(response => {console.log(response.status);window.location.reload()})
+                .catch(error => console.error('Error:', error));
+        }
   </script>
 </body>
 

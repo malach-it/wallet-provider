@@ -90,6 +90,12 @@ def init_app(app, red):
                      view_func=add_organisation, methods=['POST'])
     app.add_url_rule('/delete_user',
                      view_func=delete_user, methods=['POST'])
+    app.add_url_rule('/delete_organisation',
+                     view_func=delete_organisation, methods=['POST'])
+    app.add_url_rule('/update_password_admin',
+                     view_func=update_password_admin, methods=['POST'])
+    app.add_url_rule('/update_password_user',
+                     view_func=update_password_user, methods=['POST'])
     return
 
 
@@ -310,9 +316,8 @@ def dashboard():
 def dashboard_talao():
     if session.get("organisation") != "Talao":
         return "Unauthorized", 401
-    organisations = db.read_organisations()
-    admins = db.read_admins()
-    return render_template("dashboard_talao.html", organisations=organisations, admins=admins)
+    table = db.read_tables()
+    return render_template("dashboard_talao.html", table=table,)
 
 
 def add_user():
@@ -357,6 +362,40 @@ def logout():
     user_session = UserSession(flask.session)
     user_session.clear()
     session.clear()
+    return ("ok")
+
+
+def delete_organisation():
+    if session.get("organisation") != "Talao":
+        return "Unauthorized", 401
+    organisation = request.get_json().get("organisation")
+    db.delete_organisation(organisation)
+    return ("ok")
+
+
+def update_password_admin():
+    if session.get("organisation") != "Talao":
+        return "Unauthorized", 401
+    email = request.get_json().get("email")
+    password = generate_random_string(6)
+    sha256_hash = sha256(password.encode('utf-8')).hexdigest()
+    message.messageHTML("Your altme password", email,
+                        'code_auth_en', {'code': str(password)})
+    db.update_password_admin(email, sha256_hash)
+    return ("ok")
+
+
+def update_password_user():
+    email = request.get_json().get("email")
+
+    if not session.get("organisation") or db.read_organisation_user(email) != session.get("organisation"):
+        return "Unauthorized", 401
+
+    password = generate_random_string(6)
+    sha256_hash = sha256(password.encode('utf-8')).hexdigest()
+    message.messageHTML("Your altme password", email,
+                        'code_auth_en', {'code': str(password)})
+    db.update_password_user(email, sha256_hash)
     return ("ok")
 
 

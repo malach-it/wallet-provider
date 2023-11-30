@@ -24,6 +24,18 @@ button {
     width: fit-content;
 }
 
-td {
+td,th {
     padding: 6px;
+    border: 1px black solid;
+}
+
+table,
+th,
+td {
+    border: 1px solid black;
+}
+
+table {
+    width: fit-content;
+    border-collapse: collapse;
 }

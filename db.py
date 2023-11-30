@@ -134,6 +134,16 @@ def read_organisation(email: str) -> str:
         return None
     return rows[0][0]
 
+def read_organisation_user(email: str) -> str:
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("select json_extract(data,'$.organisation') from users where email='{email}'".format(
+        email=email))
+    rows = c.fetchall()
+    if len(rows) < 1:
+        return None
+    return rows[0][0]
+
 
 def read_config(email: str) -> dict:
     conn = sqlite3.connect('db.sqlite')
@@ -146,18 +156,10 @@ def read_config(email: str) -> dict:
     return json.loads(rows[0][0])
 
 
-def read_organisations():
+def read_tables():
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute("select * from organisations")
-    rows = c.fetchall()
-    return rows
-
-
-def read_admins():
-    conn = sqlite3.connect('db.sqlite')
-    c = conn.cursor()
-    c.execute('select email, json_extract(data,"$.organisation") as organisation,json_extract(data,"$.password") as password from admins')
+    c.execute('select email,json_extract(data,"$.organisation") as organisation,json_extract(data,"$.password")as password,name,configured ,json_extract(config,"$.generalOptions.customerPlan") as plan from admins,organisations where json_extract(data,"$.organisation")=name')
     rows = c.fetchall()
     return rows
 
@@ -170,5 +172,29 @@ def delete_user(email: str, organisation: str) -> bool:
     conn.commit()
     return True
 
+def delete_organisation(organisation : str) -> bool:
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("delete from organisations   where name='{organisation}'".format(
+        organisation=organisation))
+    c.execute("delete from  admins where  json_extract(data,'$.organisation')='{organisation}'".format(
+        organisation=organisation))
+    conn.commit()
+    return True
 
+def update_password_admin(email,password):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("update admins set data = json_set(data,'$.password','{password}')   where email='{email}'".format(
+        email=email, password=password))
+    conn.commit()
+    return True
+
+def update_password_user(email,password):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("update users set data = json_set(data,'$.password','{password}')   where email='{email}'".format(
+        email=email, password=password))
+    conn.commit()
+    return True
 # ajouter thumbprint du wallet à data du user
