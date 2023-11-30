@@ -3,7 +3,7 @@ p {
 }
 
 .displayNone {
-    display: none;
+    display: none !important;
 }
 
 .stepDiv {

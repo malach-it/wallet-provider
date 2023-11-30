@@ -88,6 +88,8 @@ def init_app(app, red):
                      view_func=dashboard_talao, methods=['GET'])
     app.add_url_rule('/add_organisation',
                      view_func=add_organisation, methods=['POST'])
+    app.add_url_rule('/delete_user',
+                     view_func=delete_user, methods=['POST'])
     return
 
 
@@ -337,6 +339,15 @@ def add_organisation():
                         'code_auth_en', {'code': str(password)})
     db.create_organisation(organisation)
     db.create_admin(email, sha256_hash, organisation)
+    return ("ok")
+
+
+def delete_user():
+    if not session.get("organisation"):
+        return "Unauthorized", 401
+    organisation = session.get("organisation")
+    email = request.get_json().get("email")
+    db.delete_user(email, organisation)
     return ("ok")
 
 

@@ -162,4 +162,13 @@ def read_admins():
     return rows
 
 
+def delete_user(email: str, organisation: str) -> bool:
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("delete from users where email='{email}' and json_extract(data,'$.organisation')='{organisation}'".format(
+        organisation=organisation, email=email))
+    conn.commit()
+    return True
+
+
 # ajouter thumbprint du wallet à data du user

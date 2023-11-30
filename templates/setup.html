@@ -188,17 +188,17 @@
                     <p>OIDC4VC profile</p>
                     <select id="oidv4vcProfile" name="oidv4vcProfile">
                         <option onclick="switchProfile()" value="ebsi">EBSI-V3</option>
-                        <option onclick="switchProfile()" value="diip">DIIP</option>
+                        <!--<option onclick="switchProfile()" value="diip">DIIP</option>-->
                         <option onclick="switchProfile()" value="custom">Custom</option>
                     </select>
                 </div>
                 <div id="customProfileDiv" class="displayNone">
-                    <div class="optionDiv">
+                    <!--<div class="optionDiv">
                         <p>VC format</p>
                         <p>LDP VC</p><input type="radio" name="vcFormat" value="ldp_vc" checked id="ldp_vc">
                         <p>JWT VC JSON LD</p><input type="radio" name="vcFormat" value="jwt_vc_json-ld"
                             id="jwt_vc_json-ld">
-                    </div>
+                    </div>-->
                     <div class="optionDiv">
                         <p>Security level </p>
                         <p>LOW</p><input type="radio" id="low" name="securityLevel" value="low" checked>
@@ -328,7 +328,7 @@
 
     <script>
         document.getElementById("oidv4vcProfile").value = "custom"
-        document.getElementById("defaultDid").value = "did:key:ebsi"
+        document.getElementById("defaultDid").value = "did:key:p-256"
         document.getElementById("displayProfile").checked = true
         document.getElementById("displayDeveloperMode").checked = true
         document.getElementById("displayHelpCenter").checked = true
@@ -350,19 +350,14 @@
         document.getElementById("oidv4vcProfile").value = "custom"
         document.getElementById("altme").checked = true
         document.getElementById("talao").checked = false
-        document.getElementById("ldp_vc").checked = false
-        document.getElementById("jwt_vc_json-ld").checked = true
+        /*document.getElementById("ldp_vc").checked = false
+        document.getElementById("jwt_vc_json-ld").checked = true*/
         document.getElementById("low").checked = true
         document.getElementById("high").checked = false
         document.getElementById("four").checked = false
         document.getElementById("six").checked = true
         document.getElementById("did").checked = true
         document.getElementById("urn:ietf:params:oauth:jwk-thumbprint").checked = false
-        document.getElementById("did:key:ebsi").checked = true
-        document.getElementById("did:jwk:p-256").checked = false
-        document.getElementById("did:key:secp256k1").checked = false
-        document.getElementById("did:key:p-256").checked = false
-        document.getElementById("did:key:eddsa").checked = false
         document.getElementById("scope").checked = false
         document.getElementById("public").checked = true
         document.getElementById("basic").checked = false
@@ -445,6 +440,7 @@
             }
         }
         function switchProfile() {
+            console.log("switching to " + document.getElementById("oidv4vcProfile").value)
             if (document.getElementById("oidv4vcProfile").value === "custom") {
                 document.getElementById("customProfileDiv").setAttribute("class", "")
             }
