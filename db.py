@@ -109,7 +109,7 @@ def read_users(organisation: str) -> list:
         organisation=organisation))
     rows = c.fetchall()
     if len(rows) < 1:
-        return None
+        return []
     return rows
 
 
@@ -151,7 +151,6 @@ def read_organisations():
     c = conn.cursor()
     c.execute("select * from organisations")
     rows = c.fetchall()
-    print(rows)
     return rows
 
 
@@ -160,9 +159,7 @@ def read_admins():
     c = conn.cursor()
     c.execute('select email, json_extract(data,"$.organisation") as organisation,json_extract(data,"$.password") as password from admins')
     rows = c.fetchall()
-    print(rows)
     return rows
 
 
 # ajouter thumbprint du wallet à data du user
-read_organisations()

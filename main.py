@@ -111,7 +111,7 @@ def login():
     logging.info(user_session.userinfo["vp_token_payload"]
                  ["verifiableCredential"]["credentialSubject"]["email"])
     session["email"] = user_session.userinfo["vp_token_payload"]["verifiableCredential"]["credentialSubject"]["email"]
-    #session["email"] = "achille@talao.io"
+    # session["email"] = "achille@talao.io"
     return (render_template("login.html", email=session.get("email")))
 
 
@@ -310,7 +310,7 @@ def dashboard_talao():
         return "Unauthorized", 401
     organisations = db.read_organisations()
     admins = db.read_admins()
-    return render_template("dashboard_talao.html",organisations=organisations,admins=admins)
+    return render_template("dashboard_talao.html", organisations=organisations, admins=admins)
 
 
 def add_user():
