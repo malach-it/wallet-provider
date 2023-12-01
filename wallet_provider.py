@@ -122,7 +122,7 @@ def sign_jwt(nonce, payload, typ, aud=None, jti=True):
     data = {
         'iss': WALLET_PROVIDER_DID,
         'iat': datetime.timestamp(datetime.now().replace(second=0, microsecond=0)),
-        'exp': datetime.timestamp(datetime.now().replace(second=0, microsecond=0)) + + 365*24*60*60
+        'exp': datetime.timestamp(datetime.now().replace(second=0, microsecond=0)) + 365*24*60*60
     }
     if nonce:
         data['nonce'] = nonce  
@@ -223,11 +223,14 @@ def wallet_attestation_endpoint(red):
 
 
 def configuration():
-    print(request.headers)
-    print(request.form)
+    print('header = ', request.headers)
+    print('form = ', request.form)
     try:
         Authorization = request.headers['Authorization']
-        basic = base64.b64decode(Authorization.split()[1].encode()).decode()
+        payload = Authorization.split()[1]
+        payload += "=" * ((4 - len(payload) % 4) % 4)
+        basic = base64.urlsafe_b64decode(payload.encode()).decode()
+        #basic = base64.b64decode(Authorization.split()[1].encode()).decode()
         user_email = basic.split(':')[0]
         user_password = basic.split(':')[1]
     except Exception as e:
@@ -292,4 +295,3 @@ def configuration():
     }
     logging.info('Configuration is sent to wallet')
     return Response(payload, headers=headers)
-
