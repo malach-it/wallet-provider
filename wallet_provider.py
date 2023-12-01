@@ -22,7 +22,7 @@ WALLET_PROVIDER_PUBLIC_KEY =  copy.copy(WALLET_PROVIDER_KEY)
 del WALLET_PROVIDER_PUBLIC_KEY['d']
 WALLET_PROVIDER_VM = 'did:web:talao.co#key-2'
 WALLET_PROVIDER_DID = 'did:web:talao.co'
-WALLET_API_VERSION = '0.2'
+WALLET_API_VERSION = '0.2.1'
 
 
 def init_app(app, red, mode):
@@ -82,6 +82,8 @@ def verif_token(token):
     elif header.get('typ') == 'wallet-attestation+jwt':
         dict_key = resolve_did(header['kid'])
     else:
+        raise Exception('Cannot resolve public key for this typ')
+    if not dict_key:
         raise Exception('Cannot resolve public key')
     a = jwt.JWT.from_jose_token(token)
     issuer_key = jwk.JWK(**dict_key)
@@ -172,8 +174,8 @@ def wallet_attestation_endpoint(red):
     # check wallet request signature
     try:
         result = verif_token(assertion)
-    except Exception:
-        return Response(**manage_error('invalid_request', 'Assertion signature check failed'))
+    except Exception as e:
+        return Response(**manage_error('invalid_request', 'Assertion signature check failed : ' + str(e)))
     if not result:
         return Response(**manage_error('invalid_request', 'Assertion signature check failed'))
 
@@ -221,14 +223,19 @@ def wallet_attestation_endpoint(red):
 
 
 def configuration():
+    print(request.headers)
+    print(request.form)
     try:
         Authorization = request.headers['Authorization']
         basic = base64.b64decode(Authorization.split()[1].encode()).decode()
         user_email = basic.split(':')[0]
         user_password = basic.split(':')[1]
+    except Exception as e:
+        return Response(**manage_error('invalid_request', 'basic authentication missing or incorrect ->' + str(e)))
+    try:
         wallet_attestation = get_payload_from_jwt(request.form['assertion'])
-    except Exception:
-        return Response(**manage_error('invalid_request', 'assertion or basic authentication missing'))
+    except Exception as e:
+        return Response(**manage_error('invalid_request', 'assertion missing ->' + str(e)))
 
     # check user and password
     try:
@@ -243,16 +250,16 @@ def configuration():
     try:
         verif_token(request.form['assertion'])
         logging.info('wallet attestation signature is ok')
-    except Exception:
-        logging.error('wallet attestation signature check failed')
-        #return Response(**manage_error('invalid_request', 'Wallet attestation signature check failed'))
+    except Exception as e:
+        logging.error('wallet attestation signature check failed %s', str(e))
+        return Response(**manage_error('invalid_request', 'Wallet attestation signature check failed ->' + str(e)))
 
-    # Update user data with user sub from wallet attestation
+    # Update user data with user wallet attestation data
     try:
         user_jwk = wallet_attestation['cnf']['jwk']
         user_sub = wallet_attestation['sub']
-    except Exception:
-        return Response(**manage_error('invalid_request', 'incorrect wallet attestation'))
+    except Exception as e:
+        return Response(**manage_error('invalid_request', 'incorrect wallet attestation -> ' + str(e)))
     user_data = db.read_data_user(user_email) # -> dict
     if not user_data:
         return Response(**manage_error('invalid_request', 'user not found'))
@@ -264,26 +271,25 @@ def configuration():
         })
     try:
         check = db.update_data_user(user_email, json.dumps(user_data))
-    except Exception:
-        return Response(**manage_error('server_error', 'user data update failed'))
+    except Exception as e:
+        return Response(**manage_error('server_error', 'user data update failed -> ' + str(e)))
     logging.info('user data is now updated')
 
-    # Get configuration for user wallet
+    # Build and sign configuration jwt for user wallet 
     config = {}
     try:
         config = db.read_config(user_email) # -> dict
     except Exception:
         return Response(**manage_error('server_error', 'incorrect configuration file'))
     if not config:
-        return Response(**manage_error('invalid_request', 'configuration is not found'))
-    
-    payload = sign_jwt(None, config, 'JWT')
+        return Response(**manage_error('invalid_request', 'configuration is not found for this user ' + user_email))
+    payload = sign_jwt(None, config, 'jwt')
     if not payload:
-        return Response(**manage_error('server_error', 'Configuration JWR fails to be signed'))
+        return Response(**manage_error('server_error', 'Configuration fails to be signed'))
     headers = { 
         "Content-Type": "application/jwt",
         "Cache-Control": "no-cache"
     }
-    logging.info('configuration is sent to wallet')
+    logging.info('Configuration is sent to wallet')
     return Response(payload, headers=headers)
 
