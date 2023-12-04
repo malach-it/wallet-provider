@@ -10,23 +10,23 @@ import sys
 import requests
 from flask_limiter import Limiter,util
 import db # db manager for wallet-provider
-​
+
 logging.basicConfig(level=logging.INFO)
-​
+
 try:
     WALLET_PROVIDER_KEY = json.load(open('keys.json', 'r'))['wallet_provider_key']
 except Exception:
     logging.info('wallet provider keys missing')
     sys.exit()
-​
+
 TRUSTED_LIST = ['did:web:talao.co']
 WALLET_PROVIDER_PUBLIC_KEY =  copy.copy(WALLET_PROVIDER_KEY)
 del WALLET_PROVIDER_PUBLIC_KEY['d']
 WALLET_PROVIDER_VM = 'did:web:talao.co#key-2'
 WALLET_PROVIDER_DID = 'did:web:talao.co'
 WALLET_API_VERSION = '0.2.2'
-​
-​
+
+
 def init_app(app, red, mode):
     # endpoints for OpenId customer application
     limiter = Limiter(util.get_remote_address, app=app, storage_uri="redis://127.0.0.1:6379")
@@ -34,25 +34,25 @@ def init_app(app, red, mode):
     app.add_url_rule('/token',  view_func=wallet_attestation_endpoint, methods=['POST'], defaults={'red': red})
     app.add_url_rule('/configuration',  view_func=wallet_configuration_endpoint, methods=['POST'])
     app.add_url_rule('/wallet_api_version',  view_func=wallet_api_version, methods=['GET'], defaults={'limiter': limiter})
-​
-​
+
+
 def thumbprint(key):
     signer_key = jwk.JWK(**key) 
     return signer_key.thumbprint()
-​
-​
+
+
 def get_payload_from_token(token) -> dict:
     payload = token.split('.')[1]
     payload += '=' * ((4 - len(payload) % 4) % 4) # solve the padding issue of the base64 python lib
     return json.loads(base64.urlsafe_b64decode(payload).decode())
-​
-​
+
+
 def get_header_from_token(token):
     header = token.split('.')[0]
     header += '=' * ((4 - len(header) % 4) % 4) # solve the padding issue of the base64 python lib
     return json.loads(base64.urlsafe_b64decode(header).decode())
-​
-​
+
+
 def resolve_did(vm) -> dict:
     did = vm.split('#')[0]
     url = 'https://unires.talao.co/1.0/identifiers/' + did
@@ -68,7 +68,7 @@ def resolve_did(vm) -> dict:
             logging.info('DIF Universal Resolver used')
         except Exception:
             logging.error('Cannot access to resolvers')
-​
+
     for verification_method in did_document['verificationMethod']:
         if vm == verification_method['id'] or '#' + vm.split('#')[1] == verification_method['id']:
             jwk = verification_method.get('publicKeyJwk')
@@ -80,8 +80,8 @@ def resolve_did(vm) -> dict:
                 logging.info('publicKeyJwk = %s', jwk)
                 return jwk
     return
-​
-​
+
+
 def verif_token(token):
     header = get_header_from_token(token)
     payload = get_payload_from_token(token)
@@ -97,8 +97,8 @@ def verif_token(token):
     issuer_key = jwk.JWK(**dict_key)
     a.validate(issuer_key)
     return True
-​
-​
+
+
 def manage_error(error, error_description, status=400):
     """
     Return error code to wallet
@@ -113,14 +113,14 @@ def manage_error(error, error_description, status=400):
     }
     headers = {'Cache-Control': 'no-store', 'Content-Type': 'application/json'}
     return {'response': json.dumps(payload), 'status': status, 'headers': headers}
-​
-​
+
+
 def get_payload_from_jwt(token) -> dict:
     payload = token.split('.')[1]
     payload += '=' * ((4 - len(payload) % 4) % 4) # solve the padding issue of the base64 python lib
     return json.loads(base64.urlsafe_b64decode(payload).decode())
-​
-​
+
+
 def sign_jwt(nonce, payload, typ, aud=None, jti=True, duration=365*24*60*60):
     header = {
         'typ':typ,
@@ -147,8 +147,8 @@ def sign_jwt(nonce, payload, typ, aud=None, jti=True, duration=365*24*60*60):
     except Exception:
         return
     return token.serialize()
-​
-​
+
+
 def wallet_api_version(limiter):
     try:
        with limiter.limit("1/seconde"):
@@ -156,8 +156,8 @@ def wallet_api_version(limiter):
     except Exception as e:
         return Response(**manage_error('invalid_request', 'Exceed rate limit-> ' + str(e)))
     return jsonify(WALLET_API_VERSION)
-​
-​
+
+
 def nonce(red, limiter):
     try:
        with limiter.limit("1/seconde"):
@@ -169,11 +169,11 @@ def nonce(red, limiter):
     logging.info('nonce is sent to wallet')
     return jsonify({'nonce': nonce})
   
-​
+
 def wallet_attestation_endpoint(red):
     """
     https://italia.github.io/eudi-wallet-it-docs/versione-corrente/en/wallet-instance-attestation.html#id1
-​
+
     """
     try:
         assertion = request.form['assertion']
@@ -182,14 +182,14 @@ def wallet_attestation_endpoint(red):
         return Response(**manage_error('invalid_request', 'assertion or grant_type missing'))
     if grant_type != 'urn:ietf:params:oauth:grant-type:jwt-bearer':
         return Response(**manage_error('invalid_grant', 'Assertion expected'))
-​
+
     try:
         wallet_request = get_payload_from_jwt(assertion)
         wallet_cnf =  copy.copy(wallet_request['cnf'])
         wallet_cnf['jwk'].update({'kid': wallet_request['iss']})
     except Exception as e:
         return Response(**manage_error('invalid_request', 'Assertion format is incorrect -> ' + str(e)))
-​
+
     # check wallet request signature
     try:
         result = verif_token(assertion)
@@ -197,7 +197,7 @@ def wallet_attestation_endpoint(red):
         return Response(**manage_error('invalid_request', 'Assertion signature check failed : ' + str(e)))
     if not result:
         return Response(**manage_error('invalid_request', 'Assertion signature check failed'))
-​
+
     logging.info('wallet request signature is ok')
     
     # check wallet request nonce
@@ -205,7 +205,7 @@ def wallet_attestation_endpoint(red):
     if not red.get(nonce):
         return Response(**manage_error('invalid_request', 'Nonce incorrect'))
     red.delete(nonce)
-​
+
     # build and send wallet attestation
     payload = {
         "sub": wallet_request['iss'],
@@ -240,8 +240,8 @@ def wallet_attestation_endpoint(red):
     }
     logging.info('wallet attestation is sent to wallet')
     return Response(wallet_attestation, headers=headers)
-​
-​
+
+
 def wallet_configuration_endpoint():
     try:
         user_email = request.authorization['username']
@@ -257,12 +257,12 @@ def wallet_configuration_endpoint():
     if not check:
         Response(**manage_error('invalid_request', 'user not found'))
     logging.info('logging/password is fine for %s', user_email)
-​
+
     try:
         wallet_attestation = get_payload_from_jwt(request.form['assertion'])
     except Exception as e:
         return Response(**manage_error('invalid_request', 'assertion missing -> ' + str(e)))
-​
+
      # check wallet attestation signature
     try:
         verif_token(request.form['assertion'])
@@ -299,7 +299,7 @@ def wallet_configuration_endpoint():
     except Exception as e:
         return Response(**manage_error('server_error', 'user data update failed -> ' + str(e)))
     logging.info('user data is now updated')
-​
+
     # Build and sign configuration jwt for user wallet 
     config = {}
     try:
@@ -317,3 +317,4 @@ def wallet_configuration_endpoint():
     }
     logging.info('Configuration is sent to wallet')
     return Response(payload, headers=headers)
+
