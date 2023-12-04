@@ -243,14 +243,15 @@ def wallet_attestation_endpoint(red):
 
 
 def wallet_configuration_endpoint():
-    print('request header =', request.headers)
+    logging.info('request header = %s', request.headers)
     try:
         Authorization = request.headers['Authorization']
-        basic = base64.b64decode(Authorization.split()[1].encode()).decode()
         payload = Authorization.split()[1]
-        try :
+        try:
             basic = base64.urlsafe_b64decode(payload.encode()).decode()
-        except :
+            logging.info('No padding issue')
+        except:
+            logging.info('Padding issue')
             payload += "=" * ((4 - len(payload) % 4) % 4)
             basic = base64.urlsafe_b64decode(payload.encode()).decode()
         user_email = basic.split(':')[0]
