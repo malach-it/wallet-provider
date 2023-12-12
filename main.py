@@ -16,6 +16,9 @@ import random
 import string
 import message
 import wallet_provider
+from datetime import datetime, timezone
+import uuid
+
 
 logging.basicConfig(level=logging.INFO)
 myenv = os.getenv('MYENV')
@@ -155,6 +158,8 @@ def allowed_file(filename):
 
 
 def set_config():
+    utc_now = datetime.now(timezone.utc)
+    utc_date = utc_now.strftime('%Y-%m-%d')
     wallet_provier_configuration = json.load(
         open('./wallet-provider-configuration.json', 'r'))
     wallet_provier_configuration["generalOptions"]["walletType"] = request.form.to_dict()[
@@ -163,6 +168,10 @@ def set_config():
         "companyName"]
     wallet_provier_configuration["generalOptions"]["companyWebsite"] = request.form.to_dict()[
         "companyWebsite"]
+    wallet_provier_configuration["generalOptions"]["tagLine"] = request.form.to_dict()[
+        "tagLine"]
+    wallet_provier_configuration["generalOptions"]["published"] = utc_date
+    wallet_provier_configuration["generalOptions"]["profileId"] = "urn:uuid:"+str(uuid.uuid4())
     wallet_provier_configuration["generalOptions"]["profileName"] = request.form.to_dict()[
         "profileName"]
     wallet_provier_configuration["generalOptions"]["profileVersion"] = request.form.to_dict()[
@@ -240,6 +249,7 @@ def set_config():
         wallet_provier_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = True
     else:
         wallet_provier_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = False
+    
     if request.form.to_dict().get("displayVerifiableDataRegistry"):
         wallet_provier_configuration["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"] = True
     else:
@@ -252,6 +262,10 @@ def set_config():
         wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"] = True
     else:
         wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"] = False
+    if request.form.to_dict().get("credentialManifestSupport"):
+        wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["credentialManifestSupport"] = True
+    else:
+        wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["credentialManifestSupport"] = False
     if request.form.to_dict().get("displayChatSupport"):
         wallet_provier_configuration["helpCenterOptions"]["displayChatSupport"] = True
     else:

@@ -21,6 +21,26 @@
 
       <div class="nav-02__list_wrapper  ">
         <div class="nav-02__list nav-02__list--desktop">
+          <!--<div class="nav-02__item">
+                    <a class="button   button--black-outline  button--empty " href="https://altme.io/#slider-07-879531"
+                      target="_self">
+                      <p class="linkP"> Wallet features
+                      </p>
+                    </a>
+                  </div>
+                  <div class="nav-02__item" id="newsNav">
+                    <a class="button   button--black-outline  button--empty " href="https://altme.io/#posts-05-876621"
+                      target="_self">
+                      <p class="linkP">News</p>
+  
+                    </a>
+                  </div>
+                  <div class="nav-02__item" id="roadmapNav">
+                    <a href="https://altme.io/#features-09-390941" target="_self">
+                      <p class="linkP">Roadmap</p>
+  
+                    </a>
+                  </div>-->
           <div class="nav-02__item" id="faqNav">
             <a class="button   button--black-outline  button--empty " href="https://altme.io/" target="_self">
               <p class="linkP">Back to home</p>
@@ -52,6 +72,24 @@
           </p>
         </a>
       </div>
+      <!-- <div class="nav-02__item" id="newsNav">
+              <a class="button   button--black-outline  button--empty " href="https://altme.io/#posts-05-876621"
+                target="_self">
+                <p class="linkP">News</p>
+  
+              </a>
+            </div>
+            <div class="nav-02__item" id="roadmapNav">
+              <a href="https://altme.io/#features-09-390941" target="_self">
+                <p class="linkP">Roadmap</p>
+  
+              </a>
+            </div>
+            <div class="nav-02__item" id="faqNav">
+              <a class="button   button--black-outline  button--empty " href="#superFaq" target="_self">
+                <p class="linkP">FAQ</p>
+              </a>
+            </div>-->
       <div class="nav-02__item">
 
         <a data-stripe-product-id="" data-stripe-mode="payment" data-successful-payment-url=""
@@ -85,104 +123,7 @@
     </button>
 
   </div>
-  <div id="mainBox">
-    <div id="dashboard">
-      <div id="line1Dashboard">
-        <p id="dashboardTitle">{{organisation}} Dashboard</p>
-        <button class="buttonAltme" onclick="logout()">Logout</button>
-      </div>
-      <div id="line2Dashboard">
-        <p class="title">Change wallet customization</p>
-        <a class="buttonAltme" id="modifyConfiguration" href="/setup">START TO CUSTOMIZE YOUR WALLET</a>
-      </div>
-
-      <div id="line3Dashboard">
-        <p class="title">Change wallet customization</p>
-        <div id="userAdder">
-          <input placeholder="First name" type="text" class="inputDashboard" name="first_name">
-          <input placeholder="Last name" type="text" class="inputDashboard" name="last_name">
-          <input placeholder="email" type="text" class="inputDashboard" name="email">
-
-          <button class="buttonAltme" onclick="addUser()">Add user</button>
-        </div>
-
-      </div>
-      <div>
-        <table id="tableDashboard">
-          <tr>
-            <th>First name</th>
-            <th>Last name</th>
-            <th>Email</th>
-            <th></th>
-            <th></th>
-          </tr>
-
-          {% for row in rows %}
-          <tr>
-            <td>John</td>
-            <td>Doe</td>
-            <td>{{row[0]}}</td>
-            <td><button class="buttonTable" onclick="deleteUser('{{row[0]}}')">Delete user</button></td>
-            <td><button class="buttonTable" onclick="sendNewPassword('{{row[0]}}')">Regenerate password</button></td>
-          </tr>
-
-          {% endfor %}
-        </table>
-
-      </div>
-    </div>
-
-    <script>
-      function addUser() {
-        fetch('/add_user', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email: document.getElementById("emailAdd").value })
-        })
-          .then(response => { console.log(response.status); window.location.reload() })
-          .catch(error => console.error('Error:', error));
-      }
-      function logout() {
-        fetch('/logout', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-        })
-          .then(response => { console.log(response.status); window.location.replace("/") })
-          .catch(error => console.error('Error:', error));
-      }
-      function deleteUser(email) {
-        console.log(email)
-        fetch('/delete_user', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email: email })
-
-        })
-          .then(response => { console.log(response.status); window.location.reload() })
-          .catch(error => console.error('Error:', error));
-      }
-      function sendNewPassword(email) {
-        fetch('/update_password_user', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({
-            email: email
-
-          })
-        })
-          .then(response => { console.log(response.status); window.location.reload() })
-          .catch(error => console.error('Error:', error));
-      }
-    </script>
-  </div>
+  <div id="mainBox"></div>
 
 
   <div class="bg-white-color ">
@@ -194,6 +135,7 @@
           <p id="line2Footer" hidden><strong>Built with TzKT API, Spruce Didkit 0.4.0</strong>&nbsp;</p>
         </div>
         <div class="social-buttons  ">
+
           <div class="social-buttons__item"><a class="social-buttons__link social-buttons__link--twitter"
               href="https://twitter.com/Altme_io" target="_blank"><img loading="lazy" class="social-buttons__icon"
                 alt="twitter icon"
@@ -202,23 +144,46 @@
               href="https://www.linkedin.com/company/altme-web3/" target="_blank"><img loading="lazy"
                 class="social-buttons__icon" alt="linkedin icon"
                 src="https://dvzvtsvyecfyp.cloudfront.net/static/img/icons/social/black/linkedin.svg" /></a></div>
+
         </div>
       </div>
     </footer>
+
   </div>
   <script>
     document.getElementById('buttonMenu').addEventListener('click', () => {
+      //console.log(document.getElementById('buttonMenu').getAttribute("class"))
       if (document.getElementById('imageButtonMenu').getAttribute("class") === "imgButtonMenuInactive") {
-        document.getElementById('menuDiv').setAttribute("class", "flex");
+        /*document.documentElement.setAttribute("class", "noScroll");
+        document.getElementById('bigBox').setAttribute("class", "toHide");
+        document.getElementById('superFaq').setAttribute("class", "toHide");
+        document.getElementById('footer').setAttribute("class", "toHide");
+
+        document.getElementById('menuDiv').setAttribute("class", "menuActive");
+        document.getElementById('generalQuestions').setAttribute("class", "inactiveQuestions");
+        document.getElementById('securityQuestions').setAttribute("class", "inactiveQuestions");
+        document.getElementById('SSIQuestions').setAttribute("class", "inactiveQuestions");
+*/      document.getElementById('menuDiv').setAttribute("class", "flex");
         document.body.style.overflow = 'hidden';
+
         document.getElementById('imageButtonMenu').setAttribute("class", "imgButtonMenuActive");
         document.getElementById('imageButtonMenu').setAttribute("src", "/static/img/crossMenu.png")
       }
       else if (document.getElementById('imageButtonMenu').getAttribute("class") === "imgButtonMenuActive") {
-        document.getElementById('menuDiv').setAttribute("class", "");
+        /*document.documentElement.setAttribute("class", "");
+        document.getElementById('bigBox').setAttribute("class", "");
+        document.getElementById('superFaq').setAttribute("class", "");
+        document.getElementById('footer').setAttribute("class", "");
+        document.getElementById('menuDiv').setAttribute("class", "nav-02__list_wrapper");
+        document.getElementById('generalQuestions').setAttribute("class", "activeQuestions");
+        document.getElementById('securityQuestions').setAttribute("class", "inactiveQuestions");
+        document.getElementById('SSIQuestions').setAttribute("class", "inactiveQuestions");
+*/     document.getElementById('menuDiv').setAttribute("class", "");
         document.body.style.overflow = '';
+
         document.getElementById('imageButtonMenu').setAttribute("class", "imgButtonMenuInactive");
         document.getElementById('imageButtonMenu').setAttribute("src", "/static/img/div.png")
+
       }
     })
   </script>
