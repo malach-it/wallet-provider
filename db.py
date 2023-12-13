@@ -113,6 +113,17 @@ def read_users(organisation: str) -> list:
     return rows
 
 
+def read_plan(organisation: str) -> str:
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("select json_extract(config,'$.generalOptions.customerPlan') from organisations where name ='{organisation}' ".format(
+        organisation=organisation))
+    rows = c.fetchall()
+    if len(rows) < 1:
+        return None
+    return rows[0][0]
+
+
 def read_data_user(email: str) -> dict:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
