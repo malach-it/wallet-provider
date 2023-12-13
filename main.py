@@ -16,7 +16,7 @@ import random
 import string
 import message
 import wallet_provider
-from datetime import datetime, timezone
+import time
 import uuid
 
 
@@ -162,8 +162,6 @@ def allowed_file(filename):
 def set_config():
     if not session.get("organisation"):
         return "Unauthorized", 401
-    utc_now = datetime.now(timezone.utc)
-    utc_date = utc_now.strftime('%Y-%m-%d')
     wallet_provier_configuration = json.load(
         open('./wallet-provider-configuration.json', 'r'))
     wallet_provier_configuration["generalOptions"]["walletType"] = request.form.to_dict()[
@@ -174,7 +172,7 @@ def set_config():
         "companyWebsite"]
     wallet_provier_configuration["generalOptions"]["tagLine"] = request.form.to_dict()[
         "tagLine"]
-    wallet_provier_configuration["generalOptions"]["published"] = utc_date
+    wallet_provier_configuration["generalOptions"]["published"] = time.time()
     wallet_provier_configuration["generalOptions"]["profileId"] = "urn:uuid:"+str(
         uuid.uuid4())
     wallet_provier_configuration["generalOptions"]["profileName"] = request.form.to_dict()[
