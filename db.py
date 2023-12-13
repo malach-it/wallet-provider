@@ -67,7 +67,7 @@ def create_user(email: str, password: str, organisation: str) -> bool:
 def create_organisation(name: str) -> bool:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute("""insert into organisations values ('{name}',NULL,0)""".format(
+    c.execute("""insert into organisations values ('{name}','{"generalOptions": {"customerPlan": "free"}}',0)""".format(
         name=name))
     conn.commit()
     return True
@@ -217,8 +217,11 @@ def update_password_user(email, password):
 def update_plan(organisation, newPlan):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute("    update organisations set config=json_set(config, '$.generalOptions.customerPlan', '{newPlan}')   where name='{organisation}'".format(
+    c.execute("update organisations set config=json_set(config, '$.generalOptions.customerPlan', '{newPlan}')   where name='{organisation}'".format(
         newPlan=newPlan, organisation=organisation))
     conn.commit()
     return True
+
+
 # ajouter thumbprint du wallet à data du user
+update_plan("France", "paid")
