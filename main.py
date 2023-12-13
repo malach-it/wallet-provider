@@ -181,7 +181,7 @@ def set_config():
         "profileName"]
     wallet_provier_configuration["generalOptions"]["profileVersion"] = request.form.to_dict()[
         "profileVersion"]
-    wallet_provier_configuration["generalOptions"]["companyName"] = db.read_plan(
+    wallet_provier_configuration["generalOptions"]["customerPlan"] = db.read_plan(
         session["organisation"])
     if request.form.to_dict().get("displayProfile"):
         wallet_provier_configuration["settingsMenu"]["displayProfile"] = True
