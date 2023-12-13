@@ -145,6 +145,7 @@ def read_organisation(email: str) -> str:
         return None
     return rows[0][0]
 
+
 def read_organisation_user(email: str) -> str:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
@@ -183,7 +184,8 @@ def delete_user(email: str, organisation: str) -> bool:
     conn.commit()
     return True
 
-def delete_organisation(organisation : str) -> bool:
+
+def delete_organisation(organisation: str) -> bool:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute("delete from organisations   where name='{organisation}'".format(
@@ -193,7 +195,8 @@ def delete_organisation(organisation : str) -> bool:
     conn.commit()
     return True
 
-def update_password_admin(email,password):
+
+def update_password_admin(email, password):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute("update admins set data = json_set(data,'$.password','{password}')   where email='{email}'".format(
@@ -201,11 +204,21 @@ def update_password_admin(email,password):
     conn.commit()
     return True
 
-def update_password_user(email,password):
+
+def update_password_user(email, password):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute("update users set data = json_set(data,'$.password','{password}')   where email='{email}'".format(
         email=email, password=password))
+    conn.commit()
+    return True
+
+
+def update_plan(organisation, newPlan):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("    update organisations set config=json_set(config, '$.generalOptions.customerPlan', '{newPlan}')   where name='{organisation}'".format(
+        newPlan=newPlan, organisation=organisation))
     conn.commit()
     return True
 # ajouter thumbprint du wallet à data du user

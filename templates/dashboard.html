@@ -96,7 +96,7 @@
         <a class="buttonAltme" id="modifyConfiguration" href="/setup">START TO CUSTOMIZE YOUR WALLET</a>
       </div>
 
-      <div id="line3Dashboard">
+      <div id="line3Dashboard" class="{{customer_plan}}">
         <p class="title">Add a new user</p>
         <div id="userAdder">
           <input placeholder="First name" type="text" class="inputDashboard" name="first_name">
@@ -113,8 +113,8 @@
             <th>First name</th>
             <th>Last name</th>
             <th>Email</th>
-            <th></th>
-            <th></th>
+            <th class="{{customer_plan}}"></th>
+            <th ></th>
           </tr>
 
           {% for row in rows %}
@@ -122,7 +122,7 @@
             <td>John</td>
             <td>Doe</td>
             <td>{{row[0]}}</td>
-            <td><button class="buttonTable" onclick="deleteUser('{{row[0]}}')">Delete user</button></td>
+            <td class="{{customer_plan}}"><button class="buttonTable" onclick="deleteUser('{{row[0]}}')">Delete user</button></td>
             <td><button class="buttonTable" onclick="sendNewPassword('{{row[0]}}')">Regenerate password</button></td>
           </tr>
 

@@ -99,6 +99,8 @@ def init_app(app, red):
                      view_func=update_password_admin, methods=['POST'])
     app.add_url_rule('/update_password_user',
                      view_func=update_password_user, methods=['POST'])
+    app.add_url_rule('/change_plan',
+                     view_func=change_plan, methods=['POST'])
     return
 
 
@@ -158,6 +160,8 @@ def allowed_file(filename):
 
 
 def set_config():
+    if not session.get("organisation"):
+        return "Unauthorized", 401
     utc_now = datetime.now(timezone.utc)
     utc_date = utc_now.strftime('%Y-%m-%d')
     wallet_provier_configuration = json.load(
@@ -171,11 +175,14 @@ def set_config():
     wallet_provier_configuration["generalOptions"]["tagLine"] = request.form.to_dict()[
         "tagLine"]
     wallet_provier_configuration["generalOptions"]["published"] = utc_date
-    wallet_provier_configuration["generalOptions"]["profileId"] = "urn:uuid:"+str(uuid.uuid4())
+    wallet_provier_configuration["generalOptions"]["profileId"] = "urn:uuid:"+str(
+        uuid.uuid4())
     wallet_provier_configuration["generalOptions"]["profileName"] = request.form.to_dict()[
         "profileName"]
     wallet_provier_configuration["generalOptions"]["profileVersion"] = request.form.to_dict()[
         "profileVersion"]
+    wallet_provier_configuration["generalOptions"]["companyName"] = db.read_plan(
+        session["organisation"])
     if request.form.to_dict().get("displayProfile"):
         wallet_provier_configuration["settingsMenu"]["displayProfile"] = True
     else:
@@ -249,7 +256,7 @@ def set_config():
         wallet_provier_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = True
     else:
         wallet_provier_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = False
-    
+
     if request.form.to_dict().get("displayVerifiableDataRegistry"):
         wallet_provier_configuration["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"] = True
     else:
@@ -263,9 +270,11 @@ def set_config():
     else:
         wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"] = False
     if request.form.to_dict().get("credentialManifestSupport"):
-        wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["credentialManifestSupport"] = True
+        wallet_provier_configuration["selfSovereignIdentityOptions"][
+            "customOidc4vcProfile"]["credentialManifestSupport"] = True
     else:
-        wallet_provier_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["credentialManifestSupport"] = False
+        wallet_provier_configuration["selfSovereignIdentityOptions"][
+            "customOidc4vcProfile"]["credentialManifestSupport"] = False
     if request.form.to_dict().get("displayChatSupport"):
         wallet_provier_configuration["helpCenterOptions"]["displayChatSupport"] = True
     else:
@@ -323,8 +332,9 @@ def dashboard():
         return "Unauthorized", 401
     if db.read_configured(session.get("organisation")) == 0:
         return redirect("/setup")
+    plan = db.read_plan(session.get("organisation"))
     users = db.read_users(session.get("organisation"))
-    return render_template("dashboard.html", organisation=session.get("organisation"), rows=users)
+    return render_template("dashboard.html", organisation=session.get("organisation"), rows=users, customer_plan=plan)
 
 
 def dashboard_talao():
@@ -335,6 +345,8 @@ def dashboard_talao():
 
 
 def add_user():
+    if not session.get("organisation"):
+        return "Unauthorized", 401
     email = request.get_json().get("email")
     organisation = session["organisation"]
     password = generate_random_string(6)
@@ -346,6 +358,8 @@ def add_user():
 
 
 def add_organisation():
+    if session.get("organisation") != "Talao":
+        return "Unauthorized", 401
     organisation = request.get_json().get("organisation")
     email = request.get_json().get("emailAdmin")
     first_name = request.get_json().get("firstNameAdmin")
@@ -376,6 +390,15 @@ def logout():
     user_session = UserSession(flask.session)
     user_session.clear()
     session.clear()
+    return ("ok")
+
+
+def change_plan():
+    if session.get("organisation") != "Talao":
+        return "Unauthorized", 401
+    organisation = request.get_json().get("organisation")
+    newPlan = request.get_json().get("newPlan")
+    db.update_plan(organisation, newPlan)
     return ("ok")
 
 

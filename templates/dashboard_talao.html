@@ -36,12 +36,29 @@
             <td><button onclick="sendNewPassword('{{row[0]}}')">send a new password</button></td>
 
             <td><button onclick="deleteOrga('{{row[1]}}')">delete</button></td>
+            <td>
+                <div class="planChanger{{row[1]}}">
+                    <select id="newPlan{{row[1]}}">
+                        <option value="free">Free</option>
+                        <option value="paid">Paid</option>
+                    </select>
+                    <button onclick="changePlan('{{row[1]}}',document.getElementById('newPlan{{row[1]}}').value)">Change
+                        plan</button>
+                </div>
 
+            </td>
         </tr>
         {% endfor %}
     </table>
     <script>
 
+        {% for row in table %}
+        document.getElementById("newPlan{{row[1]}}").value = "{{row[5]}}";
+        {% endfor %}
+        var elements = document.querySelectorAll('.planChangerTalao');
+        elements.forEach(function (element) {
+            element.remove();
+        });
         function logout() {
             fetch('/logout', {
                 method: 'POST',
@@ -79,10 +96,24 @@
                 },
                 body: JSON.stringify({
                     organisation: organisation
-                    
+
                 })
             })
-                .then(response => {console.log(response.status);window.location.reload()})
+                .then(response => { console.log(response.status); window.location.reload() })
+                .catch(error => console.error('Error:', error));
+        }
+        function changePlan(organisation, newPlan) {
+            fetch('/change_plan', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    organisation: organisation,
+                    newPlan: newPlan
+                })
+            })
+                .then(response => console.log(response.status))
                 .catch(error => console.error('Error:', error));
         }
         function sendNewPassword(email) {
@@ -93,10 +124,10 @@
                 },
                 body: JSON.stringify({
                     email: email
-                    
+
                 })
             })
-                .then(response => {console.log(response.status);window.location.reload()})
+                .then(response => { console.log(response.status); window.location.reload() })
                 .catch(error => console.error('Error:', error));
         }
     </script>
