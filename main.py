@@ -347,6 +347,8 @@ def dashboard_talao():
 def add_user():
     if not session.get("organisation"):
         return "Unauthorized", 401
+    if db.read_plan(session.get("organisation")) == "free":
+        return "Unauthorized", 401
     email = request.get_json().get("email")
     organisation = session["organisation"]
     password = generate_random_string(6)
