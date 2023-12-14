@@ -171,6 +171,15 @@ def read_config(email: str) -> dict:
         return None
     return json.loads(rows[0][0])
 
+def read_config_from_organisation(organisation: str):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("select config from organisations where name='{organisation}'".format(
+        organisation=organisation))
+    rows = c.fetchall()
+    if len(rows) < 1 or rows[0][0] == None:
+        return None
+    return json.loads(rows[0][0])
 
 def read_tables():
     conn = sqlite3.connect('db.sqlite')

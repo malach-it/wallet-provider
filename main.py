@@ -155,10 +155,7 @@ def setup():
     if db.read_configured(organisation) == 0:
         config = json.load(open('./wallet-provider-configuration.json', 'r'))
     else:
-        logging.info(session.get("email"))
-        logging.info(db.read_config(session.get("email")))
-        config = db.read_config(session.get("email"))
-
+        config = db.read_config_from_organisation(session.get("organisation"))
     return render_template("setup.html", config=config)
 
 
