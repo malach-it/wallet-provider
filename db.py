@@ -204,6 +204,8 @@ def delete_organisation(organisation: str) -> bool:
         organisation=organisation))
     c.execute("delete from  admins where  json_extract(data,'$.organisation')='{organisation}'".format(
         organisation=organisation))
+    c.execute("delete from  users where  json_extract(data,'$.organisation')='{organisation}'".format(
+        organisation=organisation))
     conn.commit()
     return True
 
