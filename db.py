@@ -78,6 +78,7 @@ def update_config(config: str, organisation: str) -> bool:
     conn = sqlite3.connect('db.sqlite')
     logging.info("trying to update %s config",organisation)
     c = conn.cursor()
+    print("AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAa")
     c.execute("update organisations set configured=1 , config=('{config}') where name='{organisation}'".format(
         config=config, organisation=organisation))
     conn.commit()
