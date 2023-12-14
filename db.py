@@ -163,6 +163,8 @@ def read_organisation_user(email: str) -> str:
 def read_config(email: str) -> dict:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
+    print("select config from organisations,users where name=json_extract(data,'$.organisation') and email='{email}'".format(
+        email=email))
     c.execute("select config from organisations,users where name=json_extract(data,'$.organisation') and email='{email}'".format(
         email=email))
     rows = c.fetchall()
