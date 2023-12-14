@@ -194,23 +194,7 @@
                         <p>Display help center in settings</p>
                         <input checked type="checkbox" name="displayHelpCenter" id="displayHelpCenter">
                     </div>
-                    <!--
-                <div class="optionDiv">
-                    <p>Developer mode</p>
-                    <input type="checkbox" name="developerMode">
-                </div>
-                <div class="optionDiv">
-                    <p>Help center</p>
-                    <input checked type="checkbox" name="helpCenter">
-                </div>
-                <div class="optionDiv">
-                    <p>About</p>
-                    <input checked type="checkbox" name="about">
-                </div>
-                <div class="optionDiv">
-                    <p>Reset wallet</p>
-                    <input checked type="checkbox" name="resetWallet">
-                </div>-->
+
 
                     <p class="title">Wallet security options</p>
                     <div class="optionDiv">
@@ -323,8 +307,9 @@
                         <p>OIDC4VC profile</p>
                         <select id="oidv4vcProfile" name="oidv4vcProfile">
                             <option onclick="switchProfile()" value="ebsi">EBSI-V3</option>
-                            <!--<option onclick="switchProfile()" value="diip">DIIP</option>-->
+                            <option onclick="switchProfile()" value="diip">DIIP</option>
                             <option onclick="switchProfile()" value="custom">Custom</option>
+
                         </select>
                     </div>
                     <div id="customProfileDiv" class="displayNone">
@@ -336,8 +321,9 @@
                     </div>-->
                         <div class="optionDiv">
                             <p>Security level </p>
-                            <p>LOW</p><input type="radio" id="low" name="securityLevel" value="low" checked>
-                            <p>HIGH</p><input type="radio" id="high" name="securityLevel" value="high">
+                            <p>Permissive</p><input type="radio" id="permissive" name="securityLevel" value="permissive"
+                                checked>
+                            <p>Strict</p><input type="radio" id="strict" name="securityLevel" value="strict">
                         </div>
                         <div class="optionDiv">
                             <p>Credential manifest support</p>
@@ -374,6 +360,7 @@
                             <input type="radio" id="urn:ietf:params:oauth:jwk-thumbprint" name="subjectSyntaxeType"
                                 value="urn:ietf:params:oauth:jwk-thumbprint">
                         </div>
+                        <!--
                         <div class="optionDiv">
                             <p>Cryptogtraphic Holder binding (bearer credentials else)</p>
                             <input name="cryptoHolderBinding" type="checkbox" checked>
@@ -382,6 +369,7 @@
                             <p>Scope parameters</p>
                             <input name="scope" type="checkbox" id="scope">
                         </div>
+                        -->
                         <div class="optionDiv">
                             <p>Client authentication</p>
                             <p>None</p><input onClick="switchClientAuth()" type="radio" id="public"
@@ -431,6 +419,7 @@
                         <input id="displayChatSupport" name="displayChatSupport" type="checkbox" checked>
 
                     </div>
+                    <!--
                     <div class="optionDiv">
                         <p>Customize chat </p>
                         <input id="customChatSupport" name="customChatSupport" type="checkbox" checked>
@@ -441,6 +430,7 @@
                         <input id="customChatSupportName" name="customChatSupportName" type="text">
 
                     </div>
+                    -->
                     <div class="optionDiv">
                         <p>Display email support in menu</p>
                         <input id="displayEmailSupport" name="displayEmailSupport" type="checkbox" checked>
@@ -497,51 +487,47 @@
     </div>
     <script>
         document.getElementById('buttonMenu').addEventListener('click', () => {
-            //console.log(document.getElementById('buttonMenu').getAttribute("class"))
             if (document.getElementById('imageButtonMenu').getAttribute("class") === "imgButtonMenuInactive") {
-        /*document.documentElement.setAttribute("class", "noScroll");
-        document.getElementById('bigBox').setAttribute("class", "toHide");
-        document.getElementById('superFaq').setAttribute("class", "toHide");
-        document.getElementById('footer').setAttribute("class", "toHide");
-
-        document.getElementById('menuDiv').setAttribute("class", "menuActive");
-        document.getElementById('generalQuestions').setAttribute("class", "inactiveQuestions");
-        document.getElementById('securityQuestions').setAttribute("class", "inactiveQuestions");
-        document.getElementById('SSIQuestions').setAttribute("class", "inactiveQuestions");
-*/      document.getElementById('menuDiv').setAttribute("class", "flex");
+                document.getElementById('menuDiv').setAttribute("class", "flex");
                 document.body.style.overflow = 'hidden';
-
                 document.getElementById('imageButtonMenu').setAttribute("class", "imgButtonMenuActive");
                 document.getElementById('imageButtonMenu').setAttribute("src", "/static/img/crossMenu.png")
             }
             else if (document.getElementById('imageButtonMenu').getAttribute("class") === "imgButtonMenuActive") {
-        /*document.documentElement.setAttribute("class", "");
-        document.getElementById('bigBox').setAttribute("class", "");
-        document.getElementById('superFaq').setAttribute("class", "");
-        document.getElementById('footer').setAttribute("class", "");
-        document.getElementById('menuDiv').setAttribute("class", "nav-02__list_wrapper");
-        document.getElementById('generalQuestions').setAttribute("class", "activeQuestions");
-        document.getElementById('securityQuestions').setAttribute("class", "inactiveQuestions");
-        document.getElementById('SSIQuestions').setAttribute("class", "inactiveQuestions");
-*/     document.getElementById('menuDiv').setAttribute("class", "");
+                document.getElementById('menuDiv').setAttribute("class", "");
                 document.body.style.overflow = '';
-
                 document.getElementById('imageButtonMenu').setAttribute("class", "imgButtonMenuInactive");
                 document.getElementById('imageButtonMenu').setAttribute("src", "/static/img/div.png")
-
             }
         })
     </script>
     <script>
-        document.getElementById("oidv4vcProfile").value = "custom"
+        document.getElementById("{{config["generalOptions"]["walletType"]}}").checked = true
+        document.getElementById("profileName").value = "{{config["generalOptions"]["profileName"]}}"
+        document.getElementById("profileVersion").value = "{{config["generalOptions"]["profileVersion"]}}"
+        document.getElementById("companyName").value = "{{config["generalOptions"]["companyName"]}}"
+        document.getElementById("companyWebsite").value = "{{config["generalOptions"]["companyWebsite"]}}"
+        document.getElementById("tagLine").value = "{{config["generalOptions"]["tagLine"]}}"
+
+        document.getElementById("displayProfile").checked = "{{config["settingsMenu"]["displayProfile"]}}" === "True" ? true : false
+        document.getElementById("displayDeveloperMode").checked = "{{config["settingsMenu"]["displayDeveloperMode"]}}" === "True" ? true : false
+        document.getElementById("displayHelpCenter").checked = "{{config["settingsMenu"]["displayHelpCenter"]}}" === "True" ? true : false
+
+        document.getElementById("displaySecurityAdvancedSettings").checked = "{{config["walletSecurityOptions"]["displaySecurityAdvancedSettings"]}}" === "True" ? true : false
+        document.getElementById("verifySecurityIssuerWebsiteIdentity").checked = "{{config["walletSecurityOptions"]["verifySecurityIssuerWebsiteIdentity"]}}" === "True" ? true : false
+        document.getElementById("confirmSecurityVerifierAccess").checked = "{{config["walletSecurityOptions"]["confirmSecurityVerifierAccess"]}}" === "True" ? true : false
+        document.getElementById("secureSecurityAuthenticationWithPinCode").checked = "{{config["walletSecurityOptions"]["secureSecurityAuthenticationWithPinCode"]}}" === "True" ? true : false
+
+        document.getElementById("displayManageDecentralizedId").checked = "{{config["selfSovereignIdentityOptions"]["displayManageDecentralizedId"]}}" === "True" ? true : false
+        document.getElementById("displaySsiAdvancedSettings").checked = "{{config["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"]}}" === "True" ? true : false
+        document.getElementById("displayVerifiableDataRegistry").checked = "{{config["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"]}}" === "True" ? true : false
+        document.getElementById("oidv4vcProfile").value = "{{config["selfSovereignIdentityOptions"]["oidv4vcProfile"]}}"
+
+
         document.getElementById("defaultDid").value = "did:key:p-256"
-        document.getElementById("displayProfile").checked = true
-        document.getElementById("displayDeveloperMode").checked = true
-        document.getElementById("displayHelpCenter").checked = true
-        document.getElementById("displaySecurityAdvancedSettings").checked = true
-        document.getElementById("verifySecurityIssuerWebsiteIdentity").checked = false
-        document.getElementById("confirmSecurityVerifierAccess").checked = false
-        document.getElementById("secureSecurityAuthenticationWithPinCode").checked = true
+
+
+
         document.getElementById("tezosSupport").checked = true
         document.getElementById("ethereumSupport").checked = true
         document.getElementById("hederaSupport").checked = true
@@ -550,12 +536,7 @@
         document.getElementById("polygonSupport").checked = true
         document.getElementById("tzproRpcNode").checked = false
         document.getElementById("infuraRpcNode").checked = false
-        document.getElementById("displayManageDecentralizedId").checked = true
-        document.getElementById("displaySsiAdvancedSettings").checked = true
-        document.getElementById("displayVerifiableDataRegistry").checked = true
-        document.getElementById("oidv4vcProfile").value = "custom"
-        document.getElementById("altme").checked = true
-        document.getElementById("talao").checked = false
+
         /*document.getElementById("ldp_vc").checked = false
         document.getElementById("jwt_vc_json-ld").checked = true*/
         document.getElementById("low").checked = true
@@ -578,7 +559,6 @@
         document.getElementById("customChatSupport").checked = false
         document.getElementById("displayEmailSupport").checked = true
         document.getElementById("customEmailSupport").checked = false
-
         switchProfile()
 
         function goStep1() {

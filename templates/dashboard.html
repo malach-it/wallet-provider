@@ -99,9 +99,9 @@
       <div id="line3Dashboard" class="{{customer_plan}}">
         <p class="title">Add a new user</p>
         <div id="userAdder">
-          <input placeholder="First name" type="text" class="inputDashboard" name="first_name">
-          <input placeholder="Last name" type="text" class="inputDashboard" name="last_name">
-          <input placeholder="email" type="text" class="inputDashboard" name="email" id="emailAdd">
+          <input placeholder="First name" type="text" class="inputDashboard" id="firstName">
+          <input placeholder="Last name" type="text" class="inputDashboard" id="lastName">
+          <input placeholder="email" type="text" class="inputDashboard" id="emailAdd">
 
           <button class="buttonAltme" onclick="addUser()">Add user</button>
         </div>
@@ -114,15 +114,16 @@
             <th>Last name</th>
             <th>Email</th>
             <th class="{{customer_plan}}"></th>
-            <th ></th>
+            <th></th>
           </tr>
 
           {% for row in rows %}
           <tr>
-            <td>John</td>
-            <td>Doe</td>
+            <td>{{row[1]}}</td>
+            <td>{{row[2]}}</td>
             <td>{{row[0]}}</td>
-            <td class="{{customer_plan}}"><button class="buttonTable" onclick="deleteUser('{{row[0]}}')">Delete user</button></td>
+            <td class="{{customer_plan}}"><button class="buttonTable" onclick="deleteUser('{{row[0]}}')">Delete
+                user</button></td>
             <td><button class="buttonTable" onclick="sendNewPassword('{{row[0]}}')">Regenerate password</button></td>
           </tr>
 
@@ -139,7 +140,11 @@
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({ email: document.getElementById("emailAdd").value })
+          body: JSON.stringify({
+            firstName: document.getElementById("firstName").value,
+            lastName: document.getElementById("lastName").value,
+            email: document.getElementById("emailAdd").value
+          })
         })
           .then(response => { console.log(response.status); window.location.reload() })
           .catch(error => console.error('Error:', error));
