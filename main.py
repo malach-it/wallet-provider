@@ -333,6 +333,7 @@ def set_config():
         filename = session["organisation"] + \
             "."+file.filename.rsplit('.', 1)[1].lower()
         file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+    logging.info("will update to "+json.dumps(wallet_provider_configuration))
     db.update_config(json.dumps(wallet_provider_configuration),
                      session["organisation"])
     return redirect("/dashboard")
