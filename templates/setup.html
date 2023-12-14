@@ -327,7 +327,8 @@
                         </div>
                         <div class="optionDiv">
                             <p>Credential manifest support</p>
-                            <input name="credentialManifestSupport" type="checkbox" checked>
+                            <input name="credentialManifestSupport" id="credentialManifestSupport" type="checkbox"
+                                checked>
                         </div>
                         <div class="optionDiv">
                             <p>User pin digits</p>
@@ -370,6 +371,7 @@
                             <input name="scope" type="checkbox" id="scope">
                         </div>
                         -->
+                        <!--
                         <div class="optionDiv">
                             <p>Client authentication</p>
                             <p>None</p><input onClick="switchClientAuth()" type="radio" id="public"
@@ -380,11 +382,14 @@
                                 <input type="text" placeholder="client_id" name="client_id" id="client_id">
                                 <input placeholder="client_secret" type="text" name="client_secret" id="client_secret">
                             </div>
-                        </div>
+                        </div>-->
                         <div class="optionDiv">
                             <p>Standard oidc4vciDraft version</p>
-                            <p>10</p><input type="radio" name="oidc4vciDraft" value="10" id="tenvci">
+                            <p>8</p><input type="radio" name="oidc4vciDraft" value="8" id="eightvci">
                             <p>11</p><input type="radio" name="oidc4vciDraft" value="11" id="elevenvci">
+                            <p>12</p><input type="radio" name="oidc4vciDraft" value="12" id="twelvevci">
+                            <p>13</p><input type="radio" name="oidc4vciDraft" value="13" id="thirteenvci">
+
                             <!--<p>13</p><input type="radio" name="oidc4vciDraft" value="13">-->
                         </div>
                         <div class="optionDiv">
@@ -438,10 +443,10 @@
                     </div>
                     <div class="optionDiv">
                         <p>Custom support email</p>
-                        <input id="customEmailSupport" name="customEmailSupport" type="checkbox">
+                        <input id="customEmailSupport" name="customEmailSupport" type="checkbox" onclick="switchSupportEmail()">
 
                     </div>
-                    <div class="optionDiv">
+                    <div class="displayNone" id="customEmailDiv">
                         <p>Custom email</p>
                         <input id="customEmail" name="customEmail" type="text">
 
@@ -523,44 +528,34 @@
         document.getElementById("displayVerifiableDataRegistry").checked = "{{config["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"]}}" === "True" ? true : false
         document.getElementById("oidv4vcProfile").value = "{{config["selfSovereignIdentityOptions"]["oidv4vcProfile"]}}"
 
+        document.getElementById("{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"]}}").checked = true
+        let userPinDigits = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["userPinDigits"]}}"
+        userPinDigits = userPinDigits === "4" ? "four" : userPinDigits === "6" ? "six" : null
+        document.getElementById(userPinDigits).checked = true
+        document.getElementById("credentialManifestSupport").checked = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["credentialManifestSupport"]}}" === "True" ? true : false
+        document.getElementById("defaultDid").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["defaultDid"]}}"
+        document.getElementById("{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["subjectSyntaxeType"]}}").checked = true
 
-        document.getElementById("defaultDid").value = "did:key:p-256"
+        let oidc4vciDraft = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["oidc4vciDraft"]}}"
+        oidc4vciDraft = oidc4vciDraft === "8" ? "eightvci" : oidc4vciDraft === "11" ? "elevenvci" : oidc4vciDraft === "12" ? "twelvevci" : oidc4vciDraft === "13" ? "thirteenvci" :null
+        document.getElementById(oidc4vciDraft).checked = true
+
+        let oidc4vpDraft = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["oidc4vpDraft"]}}"
+        oidc4vpDraft = oidc4vpDraft === "10" ? "tenvp" : oidc4vpDraft === "18" ? "eighteenvp"  : oidc4vpDraft === "13" ? "thirteenvp" :null
+        document.getElementById(oidc4vpDraft).checked = true
+
+        let siopv2Draft = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["siopv2Draft"]}}"
+        siopv2Draft = siopv2Draft === "12" ? "twelvesiop"  :null
+        document.getElementById(siopv2Draft).checked = true
+
+        document.getElementById("displayChatSupport").checked = "{{config["helpCenterOptions"]["displayChatSupport"]}}" === "True" ? true : false
+        document.getElementById("displayEmailSupport").checked = "{{config["helpCenterOptions"]["displayEmailSupport"]}}" === "True" ? true : false
+        document.getElementById("customEmailSupport").checked = "{{config["helpCenterOptions"]["customEmailSupport"]}}" === "True" ? true : false
+        document.getElementById("customEmail").value = "{{config["helpCenterOptions"]["customEmail"]}}"
 
 
-
-        document.getElementById("tezosSupport").checked = true
-        document.getElementById("ethereumSupport").checked = true
-        document.getElementById("hederaSupport").checked = true
-        document.getElementById("bnbSupport").checked = true
-        document.getElementById("fantomSupport").checked = true
-        document.getElementById("polygonSupport").checked = true
-        document.getElementById("tzproRpcNode").checked = false
-        document.getElementById("infuraRpcNode").checked = false
-
-        /*document.getElementById("ldp_vc").checked = false
-        document.getElementById("jwt_vc_json-ld").checked = true*/
-        document.getElementById("low").checked = true
-        document.getElementById("high").checked = false
-        document.getElementById("four").checked = false
-        document.getElementById("six").checked = true
-        document.getElementById("did").checked = true
-        document.getElementById("urn:ietf:params:oauth:jwk-thumbprint").checked = false
-        document.getElementById("scope").checked = false
-        document.getElementById("public").checked = true
-        document.getElementById("basic").checked = false
-        document.getElementById("tenvci").checked = false
-        document.getElementById("elevenvci").checked = true
-        document.getElementById("tenvp").checked = false
-        document.getElementById("thirteenvp").checked = false
-        document.getElementById("eighteenvp").checked = true
-        //document.getElementById("sevensiop").checked = false
-        document.getElementById("twelvesiop").checked = true
-        document.getElementById("displayChatSupport").checked = true
-        document.getElementById("customChatSupport").checked = false
-        document.getElementById("displayEmailSupport").checked = true
-        document.getElementById("customEmailSupport").checked = false
         switchProfile()
-
+        switchSupportEmail()
         function goStep1() {
             document.getElementById("step2Div").setAttribute("class", "displayNone")
             document.getElementById("step1Div").setAttribute("class", "stepDiv")
@@ -639,6 +634,14 @@
                 document.getElementById("basicAuthDiv").setAttribute("class", "")
             } else {
                 document.getElementById("basicAuthDiv").setAttribute("class", "displayNone")
+
+            }
+        }
+        function switchSupportEmail() {
+            if (document.getElementById("customEmailSupport").checked === true) {
+                document.getElementById("customEmailDiv").setAttribute("class", "optionDiv")
+            } else {
+                document.getElementById("customEmailDiv").setAttribute("class", "displayNone")
 
             }
         }

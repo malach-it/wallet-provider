@@ -19,6 +19,8 @@ import wallet_provider
 import time
 import uuid
 from datetime import datetime
+import base64
+
 
 logging.basicConfig(level=logging.INFO)
 myenv = os.getenv('MYENV')
@@ -177,10 +179,11 @@ def set_config():
         "companyWebsite"]
     wallet_provider_configuration["generalOptions"]["tagLine"] = request.form.to_dict()[
         "tagLine"]
-    wallet_provider_configuration["generalOptions"]["published"] = datetime.today().strftime('%Y-%m-%d')
-    #time.time()
-    wallet_provider_configuration["generalOptions"]["profileId"] = "urn:uuid:"+str(
-        uuid.uuid4())
+    wallet_provider_configuration["generalOptions"]["published"] = datetime.today(
+    ).strftime('%Y-%m-%d')
+    # time.time()
+    profileId = base64.b64encode(str(uuid.uuid1()).encode()).decode().replace("=", "")[:10]
+    wallet_provider_configuration["generalOptions"]["profileId"] = profileId
     wallet_provider_configuration["generalOptions"]["profileName"] = request.form.to_dict()[
         "profileName"]
     wallet_provider_configuration["generalOptions"]["profileVersion"] = request.form.to_dict()[
@@ -307,20 +310,20 @@ def set_config():
         "defaultDid"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["subjectSyntaxeType"] = request.form.to_dict()[
         "subjectSyntaxeType"]
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["clientAuthentication"] = request.form.to_dict()[
+    """wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["clientAuthentication"] = request.form.to_dict()[
         "clientAuthentication"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_id"] = request.form.to_dict()[
         "client_id"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_secret"] = request.form.to_dict()[
-        "client_secret"]
+        "client_secret"]"""
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["oidc4vciDraft"] = request.form.to_dict()[
         "oidc4vciDraft"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["oidc4vpDraft"] = request.form.to_dict()[
         "oidc4vpDraft"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["siopv2Draft"] = request.form.to_dict()[
         "siopv2Draft"]
-    wallet_provider_configuration["helpCenterOptions"]["customChatSupportName"] = request.form.to_dict()[
-        "customChatSupportName"]
+    """wallet_provider_configuration["helpCenterOptions"]["customChatSupportName"] = request.form.to_dict()[
+        "customChatSupportName"]"""
     wallet_provider_configuration["helpCenterOptions"]["customEmail"] = request.form.to_dict()[
         "customEmail"]
     file = request.files.get('file')
