@@ -300,8 +300,6 @@ def set_config():
         wallet_provider_configuration["helpCenterOptions"]["customEmailSupport"] = True
     else:
         wallet_provider_configuration["helpCenterOptions"]["customEmailSupport"] = False
-    print(request.form.to_dict()[
-        "oidv4vcProfile"])
     wallet_provider_configuration["selfSovereignIdentityOptions"]["oidv4vcProfile"] = request.form.to_dict()[
         "oidv4vcProfile"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"] = request.form.to_dict()[

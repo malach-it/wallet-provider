@@ -170,7 +170,7 @@ def read_config(email: str) -> dict:
         return None
     logging.info(type(rows[0][0]))
     logging.info(rows[0][0])
-    
+
     return json.loads(rows[0][0])
 
 
