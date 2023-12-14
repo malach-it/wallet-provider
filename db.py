@@ -2,6 +2,7 @@ import sqlite3
 from hashlib import sha256
 import logging
 import json
+logging.basicConfig(level=logging.INFO)
 
 
 conn = sqlite3.connect('db.sqlite')
