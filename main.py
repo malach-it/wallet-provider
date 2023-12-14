@@ -123,8 +123,8 @@ def error_500(e):
 @auth.oidc_auth('default')
 def login():
     user_session = UserSession(flask.session)
-    logging.info(user_session.userinfo["vp_token_payload"]
-                 ["verifiableCredential"]["credentialSubject"]["email"])
+    #logging.info(user_session.userinfo["vp_token_payload"]
+    #             ["verifiableCredential"]["credentialSubject"]["email"])
     session["email"] = user_session.userinfo["vp_token_payload"]["verifiableCredential"]["credentialSubject"]["email"]
     # session["email"] = "achille@talao.io"
     return (render_template("login.html", email=session.get("email")))
