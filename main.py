@@ -123,7 +123,7 @@ def error_500(e):
 @auth.oidc_auth('default')
 def login():
     user_session = UserSession(flask.session)
-    #logging.info(user_session.userinfo["vp_token_payload"]
+    # logging.info(user_session.userinfo["vp_token_payload"]
     #             ["verifiableCredential"]["credentialSubject"]["email"])
     session["email"] = user_session.userinfo["vp_token_payload"]["verifiableCredential"]["credentialSubject"]["email"]
     # session["email"] = "achille@talao.io"
@@ -181,7 +181,8 @@ def set_config():
     wallet_provider_configuration["generalOptions"]["published"] = datetime.today(
     ).strftime('%Y-%m-%d')
     # time.time()
-    profileId = base64.b64encode(str(uuid.uuid1()).encode()).decode().replace("=", "")[:10]
+    profileId = base64.b64encode(
+        str(uuid.uuid1()).encode()).decode().replace("=", "")[:10]
     wallet_provider_configuration["generalOptions"]["profileId"] = profileId
     wallet_provider_configuration["generalOptions"]["profileName"] = request.form.to_dict()[
         "profileName"]
@@ -382,7 +383,8 @@ def add_organisation():
     message.messageHTML("Your altme password", email,
                         'code_auth_en', {'code': str(password)})
     db.create_organisation(organisation)
-    db.create_admin(email, sha256_hash, organisation)
+    db.create_admin(email, sha256_hash, organisation, first_name, last_name)
+    db.create_user(email, sha256_hash, organisation, first_name, last_name)
     return ("ok")
 
 

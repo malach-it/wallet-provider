@@ -45,10 +45,11 @@ def verify_password_user(email: str, password: str) -> bool:
     return True
 
 
-def create_admin(email: str, password: str, organisation: str) -> bool:
+def create_admin(email: str, password: str, organisation: str, first_name: str, last_name: str) -> bool:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    data = '{"password": "'+password+'", "organisation": "'+organisation+'"}'
+    data = '{"password": "'+password+'", "organisation": "'+organisation + \
+        '","first_name":"'+first_name+'","last_name":"'+last_name+'"}'    
     c.execute("""insert into admins values ('{email}','{data}')""".format(
         email=email, data=data))
     conn.commit()
