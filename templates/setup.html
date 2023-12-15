@@ -536,8 +536,12 @@
         document.getElementById("displaySsiAdvancedSettings").checked = "{{config["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"]}}" === "True" ? true : false
         document.getElementById("displayVerifiableDataRegistry").checked = "{{config["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"]}}" === "True" ? true : false
         document.getElementById("oidv4vcProfile").value = "{{config["selfSovereignIdentityOptions"]["oidv4vcProfile"]}}"
-
-        document.getElementById("{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"]}}").checked = true
+        if ("{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"]}}" === "True") {
+            document.getElementById("strict").checked = true
+        }
+        else {
+            document.getElementById("permissive").checked = true
+        }
         let userPinDigits = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["userPinDigits"]}}"
         userPinDigits = userPinDigits === "4" ? "four" : userPinDigits === "6" ? "six" : null
         document.getElementById(userPinDigits).checked = true
