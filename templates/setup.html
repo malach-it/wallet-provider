@@ -136,10 +136,16 @@
                             <p class="optionDivMainTitle">1.1 Choose wallet type</p>
                             <p class="optionDivSecondTitle">The wallet to be configured.</p>
                             <div class="optionsDivRow">
-                                <p class="optionLabel">Altme</p><input type="radio" id="altme" name="walletType"
-                                    value="altme" checked>
-                                <p class="optionLabel">Talao</p><input type="radio" id="talao" name="walletType"
-                                    value="talao">
+                                <div class="labelAndButton">
+
+                                    <p class="optionLabel">Altme</p><input type="radio" id="altme" name="walletType"
+                                        value="altme" checked>
+                                </div>
+                                <div class="labelAndButton">
+
+                                    <p class="optionLabel">Talao</p><input type="radio" id="talao" name="walletType"
+                                        value="talao">
+                                </div>
                             </div>
 
                         </div>
@@ -148,14 +154,16 @@
                             <p class="optionDivSecondTitle">The name of the profile which will be displayed in the
                                 profile list</p>
 
-                            <input type="text" id="profileName" name="profileName">
+                            <input class="inputTextSetup" type="text" id="profileName" name="profileName"
+                                placeholder="Profile name">
                         </div>
                         <div class="optionDiv">
                             <p class="optionDivMainTitle">1.3 Insert Profile Version</p>
                             <p class="optionDivSecondTitle">The version of the profile which may be displayed in the
                                 wallet.</p>
 
-                            <input type="text" id="profileVersion" name="profileVersion">
+                            <input class="inputTextSetup" type="text" id="profileVersion" name="profileVersion"
+                                placeholder="Profile version">
                         </div>
                     </div>
                     <p class="customizeUnderTitle">Customize wallet branding</p>
@@ -165,13 +173,15 @@
                                 <p class="optionDivMainTitle">1.4 Insert organization name</p>
                                 <p class="optionDivSecondTitle">Enter your official company name. This name will be
                                     featured in the settings section of your customized wallet.</p>
-                                <input type="text" id="companyName" name="companyName">
+                                <input class="inputTextSetup" type="text" id="companyName" name="companyName"
+                                    placeholder="Company name">
                             </div>
                             <div class="optionDiv">
                                 <p class="optionDivMainTitle">1.5 Insert organisation website</p>
                                 <p class="optionDivSecondTitle">Please enter a title for your custom wallet loading
                                     screen. The title should not exceed 20 characters, including spaces.</p>
-                                <input type="text" id="companyWebsite" name="companyWebsite">
+                                <input class="inputTextSetup" type="text" id="companyWebsite" name="companyWebsite"
+                                    placeholder="Company website">
                             </div>
                         </div>
                         <div class="line1Setup">
@@ -179,7 +189,8 @@
                                 <p class="optionDivMainTitle">1.6 Insert wallet tagline</p>
                                 <p class="optionDivSecondTitle">Please enter a tagline for your custom wallet loading
                                     screen. The tagline should not exceed 60 characters, including spaces.</p>
-                                <input type="text" id="tagLine" name="tagLine">
+                                <input class="inputTextSetup" type="text" id="tagLine" name="tagLine"
+                                    placeholder="Tag line">
                             </div>
                             <div class="optionDiv">
                                 <p class="optionDivMainTitle">1.7 Insert your logo</p>
@@ -386,7 +397,7 @@
                             <p class="optionDivMainTitle">5.4 OIDC4VC Profile</p>
                             <p class="optionDivSecondTitle">Name of the official OIDC4VC profile used for teh wallet. If
                                 “custom” is chosen the profile is defined with custom parameters.</p>
-                            <select id="oidv4vcProfile" name="oidv4vcProfile">
+                            <select class="selectSetup" id="oidv4vcProfile" name="oidv4vcProfile">
                                 <option onclick="switchProfile()" value="ebsi">EBSI-V3</option>
                                 <option onclick="switchProfile()" value="diip">DIIP</option>
                                 <option onclick="switchProfile()" value="custom">Custom</option>
@@ -403,10 +414,16 @@
                                 <p class="optionDivSecondTitle">If Low, wallet does not check signature of jwt client
                                     request</p>
                                 <div class="optionsDivRow">
-                                    <p class="optionLabel">Permissive</p><input type="radio" id="permissive"
-                                        name="securityLevel" value="permissive" checked>
-                                    <p class="optionLabel">Strict</p><input type="radio" id="strict"
-                                        name="securityLevel" value="strict">
+                                    <div class="labelAndButton">
+
+                                        <p class="optionLabel">Permissive</p><input type="radio" id="permissive"
+                                            name="securityLevel" value="permissive" checked>
+                                    </div>
+                                    <div class="labelAndButton">
+
+                                        <p class="optionLabel">Strict</p><input type="radio" id="strict"
+                                            name="securityLevel" value="strict">
+                                    </div>
                                 </div>
 
                             </div>
@@ -424,17 +441,23 @@
                                 <p class="optionDivMainTitle">5.7 User PIN digits</p>
                                 <p class="optionDivSecondTitle">4 or 6 digits for pre authorized code flow PIN code.</p>
                                 <div class="optionsDivRow">
-                                    <p class="optionLabel">4</p><input type="radio" id="four" name="userPinDigits"
-                                        value="4" checked>
-                                    <p class="optionLabel">6</p><input type="radio" id="six" name="userPinDigits"
-                                        value="6">
+                                    <div class="labelAndButton">
+
+                                        <p class="optionLabel">4</p><input type="radio" id="four" name="userPinDigits"
+                                            value="4" checked>
+                                    </div>
+                                    <div class="labelAndButton">
+
+                                        <p class="optionLabel">6</p><input type="radio" id="six" name="userPinDigits"
+                                            value="6">
+                                    </div>
                                 </div>
 
                             </div>
                             <div class="optionDiv">
                                 <p class="optionDivMainTitle">5.8 Default Did Method</p>
                                 <p class="optionDivSecondTitle">DID of the wallet</p>
-                                <select id="defaultDid" name="defaultDid">
+                                <select class="selectSetup" id="defaultDid" name="defaultDid">
                                     <option value="did:key:ebsi">did:key:ebsi</option>
                                     <option value="did:jwk:p-256">did:jwk:p-256</option>
                                     <option value="did:key:secp256k1">did:key:secp256k1</option>
@@ -460,13 +483,18 @@
                                     valid value is urn:ietf:params:oauth:jwk-thumbprint. When the Subject Syntax Type is
                                     a Decentralized Identifier, valid values MUST be done</p>
                                 <div class="optionsDivRow">
+                                    <div class="labelAndButton">
 
-                                    <p class="optionLabel">did</p>
+                                        <p class="optionLabel">did</p>
 
-                                    <input type="radio" id="did" name="subjectSyntaxeType" value="did" checked>
-                                    <p class="optionLabel">urn:ietf:params:oauth:jwk-thumbprint</p>
-                                    <input type="radio" id="urn:ietf:params:oauth:jwk-thumbprint"
-                                        name="subjectSyntaxeType" value="urn:ietf:params:oauth:jwk-thumbprint">
+                                        <input type="radio" id="did" name="subjectSyntaxeType" value="did" checked>
+                                    </div>
+                                    <div class="labelAndButton">
+
+                                        <p class="optionLabel">urn:ietf:params:oauth:jwk-thumbprint</p>
+                                        <input type="radio" id="urn:ietf:params:oauth:jwk-thumbprint"
+                                            name="subjectSyntaxeType" value="urn:ietf:params:oauth:jwk-thumbprint">
+                                    </div>
                                 </div>
                             </div>
 
@@ -493,12 +521,17 @@
                                 <p class="optionDivSecondTitle">Client authentication method as public client or
                                     confidential client</p>
                                 <div class="optionsDivRow">
+                                    <div class="labelAndButton">
 
-                                    <p class="optionLabel">None</p><input onClick="switchClientAuth()" type="radio"
-                                        id="public" name="clientAuthentication" value="none" checked disabled>
-                                    <p class="optionLabel">Client secret basic</p><input onClick="switchClientAuth()"
-                                        type="radio" id="basic" name="clientAuthentication" value="client_secret_basic"
-                                        disabled>
+                                        <p class="optionLabel">None</p><input onClick="switchClientAuth()" type="radio"
+                                            id="public" name="clientAuthentication" value="none" checked disabled>
+                                    </div>
+                                    <div class="labelAndButton">
+
+                                        <p class="optionLabel">Client secret basic</p><input
+                                            onClick="switchClientAuth()" type="radio" id="basic"
+                                            name="clientAuthentication" value="client_secret_basic" disabled>
+                                    </div>
                                 </div>
                                 <div id="basicAuthDiv" class="displayNone">
                                     <input type="text" placeholder="client_id" name="client_id" id="client_id" disabled>
@@ -647,7 +680,7 @@
         <footer class="footer-02" id="footer">
             <div class="footer-02__wrapper">
                 <div class="footer-02__text content_box">
-                    <p id="line1Footer">&copy; 2022&nbsp; TALAO - Altme All rights reserved, <a
+                    <p id="line1Footer">&copy; 2023&nbsp; Altme All rights reserved, <a
                             href="https://altme.io/cgu/" target="_blank">CGU</a>, <a href="https://altme.io/privacy/"
                             target="_blank">Privacy</a></p>
                     <p id="line2Footer" hidden><strong>Built with TzKT API, Spruce Didkit 0.4.0</strong>&nbsp;</p>

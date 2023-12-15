@@ -342,6 +342,8 @@ def dashboard():
     if db.read_configured(session.get("organisation")) == 0:
         return redirect("/setup")
     plan = db.read_plan(session.get("organisation"))
+    if plan == "paid":
+        plan = ""
     users = db.read_users(session.get("organisation"))
     return render_template("dashboard.html", organisation=session.get("organisation"), rows=users, customer_plan=plan)
 

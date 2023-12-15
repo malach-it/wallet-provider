@@ -1534,7 +1534,13 @@ a {
     background: var(--default-white, #FFF);
     padding: 16px;
 }
-
+.inputDashboardfree {
+    border-radius: 6px;
+    border: 1px solid var(--gray-300, #DEE2E6);
+    background: var(--default-white, #FFF);
+    padding: 16px;
+    cursor: not-allowed;
+}
 #userAdder {
     display: flex;
     flex-direction: row;
@@ -1606,8 +1612,26 @@ th {
 }
 
 .free {
-    display: none !important;
+    display: none;
+
 }
+
+#buttonAddUserfree {
+    background-color: grey;
+}
+
+#userAdderfree {
+    display: flex;
+    flex-direction: row;
+    gap: 16px;
+    border-radius: 16px;
+    border: 1px solid var(--swatch-100, #DCDDDF);
+    background-color: rgb(241, 241, 241);
+    padding: 24px;
+    cursor: not-allowed;
+}
+
+.paid {}
 
 .optionDivMainTitle {
     color: var(--Brand---Purple-default, #330080);
@@ -1634,7 +1658,8 @@ th {
 .optionsDivRow {
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: flex-start;
+    gap: 12px;
 }
 
 #customizeTitle {
@@ -1754,4 +1779,27 @@ th {
     display: flex;
     flex-direction: row;
     gap: 6px;
+}
+
+.inputTextSetup {
+    border-radius: 6px;
+    border: 1px solid var(--Gray-300, #DEE2E6);
+    background: var(--Default-White, #FFF);
+    padding: 14px 16px;
+    text-decoration: none;
+    /* Paragraph 16 - Regular */
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    /* 150% */
+}
+
+.selectSetup {
+    border-radius: 8px;
+    border: 1px solid var(--Gray-400, #CED4DA);
+    background: var(--Gray-White, #FFF);
+    padding: 6px 12px;
+    width: fit-content;
 }
