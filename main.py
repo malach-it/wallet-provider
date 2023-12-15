@@ -323,8 +323,9 @@ def set_config():
         "siopv2Draft"]
     """wallet_provider_configuration["helpCenterOptions"]["customChatSupportName"] = request.form.to_dict()[
         "customChatSupportName"]"""
+    """
     wallet_provider_configuration["helpCenterOptions"]["customEmail"] = request.form.to_dict()[
-        "customEmail"]
+        "customEmail"]"""
     file = request.files.get('file')
     if file and allowed_file(file.filename):
         filename = session["organisation"] + \

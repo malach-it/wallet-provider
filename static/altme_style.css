@@ -1588,6 +1588,8 @@ th {
     border: solid 1px #DCDDDF;
     padding: 24px;
     width: 100%;
+    gap: 16px;
+    border-radius: 16px;
 }
 
 .line1Setup {
@@ -1605,4 +1607,151 @@ th {
 
 .free {
     display: none !important;
+}
+
+.optionDivMainTitle {
+    color: var(--Brand---Purple-default, #330080);
+
+    font-family: Roboto;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 24px;
+    /* 133.333% */
+}
+
+.optionDivSecondTitle {
+    color: var(--Swatch-800, #494B50);
+    /* Paragraph 14 - Regular */
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    /* 142.857% */
+}
+
+.optionsDivRow {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#customizeTitle {
+    color: #000;
+    /* Display 2 - Bold */
+    font-family: Roboto;
+    font-size: 48px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 56px;
+    /* 116.667% */
+    letter-spacing: -1px;
+}
+
+#defaultTitle {
+    color: #000;
+    /* Paragraph 16 - Regular */
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    /* 150% */
+}
+
+#backToDashboard {
+    color: var(--Black, #14171C);
+
+    /* Paragraph 16 - Regular */
+    font-family: Roboto;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 24px;
+    margin-bottom: 30px;
+}
+
+.optionLabel {
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+}
+
+.customizeUnderTitle {
+    color: #000;
+    /* Heading 2 - 24 Bold */
+    font-family: Roboto;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+    /* 133.333% */
+    letter-spacing: -0.25px;
+}
+
+.buttonsStep {
+    margin-top: 30px;
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.submit {
+    border-radius: 8px;
+    background: var(--Brand---Purple-default, #330080);
+    padding: 12px 24px;
+    color: white;
+    border: none;
+    margin: auto;
+
+}
+
+.previousStep {
+    border-radius: 8px;
+    background: var(--Brand---Purple-default, #330080);
+    padding: 12px 24px;
+    color: white;
+    border: none;
+}
+
+.nextStep {
+    border-radius: 8px;
+    background: var(--Brand---Purple-default, #330080);
+    padding: 12px 24px;
+    color: white;
+    border: none;
+}
+
+.optionDivDisabled {
+    display: flex;
+    flex-direction: column;
+    border: solid 1px #DCDDDF;
+    padding: 24px;
+    width: 100%;
+    gap: 16px;
+    border-radius: 16px;
+    background-color: rgb(241, 241, 241);
+    max-width: calc(100% - 48px);
+}
+
+#blockchainDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+#customProfileDiv {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+}
+
+.labelAndButton {
+    display: flex;
+    flex-direction: row;
+    gap: 6px;
 }
