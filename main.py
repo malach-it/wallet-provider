@@ -299,8 +299,10 @@ def set_config():
         wallet_provider_configuration["helpCenterOptions"]["customEmailSupport"] = False
     wallet_provider_configuration["selfSovereignIdentityOptions"]["oidv4vcProfile"] = request.form.to_dict()[
         "oidv4vcProfile"]
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"] = request.form.to_dict()[
-        "securityLevel"]
+    if request.form.to_dict()["securityLevel"] == "strict":
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"] = True
+    else:
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"] = False
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["userPinDigits"] = request.form.to_dict()[
         "userPinDigits"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["defaultDid"] = request.form.to_dict()[
