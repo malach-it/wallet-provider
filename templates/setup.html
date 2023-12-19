@@ -126,7 +126,7 @@
     </div>
     <div id="mainBox">
         <div id="customizer">
-            <a id="backToDashboard">Back to the dashboard</a>
+            <a id="backToDashboard" href="/dashboard">Back to the dashboard</a>
             <p id="customizeTitle">Customize your DID Wallet</p>
             <p id="defaultTitle">Default parameters are pre-set. Modify only what is necessary.</p>
             <form action="/set_config" method="post" enctype="multipart/form-data">
@@ -138,8 +138,8 @@
                             <div class="optionsDivRow">
                                 <div class="labelAndButton">
 
-                                    <p class="optionLabel">Altme</p><input type="radio" id="altme" name="walletType"
-                                        value="altme" checked>
+                                    <p class="optionLabel">Altme</p>
+                                    <input type="radio" id="altme" name="walletType" value="altme" checked>
                                 </div>
                                 <div class="labelAndButton">
 
@@ -347,7 +347,7 @@
                     </div>
                     <div id="tzproApiKeyDiv" class="displayNone">
                         <p>Tzpro api key</p>
-                        <input type="text" id="tzproApiKey" name="tzproApiKey">
+                        <input type="text" id="tzproApiKey" class="inputTextSetup" name="tzproApiKey">
                     </div>
 
                     <div class="line1Setup">
@@ -355,7 +355,7 @@
 
                         <div id="infuraApiKeyDiv" class="displayNone">
                             <p>Infura api key</p>
-                            <input type="text" id="infuraApiKey" name="infuraApiKey">
+                            <input type="text" id="infuraApiKey" class="inputTextSetup" name="infuraApiKey">
                         </div>
                         <div class="buttonsStep">
                             <button type="button" class="previousStep" onclick="goStep2()">Previous step</button>
@@ -516,27 +516,23 @@
                             </div>
 
 
-                            <div class="optionDivDisabled">
+                            <div class="optionDiv">
                                 <p class="optionDivMainTitle">5.12 Client authentication</p>
                                 <p class="optionDivSecondTitle">Client authentication method as public client or
                                     confidential client</p>
-                                <div class="optionsDivRow">
-                                    <div class="labelAndButton">
-
-                                        <p class="optionLabel">None</p><input onClick="switchClientAuth()" type="radio"
-                                            id="public" name="clientAuthentication" value="none" checked disabled>
-                                    </div>
-                                    <div class="labelAndButton">
-
-                                        <p class="optionLabel">Client secret basic</p><input
-                                            onClick="switchClientAuth()" type="radio" id="basic"
-                                            name="clientAuthentication" value="client_secret_basic" disabled>
-                                    </div>
-                                </div>
-                                <div id="basicAuthDiv" class="displayNone">
-                                    <input type="text" placeholder="client_id" name="client_id" id="client_id" disabled>
-                                    <input placeholder="client_secret" type="text" name="client_secret"
-                                        id="client_secret" disabled>
+                                <select class="selectSetup" id="clientAuthentication" name="clientAuthentication">
+                                    <option value="none">None</option>
+                                    <option value="client_secret_basic">Client secret basic</option>
+                                    <option value="client_secret_post">Client secret post </option>
+                                    <option value="client_secret_jwt">Wallet attestation</option>
+                                </select>
+                                <button type="button" onclick="generateCredentials()"
+                                    class="generateCredentials">Generate random credentials</button>
+                                <div id="basicAuthDiv">
+                                    <input type="text" class="inputTextSetup" placeholder="client_id" name="client_id"
+                                        id="client_id">
+                                    <input placeholder="client_secret" type="text" class="inputTextSetup"
+                                        name="client_secret" id="client_secret">
                                 </div>
                             </div>
                         </div>
@@ -636,7 +632,8 @@
                         <div class="optionDivDisabled" id="customChatDiv">
                             <p class="optionDivMainTitle">6.3 Custom chat support name</p>
                             <p class="optionDivSecondTitle"></p>
-                            <input id="customChatSupportName" name="customChatSupportName" type="text" disabled>
+                            <input id="customChatSupportName" name="customChatSupportName" type="text"
+                                class="inputTextSetup" disabled>
 
                         </div>
                     </div>
@@ -659,7 +656,7 @@
                         <div class="optionDivDisabled" id="customEmailDiv">
                             <p class="optionDivMainTitle">6.6 Custom email</p>
                             <p class="optionDivSecondTitle"></p>
-                            <input id="customEmail" name="customEmail" type="text" disabled>
+                            <input id="customEmail" name="customEmail" type="text" class="inputTextSetup" disabled>
                         </div>
 
                     </div>
@@ -667,6 +664,172 @@
                     <div class="buttonsStep">
 
                         <button type="button" class="previousStep" onclick="goStep4()">Previous step</button>
+                        <input class="submit" type="submit" value="Set up config">
+                        <button type="button" class="nextStep" onclick="goStep6()">Next step</button>
+
+                    </div>
+                </div>
+
+                <div id="step6Div" class="displayNone">
+                    <p class="title">Discover card options</p>
+                    <div class="line1Setup">
+
+                        <div class="optionDiv">
+                            <p class="optionDivMainTitle">7.1 displayRewardsCategory</p>
+                            <p class="optionDivSecondTitle"></p>
+                            <div class="optionsDivRow">
+
+                                <div class="labelAndButton">
+
+                                    <label for="displayRewardsCategoryTrue" class="optionLabel">Yes</label>
+                                    <input type="radio" id="displayRewardsCategoryTrue" name="displayRewardsCategory"
+                                        value="displayRewardsCategoryTrue" checked>
+                                </div>
+                                <div class="labelAndButton">
+
+                                    <label for="displayRewardsCategoryFalse" class="optionLabel">No</label>
+
+                                    <input type="radio" id="displayRewardsCategoryFalse" name="displayRewardsCategory"
+                                        value="displayRewardsCategoryFalse">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="optionDiv">
+                            <p class="optionDivMainTitle">7.2 displayOver18</p>
+                            <p class="optionDivSecondTitle"></p>
+                            <div class="optionsDivRow">
+
+                                <div class="labelAndButton">
+
+                                    <label for="displayOver18True" class="optionLabel">Yes</label>
+                                    <input type="radio" id="displayOver18True" name="displayOver18"
+                                        value="displayOver18True" checked>
+                                </div>
+                                <div class="labelAndButton">
+
+                                    <label for="displayOver18False" class="optionLabel">No</label>
+                                    <input type="radio" id="displayOver18False" name="displayOver18"
+                                        value="displayOver18False">
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="optionDiv" id="customChatDiv">
+                            <p class="optionDivMainTitle">7.3 displayOver13</p>
+                            <p class="optionDivSecondTitle"></p>
+                            <div class="optionsDivRow">
+
+                                <div class="labelAndButton">
+
+                                    <label for="displayOver13True" class="optionLabel">Yes</label>
+                                    <input type="radio" id="displayOver13True" name="displayOver13"
+                                        value="displayOver13True" checked>
+                                </div>
+                                <div class="labelAndButton">
+
+                                    <label for="displayOver13False" class="optionLabel">No</label>
+                                    <input type="radio" id="displayOver13False" name="displayOver13"
+                                        value="displayOver13False">
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                    <div class="line1Setup">
+
+                        <div class="optionDiv">
+                            <p class="optionDivMainTitle">7.4 displayOver15</p>
+                            <p class="optionDivSecondTitle"></p>
+                            <div class="optionsDivRow">
+
+                                <div class="labelAndButton">
+
+                                    <label for="displayOver15True" class="optionLabel">Yes</label>
+                                    <input type="radio" id="displayOver15True" name="displayOver15"
+                                        value="displayOver15True" checked>
+                                </div>
+                                <div class="labelAndButton">
+
+                                    <label for="displayOver15False" class="optionLabel">No</label>
+                                    <input type="radio" id="displayOver15False" name="displayOver15"
+                                        value="displayOver15False">
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="optionDiv">
+                            <p class="optionDivMainTitle">7.5 displayVerifiableId</p>
+                            <p class="optionDivSecondTitle"></p>
+
+                            <div class="optionsDivRow">
+
+                                <div class="labelAndButton">
+
+                                    <label for="displayVerifiableIdTrue" class="optionLabel">Yes</label>
+                                    <input type="radio" id="displayVerifiableIdTrue" name="displayVerifiableId"
+                                        value="displayVerifiableIdTrue" checked>
+                                </div>
+                                <div class="labelAndButton">
+
+                                    <label for="displayVerifiableIdFalse" class="optionLabel">No</label>
+                                    <input type="radio" id="displayVerifiableIdFalse" name="displayVerifiableId"
+                                        value="displayVerifiableIdFalse">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="line1Setup">
+                        <div class="optionDiv">
+                            <p class="optionDivMainTitle">7.6 displayHumanity</p>
+                            <p class="optionDivSecondTitle"></p>
+                            <div class="optionsDivRow">
+
+                                <div class="labelAndButton">
+
+                                    <label for="displayHumanityTrue" class="optionLabel">Yes</label>
+                                    <input type="radio" id="displayHumanityTrue" name="displayHumanity"
+                                        value="displayHumanityTrue" checked>
+                                </div>
+                                <div class="labelAndButton">
+
+                                    <label for="displayHumanityFalse" class="optionLabel">No</label>
+                                    <input type="radio" id="displayHumanityFalse" name="displayHumanity"
+                                        value="displayHumanityFalse">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="optionDiv">
+                            <p class="optionDivMainTitle">7.7 displayDefi</p>
+                            <p class="optionDivSecondTitle"></p>
+                            <div class="optionsDivRow">
+
+                                <div class="labelAndButton">
+
+                                    <label for="displayDefiTrue" class="optionLabel">Yes</label>
+                                    <input type="radio" id="displayDefiTrue" name="displayDefi" value="displayDefiTrue"
+                                        checked>
+                                </div>
+                                <div class="labelAndButton">
+
+                                    <label for="displayDefiFalse" class="optionLabel">No</label>
+                                    <input type="radio" id="displayDefiFalse" name="displayDefi"
+                                        value="displayDefiFalse">
+                                </div>
+                            </div>
+
+                        </div>
+
+
+                    </div>
+
+                    <div class="buttonsStep">
+
+                        <button type="button" class="previousStep" onclick="goStep5()">Previous step</button>
                         <input class="submit" type="submit" value="Set up config">
                     </div>
                 </div>
@@ -680,9 +843,8 @@
         <footer class="footer-02" id="footer">
             <div class="footer-02__wrapper">
                 <div class="footer-02__text content_box">
-                    <p id="line1Footer">&copy; 2023&nbsp; Altme All rights reserved, <a
-                            href="https://altme.io/cgu/" target="_blank">CGU</a>, <a href="https://altme.io/privacy/"
-                            target="_blank">Privacy</a></p>
+                    <p id="line1Footer">&copy; 2023&nbsp; Altme All rights reserved, <a href="https://altme.io/cgu/"
+                            target="_blank">CGU</a>, <a href="https://altme.io/privacy/" target="_blank">Privacy</a></p>
                     <p id="line2Footer" hidden><strong>Built with TzKT API, Spruce Didkit 0.4.0</strong>&nbsp;</p>
                 </div>
                 <div class="social-buttons  ">
@@ -767,13 +929,22 @@
 
         document.getElementById("displayChatSupport").checked = "{{config["helpCenterOptions"]["displayChatSupport"]}}" === "True" ? true : false
         document.getElementById("displayEmailSupport").checked = "{{config["helpCenterOptions"]["displayEmailSupport"]}}" === "True" ? true : false
-        //document.getElementById("customEmailSupport").checked = "{{config["helpCenterOptions"]["customEmailSupport"]}}" === "True" ? true : false
+        document.getElementById("customEmailSupport").checked = "{{config["helpCenterOptions"]["customEmailSupport"]}}" === "True" ? true : false
         document.getElementById("customEmail").value = "{{config["helpCenterOptions"]["customEmail"]}}"
+        document.getElementById("customChatSupport").checked = "{{config["helpCenterOptions"]["customChatSupport"]}}" === "True" ? true : false
+        document.getElementById("customChatSupportName").value = "{{config["helpCenterOptions"]["customChatSupportName"]}}"
+
+        document.getElementById("displayRewardsCategory{{config["discoverCardsOptions"]["displayRewardsCategory"]}}").checked = true
+        document.getElementById("displayOver18{{config["discoverCardsOptions"]["displayOver18"]}}").checked = true
+        document.getElementById("displayOver13{{config["discoverCardsOptions"]["displayOver13"]}}").checked = true
+        document.getElementById("displayOver15{{config["discoverCardsOptions"]["displayOver15"]}}").checked = true
+        document.getElementById("displayVerifiableId{{config["discoverCardsOptions"]["displayVerifiableId"]}}").checked = true
+        document.getElementById("displayHumanity{{config["discoverCardsOptions"]["displayHumanity"]}}").checked = true
+        document.getElementById("displayDefi{{config["discoverCardsOptions"]["displayDefi"]}}").checked = true
 
 
         switchProfile()
         switchSupportEmail()
-        switchClientAuth()
         switchChat()
         function goStep1() {
             document.getElementById("step2Div").setAttribute("class", "displayNone")
@@ -817,7 +988,12 @@
         }
         function goStep5() {
             document.getElementById("step4Div").setAttribute("class", "displayNone")
+            document.getElementById("step6Div").setAttribute("class", "displayNone")
             document.getElementById("step5Div").setAttribute("class", "stepDiv")
+        }
+        function goStep6() {
+            document.getElementById("step6Div").setAttribute("class", "stepDiv")
+            document.getElementById("step5Div").setAttribute("class", "displayNone")
         }
         function switchTzproRpcNode() {
             if (document.getElementById("tzproRpcNode").checked) {
@@ -848,14 +1024,7 @@
                 document.getElementById("customProfileDiv").setAttribute("class", "displayNone")
             }
         }
-        function switchClientAuth() {
-            if (document.getElementById("basic").checked === true) {
-                document.getElementById("basicAuthDiv").setAttribute("class", "")
-            } else {
-                document.getElementById("basicAuthDiv").setAttribute("class", "displayNone")
 
-            }
-        }
         function switchSupportEmail() {
             if (document.getElementById("customEmailSupport").checked === true) {
                 document.getElementById("customEmailDiv").setAttribute("class", "optionDivDisabled")
@@ -865,12 +1034,24 @@
             }
         }
         function switchChat() {
-            if (document.getElementById("customEmailSupport").checked === true) {
+            if (document.getElementById("customChatSupport").checked === true) {
                 document.getElementById("customChatDiv").setAttribute("class", "optionDivDisabled")
             } else {
                 document.getElementById("customChatDiv").setAttribute("class", "displayNone")
 
             }
+        }
+        function generateRandomString(length) {
+            const characters = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+            let result = '';
+            for (let i = 0; i < length; i++) {
+                result += characters.charAt(Math.floor(Math.random() * characters.length));
+            }
+            return result;
+        }
+        function generateCredentials() {
+            document.getElementById("client_id").value = "urn:" + generateRandomString(12)
+            document.getElementById("client_secret").value = generateRandomString(12)
         }
     </script>
 </body>

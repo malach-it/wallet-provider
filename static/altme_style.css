@@ -1485,6 +1485,7 @@ a {
     border: none;
     font-family: Roboto;
     font-weight: 700;
+    font-size: 16px;
 }
 
 #passwordInput {
@@ -1801,5 +1802,20 @@ th {
     border: 1px solid var(--Gray-400, #CED4DA);
     background: var(--Gray-White, #FFF);
     padding: 6px 12px;
+    width: fit-content;
+}
+
+#line2DashboardDiv{
+    display: flex;
+    flex-direction: row;
+    gap: 24px;
+}
+
+.generateCredentials{
+    border-radius: 8px;
+    background: var(--Brand---Purple-default, #330080);
+    padding: 12px 24px;
+    color: white;
+    border: none;
     width: fit-content;
 }

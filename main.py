@@ -103,6 +103,9 @@ def init_app(app, red):
                      view_func=update_password_user, methods=['POST'])
     app.add_url_rule('/change_plan',
                      view_func=change_plan, methods=['POST'])
+    app.add_url_rule('/alert_new_config',
+                     view_func=alert_new_config, methods=['POST'])
+    alert_new_config
     return
 
 
@@ -326,6 +329,41 @@ def set_config():
     """
     wallet_provider_configuration["helpCenterOptions"]["customEmail"] = request.form.to_dict()[
         "customEmail"]"""
+    if request.form.to_dict()["displayRewardsCategory"] == "displayRewardsCategoryFalse":
+        wallet_provider_configuration["discoverCardsOptions"]["displayRewardsCategory"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayRewardsCategory"] = True
+
+    if request.form.to_dict()["displayOver18"] == "displayOver18False":
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver18"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver18"] = True
+
+    if request.form.to_dict()["displayOver13"] == "displayOver13False":
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver13"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver13"] = True
+
+    if request.form.to_dict()["displayOver15"] == "displayOver15False":
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver15"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver15"] = True
+
+    if request.form.to_dict()["displayVerifiableId"] == "displayVerifiableIdFalse":
+        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableId"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableId"] = True
+
+    if request.form.to_dict()["displayHumanity"] == "displayHumanityFalse":
+        wallet_provider_configuration["discoverCardsOptions"]["displayHumanity"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayHumanity"] = True
+
+    if request.form.to_dict()["displayDefi"] == "displayDefiFalse":
+        wallet_provider_configuration["discoverCardsOptions"]["displayDefi"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayDefi"] = True
+
     file = request.files.get('file')
     if file and allowed_file(file.filename):
         filename = session["organisation"] + \
@@ -450,6 +488,17 @@ def update_password_user():
                         'code_auth_en', {'code': str(password)})
     db.update_password_user(email, sha256_hash)
     return ("ok")
+
+
+def alert_new_config():
+    if not session.get("organisation"):
+        return "Unauthorized", 401
+    organisation = session.get("organisation")
+    emails_list = db.read_email_users(organisation)
+    for email in emails_list:
+        message.message("Your " + organisation+" wallet",
+                        email[0], "A new configuraiton is available. Update your wallet to use your new settings.")
+    return "ok"
 
 
 init_app(app, red)

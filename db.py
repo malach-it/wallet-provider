@@ -49,7 +49,7 @@ def create_admin(email: str, password: str, organisation: str, first_name: str, 
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     data = '{"password": "'+password+'", "organisation": "'+organisation + \
-        '","first_name":"'+first_name+'","last_name":"'+last_name+'"}'    
+        '","first_name":"'+first_name+'","last_name":"'+last_name+'"}'
     c.execute("""insert into admins values ('{email}','{data}')""".format(
         email=email, data=data))
     conn.commit()
@@ -138,6 +138,17 @@ def read_data_user(email: str) -> dict:
     return json.loads(rows[0][0])
 
 
+def read_email_users(organisation: str):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("SELECT email from users where json_extract(data,'$.organisation') = '{organisation}'".format(
+        organisation=organisation))
+    rows = c.fetchall()
+    if len(rows) < 1:
+        return None
+    return rows
+
+
 def read_organisation(email: str) -> str:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
@@ -168,7 +179,10 @@ def read_config(email: str) -> dict:
     rows = c.fetchall()
     if len(rows) < 1 or rows[0][0] == None:
         return None
-    return json.loads(rows[0][0])
+    config = json.load(open('./wallet-provider-configuration.json', 'r'))
+    config.update(json.loads(rows[0][0]))
+    return config
+
 
 def read_config_from_organisation(organisation: str):
     conn = sqlite3.connect('db.sqlite')
@@ -179,6 +193,7 @@ def read_config_from_organisation(organisation: str):
     if len(rows) < 1 or rows[0][0] == None:
         return None
     return json.loads(rows[0][0])
+
 
 def read_tables():
     conn = sqlite3.connect('db.sqlite')

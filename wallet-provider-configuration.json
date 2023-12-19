@@ -1,21 +1,21 @@
 {
-    "version": "1.9",
+    "version": "1.10",
     "generalOptions": {
         "walletType": "altme",
         "companyName": "",
         "companyWebsite": "",
         "companyLogo": "",
-        "tagLine": "",
+        "tagLine" : "",
         "profileName": "Wallet Profile Demo",
         "profileVersion": "1.0",
         "published": "2023-12-03",
-        "profileId": "urn:uuid:lkjhj",
+        "profileId": "mkhmhKLMJHblkjhj",
         "customerPlan": "free"
     },
     "settingsMenu": {
-        "displayProfile": true,
+        "displayProfile": false,
         "displayDeveloperMode": false,
-        "displayHelpCenter": true
+        "displayHelpCenter": false
     },
     "walletSecurityOptions": {
         "displaySecurityAdvancedSettings": false,
@@ -41,10 +41,10 @@
         "displayVerifiableDataRegistry": true,
         "oidv4vcProfile": "custom",
         "customOidc4vcProfile": {
-            "securityLevel": "permissive",
+            "securityLevel": false,
             "credentialManifestSupport": true,
-            "userPinDigits": "6",
-            "defaultDid": "did:key:p-256",
+            "userPinDigits": "4",
+            "defaultDid": "did:key:ebsi",
             "subjectSyntaxeType": "did",
             "cryptoHolderBinding": true,
             "scope": false,
@@ -63,5 +63,14 @@
         "displayEmailSupport": true,
         "customEmailSupport": false,
         "customEmail": null
+    },
+    "discoverCardsOptions" : {
+        "displayRewardsCategory": true,
+        "displayOver18": true,
+        "displayOver13": false,
+        "displayOver15": true,
+        "displayVerifiableId": true,
+        "displayHumanity": true,
+        "displayDefi": true
     }
 }
