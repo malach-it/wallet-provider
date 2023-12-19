@@ -20,6 +20,12 @@ import time
 import uuid
 from datetime import datetime
 import base64
+from werkzeug.utils import secure_filename
+from PIL import Image
+from io import BytesIO
+
+
+VERSION = "0.1.0"
 
 
 logging.basicConfig(level=logging.INFO)
@@ -105,7 +111,8 @@ def init_app(app, red):
                      view_func=change_plan, methods=['POST'])
     app.add_url_rule('/alert_new_config',
                      view_func=alert_new_config, methods=['POST'])
-    alert_new_config
+    app.add_url_rule('/version',
+                     view_func=version, methods=['GET'])
     return
 
 
@@ -123,8 +130,25 @@ def error_500(e):
     return redirect(mode.server + '/')
 
 
+def version():
+    return VERSION
+
+
+@app.route('/logo/<organisation>', methods=['GET'])
+def serve_static(organisation: str):
+    filename = secure_filename(organisation)+".png"
+    try:
+        return send_file('./logos/' + filename, download_name=filename)
+    except FileNotFoundError:
+        return jsonify("not found"), 404
+
+
 @auth.oidc_auth('default')
 def login():
+    if session.get("organisation"):
+        if session.get("organisation") == "Talao":
+            return redirect('/dashboard_talao')
+        return redirect('/dashboard')
     user_session = UserSession(flask.session)
     # logging.info(user_session.userinfo["vp_token_payload"]
     #             ["verifiableCredential"]["credentialSubject"]["email"])
@@ -158,7 +182,7 @@ def setup():
         config = json.load(open('./wallet-provider-configuration.json', 'r'))
     else:
         config = db.read_config_from_organisation(session.get("organisation"))
-    return render_template("setup.html", config=config)
+    return render_template("setup.html", config=config, version=VERSION)
 
 
 def allowed_file(filename):
@@ -176,6 +200,7 @@ def set_config():
         "walletType"]
     wallet_provider_configuration["generalOptions"]["companyName"] = request.form.to_dict()[
         "companyName"]
+    wallet_provider_configuration["generalOptions"]["companyLogo"] = "https://wallet-provider.talao.co/logos/"+session.get("organisation")+".png"
     wallet_provider_configuration["generalOptions"]["companyWebsite"] = request.form.to_dict()[
         "companyWebsite"]
     wallet_provider_configuration["generalOptions"]["tagLine"] = request.form.to_dict()[
@@ -366,9 +391,13 @@ def set_config():
 
     file = request.files.get('file')
     if file and allowed_file(file.filename):
-        filename = session["organisation"] + \
-            "."+file.filename.rsplit('.', 1)[1].lower()
-        file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+        img = Image.open(file)
+        png_buffer = BytesIO()
+        img.save(png_buffer, format="PNG")
+        png_buffer.seek(0)
+        png_file = png_buffer.read()
+        image = Image.open(BytesIO(png_file))
+        image.save('./logos/'+session.get("organisation")+'.png')
     db.update_config(json.dumps(wallet_provider_configuration),
                      session["organisation"])
     return redirect("/dashboard")
@@ -383,14 +412,14 @@ def dashboard():
     if plan == "paid":
         plan = ""
     users = db.read_users(session.get("organisation"))
-    return render_template("dashboard.html", organisation=session.get("organisation"), rows=users, customer_plan=plan)
+    return render_template("dashboard.html", organisation=session.get("organisation"), rows=users, customer_plan=plan, version=VERSION)
 
 
 def dashboard_talao():
     if session.get("organisation") != "Talao":
         return "Unauthorized", 401
     table = db.read_tables()
-    return render_template("dashboard_talao.html", table=table,)
+    return render_template("dashboard_talao.html", table=table, version=VERSION)
 
 
 def add_user():

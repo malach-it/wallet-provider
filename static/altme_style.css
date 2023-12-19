@@ -1571,6 +1571,7 @@ tr:nth-child(even) {
 td,
 th {
     padding: 20px 40px;
+    font-family: Roboto;
 }
 
 .buttonTable {
