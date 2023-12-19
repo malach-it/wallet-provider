@@ -394,51 +394,37 @@
                                 id="displayVerifiableDataRegistry" checked="true">
                         </div>
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">5.4 OIDC4VC Profile</p>
-                            <p class="optionDivSecondTitle">Name of the official OIDC4VC profile used for teh wallet. If
-                                “custom” is chosen the profile is defined with custom parameters.</p>
-                            <select class="selectSetup" id="oidv4vcProfile" name="oidv4vcProfile">
-                                <option onclick="switchProfile()" value="ebsi">EBSI-V3</option>
-                                <option onclick="switchProfile()" value="diip">DIIP</option>
-                                <option onclick="switchProfile()" value="custom">Custom</option>
+                            <p class="optionDivMainTitle">5.4 Security level</p>
+                            <p class="optionDivSecondTitle">If Low, wallet does not check signature of jwt client
+                                request</p>
+                            <div class="optionsDivRow">
+                                <div class="labelAndButton">
 
-                            </select>
+                                    <p class="optionLabel">Permissive</p><input type="radio" id="permissive"
+                                        name="securityLevel" value="permissive" checked>
+                                </div>
+                                <div class="labelAndButton">
+
+                                    <p class="optionLabel">Strict</p><input type="radio" id="strict"
+                                        name="securityLevel" value="strict">
+                                </div>
+                            </div>
+
                         </div>
                     </div>
 
-                    <div id="customProfileDiv" class="displayNone">
+                    <div id="customProfileDiv">
                         <div class="line1Setup">
 
+
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.5 Security level</p>
-                                <p class="optionDivSecondTitle">If Low, wallet does not check signature of jwt client
-                                    request</p>
-                                <div class="optionsDivRow">
-                                    <div class="labelAndButton">
-
-                                        <p class="optionLabel">Permissive</p><input type="radio" id="permissive"
-                                            name="securityLevel" value="permissive" checked>
-                                    </div>
-                                    <div class="labelAndButton">
-
-                                        <p class="optionLabel">Strict</p><input type="radio" id="strict"
-                                            name="securityLevel" value="strict">
-                                    </div>
-                                </div>
-
-                            </div>
-                            <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.6 Credential manifest support</p>
+                                <p class="optionDivMainTitle">5.5 Credential manifest support</p>
                                 <p class="optionDivSecondTitle"></p>
                                 <input name="credentialManifestSupport" id="credentialManifestSupport" type="checkbox"
                                     checked>
                             </div>
-                        </div>
-
-                        <div class="line1Setup">
-
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.7 User PIN digits</p>
+                                <p class="optionDivMainTitle">5.6 User PIN digits</p>
                                 <p class="optionDivSecondTitle">4 or 6 digits for pre authorized code flow PIN code.</p>
                                 <div class="optionsDivRow">
                                     <div class="labelAndButton">
@@ -454,8 +440,13 @@
                                 </div>
 
                             </div>
+                        </div>
+
+                        <div class="line1Setup">
+
+
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.8 Default Did Method</p>
+                                <p class="optionDivMainTitle">5.7 Default Did Method</p>
                                 <p class="optionDivSecondTitle">DID of the wallet</p>
                                 <select class="selectSetup" id="defaultDid" name="defaultDid">
                                     <option value="did:key:ebsi">did:key:ebsi</option>
@@ -465,20 +456,8 @@
                                     <option value="did:key:eddsa">did:key:eddsa</option>
                                 </select>
                             </div>
-                        </div>
-
-                        <!--
-                    <div class="optionDiv">
-                        <p>CRV</p>
-                        <p>P-256</p><input type="radio" name="crv" value="P-256">
-                        <p>secp256k1</p><input type="radio" name="crv" value="  secp256k1" checked>
-                        <p>Ed25519</p><input type="radio" name="crv" value="Ed25519">
-                    </div>
-                -->
-                        <div class="line1Setup">
-
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.9 Subject syntax</p>
+                                <p class="optionDivMainTitle">5.8 Subject syntax</p>
                                 <p class="optionDivSecondTitle">When the Subject Syntax Type is JWK Thumbprint, the
                                     valid value is urn:ietf:params:oauth:jwk-thumbprint. When the Subject Syntax Type is
                                     a Decentralized Identifier, valid values MUST be done</p>
@@ -497,27 +476,41 @@
                                     </div>
                                 </div>
                             </div>
+                        </div>
+
+                        <!--
+                    <div class="optionDiv">
+                        <p>CRV</p>
+                        <p>P-256</p><input type="radio" name="crv" value="P-256">
+                        <p>secp256k1</p><input type="radio" name="crv" value="  secp256k1" checked>
+                        <p>Ed25519</p><input type="radio" name="crv" value="Ed25519">
+                    </div>
+                -->
+                        <div class="line1Setup">
+
+
 
                             <div class="optionDivDisabled">
-                                <p class="optionDivMainTitle">5.10 Cryptogtraphic Holder Binding</p>
+                                <p class="optionDivMainTitle">5.9 Cryptogtraphic Holder Binding</p>
                                 <p class="optionDivSecondTitle">If not checked VC will be issued as a bearer credential
                                 </p>
                                 <input name="cryptoHolderBinding" type="checkbox" checked disabled>
                             </div>
-                        </div>
-                        <div class="line1Setup">
-
                             <div class="optionDivDisabled">
-                                <p class="optionDivMainTitle">5.11 Scope parameters</p>
+                                <p class="optionDivMainTitle">5.10 Scope parameters</p>
                                 <p class="optionDivSecondTitle">If checked use scope parameters to request credential
                                     issuance.
                                 </p>
                                 <input name="scope" type="checkbox" id="scope" disabled>
                             </div>
+                        </div>
+                        <div class="line1Setup">
+
+
 
 
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.12 Client authentication</p>
+                                <p class="optionDivMainTitle">5.11 Client authentication</p>
                                 <p class="optionDivSecondTitle">Client authentication method as public client or
                                     confidential client</p>
                                 <select class="selectSetup" id="clientAuthentication" name="clientAuthentication">
@@ -535,12 +528,8 @@
                                         name="client_secret" id="client_secret">
                                 </div>
                             </div>
-                        </div>
-
-                        <div class="line1Setup">
-
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.13 Standard oidc4vciDraft version</p>
+                                <p class="optionDivMainTitle">5.12 Standard oidc4vciDraft version</p>
                                 <div class="optionsDivRow">
                                     <div class="labelAndButton">
                                         <p class="optionLabel">8</p><input type="radio" name="oidc4vciDraft" value="8"
@@ -562,8 +551,13 @@
 
                                 <!--<p>13</p><input type="radio" name="oidc4vciDraft" value="13">-->
                             </div>
+                        </div>
+
+                        <div class="line1Setup">
+
+
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.14 Standard oidc4vpDraft version</p>
+                                <p class="optionDivMainTitle">5.13 Standard oidc4vpDraft version</p>
                                 <div class="optionsDivRow">
                                     <div class="labelAndButton">
 
@@ -584,7 +578,7 @@
                                 <!--<p>20</p><input type="radio" name="oidc4vpDraft" value="20">-->
                             </div>
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.15 Standard siopv2Draft version</p>
+                                <p class="optionDivMainTitle">5.14 Standard siopv2Draft version</p>
                                 <div class="optionsDivRow">
 
                                     <!--<p>7</p><input type="radio" name="siopv2Draft" value="7" id="sevenssiop">-->
@@ -675,7 +669,7 @@
                     <div class="line1Setup">
 
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">7.1 displayRewardsCategory</p>
+                            <p class="optionDivMainTitle">7.1 Display rewards category</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
@@ -695,7 +689,7 @@
                             </div>
                         </div>
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">7.2 displayOver18</p>
+                            <p class="optionDivMainTitle">7.2 Display Over18</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
@@ -716,7 +710,7 @@
 
 
                         <div class="optionDiv" id="customChatDiv">
-                            <p class="optionDivMainTitle">7.3 displayOver13</p>
+                            <p class="optionDivMainTitle">7.3 Display Over13</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
@@ -740,7 +734,7 @@
                     <div class="line1Setup">
 
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">7.4 displayOver15</p>
+                            <p class="optionDivMainTitle">7.4 Display Over15</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
@@ -760,7 +754,7 @@
 
                         </div>
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">7.5 displayVerifiableId</p>
+                            <p class="optionDivMainTitle">7.5 Display VerifiableId</p>
                             <p class="optionDivSecondTitle"></p>
 
                             <div class="optionsDivRow">
@@ -785,7 +779,7 @@
                     </div>
                     <div class="line1Setup">
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">7.6 displayHumanity</p>
+                            <p class="optionDivMainTitle">7.6 Display proof of humanity</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
@@ -804,7 +798,7 @@
                             </div>
                         </div>
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">7.7 displayDefi</p>
+                            <p class="optionDivMainTitle">7.7 Display defi compliance</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
@@ -843,8 +837,9 @@
         <footer class="footer-02" id="footer">
             <div class="footer-02__wrapper">
                 <div class="footer-02__text content_box">
-                    <p id="line1Footer">Version {{version}} &copy;2023&nbsp;Altme All rights reserved, <a href="https://altme.io/cgu/"
-                        target="_blank">CGU</a>, <a href="https://altme.io/privacy/" target="_blank">Privacy</a></p>
+                    <p id="line1Footer">Version {{version}} &copy;2023&nbsp;Altme All rights reserved, <a
+                            href="https://altme.io/cgu/" target="_blank">CGU</a>, <a href="https://altme.io/privacy/"
+                            target="_blank">Privacy</a></p>
                     <p id="line2Footer" hidden><strong>Built with TzKT API, Spruce Didkit 0.4.0</strong>&nbsp;</p>
                 </div>
                 <div class="social-buttons  ">
@@ -901,7 +896,7 @@
         document.getElementById("displayManageDecentralizedId").checked = "{{config["selfSovereignIdentityOptions"]["displayManageDecentralizedId"]}}" === "True" ? true : false
         document.getElementById("displaySsiAdvancedSettings").checked = "{{config["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"]}}" === "True" ? true : false
         document.getElementById("displayVerifiableDataRegistry").checked = "{{config["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"]}}" === "True" ? true : false
-        document.getElementById("oidv4vcProfile").value = "{{config["selfSovereignIdentityOptions"]["oidv4vcProfile"]}}"
+        //document.getElementById("oidv4vcProfile").value = "{{config["selfSovereignIdentityOptions"]["oidv4vcProfile"]}}"
         if ("{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"]}}" === "True") {
             document.getElementById("strict").checked = true
         }
@@ -943,7 +938,7 @@
         document.getElementById("displayDefi{{config["discoverCardsOptions"]["displayDefi"]}}").checked = true
 
 
-        switchProfile()
+        //switchProfile()
         switchSupportEmail()
         switchChat()
         function goStep1() {
