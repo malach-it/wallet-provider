@@ -192,7 +192,9 @@ def read_config_from_organisation(organisation: str):
     rows = c.fetchall()
     if len(rows) < 1 or rows[0][0] == None:
         return None
-    return json.loads(rows[0][0])
+    config = json.load(open('./wallet-provider-configuration.json', 'r'))
+    config.update(json.loads(rows[0][0]))
+    return config
 
 
 def read_tables():
