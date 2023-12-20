@@ -19,6 +19,8 @@
         <input type="text" id="companyWebsite" placeholder="Company website">
         <button onclick="addOrganisation()">Add organisation</button>
     </div>
+    <input type="text" id="organisationDashboard">
+    <button onclick="goDashboard()">Go to dashboard</button>
     <table>
         <tr>
             <th>Organisation</th>
@@ -129,6 +131,9 @@
             })
                 .then(response => { console.log(response.status); window.location.reload() })
                 .catch(error => console.error('Error:', error));
+        }
+        function goDashboard(){
+            window.location = "/dashboard?organisation="+document.getElementById("organisationDashboard").value
         }
     </script>
 </body>

@@ -60,7 +60,7 @@ def create_user(email: str, password: str, organisation: str, first_name: str, l
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     data = '{"password": "'+password+'", "organisation": "'+organisation + \
-        '","first_name":"'+first_name+'","last_name":"'+last_name+'"}'
+        '","first_name":"'+first_name+'","last_name":"'+last_name+'","status":"active"}'
     c.execute("""insert into users values ('{email}','{data}')""".format(
         email=email, data=data))
     conn.commit()
@@ -108,7 +108,7 @@ def read_configured(organisation: str) -> int:
 def read_users(organisation: str) -> list:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute("SELECT email, json_extract(data,'$.first_name') as first_name, json_extract(data,'$.last_name') as last_name FROM users where json_extract(data,'$.organisation')='{organisation}' ".format(
+    c.execute("SELECT email, json_extract(data,'$.first_name') as first_name, json_extract(data,'$.last_name') as last_name,json_extract(data,'$.status') as status FROM users where json_extract(data,'$.organisation')='{organisation}' ".format(
         organisation=organisation))
     rows = c.fetchall()
     if len(rows) < 1:
@@ -241,6 +241,15 @@ def update_password_user(email, password):
     c = conn.cursor()
     c.execute("update users set data = json_set(data,'$.password','{password}')   where email='{email}'".format(
         email=email, password=password))
+    conn.commit()
+    return True
+
+
+def update_status_user(email, status):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("update users set data = json_set(data,'$.status','{status}')   where email='{email}'".format(
+        email=email, status=status))
     conn.commit()
     return True
 

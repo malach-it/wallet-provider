@@ -117,8 +117,11 @@
             <th>First name</th>
             <th>Last name</th>
             <th>Email</th>
+            <th>Status</th>
+
             <th class="{{customer_plan}}"></th>
             <th></th>
+
           </tr>
 
           {% for row in rows %}
@@ -126,9 +129,19 @@
             <td>{{row[1]}}</td>
             <td>{{row[2]}}</td>
             <td>{{row[0]}}</td>
+            <td>
+              <div>
+                <select id="newStatus{{row[0]}}" class="inputDashboard">
+                  <option onclick="changeStatus('{{row[0]}}','active')" value="active">active</option>
+                  <option onclick="changeStatus('{{row[0]}}','inactive')" value="inactive">inactive</option>
+                </select>
+
+              </div>
+            </td>
             <td class="{{customer_plan}}"><button class="buttonTable" onclick="deleteUser('{{row[0]}}')">Delete
                 user</button></td>
             <td><button class="buttonTable" onclick="sendNewPassword('{{row[0]}}')">Regenerate password</button></td>
+
           </tr>
 
           {% endfor %}
@@ -202,6 +215,24 @@
           .then(response => { console.log(response.status); })
           .catch(error => console.error('Error:', error));
       }
+      function changeStatus(email, newStatus) {
+        fetch('/change_status', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ "email": email, "newStatus": newStatus })
+
+        })
+          .then(response => { console.log(response.status); })
+          .catch(error => console.error('Error:', error));
+      }
+      {% for row in rows %}
+
+      document.getElementById("newStatus{{row[0]}}").value = "{{row[3]}}"
+
+      {% endfor %}
+
     </script>
   </div>
 
@@ -210,8 +241,9 @@
     <footer class="footer-02" id="footer">
       <div class="footer-02__wrapper">
         <div class="footer-02__text content_box">
-          <p id="line1Footer">Version {{version}} &copy;2023&nbsp;Altme All rights reserved, <a href="https://altme.io/cgu/"
-              target="_blank">CGU</a>, <a href="https://altme.io/privacy/" target="_blank">Privacy</a></p>
+          <p id="line1Footer">Version {{version}} &copy;2023&nbsp;Altme All rights reserved, <a
+              href="https://altme.io/cgu/" target="_blank">CGU</a>, <a href="https://altme.io/privacy/"
+              target="_blank">Privacy</a></p>
           <p id="line2Footer" hidden><strong>Built with TzKT API, Spruce Didkit 0.4.0</strong>&nbsp;</p>
         </div>
         <div class="social-buttons  ">

@@ -113,6 +113,8 @@ def init_app(app, red):
                      view_func=alert_new_config, methods=['POST'])
     app.add_url_rule('/version',
                      view_func=version, methods=['GET'])
+    app.add_url_rule('/change_status',
+                     view_func=change_status, methods=['POST'])
     return
 
 
@@ -200,7 +202,7 @@ def set_config():
         "walletType"]
     wallet_provider_configuration["generalOptions"]["companyName"] = request.form.to_dict()[
         "companyName"]
-    wallet_provider_configuration["generalOptions"]["companyLogo"] = "https://wallet-provider.talao.co/logos/"+session.get("organisation")+".png"
+    wallet_provider_configuration["generalOptions"]["companyLogo"] = "https://wallet-provider.talao.co/logo/"+session.get("organisation")
     wallet_provider_configuration["generalOptions"]["companyWebsite"] = request.form.to_dict()[
         "companyWebsite"]
     wallet_provider_configuration["generalOptions"]["tagLine"] = request.form.to_dict()[
@@ -405,6 +407,10 @@ def set_config():
 def dashboard():
     if not session.get("organisation"):
         return "Unauthorized", 401
+    if session.get("organisation") == "Talao":
+        print(request.args.get("organisation"))
+        session["organisation"] = request.args.get("organisation")
+    print(session.get("organisation"))
     if db.read_configured(session.get("organisation")) == 0:
         return redirect("/setup")
     plan = db.read_plan(session.get("organisation"))
@@ -481,6 +487,17 @@ def change_plan():
     organisation = request.get_json().get("organisation")
     newPlan = request.get_json().get("newPlan")
     db.update_plan(organisation, newPlan)
+    return ("ok")
+
+
+def change_status():
+    email = request.get_json().get("email")
+    if not email:
+        return "Bad request", 400
+    if not session.get("organisation") or db.read_organisation_user(email) != session.get("organisation"):
+        return "Unauthorized", 401
+    newStatus = request.get_json().get("newStatus")
+    db.update_status_user(email, newStatus)
     return ("ok")
 
 
