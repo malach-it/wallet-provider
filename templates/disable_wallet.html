@@ -1,0 +1,288 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/static/altme_style.css">
+    <link rel="icon" type="image/png" href="/static/img/icon.png" sizes="16x16">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+
+
+    <nav id="navBar" class="js-nav nav-02  nav-02--sticky  nav-02--sticky--white  ">
+        <div class="nav-02__box">
+            <div class="nav-02__logo"><a class="nav-02__link" href="https://altme.io/" target="_self">
+                    <img loading="lazy" class="nav-02__logo_img"
+                        src="/static/img/altme-decentralized-identity-wallet-did-logo.webp" height="70" alt="Logo" />
+                </a></div>
+
+            <div class="nav-02__list_wrapper  ">
+                <div class="nav-02__list nav-02__list--desktop">
+                    <!--<div class="nav-02__item">
+                    <a class="button   button--black-outline  button--empty " href="https://altme.io/#slider-07-879531"
+                      target="_self">
+                      <p class="linkP"> Wallet features
+                      </p>
+                    </a>
+                  </div>
+                  <div class="nav-02__item" id="newsNav">
+                    <a class="button   button--black-outline  button--empty " href="https://altme.io/#posts-05-876621"
+                      target="_self">
+                      <p class="linkP">News</p>
+  
+                    </a>
+                  </div>
+                  <div class="nav-02__item" id="roadmapNav">
+                    <a href="https://altme.io/#features-09-390941" target="_self">
+                      <p class="linkP">Roadmap</p>
+  
+                    </a>
+                  </div>-->
+                    <div class="nav-02__item" id="faqNav">
+                        <a class="button   button--black-outline  button--empty " href="https://altme.io/"
+                            target="_self">
+                            <p class="linkP">Back to home</p>
+                        </a>
+                    </div>
+                    <div class="nav-02__item">
+
+                        <a data-stripe-product-id="" data-stripe-mode="payment" data-successful-payment-url=""
+                            data-cancel-payment-url="" class="button button--accent-bg "
+                            href="mailto:contact@altme.io?cc=hugo@altme.io&subject=Altme" target="_blank">
+                            <div class="contactSpan">
+                                <p class="contactP">Contact</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+
+            </div>
+
+        </div>
+
+    </nav>
+    <div id="menuDiv" class="nav-02__list_wrapper  ">
+        <div class="nav-02__list nav-02__list--desktop">
+            <div class="nav-02__item">
+                <a class="button   button--black-outline  button--empty " href="https://altme.io/" target="_self">
+                    <p class="linkP"> Back to home
+                    </p>
+                </a>
+            </div>
+            <!-- <div class="nav-02__item" id="newsNav">
+              <a class="button   button--black-outline  button--empty " href="https://altme.io/#posts-05-876621"
+                target="_self">
+                <p class="linkP">News</p>
+  
+              </a>
+            </div>
+            <div class="nav-02__item" id="roadmapNav">
+              <a href="https://altme.io/#features-09-390941" target="_self">
+                <p class="linkP">Roadmap</p>
+  
+              </a>
+            </div>
+            <div class="nav-02__item" id="faqNav">
+              <a class="button   button--black-outline  button--empty " href="#superFaq" target="_self">
+                <p class="linkP">FAQ</p>
+              </a>
+            </div>-->
+            <div class="nav-02__item">
+
+                <a data-stripe-product-id="" data-stripe-mode="payment" data-successful-payment-url=""
+                    data-cancel-payment-url="" class="button button--accent-bg "
+                    href="mailto:contact@altme.io?cc=hugo@altme.io&subject=Altme" target="_blank">
+                    <div class="contactSpan">
+                        <p class="contactP">Contact</p>
+                    </div>
+                </a>
+            </div>
+        </div>
+
+
+    </div>
+    <div id="navBarMobile" class="js-nav nav-02  nav-02--sticky  nav-02--sticky--white  ">
+        <div class="nav-02__box">
+            <div class="nav-02__logo">
+                <a class="nav-02__link" href="https://altme.io/" target="_self">
+                    <img loading="lazy" class="nav-02__logo_img"
+                        src="https://unicorn-cdn.b-cdn.net/653ef4c9-deb9-41af-9fa0-dc973cdd8134/altme-identity-wallet---blockchain---web3---self-sovereign-identity---decentralized-identity---ebsi---ssi---did---digital-identity---logo.png"
+                        height="70" alt="Logo" />
+                </a>
+            </div>
+
+
+        </div>
+        <button id="buttonMenu">
+            <div id="buttonMenuLogo">
+                <img id="imageButtonMenu" class="imgButtonMenuInactive" src="/static/img/div.png">
+            </div>
+        </button>
+
+    </div>
+    <div id="mainBox">
+
+        <input id="emailDisable" type="text" class="inputTextSetup" placeholder="email" autocomplete="off">
+        <input id="password" type="password" class="inputTextSetup" placeholder="password" autocomplete="off">
+        <button id="getCode" onclick="getCode()">Get a code</button>
+        <p id="aCodeHasBeenSent" class="displayNone"></p>
+        <input id="code" type="text" class="displayNone" autocomplete="off">
+        <button class="displayNone" id="verifyCode" onclick="verifyCode()" placeholder="1234">Verify code</button>
+        <button class="displayNone" id="setInactive" onclick="setInactive()">Set my wallet inactive</button>
+        <p id="success" class="displayNone">Your wallet has been set to inactive.</p>
+        <script>
+            function getCode() {
+                fetch('/disable_wallet_get_code', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: document.getElementById("emailDisable").value,
+                        password: document.getElementById("password").value
+                    })
+                })
+                    .then(response => {
+                        console.log(response.status);
+                        if (response.status === 200) {
+                            document.getElementById("emailDisable").setAttribute("class", "displayNone")
+                            document.getElementById("password").setAttribute("class", "displayNone")
+                            document.getElementById("getCode").setAttribute("class", "displayNone")
+
+                            document.getElementById("aCodeHasBeenSent").setAttribute("class", "")
+                            document.getElementById("code").setAttribute("class", "inputTextSetup")
+                            document.getElementById("verifyCode").setAttribute("class", "")
+
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+            function verifyCode() {
+                fetch('/disable_wallet_validate_code', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        code: document.getElementById("code").value,
+                    })
+                })
+                    .then(response => {
+                        console.log(response.status);
+                        if (response.status === 200) {
+                            document.getElementById("emailDisable").setAttribute("class", "displayNone")
+                            document.getElementById("password").setAttribute("class", "displayNone")
+                            document.getElementById("getCode").setAttribute("class", "displayNone")
+
+                            document.getElementById("aCodeHasBeenSent").setAttribute("class", "displayNone")
+                            document.getElementById("code").setAttribute("class", "displayNone")
+                            document.getElementById("verifyCode").setAttribute("class", "displayNone")
+                            document.getElementById("setInactive").setAttribute("class", "")
+
+
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+            function setInactive() {
+                fetch('/disable_wallet_set_inactive', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                    })
+                })
+                    .then(response => {
+                        console.log(response.status);
+                        if (response.status === 200) {
+                            document.getElementById("emailDisable").setAttribute("class", "displayNone")
+                            document.getElementById("password").setAttribute("class", "displayNone")
+                            document.getElementById("getCode").setAttribute("class", "displayNone")
+
+                            document.getElementById("aCodeHasBeenSent").setAttribute("class", "displayNone")
+                            document.getElementById("code").setAttribute("class", "displayNone")
+                            document.getElementById("verifyCode").setAttribute("class", "displayNone")
+                            document.getElementById("setInactive").setAttribute("class", "displayNone")
+                            document.getElementById("success").setAttribute("class", "")
+
+
+
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+        </script>
+    </div>
+
+
+    <div class="bg-white-color ">
+        <footer class="footer-02" id="footer">
+            <div class="footer-02__wrapper">
+                <div class="footer-02__text content_box">
+                    <p id="line1Footer">&copy; 2023&nbsp; Altme All rights reserved, <a href="https://altme.io/cgu/"
+                            target="_blank">CGU</a>, <a href="https://altme.io/privacy/" target="_blank">Privacy</a></p>
+                    <p id="line2Footer" hidden><strong>Built with TzKT API, Spruce Didkit 0.4.0</strong>&nbsp;</p>
+                </div>
+                <div class="social-buttons  ">
+
+                    <div class="social-buttons__item"><a class="social-buttons__link social-buttons__link--twitter"
+                            href="https://twitter.com/Altme_io" target="_blank"><img loading="lazy"
+                                class="social-buttons__icon" alt="twitter icon"
+                                src="https://dvzvtsvyecfyp.cloudfront.net/static/img/icons/social/black/twitter.svg" /></a>
+                    </div>
+                    <div class="social-buttons__item"><a class="social-buttons__link social-buttons__link--linkedin"
+                            href="https://www.linkedin.com/company/altme-web3/" target="_blank"><img loading="lazy"
+                                class="social-buttons__icon" alt="linkedin icon"
+                                src="https://dvzvtsvyecfyp.cloudfront.net/static/img/icons/social/black/linkedin.svg" /></a>
+                    </div>
+
+                </div>
+            </div>
+        </footer>
+
+    </div>
+    <script>
+        document.getElementById('buttonMenu').addEventListener('click', () => {
+            //console.log(document.getElementById('buttonMenu').getAttribute("class"))
+            if (document.getElementById('imageButtonMenu').getAttribute("class") === "imgButtonMenuInactive") {
+        /*document.documentElement.setAttribute("class", "noScroll");
+        document.getElementById('bigBox').setAttribute("class", "toHide");
+        document.getElementById('superFaq').setAttribute("class", "toHide");
+        document.getElementById('footer').setAttribute("class", "toHide");
+
+        document.getElementById('menuDiv').setAttribute("class", "menuActive");
+        document.getElementById('generalQuestions').setAttribute("class", "inactiveQuestions");
+        document.getElementById('securityQuestions').setAttribute("class", "inactiveQuestions");
+        document.getElementById('SSIQuestions').setAttribute("class", "inactiveQuestions");
+*/      document.getElementById('menuDiv').setAttribute("class", "flex");
+                document.body.style.overflow = 'hidden';
+
+                document.getElementById('imageButtonMenu').setAttribute("class", "imgButtonMenuActive");
+                document.getElementById('imageButtonMenu').setAttribute("src", "/static/img/crossMenu.png")
+            }
+            else if (document.getElementById('imageButtonMenu').getAttribute("class") === "imgButtonMenuActive") {
+        /*document.documentElement.setAttribute("class", "");
+        document.getElementById('bigBox').setAttribute("class", "");
+        document.getElementById('superFaq').setAttribute("class", "");
+        document.getElementById('footer').setAttribute("class", "");
+        document.getElementById('menuDiv').setAttribute("class", "nav-02__list_wrapper");
+        document.getElementById('generalQuestions').setAttribute("class", "activeQuestions");
+        document.getElementById('securityQuestions').setAttribute("class", "inactiveQuestions");
+        document.getElementById('SSIQuestions').setAttribute("class", "inactiveQuestions");
+*/     document.getElementById('menuDiv').setAttribute("class", "");
+                document.body.style.overflow = '';
+
+                document.getElementById('imageButtonMenu').setAttribute("class", "imgButtonMenuInactive");
+                document.getElementById('imageButtonMenu').setAttribute("src", "/static/img/div.png")
+
+            }
+        })
+    </script>
+</body>
+
+</html>

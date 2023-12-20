@@ -34,6 +34,8 @@ def verify_password_admin(email: str, password: str) -> bool:
 
 
 def verify_password_user(email: str, password: str) -> bool:
+    if not password or not email:
+        return False
     password = sha256(password.encode('utf-8')).hexdigest()
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
@@ -181,7 +183,7 @@ def read_status_from_thumbprint(thumbprint):
         return False
     if rows[0][0] == "active":
         return True
-    return False 
+    return False
 
 
 def read_config(email: str) -> dict:

@@ -72,6 +72,11 @@ def generate_random_string(length):
     return ''.join(random.choice(characters) for _ in range(length))
 
 
+def generate_random_code(length):
+    characters = string.digits  # + string.ascii_lowercase +string.ascii_uppercase
+    return ''.join(random.choice(characters) for _ in range(length))
+
+
 def get_payload_from_token(token):
     """
     For verifier
@@ -117,6 +122,14 @@ def init_app(app, red):
                      view_func=change_status, methods=['POST'])
     app.add_url_rule('/wallet/status/<wallet_instance_key_thumbprint>',
                      view_func=status_wallet, methods=['GET'])
+    app.add_url_rule('/disable_wallet',
+                     view_func=disable_wallet, methods=['GET'])
+    app.add_url_rule('/disable_wallet_get_code',
+                     view_func=disable_wallet_get_code, methods=['POST'])
+    app.add_url_rule('/disable_wallet_validate_code',
+                     view_func=disable_wallet_validate_code, methods=['POST'])
+    app.add_url_rule('/disable_wallet_set_inactive',
+                     view_func=disable_wallet_set_inactive, methods=['POST'])
     return
 
 
@@ -149,6 +162,36 @@ def serve_static(organisation: str):
 
 def status_wallet(wallet_instance_key_thumbprint):
     return json.dumps(db.read_status_from_thumbprint(wallet_instance_key_thumbprint))
+
+
+def disable_wallet():
+    return render_template("disable_wallet.html")
+
+
+def disable_wallet_get_code():
+    if db.verify_password_user(request.get_json().get("email"), request.get_json().get("password")):
+        session["code"] = generate_random_code(4)
+        session["email"] = request.get_json().get("email")
+        message.messageHTML("Your altme code", request.get_json().get("email"),
+                            'code_auth_en', {'code': str(session["code"])})
+        return "ok"
+    return "Unauthorized", 401
+
+
+def disable_wallet_validate_code():
+    if not session.get("code") or not request.get_json().get("code"):
+        return "Bad request", 400
+    if request.get_json().get("code") == session.get("code"):
+        session["disabler"] = True
+        return "ok"
+    return "Unauthorized", 401
+
+
+def disable_wallet_set_inactive():
+    if session["disabler"]:
+        db.update_status_user(session.get("email"), "inactive")
+        return "ok"
+    return "Unauthorized", 401
 
 
 @auth.oidc_auth('default')
@@ -447,7 +490,7 @@ def add_user():
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
     db.create_user(email, sha256_hash, organisation, first_name, last_name)
     message.messageHTML("Your altme password", email,
-                        'code_auth_en', {'code': str(password)})
+                        'password', {'code': str(password)})
     return ("ok")
 
 
@@ -463,7 +506,7 @@ def add_organisation():
     password = generate_random_string(6)
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
     message.messageHTML("Your altme password", email,
-                        'code_auth_en', {'code': str(password)})
+                        'password', {'code': str(password)})
     db.create_organisation(organisation)
     db.create_admin(email, sha256_hash, organisation, first_name, last_name)
     db.create_user(email, sha256_hash, organisation, first_name, last_name)
@@ -523,7 +566,7 @@ def update_password_admin():
     password = generate_random_string(6)
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
     message.messageHTML("Your altme password", email,
-                        'code_auth_en', {'code': str(password)})
+                        'password', {'code': str(password)})
     db.update_password_admin(email, sha256_hash)
     return ("ok")
 
@@ -537,7 +580,7 @@ def update_password_user():
     password = generate_random_string(6)
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
     message.messageHTML("Your altme password", email,
-                        'code_auth_en', {'code': str(password)})
+                        'password', {'code': str(password)})
     db.update_password_user(email, sha256_hash)
     return ("ok")
 

@@ -9,7 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="/static/dist/vanilla-notify.css" />
 
-<script src="/static/dist/vanilla-notify.js"></script>
+  <script src="/static/dist/vanilla-notify.js"></script>
 </head>
 
 <body>
@@ -203,7 +203,7 @@
 
           })
         })
-          .then(response => { console.log(response.status); vNotify.info({text: 'A new password has been sent to '+email, title:'Info', sticky:true}); })
+          .then(response => { console.log(response.status); vNotify.info({ text: 'A new password has been sent to ' + email, title: 'Info', sticky: true }); })
           .catch(error => console.error('Error:', error));
       }
       function alertUsers() {
@@ -215,7 +215,7 @@
           body: JSON.stringify({})
 
         })
-          .then(response => { console.log(response.status); vNotify.info({text: 'Users have been alerted about the new configuration update.', title:'Info', sticky:true}); })
+          .then(response => { console.log(response.status); vNotify.info({ text: 'Users have been alerted about the new configuration update.', title: 'Info', sticky: true }); })
           .catch(error => console.error('Error:', error));
       }
       function changeStatus(email, newStatus) {
@@ -227,7 +227,7 @@
           body: JSON.stringify({ "email": email, "newStatus": newStatus })
 
         })
-          .then(response => { console.log(response.status); })
+          .then(response => { console.log(response.status); vNotify.info({ text: 'Status of ' + email + ' has been updated to ' + newStatus, title: 'Info', sticky: true }); })
           .catch(error => console.error('Error:', error));
       }
       {% for row in rows %}
