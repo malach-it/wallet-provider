@@ -189,7 +189,7 @@
                                 <p class="optionDivMainTitle">1.6 Insert wallet tagline</p>
                                 <p class="optionDivSecondTitle">Please enter a tagline for your custom wallet loading
                                     screen. The tagline should not exceed 60 characters, including spaces.</p>
-                                <input class="inputTextSetup" type="text" id="tagLine" name="tagLine"
+                                <input maxlength="60" class="inputTextSetup" type="text" id="tagLine" name="tagLine"
                                     placeholder="Tag line">
                             </div>
                             <div class="optionDiv">
@@ -370,7 +370,7 @@
                     <p>SSI Options</p>
                     <div class="line1Setup">
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">5.1 Display Manage decentralized ID menu in Siscreen</p>
+                            <p class="optionDivMainTitle">5.1 Display Manage decentralized ID menu in SSI screen</p>
                             <p class="optionDivSecondTitle">If checked the Manage Decentralized ID menu is displayed in
                                 the Self Sovereign Identity screen</p>
                             <input type="checkbox" name="displayManageDecentralizedId" id="displayManageDecentralizedId"
@@ -446,7 +446,7 @@
 
 
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.7 Default Did Method</p>
+                                <p class="optionDivMainTitle">5.7 Default DID Method</p>
                                 <p class="optionDivSecondTitle">DID of the wallet</p>
                                 <select class="selectSetup" id="defaultDid" name="defaultDid">
                                     <option value="did:key:ebsi">did:key:ebsi</option>
@@ -510,7 +510,7 @@
 
 
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.11 Client authentication</p>
+                                <p class="optionDivMainTitle">5.11 Client authentication method</p>
                                 <p class="optionDivSecondTitle">Client authentication method as public client or
                                     confidential client</p>
                                 <select class="selectSetup" id="clientAuthentication" name="clientAuthentication">

@@ -171,6 +171,19 @@ def read_organisation_user(email: str) -> str:
     return rows[0][0]
 
 
+def read_status_from_thumbprint(thumbprint):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("select json_extract(data,'$.status') from users where json_extract(data,'$.wallet_instance_key_thumbprint')='{thumbprint}'".format(
+        thumbprint=thumbprint))
+    rows = c.fetchall()
+    if len(rows) < 1:
+        return False
+    if rows[0][0] == "active":
+        return True
+    return False 
+
+
 def read_config(email: str) -> dict:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()

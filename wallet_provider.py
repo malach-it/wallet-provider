@@ -8,53 +8,48 @@ import base64
 import copy
 import sys
 import requests
-import db  # db manager for wallet-provider
+import db # db manager for wallet-provider
 
 logging.basicConfig(level=logging.INFO)
 
 try:
-    WALLET_PROVIDER_KEY = json.load(open('keys.json', 'r'))[
-        'wallet_provider_key']
+    WALLET_PROVIDER_KEY = json.load(open('keys.json', 'r'))['wallet_provider_key']
 except Exception:
     logging.info('wallet provider keys missing')
     sys.exit()
 
 TRUSTED_LIST = ['did:web:talao.co']
-WALLET_PROVIDER_PUBLIC_KEY = copy.copy(WALLET_PROVIDER_KEY)
+WALLET_PROVIDER_PUBLIC_KEY =  copy.copy(WALLET_PROVIDER_KEY)
 del WALLET_PROVIDER_PUBLIC_KEY['d']
 WALLET_PROVIDER_VM = 'did:web:talao.co#key-2'
 WALLET_PROVIDER_DID = 'did:web:talao.co'
-WALLET_API_VERSION = '0.2.3'
+WALLET_API_VERSION = '0.2.5'
 
 
 def init_app(app, red, mode):
     # endpoints for OpenId customer application
-    app.add_url_rule('/nonce',  view_func=nonce,
-                     methods=['GET'], defaults={'red': red})
-    app.add_url_rule('/token',  view_func=wallet_attestation_endpoint,
-                     methods=['POST'], defaults={'red': red})
-    app.add_url_rule('/configuration',
-                     view_func=wallet_configuration_endpoint, methods=['POST'])
-    app.add_url_rule('/wallet_api_version',
-                     view_func=wallet_api_version, methods=['GET'])
+    app.add_url_rule('/nonce',  view_func=nonce, methods=['GET'], defaults={'red': red})
+    app.add_url_rule('/token',  view_func=wallet_attestation_endpoint, methods=['POST'], defaults={'red': red})
+    app.add_url_rule('/configuration',  view_func=wallet_configuration_endpoint, methods=['POST'])
+    app.add_url_rule('/update',  view_func=wallet_update_endpoint, methods=['POST'])
+
+    app.add_url_rule('/wallet_api_version',  view_func=wallet_api_version, methods=['GET'])
 
 
 def thumbprint(key):
-    signer_key = jwk.JWK(**key)
+    signer_key = jwk.JWK(**key) 
     return signer_key.thumbprint()
 
 
 def get_payload_from_token(token) -> dict:
     payload = token.split('.')[1]
-    # solve the padding issue of the base64 python lib
-    payload += '=' * ((4 - len(payload) % 4) % 4)
+    payload += '=' * ((4 - len(payload) % 4) % 4) # solve the padding issue of the base64 python lib
     return json.loads(base64.urlsafe_b64decode(payload).decode())
 
 
 def get_header_from_token(token):
     header = token.split('.')[0]
-    # solve the padding issue of the base64 python lib
-    header += '=' * ((4 - len(header) % 4) % 4)
+    header += '=' * ((4 - len(header) % 4) % 4) # solve the padding issue of the base64 python lib
     return json.loads(base64.urlsafe_b64decode(header).decode())
 
 
@@ -62,7 +57,7 @@ def resolve_did(vm) -> dict:
     did = vm.split('#')[0]
     url = 'https://unires.talao.co/1.0/identifiers/' + did
     try:
-        r = requests.get(url, auth=('unires', 'test'))
+        r = requests.get(url, auth=('unires','test'))
         did_document = r.json()['didDocument']
         logging.info('Talao Universal Resolver used')
     except Exception:
@@ -81,7 +76,7 @@ def resolve_did(vm) -> dict:
                 publicKeyBase58 = verification_method.get('publicKeyBase58')
                 logging.info('publiccKeyBase48 = %s', publicKeyBase58)
                 return publicKeyBase58
-            else:
+            else:  
                 logging.info('publicKeyJwk = %s', jwk)
                 return jwk
     return
@@ -122,14 +117,13 @@ def manage_error(error, error_description, status=400):
 
 def get_payload_from_jwt(token) -> dict:
     payload = token.split('.')[1]
-    # solve the padding issue of the base64 python lib
-    payload += '=' * ((4 - len(payload) % 4) % 4)
+    payload += '=' * ((4 - len(payload) % 4) % 4) # solve the padding issue of the base64 python lib
     return json.loads(base64.urlsafe_b64decode(payload).decode())
 
 
-def sign_jwt(nonce, payload, typ, aud=None, jti=True, duration=365*24*60*60):
+def sign_jwt(payload, typ, nonce=None, aud=None, jti=None, duration=365*24*60*60):
     header = {
-        'typ': typ,
+        'typ':typ,
         'kid': WALLET_PROVIDER_VM,
         'alg': 'ES256'
     }
@@ -139,14 +133,14 @@ def sign_jwt(nonce, payload, typ, aud=None, jti=True, duration=365*24*60*60):
         'exp': datetime.timestamp(datetime.now().replace(second=0, microsecond=0)) + duration
     }
     if nonce:
-        data['nonce'] = nonce
+        data['nonce'] = nonce  
     if jti:
-        data['jti'] = str(uuid.uuid1())
+        data['jti'] = jti 
     if aud:
         data['aud'] = aud
     data.update(payload)
     token = jwt.JWT(header=header, claims=data, algs=['ES256'])
-    signer_key = jwk.JWK(**WALLET_PROVIDER_KEY)
+    signer_key = jwk.JWK(**WALLET_PROVIDER_KEY) 
     try:
         token.make_signed_token(signer_key)
     except Exception:
@@ -160,10 +154,10 @@ def wallet_api_version():
 
 def nonce(red):
     nonce = str(uuid.uuid1())
-    red.setex(nonce, 10, request.host)
+    red.setex(nonce, 10, request.host )
     logging.info('nonce is sent to wallet')
     return jsonify({'nonce': nonce})
-
+  
 
 def wallet_attestation_endpoint(red):
     """
@@ -180,7 +174,7 @@ def wallet_attestation_endpoint(red):
 
     try:
         wallet_request = get_payload_from_jwt(assertion)
-        wallet_cnf = copy.copy(wallet_request['cnf'])
+        wallet_cnf =  copy.copy(wallet_request['cnf'])
         wallet_cnf['jwk'].update({'kid': wallet_request['iss']})
     except Exception as e:
         return Response(**manage_error('invalid_request', 'Assertion format is incorrect -> ' + str(e)))
@@ -194,7 +188,7 @@ def wallet_attestation_endpoint(red):
         return Response(**manage_error('invalid_request', 'Assertion signature check failed'))
 
     logging.info('wallet request signature is ok')
-
+    
     # check wallet request nonce
     nonce = wallet_request['nonce']
     if not red.get(nonce):
@@ -224,12 +218,12 @@ def wallet_attestation_endpoint(red):
             "ES256"
         ],
         "presentation_definition_uri_supported": True,
-    }
+    }   
     typ = 'wallet-attestation+jwt'
-    wallet_attestation = sign_jwt(nonce, payload, typ, jti=False)
+    wallet_attestation = sign_jwt(payload, typ, nonce=nonce)
     if not wallet_attestation:
         return Response(**manage_error("server_error", "Wallet attestation failed to be signed"))
-    headers = {
+    headers = { 
         "Content-Type": "application/jwt",
         "Cache-Control": "no-cache"
     }
@@ -252,7 +246,7 @@ def wallet_configuration_endpoint():
         user_password = basic.split(':')[1]
     except Exception as e:
         return Response(**manage_error('invalid_request', 'basic authentication missing or incorrect -> ' + str(e)))
-
+    
     # check user and password
     try:
         check = db.verify_password_user(user_email, user_password)
@@ -273,7 +267,7 @@ def wallet_configuration_endpoint():
         logging.info('wallet attestation signature is ok')
     except Exception as e:
         return Response(**manage_error('invalid_request', 'Wallet attestation signature check failed ->' + str(e)))
-
+    
     # check wallet attestation format
     try:
         iss = wallet_attestation['iss']
@@ -281,19 +275,19 @@ def wallet_configuration_endpoint():
         user_jwk = wallet_attestation['cnf']['jwk']
         user_sub = wallet_attestation['sub']
     except Exception as e:
-        return Response(**manage_error('invalid_request', 'incorrect wallet attestation format -> ' + str(e)))
-
+        return Response(**manage_error('invalid_request', 'incorrect wallet attestation format -> ' + str(e))) 
+        
     if iss not in TRUSTED_LIST:
         return Response(**manage_error('invalid_request', 'Wallet attestation is not issued by trusted wallet provider'))
     if exp < datetime.timestamp(datetime.now().replace(second=0, microsecond=0)):
         return Response(**manage_error('invalid_request', 'Wallet attestation expired'))
-
+    
     # Update user data with user wallet attestation data
-    user_data = db.read_data_user(user_email)  # -> dict
+    user_data = db.read_data_user(user_email) # -> dict
     if not user_data:
         return Response(**manage_error('invalid_request', 'user not found'))
     user_data.update(
-        {
+        {        
             "wallet_instance_key_thumbprint": user_sub,
             "wallet_cnf_jwk": user_jwk,
             "attestation_iat": datetime.timestamp(datetime.now().replace(second=0, microsecond=0)),
@@ -304,21 +298,108 @@ def wallet_configuration_endpoint():
         return Response(**manage_error('server_error', 'user data update failed -> ' + str(e)))
     logging.info('user data is now updated')
 
-    # Build and sign configuration jwt for user wallet
+    # Build and sign configuration jwt for user wallet 
     config = {}
     try:
-        config = db.read_config(user_email)  # -> dict
+        config = db.read_config(user_email) # -> dict
     except Exception:
         return Response(**manage_error('server_error', 'incorrect configuration file'))
     if not config:
         return Response(**manage_error('invalid_request', 'configuration is not found for this user ' + user_email))
-    payload = sign_jwt(None, config, 'JWT', duration=90*24*60*60)
+    payload = sign_jwt(config, 'JWT', duration=90*24*60*60, jti=config['generalOptions']['profileId'] )
     if not payload:
         return Response(**manage_error('server_error', 'Configuration fails to be signed'))
-    headers = {
+    headers = { 
         "Content-Type": "application/jwt",
         "Cache-Control": "no-cache"
     }
     logging.info('Configuration is sent to wallet')
+    logging.info(payload)
+    return Response(payload, headers=headers)
+
+
+def wallet_update_endpoint():
+    try:
+        Authorization = request.headers['Authorization']
+        payload = Authorization.split()[1]
+        try:
+            basic = base64.urlsafe_b64decode(payload.encode()).decode()
+            logging.info('No padding issue')
+        except:
+            logging.info('Padding issue')
+            payload += "=" * ((4 - len(payload) % 4) % 4)
+            basic = base64.urlsafe_b64decode(payload.encode()).decode()
+        user_email = basic.split(':')[0]
+        user_password = basic.split(':')[1]
+    except Exception as e:
+        return Response(**manage_error('invalid_request', 'basic authentication missing or incorrect -> ' + str(e)))
+    
+    # check user and password
+    try:
+        check = db.verify_password_user(user_email, user_password)
+    except Exception:
+        return Response(**manage_error('server_error', 'verify_password_user DB call failed'))
+    if not check:
+        Response(**manage_error('invalid_request', 'user not found'))
+    logging.info('logging/password is fine for %s', user_email)
+
+    try:
+        wallet_attestation = get_payload_from_jwt(request.form['assertion'])
+    except Exception as e:
+        return Response(**manage_error('invalid_request', 'assertion missing -> ' + str(e)))
+
+     # check wallet attestation signature
+    try:
+        verif_token(request.form['assertion'])
+        logging.info('wallet attestation signature is ok')
+    except Exception as e:
+        return Response(**manage_error('invalid_request', 'Wallet attestation signature check failed ->' + str(e)))
+    
+    # check wallet attestation format
+    try:
+        iss = wallet_attestation['iss']
+        exp = wallet_attestation['exp']
+    except Exception as e:
+        return Response(**manage_error('invalid_request', 'incorrect wallet attestation format -> ' + str(e))) 
+        
+    if iss not in TRUSTED_LIST:
+        return Response(**manage_error('invalid_request', 'Wallet attestation is not issued by trusted wallet provider'))
+    if exp < datetime.timestamp(datetime.now().replace(second=0, microsecond=0)):
+        return Response(**manage_error('invalid_request', 'Wallet attestation expired'))
+    
+    # check user data with user wallet attestation data
+    user_data = db.read_data_user(user_email) # -> dict
+    if not user_data:
+        return Response(**manage_error('invalid_request', 'user not found'))
+    
+    try:
+        wallet_attestation = get_payload_from_jwt(request.form['assertion'])
+    except Exception as e:
+        return Response(**manage_error('invalid_request', 'assertion missing -> ' + str(e)))
+
+    try:
+        if wallet_attestation['cnf']['jwk']['kid'] != user_data['wallet_instance_key_thumbprint']:
+            return Response(**manage_error('invalid_request', 'incorrect wallet'))
+        else:
+            logging.info('correct wallet for update')
+    except Exception as e:
+        return Response(**manage_error('invalid_request', 'incorrect wallet attestation format -> ' + str(e))) 
+
+    # Build and sign configuration jwt for user wallet 
+    config = {}
+    try:
+        config = db.read_config(user_email) # -> dict
+    except Exception:
+        return Response(**manage_error('server_error', 'incorrect configuration file'))
+    if not config:
+        return Response(**manage_error('invalid_request', 'configuration is not found for this user ' + user_email))
+    payload = sign_jwt(config, 'JWT', duration=90*24*60*60, jti=config['generalOptions']['profileId'] )
+    if not payload:
+        return Response(**manage_error('server_error', 'Configuration fails to be signed'))
+    headers = { 
+        "Content-Type": "application/jwt",
+        "Cache-Control": "no-cache"
+    }
+    logging.info('Configuration is sent to wallet for update')
     logging.info(payload)
     return Response(payload, headers=headers)

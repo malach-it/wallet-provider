@@ -651,7 +651,7 @@ footer {
 
 .nav-02 {
     position: fixed;
-    z-index: 100;
+    z-index: 70;
     left: 0px;
     top: 0px;
     background: rgba(255, 255, 255, 0.95);
@@ -666,6 +666,10 @@ footer {
     display: flex;
     flex-direction: row;
     justify-content: center;
+}
+
+.vnotify-container {
+    z-index: 100;
 }
 
 .nav-02__box {
@@ -1535,6 +1539,7 @@ a {
     background: var(--default-white, #FFF);
     padding: 16px;
 }
+
 .inputDashboardfree {
     border-radius: 6px;
     border: 1px solid var(--gray-300, #DEE2E6);
@@ -1542,6 +1547,7 @@ a {
     padding: 16px;
     cursor: not-allowed;
 }
+
 #userAdder {
     display: flex;
     flex-direction: row;
@@ -1806,13 +1812,13 @@ th {
     width: fit-content;
 }
 
-#line2DashboardDiv{
+#line2DashboardDiv {
     display: flex;
     flex-direction: row;
     gap: 24px;
 }
 
-.generateCredentials{
+.generateCredentials {
     border-radius: 8px;
     background: var(--Brand---Purple-default, #330080);
     padding: 12px 24px;

@@ -115,6 +115,8 @@ def init_app(app, red):
                      view_func=version, methods=['GET'])
     app.add_url_rule('/change_status',
                      view_func=change_status, methods=['POST'])
+    app.add_url_rule('/wallet/status/<wallet_instance_key_thumbprint>',
+                     view_func=status_wallet, methods=['GET'])
     return
 
 
@@ -143,6 +145,10 @@ def serve_static(organisation: str):
         return send_file('./logos/' + filename, download_name=filename)
     except FileNotFoundError:
         return jsonify("not found"), 404
+
+
+def status_wallet(wallet_instance_key_thumbprint):
+    return json.dumps(db.read_status_from_thumbprint(wallet_instance_key_thumbprint))
 
 
 @auth.oidc_auth('default')
@@ -202,7 +208,8 @@ def set_config():
         "walletType"]
     wallet_provider_configuration["generalOptions"]["companyName"] = request.form.to_dict()[
         "companyName"]
-    wallet_provider_configuration["generalOptions"]["companyLogo"] = "https://wallet-provider.talao.co/logo/"+session.get("organisation")
+    wallet_provider_configuration["generalOptions"]["companyLogo"] = "https://wallet-provider.talao.co/logo/" + \
+        session.get("organisation")
     wallet_provider_configuration["generalOptions"]["companyWebsite"] = request.form.to_dict()[
         "companyWebsite"]
     wallet_provider_configuration["generalOptions"]["tagLine"] = request.form.to_dict()[
@@ -327,7 +334,7 @@ def set_config():
         wallet_provider_configuration["helpCenterOptions"]["customEmailSupport"] = True
     else:
         wallet_provider_configuration["helpCenterOptions"]["customEmailSupport"] = False
-    #wallet_provider_configuration["selfSovereignIdentityOptions"]["oidv4vcProfile"] = request.form.to_dict()["oidv4vcProfile"]
+    # wallet_provider_configuration["selfSovereignIdentityOptions"]["oidv4vcProfile"] = request.form.to_dict()["oidv4vcProfile"]
     if request.form.to_dict()["securityLevel"] == "strict":
         wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"] = True
     else:
