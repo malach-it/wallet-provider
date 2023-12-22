@@ -233,7 +233,7 @@ def setup():
         config = json.load(open('./wallet-provider-configuration.json', 'r'))
     else:
         config = db.read_config_from_organisation(session.get("organisation"))
-    return render_template("setup.html", config=config, version=VERSION)
+    return render_template("setup.html", config=config, version=VERSION, organisation=session.get("organisation"))
 
 
 def allowed_file(filename):

@@ -649,6 +649,10 @@ footer {
     opacity: 0.8;
 }
 
+#preview {
+    width: 40%;
+}
+
 .nav-02 {
     position: fixed;
     z-index: 70;
