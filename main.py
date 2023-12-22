@@ -169,7 +169,12 @@ def disable_wallet():
 
 
 def disable_wallet_get_code():
-    if db.verify_password_user(request.get_json().get("email"), request.get_json().get("password")):
+    check = db.verify_password_user(request.get_json().get(
+        "email"), request.get_json().get("password"))
+    logging.info(check)
+    logging.info(request.get_json().get("email")+" " +
+                 request.get_json().get("password"))
+    if check:
         session["code"] = generate_random_code(4)
         session["email"] = request.get_json().get("email")
         message.messageHTML("Your altme code", request.get_json().get("email"),
@@ -265,39 +270,40 @@ def set_config():
     wallet_provider_configuration["generalOptions"]["profileId"] = profileId
     wallet_provider_configuration["generalOptions"]["profileName"] = request.form.to_dict()[
         "profileName"]
-    wallet_provider_configuration["generalOptions"]["profileVersion"] = request.form.to_dict()[
-        "profileVersion"]
+
     wallet_provider_configuration["generalOptions"]["customerPlan"] = db.read_plan(
         session["organisation"])
-    if request.form.to_dict().get("displayProfile"):
-        wallet_provider_configuration["settingsMenu"]["displayProfile"] = True
-    else:
-        wallet_provider_configuration["settingsMenu"]["displayProfile"] = False
-    if request.form.to_dict().get("displayDeveloperMode"):
-        wallet_provider_configuration["settingsMenu"]["displayDeveloperMode"] = True
-    else:
-        wallet_provider_configuration["settingsMenu"]["displayDeveloperMode"] = False
-    if request.form.to_dict().get("displayHelpCenter"):
-        wallet_provider_configuration["settingsMenu"]["displayHelpCenter"] = True
-    else:
-        wallet_provider_configuration["settingsMenu"]["displayHelpCenter"] = False
-    if request.form.to_dict().get("displaySecurityAdvancedSettings"):
-        wallet_provider_configuration["walletSecurityOptions"]["displaySecurityAdvancedSettings"] = True
-    else:
-        wallet_provider_configuration["walletSecurityOptions"]["displaySecurityAdvancedSettings"] = False
-    if request.form.to_dict().get("verifySecurityIssuerWebsiteIdentity"):
-        wallet_provider_configuration["walletSecurityOptions"]["verifySecurityIssuerWebsiteIdentity"] = True
-    else:
-        wallet_provider_configuration["walletSecurityOptions"]["verifySecurityIssuerWebsiteIdentity"] = False
 
-    if request.form.to_dict().get("confirmSecurityVerifierAccess"):
-        wallet_provider_configuration["walletSecurityOptions"]["confirmSecurityVerifierAccess"] = True
+    if request.form.to_dict()["displayProfile"] == "displayProfileFalse":
+        wallet_provider_configuration["settingsMenu"]["displayProfile"] = False
     else:
+        wallet_provider_configuration["settingsMenu"]["displayProfile"] = True
+    if request.form.to_dict()["displayDeveloperMode"] == "displayDeveloperModeFalse":
+        wallet_provider_configuration["settingsMenu"]["displayDeveloperMode"] = False
+    else:
+        wallet_provider_configuration["settingsMenu"]["displayDeveloperMode"] = True
+    if request.form.to_dict()["displayHelpCenter"] == "displayHelpCenterFalse":
+        wallet_provider_configuration["settingsMenu"]["displayHelpCenter"] = False
+    else:
+        wallet_provider_configuration["settingsMenu"]["displayHelpCenter"] = True
+
+    if request.form.to_dict()["displaySecurityAdvancedSettings"] == "displaySecurityAdvancedSettingsFalse":
+        wallet_provider_configuration["walletSecurityOptions"]["displaySecurityAdvancedSettings"] = False
+    else:
+        wallet_provider_configuration["walletSecurityOptions"]["displaySecurityAdvancedSettings"] = True
+    if request.form.to_dict()["verifySecurityIssuerWebsiteIdentity"] == "verifySecurityIssuerWebsiteIdentityFalse":
+        wallet_provider_configuration["walletSecurityOptions"]["verifySecurityIssuerWebsiteIdentity"] = False
+    else:
+        wallet_provider_configuration["walletSecurityOptions"]["verifySecurityIssuerWebsiteIdentity"] = True
+    if request.form.to_dict()["confirmSecurityVerifierAccess"] == "confirmSecurityVerifierAccessFalse":
         wallet_provider_configuration["walletSecurityOptions"]["confirmSecurityVerifierAccess"] = False
-    if request.form.to_dict().get("secureSecurityAuthenticationWithPinCode"):
-        wallet_provider_configuration["walletSecurityOptions"]["secureSecurityAuthenticationWithPinCode"] = True
     else:
+        wallet_provider_configuration["walletSecurityOptions"]["confirmSecurityVerifierAccess"] = True
+    if request.form.to_dict()["secureSecurityAuthenticationWithPinCode"] == "secureSecurityAuthenticationWithPinCodeFalse":
         wallet_provider_configuration["walletSecurityOptions"]["secureSecurityAuthenticationWithPinCode"] = False
+    else:
+        wallet_provider_configuration["walletSecurityOptions"]["secureSecurityAuthenticationWithPinCode"] = True
+
     if request.form.to_dict().get("tezosSupport"):
         wallet_provider_configuration["blockchainOptions"]["tezosSupport"] = True
     else:
@@ -322,45 +328,40 @@ def set_config():
         wallet_provider_configuration["blockchainOptions"]["polygonSupport"] = True
     else:
         wallet_provider_configuration["blockchainOptions"]["polygonSupport"] = False
-    if request.form.to_dict().get("tzproRpcNode"):
-        wallet_provider_configuration["blockchainOptions"]["tzproRpcNode"] = True
-    else:
-        wallet_provider_configuration["blockchainOptions"]["tzproRpcNode"] = False
-    if request.form.to_dict().get("infuraRpcNode"):
-        wallet_provider_configuration["blockchainOptions"]["infuraRpcNode"] = True
-    else:
-        wallet_provider_configuration["blockchainOptions"]["infuraRpcNode"] = False
-    wallet_provider_configuration["blockchainOptions"]["tzproApiKey"] = request.form.to_dict()[
-        "tzproApiKey"]
-    wallet_provider_configuration["blockchainOptions"]["infuraApiKey"] = request.form.to_dict()[
-        "infuraApiKey"]
-    if request.form.to_dict().get("displayManageDecentralizedId"):
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["displayManageDecentralizedId"] = True
-    else:
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["displayManageDecentralizedId"] = False
-    if request.form.to_dict().get("displaySsiAdvancedSettings"):
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = True
-    else:
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = False
 
-    if request.form.to_dict().get("displayVerifiableDataRegistry"):
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"] = True
+
+
+    if request.form.to_dict()["displayManageDecentralizedId"] == "displayManageDecentralizedIdFalse":
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["displayManageDecentralizedId"] = False
     else:
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["displayManageDecentralizedId"] = True
+
+    if request.form.to_dict()["displaySsiAdvancedSettings"] == "displaySsiAdvancedSettingsFalse":
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = False
+    else:
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = True
+
+    if request.form.to_dict()["displayVerifiableDataRegistry"] == "displayVerifiableDataRegistryFalse":
         wallet_provider_configuration["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"] = False
-    if request.form.to_dict().get("cryptoHolderBinding"):
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["cryptoHolderBinding"] = True
     else:
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"] = True
+
+    """if request.form.to_dict()["cryptoHolderBinding"] == "cryptoHolderBindingFalse":
         wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["cryptoHolderBinding"] = False
-    if request.form.to_dict().get("scope"):
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"] = True
     else:
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["cryptoHolderBinding"] = True
+
+    if request.form.to_dict()["scope"] == "scopeFalse":
         wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"] = False
-    if request.form.to_dict().get("credentialManifestSupport"):
-        wallet_provider_configuration["selfSovereignIdentityOptions"][
-            "customOidc4vcProfile"]["credentialManifestSupport"] = True
     else:
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"] = True"""
+    if request.form.to_dict()["credentialManifestSupport"] == "credentialManifestSupportFalse":
         wallet_provider_configuration["selfSovereignIdentityOptions"][
             "customOidc4vcProfile"]["credentialManifestSupport"] = False
+    else:
+        wallet_provider_configuration["selfSovereignIdentityOptions"][
+            "customOidc4vcProfile"]["credentialManifestSupport"] = True
+
     if request.form.to_dict().get("displayChatSupport"):
         wallet_provider_configuration["helpCenterOptions"]["displayChatSupport"] = True
     else:

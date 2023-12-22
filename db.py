@@ -276,6 +276,3 @@ def update_plan(organisation, newPlan):
         newPlan=newPlan, organisation=organisation))
     conn.commit()
     return True
-
-
-# ajouter thumbprint du wallet à data du user
