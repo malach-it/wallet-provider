@@ -18,12 +18,11 @@ import message
 import wallet_provider
 import time
 import uuid
-from datetime import datetime
+from datetime import datetime, timedelta
 import base64
 from werkzeug.utils import secure_filename
 from PIL import Image
 from io import BytesIO
-
 
 VERSION = "0.1.0"
 
@@ -49,6 +48,7 @@ app.config['SESSION_PERMANENT'] = True
 app.config['SESSION_COOKIE_NAME'] = 'talao'
 app.config['SESSION_TYPE'] = 'redis'  # Redis server side session
 app.config['SESSION_FILE_THRESHOLD'] = 100
+app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=60)
 sess = Session()
 sess.init_app(app)
 """
@@ -329,8 +329,6 @@ def set_config():
     else:
         wallet_provider_configuration["blockchainOptions"]["polygonSupport"] = False
 
-
-
     if request.form.to_dict()["displayManageDecentralizedId"] == "displayManageDecentralizedIdFalse":
         wallet_provider_configuration["selfSovereignIdentityOptions"]["displayManageDecentralizedId"] = False
     else:
@@ -389,23 +387,22 @@ def set_config():
         "defaultDid"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["subjectSyntaxeType"] = request.form.to_dict()[
         "subjectSyntaxeType"]
-    """wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["clientAuthentication"] = request.form.to_dict()[
+    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["clientAuthentication"] = request.form.to_dict()[
         "clientAuthentication"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_id"] = request.form.to_dict()[
         "client_id"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_secret"] = request.form.to_dict()[
-        "client_secret"]"""
+        "client_secret"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["oidc4vciDraft"] = request.form.to_dict()[
         "oidc4vciDraft"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["oidc4vpDraft"] = request.form.to_dict()[
         "oidc4vpDraft"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["siopv2Draft"] = request.form.to_dict()[
         "siopv2Draft"]
-    """wallet_provider_configuration["helpCenterOptions"]["customChatSupportName"] = request.form.to_dict()[
-        "customChatSupportName"]"""
-    """
+    wallet_provider_configuration["helpCenterOptions"]["customChatSupportName"] = request.form.to_dict()[
+        "customChatSupportName"]
     wallet_provider_configuration["helpCenterOptions"]["customEmail"] = request.form.to_dict()[
-        "customEmail"]"""
+        "customEmail"]
     if request.form.to_dict()["displayRewardsCategory"] == "displayRewardsCategoryFalse":
         wallet_provider_configuration["discoverCardsOptions"]["displayRewardsCategory"] = False
     else:

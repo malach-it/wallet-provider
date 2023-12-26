@@ -730,7 +730,7 @@
                                         <option value="client_secret_basic">Client secret basic</option>
                                         <option value="client_secret_post">Client secret post </option>
                                         <option value="client_secret_jwt">Wallet attestation</option>
-                                        <option value="client_id_did">Client id as DID</option>
+                                        <option value="client_id">Client id</option>
 
                                     </select>
                                     <button type="button" onclick="generateCredentials()"
@@ -824,7 +824,7 @@
                     <p class="title">Help center option</p>
                     <div class="line1Setup">
 
-                        <div class="optionDivDisabled">
+                        <div class="optionDiv">
                             <p class="optionDivMainTitle">6.1 Display chat support in menu</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
@@ -833,17 +833,17 @@
 
                                     <label for="displayChatSupportTrue" class="optionLabel">Yes</label>
                                     <input type="radio" id="displayChatSupportTrue" name="displayChatSupport"
-                                        value="displayChatSupportTrue" autocomplete="off" disabled checked>
+                                        value="displayChatSupportTrue" autocomplete="off" checked>
                                 </div>
                                 <div class="labelAndButton">
 
                                     <label for="displayChatSupportFalse" class="optionLabel">No</label>
                                     <input type="radio" id="displayChatSupportFalse" name="displayChatSupport"
-                                        value="displayChatSupportFalse" autocomplete="off" disabled>
+                                        value="displayChatSupportFalse" autocomplete="off">
                                 </div>
                             </div>
                         </div>
-                        <div class="optionDivDisabled">
+                        <div class="optionDiv">
                             <p class="optionDivMainTitle">6.2 Customize chat</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
@@ -852,30 +852,31 @@
 
                                     <label for="customChatSupportTrue" class="optionLabel">Yes</label>
                                     <input type="radio" id="customChatSupportTrue" name="customChatSupport"
-                                        value="customChatSupportTrue" autocomplete="off" disabled>
+                                        value="customChatSupportTrue" autocomplete="off" onchange="switchChat()">
                                 </div>
                                 <div class="labelAndButton">
 
                                     <label for="customChatSupportFalse" class="optionLabel">No</label>
                                     <input type="radio" id="customChatSupportFalse" name="customChatSupport"
-                                        value="customChatSupportFalse" checked autocomplete="off" disabled>
+                                        value="customChatSupportFalse" checked autocomplete="off"
+                                        onchange="switchChat()">
                                 </div>
                             </div>
                         </div>
 
 
-                        <div class="optionDivDisabled" id="customChatDiv">
+                        <div class="optionDiv" id="customChatDiv">
                             <p class="optionDivMainTitle">6.3 Custom chat support name</p>
                             <p class="optionDivSecondTitle"></p>
                             <input id="customChatSupportName" name="customChatSupportName" type="text"
-                                class="inputTextSetup" disabled>
+                                class="inputTextSetup">
 
                         </div>
                     </div>
 
                     <div class="line1Setup">
 
-                        <div class="optionDivDisabled">
+                        <div class="optionDiv">
                             <p class="optionDivMainTitle">6.4 Display email support in menu</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
@@ -884,18 +885,18 @@
 
                                     <label for="displayEmailSupportTrue" class="optionLabel">Yes</label>
                                     <input type="radio" id="displayEmailSupportTrue" name="displayEmailSupport"
-                                        value="displayEmailSupportTrue" autocomplete="off" disabled>
+                                        value="displayEmailSupportTrue" autocomplete="off">
                                 </div>
                                 <div class="labelAndButton">
 
                                     <label for="displayEmailSupportFalse" class="optionLabel">No</label>
                                     <input type="radio" id="displayEmailSupportFalse" name="displayEmailSupport"
-                                        value="displayEmailSupportFalse" checked autocomplete="off" disabled>
+                                        value="displayEmailSupportFalse" checked autocomplete="off">
                                 </div>
                             </div>
 
                         </div>
-                        <div class="optionDivDisabled">
+                        <div class="optionDiv">
                             <p class="optionDivMainTitle">6.5 Custom support email</p>
                             <p class="optionDivSecondTitle"></p>
 
@@ -905,21 +906,23 @@
 
                                     <label for="customEmailSupportTrue" class="optionLabel">Yes</label>
                                     <input type="radio" id="customEmailSupportTrue" name="customEmailSupport"
-                                        value="customEmailSupportTrue" autocomplete="off" disabled>
+                                        value="customEmailSupportTrue" autocomplete="off"
+                                        onchange="switchSupportEmail()">
                                 </div>
                                 <div class="labelAndButton">
 
                                     <label for="customEmailSupportFalse" class="optionLabel">No</label>
                                     <input type="radio" id="customEmailSupportFalse" name="customEmailSupport"
-                                        value="customEmailSupportFalse" checked autocomplete="off" disabled>
+                                        value="customEmailSupportFalse" checked autocomplete="off"
+                                        onchange="switchSupportEmail()">
                                 </div>
                             </div>
 
                         </div>
-                        <div class="optionDivDisabled" id="customEmailDiv">
+                        <div class="optionDiv" id="customEmailDiv">
                             <p class="optionDivMainTitle">6.6 Custom email</p>
                             <p class="optionDivSecondTitle"></p>
-                            <input id="customEmail" name="customEmail" type="text" class="inputTextSetup" disabled>
+                            <input id="customEmail" name="customEmail" type="text" class="inputTextSetup">
                         </div>
 
                     </div>
@@ -1191,6 +1194,9 @@
         let siopv2Draft = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["siopv2Draft"]}}"
         siopv2Draft = siopv2Draft === "12" ? "twelvesiop" : null
         document.getElementById(siopv2Draft).checked = true
+        document.getElementById("clientAuthentication").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["clientAuthentication"]}}"
+        document.getElementById("client_id").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_id"]}}"
+        document.getElementById("client_secret").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_secret"]}}"
 
         document.getElementById("displayChatSupport{{config["helpCenterOptions"]["displayChatSupport"]}}").checked = true
         document.getElementById("customChatSupport{{config["helpCenterOptions"]["customChatSupport"]}}").checked = true
@@ -1295,7 +1301,7 @@
 
         function switchSupportEmail() {
             if (document.getElementById("customEmailSupportTrue").checked === true) {
-                document.getElementById("customEmailDiv").setAttribute("class", "optionDivDisabled")
+                document.getElementById("customEmailDiv").setAttribute("class", "optionDiv")
             } else {
                 document.getElementById("customEmailDiv").setAttribute("class", "displayNone")
 
@@ -1303,7 +1309,7 @@
         }
         function switchChat() {
             if (document.getElementById("customChatSupportTrue").checked === true) {
-                document.getElementById("customChatDiv").setAttribute("class", "optionDivDisabled")
+                document.getElementById("customChatDiv").setAttribute("class", "optionDiv")
             } else {
                 document.getElementById("customChatDiv").setAttribute("class", "displayNone")
 
