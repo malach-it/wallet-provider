@@ -360,19 +360,19 @@ def set_config():
         wallet_provider_configuration["selfSovereignIdentityOptions"][
             "customOidc4vcProfile"]["credentialManifestSupport"] = True
 
-    if request.form.to_dict().get("displayChatSupport"):
+    if request.form.to_dict().get("displayChatSupport") == "displayChatSupportTrue":
         wallet_provider_configuration["helpCenterOptions"]["displayChatSupport"] = True
     else:
         wallet_provider_configuration["helpCenterOptions"]["displayChatSupport"] = False
-    if request.form.to_dict().get("customChatSupport"):
+    if request.form.to_dict().get("customChatSupport") == "customChatSupportTrue":
         wallet_provider_configuration["helpCenterOptions"]["customChatSupport"] = True
     else:
         wallet_provider_configuration["helpCenterOptions"]["customChatSupport"] = False
-    if request.form.to_dict().get("displayEmailSupport"):
+    if request.form.to_dict().get("displayEmailSupport") == "displayEmailSupportTrue":
         wallet_provider_configuration["helpCenterOptions"]["displayEmailSupport"] = True
     else:
         wallet_provider_configuration["helpCenterOptions"]["displayEmailSupport"] = False
-    if request.form.to_dict().get("customEmailSupport"):
+    if request.form.to_dict().get("customEmailSupport") == "customEmailSupportTrue":
         wallet_provider_configuration["helpCenterOptions"]["customEmailSupport"] = True
     else:
         wallet_provider_configuration["helpCenterOptions"]["customEmailSupport"] = False
