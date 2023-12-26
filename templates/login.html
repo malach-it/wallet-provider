@@ -125,11 +125,14 @@
   </div>
   <div id="mainBox">
     <p class="title">Enter your password to login as {{email}}</p>
-    <div id="connecterBox">
+    <div id="superConnecterBox">
+      <div id="connecterBox">
 
-      <input id="passwordInput" type="password" placeholder="Your password" >
-      <button class="buttonAltme" id="loginButton" onclick="login()">Go</button>
-      <button class="buttonAltme" id="logoutButton" onclick="logout()">Change email</button>
+        <input id="passwordInput" type="password" placeholder="Your password">
+        <button class="buttonAltme" id="loginButton" onclick="login()">Go</button>
+        <button class="buttonAltme" id="logoutButton" onclick="logout()">Change email</button>
+      </div>
+      <p id="invalidPassword" class="displayNone">Invalid password</p>
     </div>
 
 
@@ -144,20 +147,29 @@
           },
           body: JSON.stringify(data)
         }).then(response => {
+
           if (response.status != 200) {
-            console.log("Invalid password or email")
+            console.log(response.status)
           }
-          response.json().then((data) => {
-            if (data.organisation === "Talao") {
-              window.location.replace("/dashboard_talao")
-            }
-            else if (data.configured === 1) {
-              window.location.replace("/dashboard")
-            }
-            else {
-              window.location.replace("/setup")
-            }
-          })
+          if (response.status == 404) {
+            document.getElementById("invalidPassword").setAttribute("class", "")
+            let elementToShake = document.getElementById('invalidPassword');
+            shakeElement(elementToShake, 10);
+          }
+          if (response.status == 200) {
+
+            response.json().then((data) => {
+              if (data.organisation === "Talao") {
+                window.location.replace("/dashboard_talao")
+              }
+              else if (data.configured === 1) {
+                window.location.replace("/dashboard")
+              }
+              else {
+                window.location.replace("/setup")
+              }
+            })
+          }
         })
       }
       function logout() {
@@ -170,6 +182,25 @@
           .then(response => { console.log(response.status); window.location.replace("/") })
           .catch(error => console.error('Error:', error));
       }
+      function shakeElement(element, magnitude) {
+        const originalStyle = element.style.cssText;
+        let start = null;
+
+        function step(timestamp) {
+          if (!start) start = timestamp;
+          const progress = timestamp - start;
+          element.style.transform = 'translate(' +
+            Math.sin(progress / 100) * magnitude + 'px, 0)';
+          if (progress < 1000) {
+            window.requestAnimationFrame(step);
+          } else {
+            element.style.cssText = originalStyle;
+          }
+        }
+
+        window.requestAnimationFrame(step);
+      }
+
     </script>
   </div>
 
