@@ -201,14 +201,19 @@ def disable_wallet_set_inactive():
 
 @auth.oidc_auth('default')
 def login():
+    user_session = UserSession(flask.session)
+    email = user_session.userinfo["vp_token_payload"]["verifiableCredential"]["credentialSubject"]["email"]
+    if not db.read_organisation(email):
+        session["organisation"] = None
+        session["configured"] = None
+        user_session.clear()
+        session.clear()
+        return render_template("wrong_email.html",email=email)
     if session.get("organisation"):
         if session.get("organisation") == "Talao":
             return redirect('/dashboard_talao')
         return redirect('/dashboard')
-    user_session = UserSession(flask.session)
-    # logging.info(user_session.userinfo["vp_token_payload"]
-    #             ["verifiableCredential"]["credentialSubject"]["email"])
-    session["email"] = user_session.userinfo["vp_token_payload"]["verifiableCredential"]["credentialSubject"]["email"]
+    session["email"] = email
     return (render_template("login.html", email=session.get("email")))
 
 
@@ -333,16 +338,18 @@ def set_config():
         wallet_provider_configuration["selfSovereignIdentityOptions"]["displayManageDecentralizedId"] = False
     else:
         wallet_provider_configuration["selfSovereignIdentityOptions"]["displayManageDecentralizedId"] = True
-
-    if request.form.to_dict()["displaySsiAdvancedSettings"] == "displaySsiAdvancedSettingsFalse":
+    wallet_provider_configuration["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"] = False
+    wallet_provider_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = False
+    """if request.form.to_dict()["displaySsiAdvancedSettings"] == "displaySsiAdvancedSettingsFalse":
         wallet_provider_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = False
     else:
         wallet_provider_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = True
+    
 
     if request.form.to_dict()["displayVerifiableDataRegistry"] == "displayVerifiableDataRegistryFalse":
         wallet_provider_configuration["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"] = False
     else:
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"] = True
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"] = True"""
 
     """if request.form.to_dict()["cryptoHolderBinding"] == "cryptoHolderBindingFalse":
         wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["cryptoHolderBinding"] = False
@@ -454,7 +461,7 @@ def set_config():
 
 def dashboard():
     if not session.get("organisation"):
-        return "Unauthorized", 401
+        return redirect("/login")
     if session.get("organisation") == "Talao":
         print(request.args.get("organisation"))
         session["organisation"] = request.args.get("organisation")

@@ -65,12 +65,12 @@
         "customEmail": null
     },
     "discoverCardsOptions" : {
-        "displayRewardsCategory": true,
+        "displayRewardsCategory": false,
         "displayOver18": true,
         "displayOver13": false,
         "displayOver15": true,
         "displayVerifiableId": true,
         "displayHumanity": true,
-        "displayDefi": true
+        "displayDefi": false
     }
 }
