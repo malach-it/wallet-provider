@@ -10,4 +10,4 @@ file_name="db.sqlite"
 mkdir -p "$destination_dir"
 
 # Copy the file to the destination directory and append the current date to the file name
-cp "$source_dir/$file_name" "$destination_dir/$file_name_$(date +'%Y-%m-%d')"
+cp "$source_dir/$file_name" "$destination_dir/$file_name_$(date +'%Y-%m-%d').sqlite"
