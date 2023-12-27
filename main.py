@@ -212,7 +212,7 @@ def login():
         session["configured"] = None
         user_session.clear()
         session.clear()
-        return render_template("wrong_email.html",email=email)
+        return render_template("wrong_email.html", email=email)
     if session.get("organisation"):
         if session.get("organisation") == "Talao":
             return redirect('/dashboard_talao')
@@ -513,12 +513,13 @@ def add_organisation():
     company_name = request.get_json().get("companyName")
     company_website = request.get_json().get("companyWebsite")
     password = generate_random_string(6)
-    if email.split("@")[1] == "wallet-provider":
+    if email.split("@")[1] == "wallet-provider.io":
         logging.info("demo organisation created")
-        password= json.load(open("keys.json", "r"))["password_demo"]
+        password = json.load(open("keys.json", "r"))["password_demo"]
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
-    message.messageHTML("Your altme password", email,
-                        'password', {'code': str(password)})
+    if email.split("@")[1] != "wallet-provider.io":
+        message.messageHTML("Your altme password", email,
+                            'password', {'code': str(password)})
     db.create_organisation(organisation)
     db.create_admin(email, sha256_hash, organisation, first_name, last_name)
     db.create_user(email, sha256_hash, organisation, first_name, last_name)
@@ -575,8 +576,8 @@ def update_password_admin():
     if session.get("organisation") != "Talao":
         return "Unauthorized", 401
     email = request.get_json().get("email")
-    if email.split("@")[1] == "wallet-provider":
-        return("ok")
+    if email.split("@")[1] == "wallet-provider.io":
+        return ("ok")
     password = generate_random_string(6)
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
     message.messageHTML("Your altme password", email,
@@ -590,8 +591,8 @@ def update_password_user():
 
     if not session.get("organisation") or db.read_organisation_user(email) != session.get("organisation"):
         return "Unauthorized", 401
-    if email.split("@")[1] == "wallet-provider":
-        return("ok")
+    if email.split("@")[1] == "wallet-provider.io":
+        return ("ok")
     password = generate_random_string(6)
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
     message.messageHTML("Your altme password", email,
@@ -625,9 +626,10 @@ def alert_users():
                 'message': message,
                 'did': user[0],
             }
-            response = requests.post('https://talao.co/matrix/send_message', headers=headers, json=json_data)
+            response = requests.post(
+                'https://talao.co/matrix/send_message', headers=headers, json=json_data)
             if response.status_code == 200:
-                logging.info("info sent to %s",user[0])
+                logging.info("info sent to %s", user[0])
             else:
                 logging.error(user[0])
     return "ok"
