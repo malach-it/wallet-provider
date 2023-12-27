@@ -48,7 +48,7 @@
             "subjectSyntaxeType": "did",
             "cryptoHolderBinding": true,
             "scope": false,
-            "clientAuthentication": "client_id_did",
+            "clientAuthentication": "client_id",
             "client_id": null,
             "client_secret": null,
             "oidc4vciDraft": "11",

@@ -23,6 +23,8 @@ import base64
 from werkzeug.utils import secure_filename
 from PIL import Image
 from io import BytesIO
+import requests
+
 
 VERSION = "0.1.0"
 
@@ -116,6 +118,8 @@ def init_app(app, red):
                      view_func=change_plan, methods=['POST'])
     app.add_url_rule('/alert_new_config',
                      view_func=alert_new_config, methods=['POST'])
+    app.add_url_rule('/alert_users',
+                     view_func=alert_users, methods=['POST'])
     app.add_url_rule('/version',
                      view_func=version, methods=['GET'])
     app.add_url_rule('/change_status',
@@ -509,6 +513,9 @@ def add_organisation():
     company_name = request.get_json().get("companyName")
     company_website = request.get_json().get("companyWebsite")
     password = generate_random_string(6)
+    if email.split("@")[1] == "wallet-provider":
+        logging.info("demo organisation created")
+        password= json.load(open("keys.json", "r"))["password_demo"]
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
     message.messageHTML("Your altme password", email,
                         'password', {'code': str(password)})
@@ -568,6 +575,8 @@ def update_password_admin():
     if session.get("organisation") != "Talao":
         return "Unauthorized", 401
     email = request.get_json().get("email")
+    if email.split("@")[1] == "wallet-provider":
+        return("ok")
     password = generate_random_string(6)
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
     message.messageHTML("Your altme password", email,
@@ -581,7 +590,8 @@ def update_password_user():
 
     if not session.get("organisation") or db.read_organisation_user(email) != session.get("organisation"):
         return "Unauthorized", 401
-
+    if email.split("@")[1] == "wallet-provider":
+        return("ok")
     password = generate_random_string(6)
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
     message.messageHTML("Your altme password", email,
@@ -598,6 +608,28 @@ def alert_new_config():
     for email in emails_list:
         message.message("Your " + organisation+" wallet",
                         email[0], "A new configuraiton is available. Update your wallet to use your new settings.")
+    return "ok"
+
+
+def alert_users():
+    if not session.get("organisation"):
+        return "Unauthorized", 401
+    users = db.read_thumbprints(session.get("organisation"))
+    message = request.get_json()["message"]
+    headers = {
+        'X-API-KEY': '8b807485-e19d-4d75-adfd-f8b47c97208b',
+    }
+    for user in users:
+        if user[0]:
+            json_data = {
+                'message': message,
+                'did': user[0],
+            }
+            response = requests.post('https://talao.co/matrix/send_message', headers=headers, json=json_data)
+            if response.status_code == 200:
+                logging.info("info sent to %s",user[0])
+            else:
+                logging.error(user[0])
     return "ok"
 
 

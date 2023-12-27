@@ -99,6 +99,9 @@
         <div id="line2DashboardDiv">
           <a class="buttonAltme" id="modifyConfiguration" href="/setup">START TO CUSTOMIZE YOUR WALLET</a>
           <button class="buttonAltme" onclick="alertUsers()">ALERT USERS OF A NEW CONFIGURATION</button>
+          <input type="text" id="message">
+          <button class="buttonAltme" onclick="sendInfo()">SEND MESSAGES TO USERS</button>
+
         </div>
 
       </div>
@@ -216,6 +219,18 @@
 
         })
           .then(response => { console.log(response.status); vNotify.info({ text: 'Users have been alerted about the new configuration update.', title: 'Info', sticky: true }); })
+          .catch(error => console.error('Error:', error));
+      }
+      function sendInfo(){
+        fetch('/alert_users', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({"message":document.getElementById("message").value})
+
+        })
+          .then(response => { console.log(response.status); vNotify.info({ text: 'Info has been sent trough chat to users.', title: 'Info', sticky: true }); })
           .catch(error => console.error('Error:', error));
       }
       function changeStatus(email, newStatus) {
