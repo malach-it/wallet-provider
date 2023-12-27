@@ -462,6 +462,8 @@ def set_config():
         logo_file = generate_random_filename(20)
         image.save('./logos/'+logo_file+'.png')
         wallet_provider_configuration["generalOptions"]["companyLogo"] = "https://wallet-provider.talao.co/logo/" + logo_file
+    else:
+        wallet_provider_configuration["generalOptions"]["companyLogo"] = db.read_logo_url(session["organisation"])
     db.update_config(json.dumps(wallet_provider_configuration),
                      session["organisation"])
     return redirect("/dashboard")
