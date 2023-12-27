@@ -78,6 +78,9 @@ def generate_random_code(length):
     characters = string.digits  # + string.ascii_lowercase +string.ascii_uppercase
     return ''.join(random.choice(characters) for _ in range(length))
 
+def generate_random_filename(length):
+    characters = string.ascii_uppercase  + string.digits + string.ascii_lowercase
+    return ''.join(random.choice(characters) for _ in range(length))
 
 def get_payload_from_token(token):
     """
@@ -265,8 +268,7 @@ def set_config():
         "walletType"]
     wallet_provider_configuration["generalOptions"]["companyName"] = request.form.to_dict()[
         "companyName"]
-    wallet_provider_configuration["generalOptions"]["companyLogo"] = "https://wallet-provider.talao.co/logo/" + \
-        session.get("organisation")
+    
     wallet_provider_configuration["generalOptions"]["companyWebsite"] = request.form.to_dict()[
         "companyWebsite"]
     wallet_provider_configuration["generalOptions"]["tagLine"] = request.form.to_dict()[
@@ -457,7 +459,9 @@ def set_config():
         png_buffer.seek(0)
         png_file = png_buffer.read()
         image = Image.open(BytesIO(png_file))
-        image.save('./logos/'+session.get("organisation")+'.png')
+        logo_file = generate_random_filename(20)
+        image.save('./logos/'+logo_file+'.png')
+        wallet_provider_configuration["generalOptions"]["companyLogo"] = "https://wallet-provider.talao.co/logo/" + logo_file
     db.update_config(json.dumps(wallet_provider_configuration),
                      session["organisation"])
     return redirect("/dashboard")
