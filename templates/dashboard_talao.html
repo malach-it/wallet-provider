@@ -37,7 +37,7 @@
             <td>{{row[5]}}</td>
             <td><button onclick="sendNewPassword('{{row[0]}}')">send a new password</button></td>
 
-            <td><button onclick="deleteOrga('{{row[1]}}')">delete</button></td>
+            <td class="delete{{row[1]}}"><button onclick="deleteOrga('{{row[1]}}')">delete</button></td>
             <td>
                 <div class="planChanger{{row[1]}}">
                     <select id="newPlan{{row[1]}}">
@@ -51,7 +51,7 @@
             </td>
             <td>
 
-                <div>
+                <div class="statusChanger{{row[1]}}">
                     <select id="newStatus{{row[1]}}" class="inputDashboard">
                         <option onclick="changeStatus('{{row[1]}}')" value="active">active</option>
                         <option onclick="changeStatus('{{row[1]}}')" value="inactive">inactive</option>

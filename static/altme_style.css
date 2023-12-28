@@ -1544,6 +1544,14 @@ a {
     padding: 16px;
 }
 
+.statusChangerTalao {
+    display: none;
+}
+
+.deleteTalao {
+    display: none;
+}
+
 .inputDashboardfree {
     border-radius: 6px;
     border: 1px solid var(--gray-300, #DEE2E6);
@@ -1839,11 +1847,11 @@ th {
     gap: 20px;
 }
 
-#invalidPassword{
+#invalidPassword {
     color: red;
     font-family: Roboto;
 }
 
-button{
+button {
     cursor: pointer;
 }
