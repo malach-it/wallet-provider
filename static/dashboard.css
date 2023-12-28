@@ -24,7 +24,8 @@ button {
     width: fit-content;
 }
 
-td,th {
+td,
+th {
     padding: 6px;
     border: 1px black solid;
 }
@@ -38,4 +39,12 @@ td {
 table {
     width: fit-content;
     border-collapse: collapse;
+}
+
+.statusChangerTalao {
+    display: none;
+}
+
+.deleteTalao {
+    display: none;
 }
