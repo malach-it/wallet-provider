@@ -627,6 +627,7 @@ def alert_users():
         'X-API-KEY': '8b807485-e19d-4d75-adfd-f8b47c97208b',
     }
     for user in users:
+        logging.info(user)
         if user[0]:
             json_data = {
                 'message': message,
@@ -637,7 +638,8 @@ def alert_users():
             if response.status_code == 200:
                 logging.info("info sent to %s", user[0])
             else:
-                logging.error(user[0])
+                pass
+                #logging.error(user[0])
     return "ok"
 
 
