@@ -186,7 +186,9 @@ def read_organisation_user(email: str) -> str:
 def read_logo_url(organisation: str):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute("select json_extract(config,'$.generalOptions.companyLogo') from organisations where name'{organisation}'".format(
+    print("select json_extract(config,'$.generalOptions.companyLogo') from organisations where name='{organisation}'".format(
+        organisation=organisation))
+    c.execute("select json_extract(config,'$.generalOptions.companyLogo') from organisations where name='{organisation}'".format(
         organisation=organisation))
     rows = c.fetchall()
     if len(rows) < 1:
