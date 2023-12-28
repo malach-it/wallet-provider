@@ -49,11 +49,37 @@
                 </div>
 
             </td>
+            <td>
+
+                <div>
+                    <select id="newStatus{{row[1]}}" class="inputDashboard">
+                        <option onclick="changeStatus('{{row[1]}}')" value="active">active</option>
+                        <option onclick="changeStatus('{{row[1]}}')" value="inactive">inactive</option>
+                    </select>
+
+                </div>
+            </td>
+
         </tr>
         {% endfor %}
     </table>
     <script>
+        function changeStatus(organisation) {
+            console.log("changing status ", organisation, " ", document.getElementById("newStatus" + organisation).value)
+            fetch('/update_status_organisation', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ "organisation": organisation, "new_status": document.getElementById("newStatus" + organisation).value })
 
+            })
+                .then(response => { console.log(response.status); })
+                .catch(error => console.error('Error:', error));
+        }
+        {% for row in table %}
+        document.getElementById("newStatus{{row[1]}}").value = "{{ row[6] }}" === "1" ? "active" : "inactive"
+        {% endfor %}
         {% for row in table %}
         document.getElementById("newPlan{{row[1]}}").value = "{{row[5]}}";
         {% endfor %}
@@ -132,8 +158,8 @@
                 .then(response => { console.log(response.status); window.location.reload() })
                 .catch(error => console.error('Error:', error));
         }
-        function goDashboard(){
-            window.location = "/dashboard?organisation="+document.getElementById("organisationDashboard").value
+        function goDashboard() {
+            window.location = "/dashboard?organisation=" + document.getElementById("organisationDashboard").value
         }
     </script>
 </body>

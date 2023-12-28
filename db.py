@@ -183,6 +183,7 @@ def read_organisation_user(email: str) -> str:
         return None
     return rows[0][0]
 
+
 def read_logo_url(organisation: str):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
@@ -238,7 +239,7 @@ def read_config_from_organisation(organisation: str):
 def read_tables():
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute('select email,json_extract(data,"$.organisation") as organisation,json_extract(data,"$.password")as password,name,configured ,json_extract(config,"$.generalOptions.customerPlan") as plan from admins,organisations where json_extract(data,"$.organisation")=name')
+    c.execute('select email,json_extract(data,"$.organisation") as organisation,json_extract(data,"$.password")as password,name,configured ,json_extract(config,"$.generalOptions.customerPlan") as plan ,json_extract(config,"$.generalOptions.organizationStatus") as status from admins,organisations where json_extract(data,"$.organisation")=name')
     rows = c.fetchall()
     return rows
 
@@ -288,6 +289,21 @@ def update_status_user(email, status):
     c = conn.cursor()
     c.execute("update users set data = json_set(data,'$.status','{status}')   where email='{email}'".format(
         email=email, status=status))
+    conn.commit()
+    return True
+
+
+def update_status_organisation(organisation, status):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    if status == "active":
+        status = "json('true')"
+    else:
+        status = "json('false')"
+    print("update organisations set config = json_set(config,'$.generalOptions.organizationStatus','{status}')   where name='{organisation}'".format(
+        organisation=organisation, status=status))
+    c.execute("update organisations set config = json_set(config,'$.generalOptions.organizationStatus',{status})   where name='{organisation}'".format(
+        organisation=organisation, status=status))
     conn.commit()
     return True
 

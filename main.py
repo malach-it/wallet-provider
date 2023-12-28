@@ -137,6 +137,8 @@ def init_app(app, red):
                      view_func=disable_wallet_validate_code, methods=['POST'])
     app.add_url_rule('/disable_wallet_set_inactive',
                      view_func=disable_wallet_set_inactive, methods=['POST'])
+    app.add_url_rule('/update_status_organisation',
+                     view_func=update_status_organisation, methods=['POST'])
     return
 
 
@@ -577,6 +579,15 @@ def delete_organisation():
     db.delete_organisation(organisation)
     return ("ok")
 
+def update_status_organisation():
+    if session.get("organisation") != "Talao":
+        return "Unauthorized", 401
+    organisation = request.get_json().get("organisation")
+    new_status = request.get_json().get("new_status")
+    print(organisation+" "+new_status)
+    db.update_status_organisation(organisation,new_status)
+    return ("ok")
+
 
 def update_password_admin():
     if session.get("organisation") != "Talao":
@@ -594,7 +605,6 @@ def update_password_admin():
 
 def update_password_user():
     email = request.get_json().get("email")
-
     if not session.get("organisation") or db.read_organisation_user(email) != session.get("organisation"):
         return "Unauthorized", 401
     if email.split("@")[1] == "wallet-provider.io":
