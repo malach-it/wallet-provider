@@ -307,8 +307,8 @@ def wallet_configuration_endpoint():
         return Response(**manage_error('invalid_request', 'Wallet attestation expired'))
 
     # check if user is suspended
-    if not db.read_status_from_thumbprint(kid):
-        return Response(**manage_error('invalid_client', 'User has been suspended'))
+    # if not db.read_status_from_thumbprint(kid):
+    #    return Response(**manage_error('invalid_client', 'User has been suspended'))
 
     # Update user data with user wallet attestation data
     user_data = db.read_data_user(user_email)  # -> dict
@@ -408,7 +408,8 @@ def wallet_update_endpoint():
 
      # check if user is suspended
     if not db.read_status_from_thumbprint(kid):
-        return Response(**manage_error('invalid_client', 'User has been suspended'))
+        logging.warning("User %s has been suspended", user_email)
+        # return Response(**manage_error('invalid_client', 'User has been suspended'))
 
     # check user data with user wallet attestation data
     user_data = db.read_data_user(user_email)  # -> dict

@@ -220,7 +220,7 @@ def read_status_from_thumbprint(thumbprint):
         return True
     return False
 
-
+print(read_status_from_thumbprint("l"))
 def read_config(email: str) -> dict:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
