@@ -675,6 +675,7 @@ def alert_users():
                 'message': message,
                 'did': user[0],
             }
+            logging.info(str(json_data))
             response = requests.post(
                 'https://talao.co/matrix/send_message', headers=headers, json=json_data)
             if response.status_code == 200:
