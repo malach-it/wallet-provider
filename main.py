@@ -78,9 +78,11 @@ def generate_random_code(length):
     characters = string.digits  # + string.ascii_lowercase +string.ascii_uppercase
     return ''.join(random.choice(characters) for _ in range(length))
 
+
 def generate_random_filename(length):
-    characters = string.ascii_uppercase  + string.digits + string.ascii_lowercase
+    characters = string.ascii_uppercase + string.digits + string.ascii_lowercase
     return ''.join(random.choice(characters) for _ in range(length))
+
 
 def get_payload_from_token(token):
     """
@@ -139,6 +141,8 @@ def init_app(app, red):
                      view_func=disable_wallet_set_inactive, methods=['POST'])
     app.add_url_rule('/update_status_organisation',
                      view_func=update_status_organisation, methods=['POST'])
+    app.add_url_rule('/send_message',
+                     view_func=send_message, methods=['POST'])
     return
 
 
@@ -270,7 +274,7 @@ def set_config():
         "walletType"]
     wallet_provider_configuration["generalOptions"]["companyName"] = request.form.to_dict()[
         "companyName"]
-    
+
     wallet_provider_configuration["generalOptions"]["companyWebsite"] = request.form.to_dict()[
         "companyWebsite"]
     wallet_provider_configuration["generalOptions"]["tagLine"] = request.form.to_dict()[
@@ -465,7 +469,8 @@ def set_config():
         image.save('./logos/'+logo_file+'.png')
         wallet_provider_configuration["generalOptions"]["companyLogo"] = "https://wallet-provider.talao.co/logo/" + logo_file
     else:
-        wallet_provider_configuration["generalOptions"]["companyLogo"] = db.read_logo_url(session["organisation"])
+        wallet_provider_configuration["generalOptions"]["companyLogo"] = db.read_logo_url(
+            session["organisation"])
     db.update_config(json.dumps(wallet_provider_configuration),
                      session["organisation"])
     return redirect("/dashboard")
@@ -543,6 +548,32 @@ def delete_user():
     return ("ok")
 
 
+def send_message():
+    if not session.get("organisation"):
+        return "Unauthorized", 401
+    organisation = session.get("organisation")
+    thumbprint = db.read_thumbprint(
+        request.get_json().get("email"), organisation)
+    message = request.get_json().get("message")
+    if thumbprint:
+        headers = {
+            'X-API-KEY': '8b807485-e19d-4d75-adfd-f8b47c97208b',
+        }
+        json_data = {
+            'message': message,
+            'did': thumbprint,
+        }
+        response = requests.post(
+            'https://talao.co/matrix/send_message', headers=headers, json=json_data)
+        if response.status_code == 200:
+            logging.info("info sent to %s", thumbprint)
+        else:
+            pass
+    else:
+        logging.warning("no thumbprint")
+    return ("ok")
+
+
 def logout():
     session["organisation"] = None
     session["configured"] = None
@@ -579,13 +610,14 @@ def delete_organisation():
     db.delete_organisation(organisation)
     return ("ok")
 
+
 def update_status_organisation():
     if session.get("organisation") != "Talao":
         return "Unauthorized", 401
     organisation = request.get_json().get("organisation")
     new_status = request.get_json().get("new_status")
     print(organisation+" "+new_status)
-    db.update_status_organisation(organisation,new_status)
+    db.update_status_organisation(organisation, new_status)
     return ("ok")
 
 
@@ -649,7 +681,7 @@ def alert_users():
                 logging.info("info sent to %s", user[0])
             else:
                 pass
-                #logging.error(user[0])
+                # logging.error(user[0])
     return "ok"
 
 

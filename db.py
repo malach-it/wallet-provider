@@ -151,6 +151,17 @@ def read_thumbprints(organisation: str):
     return rows
 
 
+def read_thumbprint(email: str, organisation: str):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("select json_extract(data,'$.wallet_instance_key_thumbprint') from users where email ='{email}' and json_extract(data,'$.organisation')='{organisation}'".format(
+        email=email, organisation=organisation))
+    rows = c.fetchall()
+    if len(rows) < 1:
+        return None
+    return rows[0][0]
+
+
 def read_email_users(organisation: str):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()

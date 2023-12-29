@@ -1582,8 +1582,17 @@ tr:nth-child(even) {
 
 td,
 th {
-    padding: 20px 40px;
+    padding: 20px 30px;
     font-family: Roboto;
+}
+
+.linkSetup {
+    color: blue;
+    font-family: Roboto;
+    font-size: 12px;
+    font-style: normal;
+    font-weight: 400;
+    text-decoration: underline;
 }
 
 .buttonTable {

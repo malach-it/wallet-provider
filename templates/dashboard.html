@@ -98,9 +98,12 @@
         <p class="title">Change wallet customization</p>
         <div id="line2DashboardDiv">
           <a class="buttonAltme" id="modifyConfiguration" href="/setup">START TO CUSTOMIZE YOUR WALLET</a>
-          <button class="buttonAltme" onclick="alertUsers()">ALERT USERS OF A NEW CONFIGURATION</button>
-          <input type="text" id="message">
-          <button class="buttonAltme" onclick="sendInfo()">SEND MESSAGES TO USERS</button>
+          <button class="buttonAltme" onclick="alertUsers()">ALERT USERS OF A NEW CONFIGURATION BY EMAIL</button>
+        </div>
+        <div id="line2DashboardDiv">
+
+          <input type="text" id="message" placeholder="Message to send by chat..">
+          <button class="buttonAltme" onclick="sendInfo()">SEND MESSAGES TO USERS BY CHAT</button>
 
         </div>
 
@@ -127,6 +130,8 @@
 
             <th class="{{customer_plan}}"></th>
             <th></th>
+            <th></th>
+
 
           </tr>
 
@@ -147,6 +152,8 @@
             <td class="{{customer_plan}}"><button class="buttonTable" onclick="deleteUser('{{row[0]}}')">Delete
                 user</button></td>
             <td><button class="buttonTable" onclick="sendNewPassword('{{row[0]}}')">Regenerate password</button></td>
+            <td><input type="text" id="messageTo{{row[0]}}"><button onclick="sendMessage('{{row[0]}}')">SEND
+                CHAT</button></td>
 
           </tr>
 
@@ -170,6 +177,20 @@
           })
         })
           .then(response => { console.log(response.status); window.location.reload() })
+          .catch(error => console.error('Error:', error));
+      }
+      function sendMessage(email) {
+        fetch('/send_message', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            email: email,
+            message: document.getElementById("messageTo" + email).value
+          })
+        })
+          .then(response => { console.log(response.status); vNotify.info({ text: 'Message sent by chat.', title: 'Info', sticky: true }); })
           .catch(error => console.error('Error:', error));
       }
       function logout() {
@@ -221,13 +242,13 @@
           .then(response => { console.log(response.status); vNotify.info({ text: 'Users have been alerted about the new configuration update.', title: 'Info', sticky: true }); })
           .catch(error => console.error('Error:', error));
       }
-      function sendInfo(){
+      function sendInfo() {
         fetch('/alert_users', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json'
           },
-          body: JSON.stringify({"message":document.getElementById("message").value})
+          body: JSON.stringify({ "message": document.getElementById("message").value })
 
         })
           .then(response => { console.log(response.status); vNotify.info({ text: 'Info has been sent trough chat to users.', title: 'Info', sticky: true }); })
