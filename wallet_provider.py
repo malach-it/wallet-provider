@@ -26,7 +26,7 @@ WALLET_PROVIDER_PUBLIC_KEY = copy.copy(WALLET_PROVIDER_KEY)
 del WALLET_PROVIDER_PUBLIC_KEY['d']
 WALLET_PROVIDER_VM = 'did:web:talao.co#key-2'
 WALLET_PROVIDER_DID = 'did:web:talao.co'
-WALLET_API_VERSION = '0.3.0'
+WALLET_API_VERSION = '0.3.1'
 ATTESTATION_DURATION = 365  # days
 
 
@@ -263,7 +263,7 @@ def wallet_configuration_endpoint():
         return Response(**manage_error('server_error', 'verify_password_user DB call failed'))
     if not check:
         return Response(**manage_error('invalid_request', 'user not found'))
-    logging.info('logging/password is fine for %s', user_email)
+    logging.info('login/password is fine for %s', user_email)
 
     try:
         wallet_attestation = get_payload_from_jwt(request.form['assertion'])
@@ -283,6 +283,7 @@ def wallet_configuration_endpoint():
         jti = wallet_attestation.get('jti')
         exp = wallet_attestation['exp']
         user_jwk = wallet_attestation['cnf']['jwk']
+        kid = user_jwk['kid']
         user_sub = wallet_attestation['sub']
     except Exception as e:
         return Response(**manage_error('invalid_client', 'incorrect wallet attestation format -> ' + str(e)))
@@ -304,6 +305,10 @@ def wallet_configuration_endpoint():
         return Response(**manage_error('invalid_client', 'Wallet attestation is not issued by trusted wallet provider'))
     if exp < datetime.timestamp(datetime.now().replace(second=0, microsecond=0)):
         return Response(**manage_error('invalid_request', 'Wallet attestation expired'))
+
+    # check if user is suspended
+    if not db.read_status_from_thumbprint(kid):
+        return Response(**manage_error('invalid_client', 'User has been suspended'))
 
     # Update user data with user wallet attestation data
     user_data = db.read_data_user(user_email)  # -> dict
@@ -330,6 +335,13 @@ def wallet_configuration_endpoint():
         return Response(**manage_error('server_error', 'incorrect configuration file'))
     if not config:
         return Response(**manage_error('invalid_request', 'configuration is not found for this user ' + user_email))
+
+    # Check if organization is still active
+    logging.info('Organization status = %s',
+                 config.get('organizationStatus', True))
+    if not config.get('organizationStatus', True):
+        return Response(**manage_error('invalid_client', 'This organization is suspended'))
+
     payload = sign_jwt(config, 'JWT', duration=90*24*60*60,
                        jti=config['generalOptions']['profileId'])
     if not payload:
@@ -365,7 +377,7 @@ def wallet_update_endpoint():
     except Exception:
         return Response(**manage_error('server_error', 'verify_password_user DB call failed'))
     if not check:
-        return Response(**manage_error('invalid_request', 'user not found'))
+        return Response(**manage_error('invalid_client', 'user not found'))
     logging.info('logging/password is fine for %s', user_email)
 
     try:
@@ -378,12 +390,14 @@ def wallet_update_endpoint():
         verif_token(request.form['assertion'])
         logging.info('wallet attestation signature is ok')
     except Exception as e:
-        return Response(**manage_error('invalid_request', 'Wallet attestation signature check failed ->' + str(e)))
+        return Response(**manage_error('invalid_client', 'Wallet attestation signature check failed ->' + str(e)))
 
     # check wallet attestation format
     try:
         iss = wallet_attestation['iss']
         exp = wallet_attestation['exp']
+        user_jwk = wallet_attestation['cnf']['jwk']
+        kid = user_jwk['kid']
     except Exception as e:
         return Response(**manage_error('invalid_request', 'incorrect wallet attestation format -> ' + str(e)))
 
@@ -391,6 +405,10 @@ def wallet_update_endpoint():
         return Response(**manage_error('invalid_request', 'Wallet attestation is not issued by trusted wallet provider'))
     if exp < datetime.timestamp(datetime.now().replace(second=0, microsecond=0)):
         return Response(**manage_error('invalid_request', 'Wallet attestation expired'))
+
+     # check if user is suspended
+    if not db.read_status_from_thumbprint(kid):
+        return Response(**manage_error('invalid_client', 'User has been suspended'))
 
     # check user data with user wallet attestation data
     user_data = db.read_data_user(user_email)  # -> dict
@@ -417,7 +435,14 @@ def wallet_update_endpoint():
     except Exception:
         return Response(**manage_error('server_error', 'incorrect configuration file'))
     if not config:
-        return Response(**manage_error('invalid_request', 'configuration is not found for this user ' + user_email))
+        return Response(**manage_error('invalid_client', 'configuration is not found for this user ' + user_email))
+
+     # Check if organization is still active
+    logging.info('Organization status = %s',
+                 config.get('organizationStatus', True))
+    if not config.get('organizationStatus', True):
+        return Response(**manage_error('invalid_client', 'This organization is suspended'))
+
     payload = sign_jwt(config, 'JWT', duration=90*24*60*60,
                        jti=config['generalOptions']['profileId'])
     if not payload:
