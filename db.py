@@ -198,8 +198,7 @@ def read_organisation_user(email: str) -> str:
 def read_logo_url(organisation: str):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    print("select json_extract(config,'$.generalOptions.companyLogo') from organisations where name='{organisation}'".format(
-        organisation=organisation))
+
     c.execute("select json_extract(config,'$.generalOptions.companyLogo') from organisations where name='{organisation}'".format(
         organisation=organisation))
     rows = c.fetchall()
@@ -220,7 +219,6 @@ def read_status_from_thumbprint(thumbprint):
         return True
     return False
 
-print(read_status_from_thumbprint("l"))
 def read_config(email: str) -> dict:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
@@ -311,8 +309,6 @@ def update_status_organisation(organisation, status):
         status = "json('true')"
     else:
         status = "json('false')"
-    print("update organisations set config = json_set(config,'$.generalOptions.organizationStatus','{status}')   where name='{organisation}'".format(
-        organisation=organisation, status=status))
     c.execute("update organisations set config = json_set(config,'$.generalOptions.organizationStatus',{status})   where name='{organisation}'".format(
         organisation=organisation, status=status))
     conn.commit()

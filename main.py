@@ -182,18 +182,12 @@ def disable_wallet():
 
 
 def disable_wallet_get_code():
-    check = db.verify_password_user(request.get_json().get(
-        "email"), request.get_json().get("password"))
-    logging.info(check)
-    logging.info(request.get_json().get("email")+" " +
-                 request.get_json().get("password"))
-    if check:
-        session["code"] = generate_random_code(4)
-        session["email"] = request.get_json().get("email")
-        message.messageHTML("Your altme code", request.get_json().get("email"),
+
+    session["code"] = generate_random_code(4)
+    session["email"] = request.get_json().get("email")
+    message.messageHTML("Your altme code", request.get_json().get("email"),
                             'code_auth_en', {'code': str(session["code"])})
-        return "ok"
-    return "Unauthorized", 401
+    return "ok"
 
 
 def disable_wallet_validate_code():
@@ -480,9 +474,7 @@ def dashboard():
     if not session.get("organisation"):
         return redirect("/login")
     if session.get("organisation") == "Talao":
-        print(request.args.get("organisation"))
         session["organisation"] = request.args.get("organisation")
-    print(session.get("organisation"))
     if db.read_configured(session.get("organisation")) == 0:
         return redirect("/setup")
     plan = db.read_plan(session.get("organisation"))
@@ -616,7 +608,6 @@ def update_status_organisation():
         return "Unauthorized", 401
     organisation = request.get_json().get("organisation")
     new_status = request.get_json().get("new_status")
-    print(organisation+" "+new_status)
     db.update_status_organisation(organisation, new_status)
     return ("ok")
 
