@@ -1496,6 +1496,17 @@ a {
     font-size: 16px;
 }
 
+.buttonAltmeInversed {
+    border-radius: 8px;
+    background: var(--Brand---Purple-default, white);
+    border: 1px solid #330080;
+    padding: 12px 24px;
+    color: #330080;
+    font-family: Roboto;
+    font-weight: 700;
+    font-size: 16px;
+}
+
 #passwordInput {
     border-radius: 6px;
     border: 1px solid var(--gray-300, #DEE2E6);
@@ -1562,13 +1573,27 @@ a {
     border: 1px solid var(--swatch-100, #DCDDDF);
     background: var(--White, #FFF);
     padding: 24px;
+    width: calc(100% - 48px);
 }
 
 #line3Dashboard {
     display: flex;
     flex-direction: column;
     gap: 16px;
+    width: 100%;
 }
+
+#emailAdd {
+    width: 40%;
+}
+
+#buttonAddUser {
+    width: 160px;
+}
+
+#firstName {}
+
+#lastName {}
 
 tr:nth-child(even) {
     background-color: #f2f2f2;
@@ -1578,12 +1603,15 @@ tr:nth-child(even) {
     border-radius: 16px;
     border-spacing: 0;
     border: solid 1px #DCDDDF;
+    width: 100%;
 }
 
 td,
 th {
-    padding: 20px 30px;
+    padding: 20px 20px;
     font-family: Roboto;
+    text-align: left;
+    white-space: nowrap;
 }
 
 .linkSetup {
@@ -1593,6 +1621,7 @@ th {
     font-style: normal;
     font-weight: 400;
     text-decoration: underline;
+    width: fit-content;
 }
 
 .buttonTable {
@@ -1717,7 +1746,16 @@ th {
     font-style: normal;
     font-weight: 400;
     line-height: 24px;
-    margin-bottom: 30px;
+    margin-bottom: 0px;
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    width: fit-content;
+    align-items: center;
+}
+
+#arrowback {
+    height: 16px;
 }
 
 .optionLabel {
@@ -1726,6 +1764,16 @@ th {
     font-style: normal;
     font-weight: 400;
     line-height: 20px;
+}
+
+.optionLabelA {
+    font-family: Roboto;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 20px;
+    text-decoration: underline;
+    color: blue;
 }
 
 .customizeUnderTitle {
@@ -1750,13 +1798,13 @@ th {
 
 .submit {
     border-radius: 8px;
-    background: var(--Brand---Purple-default, #330080);
-    padding: 12px 24px;
-    color: white;
-    border: none;
     margin: auto;
     cursor: pointer;
-
+    background: var(--Brand---Purple-default, white);
+    border: 1px solid #330080;
+    padding: 12px 24px;
+    color: #330080;
+    font-weight: bold;
 }
 
 .previousStep {
@@ -1765,6 +1813,17 @@ th {
     padding: 12px 24px;
     color: white;
     border: none;
+    width: 130px;
+}
+
+#finalPreviousStep {
+    position: relative;
+    right: 65px;
+}
+
+#firstPreviousStep {
+    position: relative;
+    left: 65px;
 }
 
 .nextStep {
@@ -1773,6 +1832,8 @@ th {
     padding: 12px 24px;
     color: white;
     border: none;
+    width: 130px;
+
 }
 
 .optionDivDisabled {
@@ -1857,4 +1918,79 @@ th {
 
 button {
     cursor: pointer;
+}
+
+#barProgress {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.linkBarProgress {
+    background-color: transparent;
+    border: none;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    width: 200px;
+}
+
+.boldWhiteP {
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.circleActive {
+    height: 40px;
+    width: 40px;
+    text-align: center;
+    border-radius: 50%;
+    line-height: 40px;
+    background-color: #330080;
+}
+
+.boldPurpleP {
+    color: #330080;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.circleInactive {
+    height: 34px;
+    width: 34px;
+    text-align: center;
+    border-radius: 50%;
+    line-height: 34px;
+    background-color: white;
+    border: solid 3px grey;
+}
+
+
+
+.boldGreyP {
+    color: grey;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+.linkBarProgress:hover {
+    color: #330080 !important;
+
+
+}
+
+#desktopMessage {
+    max-width: 70%;
+    color: var(--Black, #14171C);
+    font-family: Roboto;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 32px;
+    /* 133.333% */
+    letter-spacing: -0.25px;
+    text-align: center;
 }

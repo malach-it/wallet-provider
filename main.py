@@ -24,7 +24,7 @@ from werkzeug.utils import secure_filename
 from PIL import Image
 from io import BytesIO
 import requests
-
+from flask_mobility import Mobility
 
 VERSION = "0.1.0"
 
@@ -53,6 +53,7 @@ app.config['SESSION_FILE_THRESHOLD'] = 100
 app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=60)
 sess = Session()
 sess.init_app(app)
+Mobility(app)
 """
 Init OpenID Connect client PYOIDC with the 3 bridge parameters :  client_id, client_secret and issuer URL
 """
@@ -208,6 +209,8 @@ def disable_wallet_set_inactive():
 
 @auth.oidc_auth('default')
 def login():
+    if request.MOBILE:
+        return render_template("mobile.html")
     user_session = UserSession(flask.session)
     email = user_session.userinfo["vp_token_payload"]["verifiableCredential"]["credentialSubject"]["email"]
     if not db.read_organisation(email):
@@ -243,6 +246,8 @@ def login_password():
 
 
 def setup():
+    if request.MOBILE:
+        return render_template("mobile.html")
     if not session.get("organisation") or session.get("organisation") == "Talao":
         return "Unauthorized", 401
     organisation = session["organisation"]
@@ -471,6 +476,8 @@ def set_config():
 
 
 def dashboard():
+    if request.MOBILE:
+        return render_template("mobile.html")
     if not session.get("organisation"):
         return redirect("/login")
     if session.get("organisation") == "Talao":

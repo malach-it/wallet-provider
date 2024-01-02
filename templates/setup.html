@@ -126,8 +126,51 @@
     </div>
     <div id="mainBox">
         <div id="customizer">
-            <a id="backToDashboard" href="/dashboard">Back to the dashboard</a>
-            <p id="customizeTitle">Customize your DID Wallet</p>
+            <a id="backToDashboard" href="/dashboard"><img id="arrowback" src="/static/img/arrowback.svg">
+                <p>Back to the dashboard</p>
+            </a>
+            <div id="barProgress">
+                <button onclick="goStep1()" class="linkBarProgress">
+                    <div class="circleActive">
+                        <p class="boldWhiteP">1</p>
+                    </div>
+                    <p class="boldPurpleP">Branding options</p>
+                </button>
+
+                <button onclick="goStep2()" class="linkBarProgress">
+                    <div id="circle2" class="circleInactive">
+                        <p id="number2" class="boldGreyP">2</p>
+                    </div>
+                    <p id="title2" class="boldGreyP">Settings options</p>
+                </button>
+
+                <button onclick="goStep3()" class="linkBarProgress">
+                    <div id="circle3" class="circleInactive">
+                        <p id="number3" class="boldGreyP">3</p>
+                    </div>
+                    <p id="title3" class="boldGreyP">Blockchain options</p>
+                </button>
+
+                <button onclick="goStep4()" class="linkBarProgress">
+                    <div id="circle4" class="circleInactive">
+                        <p id="number4" class="boldGreyP">4</p>
+                    </div>
+                    <p id="title4" class="boldGreyP">SSI options</p>
+                </button>
+                <button onclick="goStep5()" class="linkBarProgress">
+                    <div id="circle5" class="circleInactive">
+                        <p id="number5" class="boldGreyP">5</p>
+                    </div>
+                    <p id="title5" class="boldGreyP">Communication options</p>
+                </button>
+                <button onclick="goStep6()" class="linkBarProgress">
+                    <div id="circle6" class="circleInactive">
+                        <p id="number6" class="boldGreyP">6</p>
+                    </div>
+                    <p id="title6" class="boldGreyP">Issuer marketplace options</p>
+                </button>
+            </div>
+            <p id="customizeTitle">Customize your DID Wallet : Branding options</p>
             <p id="defaultTitle">Default parameters are pre-set. Modify only what is necessary.</p>
             <form action="/set_config" method="post" enctype="multipart/form-data">
                 <div id="step1Div" class="stepDiv">
@@ -198,7 +241,7 @@
 
 
                     <div class="buttonsStep">
-                        <input class="submit" type="submit" value="Set up config">
+                        <input id="firstPreviousStep" class="submit" type="submit" value="Set up configuration now">
                         <button type="button" class="nextStep" onclick="goStep2()">Next step</button>
 
                     </div>
@@ -393,9 +436,9 @@
 
                     <div class="buttonsStep">
                         <button type="button" class="previousStep" onclick="goStep1()">Previous step</button>
-                        <input class="submit" type="submit" value="Set up config">
+                        <input class="submit" type="submit" value="Set up configuration now">
 
-                        <button type="button" class="nextStep" onclick="goStep3()">Next step</button>
+                        <button type="button" class="nextStep" onclick="goNextStep2()">Next step</button>
                     </div>
                 </div>
                 <div id="step3Div" class="displayNone">
@@ -503,7 +546,7 @@
                         </div>
                         <div class="buttonsStep">
                             <button type="button" class="previousStep" onclick="goStep2()">Previous step</button>
-                            <input class="submit" type="submit" value="Set up config">
+                            <input class="submit" type="submit" value="Set up configuration now">
 
                             <button type="button" class="nextStep" onclick="goStep4()">Next step</button>
                         </div>
@@ -588,7 +631,7 @@
 
 
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">5.4 Security level</p>
+                            <p class="optionDivMainTitle">5.2 Security level</p>
                             <p class="optionDivSecondTitle">If Low, wallet does not check signature of jwt client
                                 request</p>
                             <div class="optionsDivRow">
@@ -606,7 +649,7 @@
 
                         </div>
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">5.5 Credential manifest support</p>
+                            <p class="optionDivMainTitle">5.3 Credential manifest support</p>
                             <p class="optionDivSecondTitle"></p>
 
                             <div class="optionsDivRow">
@@ -628,7 +671,7 @@
                             </div>
                         </div>
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">5.6 User PIN digits</p>
+                            <p class="optionDivMainTitle">5.4 User PIN digits</p>
                             <p class="optionDivSecondTitle">4 or 6 digits for pre authorized code flow PIN code.</p>
                             <div class="optionsDivRow">
                                 <div class="labelAndButton">
@@ -653,7 +696,7 @@
 
 
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.7 Default DID Method</p>
+                                <p class="optionDivMainTitle">5.5 Default DID Method</p>
                                 <p class="optionDivSecondTitle">DID of the wallet</p>
                                 <select class="selectSetup" id="defaultDid" name="defaultDid">
                                     <option value="did:key:ebsi">did:key:ebsi</option>
@@ -664,7 +707,7 @@
                                 </select>
                             </div>
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.8 Subject syntax</p>
+                                <p class="optionDivMainTitle">5.6 Subject syntax</p>
                                 <p class="optionDivSecondTitle">When the Subject Syntax Type is JWK Thumbprint, the
                                     valid value is urn:ietf:params:oauth:jwk-thumbprint. When the Subject Syntax Type is
                                     a Decentralized Identifier, valid values MUST be done </p>
@@ -701,7 +744,7 @@
 
 
                             <div class="optionDivDisabled">
-                                <p class="optionDivMainTitle">5.9 Cryptogtraphic Holder Binding</p>
+                                <p class="optionDivMainTitle">5.7 Cryptographic Holder Binding</p>
                                 <p class="optionDivSecondTitle">If not checked VC will be issued as a bearer credential
                                 </p>
                                 <div class="optionsDivRow">
@@ -721,7 +764,7 @@
                                 </div>
                             </div>
                             <div class="optionDivDisabled">
-                                <p class="optionDivMainTitle">5.10 Scope parameters</p>
+                                <p class="optionDivMainTitle">5.8 Scope parameters</p>
                                 <p class="optionDivSecondTitle">If checked use scope parameters to request credential
                                     issuance.
                                 </p>
@@ -751,7 +794,7 @@
 
 
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.11 Client authentication method</p>
+                                <p class="optionDivMainTitle">5.9 Client authentication method</p>
                                 <p class="optionDivSecondTitle">Client authentication method as public client or
                                     confidential client</p>
                                 <a class="linkSetup" href="https://www.rfc-editor.org/rfc/rfc6749#section-2.3">Client
@@ -787,74 +830,75 @@
                         <div class="line1Setup">
 
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.12 Standard OIDC4VCI Draft version</p>
-                                <a href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0-08.html"
-                                    class="linkSetup">Draft 8 documentation</a>
-                                <a href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0-11.html"
-                                    class="linkSetup">Draft 11 documentation</a>
-                                <a href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html"
-                                    class="linkSetup">Draft 12 documentation</a>
-                                <a href="https://openid.github.io/OpenID4VCI/openid-4-verifiable-credential-issuance-wg-draft.html"
-                                    class="linkSetup">Draft 13 documentation</a>
+                                <p class="optionDivMainTitle">5.10 Standard OIDC4VCI Draft version</p>
+
+
+
+
 
                                 <div class="optionsDivRow">
                                     <div class="labelAndButton">
-                                        <p class="optionLabel">8</p><input type="radio" name="oidc4vciDraft" value="8"
-                                            id="eightvci">
+                                        <a class="optionLabelA" target="_blank"
+                                            href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0-08.html">Draft
+                                            8</a>
+                                        <input type="radio" name="oidc4vciDraft" value="8" id="eightvci">
                                     </div>
                                     <div class="labelAndButton">
-                                        <p class="optionLabel">11</p><input type="radio" name="oidc4vciDraft" value="11"
-                                            id="elevenvci">
+                                        <a href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0-11.html"
+                                            class="optionLabelA" target="_blank">Draft 11</a><input type="radio"
+                                            name="oidc4vciDraft" value="11" id="elevenvci">
                                     </div>
                                     <div class="labelAndButton">
-                                        <p class="optionLabel">12</p><input type="radio" name="oidc4vciDraft" value="12"
-                                            id="twelvevci">
+                                        <a href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html"
+                                            class="optionLabelA" target="_blank">Draft 12</a><input type="radio"
+                                            name="oidc4vciDraft" value="12" id="twelvevci">
                                     </div>
                                     <div class="labelAndButton">
-                                        <p class="optionLabel">13</p><input type="radio" name="oidc4vciDraft" value="13"
-                                            id="thirteenvci">
+                                        <a href="https://openid.github.io/OpenID4VCI/openid-4-verifiable-credential-issuance-wg-draft.html"
+                                            class="optionLabelA" target="_blank">Draft 13</a><input type="radio"
+                                            name="oidc4vciDraft" value="13" id="thirteenvci">
                                     </div>
                                 </div>
 
                                 <!--<p>13</p><input type="radio" name="oidc4vciDraft" value="13">-->
                             </div>
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.13 Standard OIDC4VP Draft version</p>
+                                <p class="optionDivMainTitle">5.11 Standard OIDC4VP Draft version</p>
 
 
-                                <a href="https://openid.net/specs/openid-4-verifiable-presentations-1_0-13.html"
-                                    class="linkSetup">Draft 13 documentation</a>
 
-                                <a href="https://openid.net/specs/openid-4-verifiable-presentations-1_0-18.html"
-                                    class="linkSetup">Draft 18 documentation</a>
+
+
 
                                 <div class="optionsDivRow">
 
                                     <div class="labelAndButton">
 
-                                        <p class="optionLabel">13</p><input type="radio" name="oidc4vpDraft" value="13"
-                                            id="thirteenvp">
+                                        <a href="https://openid.net/specs/openid-4-verifiable-presentations-1_0-13.html"
+                                            class="optionLabelA" target="_blank">Draft 13</a><input type="radio"
+                                            name="oidc4vpDraft" value="13" id="thirteenvp">
                                     </div>
                                     <div class="labelAndButton">
 
-                                        <p class="optionLabel">18</p><input type="radio" name="oidc4vpDraft" value="18"
-                                            id="eighteenvp">
+                                        <a href="https://openid.net/specs/openid-4-verifiable-presentations-1_0-18.html"
+                                            class="optionLabelA" target="_blank">Draft 18</a><input type="radio"
+                                            name="oidc4vpDraft" value="18" id="eighteenvp">
                                     </div>
                                 </div>
                                 <!--<p>20</p><input type="radio" name="oidc4vpDraft" value="20">-->
                             </div>
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.14 Standard SIOPV2 Draft version</p>
-                                <a href="https://openid.net/specs/openid-4-verifiable-presentations-1_0-12.html"
-                                    class="linkSetup">Draft 12 documentation</a>
+                                <p class="optionDivMainTitle">5.12 Standard SIOPV2 Draft version</p>
+
 
                                 <div class="optionsDivRow">
 
                                     <!--<p>7</p><input type="radio" name="siopv2Draft" value="7" id="sevenssiop">-->
                                     <div class="labelAndButton">
 
-                                        <p class="optionLabel">12</p><input type="radio" name="siopv2Draft" value="12"
-                                            id="twelvesiop">
+                                        <a href="https://openid.net/specs/openid-4-verifiable-presentations-1_0-12.html"
+                                            class="optionLabelA" target="_blank">Draft 12</a><input type="radio"
+                                            name="siopv2Draft" value="12" id="twelvesiop">
                                     </div>
                                 </div>
                                 <!--<p>5</p><input type="radio" name="siopv2Draft" value="5">-->
@@ -867,7 +911,7 @@
                     <div class="buttonsStep">
 
                         <button type="button" class="previousStep" onclick="goBackStep4()">Previous step</button>
-                        <input class="submit" type="submit" value="Set up config">
+                        <input class="submit" type="submit" value="Set up configuration now">
 
                         <button type="button" class="nextStep" onclick="goStep5()">Next step</button>
                     </div>
@@ -983,7 +1027,7 @@
                     <div class="buttonsStep">
 
                         <button type="button" class="previousStep" onclick="goStep4()">Previous step</button>
-                        <input class="submit" type="submit" value="Set up config">
+                        <input class="submit" type="submit" value="Set up configuration now">
                         <button type="button" class="nextStep" onclick="goStep6()">Next step</button>
 
                     </div>
@@ -1149,7 +1193,7 @@
                     <div class="buttonsStep">
 
                         <button type="button" class="previousStep" onclick="goStep5()">Previous step</button>
-                        <input class="submit" type="submit" value="Set up config">
+                        <input id="finalPreviousStep" class="submit" type="submit" value="Set up configuration now">
                     </div>
                 </div>
             </form>
@@ -1274,39 +1318,141 @@
         switchSupportEmail()
         switchChat()
         function goStep1() {
+            document.getElementById("step6Div").setAttribute("class", "displayNone")
+            document.getElementById("step5Div").setAttribute("class", "displayNone")
+            document.getElementById("step4Div").setAttribute("class", "displayNone")
+            document.getElementById("step3Div").setAttribute("class", "displayNone")
             document.getElementById("step2Div").setAttribute("class", "displayNone")
             document.getElementById("step1Div").setAttribute("class", "stepDiv")
+            document.getElementById("title2").setAttribute("class", "boldGreyP")
+            document.getElementById("circle2").setAttribute("class", "circleInactive")
+            document.getElementById("number2").setAttribute("class", "boldGreyP")
+            document.getElementById("title3").setAttribute("class", "boldGreyP")
+            document.getElementById("circle3").setAttribute("class", "circleInactive")
+            document.getElementById("number3").setAttribute("class", "boldGreyP")
+            document.getElementById("title4").setAttribute("class", "boldGreyP")
+            document.getElementById("circle4").setAttribute("class", "circleInactive")
+            document.getElementById("number4").setAttribute("class", "boldGreyP")
+            document.getElementById("title5").setAttribute("class", "boldGreyP")
+            document.getElementById("circle5").setAttribute("class", "circleInactive")
+            document.getElementById("number5").setAttribute("class", "boldGreyP")
+            document.getElementById("title6").setAttribute("class", "boldGreyP")
+            document.getElementById("circle6").setAttribute("class", "circleInactive")
+            document.getElementById("number6").setAttribute("class", "boldGreyP")
         }
+
         function goStep2() {
             document.getElementById("step2Div").setAttribute("class", "stepDiv")
             document.getElementById("step1Div").setAttribute("class", "displayNone")
             document.getElementById("step3Div").setAttribute("class", "displayNone")
             document.getElementById("step4Div").setAttribute("class", "displayNone")
+            document.getElementById("step5Div").setAttribute("class", "displayNone")
+            document.getElementById("step6Div").setAttribute("class", "displayNone")
+            document.getElementById("title2").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle2").setAttribute("class", "circleActive")
+            document.getElementById("number2").setAttribute("class", "boldWhiteP")
+            document.getElementById("title3").setAttribute("class", "boldGreyP")
+            document.getElementById("circle3").setAttribute("class", "circleInactive")
+            document.getElementById("number3").setAttribute("class", "boldGreyP")
+            document.getElementById("title4").setAttribute("class", "boldGreyP")
+            document.getElementById("circle4").setAttribute("class", "circleInactive")
+            document.getElementById("number4").setAttribute("class", "boldGreyP")
+            document.getElementById("title5").setAttribute("class", "boldGreyP")
+            document.getElementById("circle5").setAttribute("class", "circleInactive")
+            document.getElementById("number5").setAttribute("class", "boldGreyP")
+            document.getElementById("title6").setAttribute("class", "boldGreyP")
+            document.getElementById("circle6").setAttribute("class", "circleInactive")
+            document.getElementById("number6").setAttribute("class", "boldGreyP")
+            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Settings options"
 
         }
-        function goStep3() {
+        function goNextStep2() {
             if (document.getElementById("altme").checked) {
                 document.getElementById("step2Div").setAttribute("class", "displayNone")
                 document.getElementById("step3Div").setAttribute("class", "stepDiv")
                 document.getElementById("step4Div").setAttribute("class", "displayNone")
+                document.getElementById("title3").setAttribute("class", "boldPurpleP")
+                document.getElementById("circle3").setAttribute("class", "circleActive")
+                document.getElementById("number3").setAttribute("class", "boldWhiteP")
+                document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Blockchain options"
 
             }
             else {
                 goStep4()
             }
+        }
+        function goStep3() {
+
+            document.getElementById("step3Div").setAttribute("class", "stepDiv")
+            document.getElementById("step1Div").setAttribute("class", "displayNone")
+            document.getElementById("step2Div").setAttribute("class", "displayNone")
+            document.getElementById("step4Div").setAttribute("class", "displayNone")
+            document.getElementById("step5Div").setAttribute("class", "displayNone")
+            document.getElementById("step6Div").setAttribute("class", "displayNone")
+            document.getElementById("title2").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle2").setAttribute("class", "circleActive")
+            document.getElementById("number2").setAttribute("class", "boldWhiteP")
+            document.getElementById("title3").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle3").setAttribute("class", "circleActive")
+            document.getElementById("number3").setAttribute("class", "boldWhiteP")
+            document.getElementById("title4").setAttribute("class", "boldGreyP")
+            document.getElementById("circle4").setAttribute("class", "circleInactive")
+            document.getElementById("number4").setAttribute("class", "boldGreyP")
+            document.getElementById("title5").setAttribute("class", "boldGreyP")
+            document.getElementById("circle5").setAttribute("class", "circleInactive")
+            document.getElementById("number5").setAttribute("class", "boldGreyP")
+            document.getElementById("title6").setAttribute("class", "boldGreyP")
+            document.getElementById("circle6").setAttribute("class", "circleInactive")
+            document.getElementById("number6").setAttribute("class", "boldGreyP")
+            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Blockchain options"
 
         }
         function goStep4() {
-            document.getElementById("step2Div").setAttribute("class", "displayNone")
-            document.getElementById("step5Div").setAttribute("class", "displayNone")
-            document.getElementById("step3Div").setAttribute("class", "displayNone")
             document.getElementById("step4Div").setAttribute("class", "stepDiv")
+            document.getElementById("step1Div").setAttribute("class", "displayNone")
+            document.getElementById("step2Div").setAttribute("class", "displayNone")
+            document.getElementById("step3Div").setAttribute("class", "displayNone")
+            document.getElementById("step5Div").setAttribute("class", "displayNone")
+            document.getElementById("step6Div").setAttribute("class", "displayNone")
+            document.getElementById("title2").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle2").setAttribute("class", "circleActive")
+            document.getElementById("number2").setAttribute("class", "boldWhiteP")
+            document.getElementById("title3").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle3").setAttribute("class", "circleActive")
+            document.getElementById("number3").setAttribute("class", "boldWhiteP")
+            document.getElementById("title4").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle4").setAttribute("class", "circleActive")
+            document.getElementById("number4").setAttribute("class", "boldWhiteP")
+            document.getElementById("title5").setAttribute("class", "boldGreyP")
+            document.getElementById("circle5").setAttribute("class", "circleInactive")
+            document.getElementById("number5").setAttribute("class", "boldGreyP")
+            document.getElementById("title6").setAttribute("class", "boldGreyP")
+            document.getElementById("circle6").setAttribute("class", "circleInactive")
+            document.getElementById("number6").setAttribute("class", "boldGreyP")
+            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : SSI options"
+
         }
         function goBackStep4() {
             if (document.getElementById("altme").checked) {
                 document.getElementById("step2Div").setAttribute("class", "displayNone")
                 document.getElementById("step3Div").setAttribute("class", "stepDiv")
                 document.getElementById("step4Div").setAttribute("class", "displayNone")
+                document.getElementById("title2").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle2").setAttribute("class", "circleActive")
+            document.getElementById("number2").setAttribute("class", "boldWhiteP")
+            document.getElementById("title3").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle3").setAttribute("class", "circleActive")
+            document.getElementById("number3").setAttribute("class", "boldWhiteP")
+            document.getElementById("title4").setAttribute("class", "boldGreyP")
+            document.getElementById("circle4").setAttribute("class", "circleInactive")
+            document.getElementById("number4").setAttribute("class", "boldGreyP")
+            document.getElementById("title5").setAttribute("class", "boldGreyP")
+            document.getElementById("circle5").setAttribute("class", "circleInactive")
+            document.getElementById("number5").setAttribute("class", "boldGreyP")
+            document.getElementById("title6").setAttribute("class", "boldGreyP")
+            document.getElementById("circle6").setAttribute("class", "circleInactive")
+            document.getElementById("number6").setAttribute("class", "boldGreyP")
+            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Blockchain options"
 
             }
             else {
@@ -1314,13 +1460,54 @@
             }
         }
         function goStep5() {
+            document.getElementById("step5Div").setAttribute("class", "stepDiv")
+            document.getElementById("step1Div").setAttribute("class", "displayNone")
+            document.getElementById("step2Div").setAttribute("class", "displayNone")
+            document.getElementById("step3Div").setAttribute("class", "displayNone")
             document.getElementById("step4Div").setAttribute("class", "displayNone")
             document.getElementById("step6Div").setAttribute("class", "displayNone")
-            document.getElementById("step5Div").setAttribute("class", "stepDiv")
+            document.getElementById("title2").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle2").setAttribute("class", "circleActive")
+            document.getElementById("number2").setAttribute("class", "boldWhiteP")
+            document.getElementById("title3").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle3").setAttribute("class", "circleActive")
+            document.getElementById("number3").setAttribute("class", "boldWhiteP")
+            document.getElementById("title4").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle4").setAttribute("class", "circleActive")
+            document.getElementById("number4").setAttribute("class", "boldWhiteP")
+            document.getElementById("title5").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle5").setAttribute("class", "circleActive")
+            document.getElementById("number5").setAttribute("class", "boldWhiteP")
+            document.getElementById("title6").setAttribute("class", "boldGreyP")
+            document.getElementById("circle6").setAttribute("class", "circleInactive")
+            document.getElementById("number6").setAttribute("class", "boldGreyP")
+            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Communication options"
+
         }
         function goStep6() {
             document.getElementById("step6Div").setAttribute("class", "stepDiv")
+            document.getElementById("step1Div").setAttribute("class", "displayNone")
+            document.getElementById("step2Div").setAttribute("class", "displayNone")
+            document.getElementById("step3Div").setAttribute("class", "displayNone")
             document.getElementById("step5Div").setAttribute("class", "displayNone")
+            document.getElementById("step4Div").setAttribute("class", "displayNone")
+            document.getElementById("title2").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle2").setAttribute("class", "circleActive")
+            document.getElementById("number2").setAttribute("class", "boldWhiteP")
+            document.getElementById("title3").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle3").setAttribute("class", "circleActive")
+            document.getElementById("number3").setAttribute("class", "boldWhiteP")
+            document.getElementById("title4").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle4").setAttribute("class", "circleActive")
+            document.getElementById("number4").setAttribute("class", "boldWhiteP")
+            document.getElementById("title5").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle5").setAttribute("class", "circleActive")
+            document.getElementById("number5").setAttribute("class", "boldWhiteP")
+            document.getElementById("title6").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle6").setAttribute("class", "circleActive")
+            document.getElementById("number6").setAttribute("class", "boldWhiteP")
+            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Issuer marketplace"
+
         }
         function switchTzproRpcNode() {
             if (document.getElementById("tzproRpcNode").checked) {
