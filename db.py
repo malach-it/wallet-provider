@@ -112,7 +112,7 @@ def read_configured(organisation: str) -> int:
 def read_users(organisation: str) -> list:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute("SELECT email, json_extract(data,'$.first_name') as first_name, json_extract(data,'$.last_name') as last_name,json_extract(data,'$.status') as status,strftime('%Y-%m-%d %H:%M:%S', json_extract(data,'$.creation'), 'unixepoch') as creation FROM users where json_extract(data,'$.organisation')='{organisation}' ".format(
+    c.execute("SELECT email, json_extract(data,'$.first_name') as first_name, json_extract(data,'$.last_name') as last_name,json_extract(data,'$.status') as status,strftime('%Y-%m-%d', json_extract(data,'$.creation'), 'unixepoch') as creation FROM users where json_extract(data,'$.organisation')='{organisation}' ".format(
         organisation=organisation))
     rows = c.fetchall()
     if len(rows) < 1:

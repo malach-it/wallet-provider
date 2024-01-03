@@ -161,7 +161,7 @@
                     <div id="circle5" class="circleInactive">
                         <p id="number5" class="boldGreyP">5</p>
                     </div>
-                    <p id="title5" class="boldGreyP">Communication options</p>
+                    <p id="title5" class="boldGreyP">Support options</p>
                 </button>
                 <button onclick="goStep6()" class="linkBarProgress">
                     <div id="circle6" class="circleInactive">
@@ -212,12 +212,12 @@
                                 <input class="inputTextSetup" type="text" id="companyName" name="companyName"
                                     placeholder="Company name">
                             </div>
-                            <div class="optionDiv">
-                                <p class="optionDivMainTitle">1.4 Insert organisation website</p>
+                            <div class="optionDivDisabled">
+                                <p class="optionDivMainTitle">1.4 Insert organisation title</p>
                                 <p class="optionDivSecondTitle">Please enter a title for your custom wallet loading
                                     screen. The title should not exceed 20 characters, including spaces.</p>
-                                <input class="inputTextSetup" type="text" id="companyWebsite" name="companyWebsite"
-                                    placeholder="Company website">
+                                <input maxlength="20" class="inputTextSetup" type="text" id="companyWebsite" name="companyWebsite"
+                                    placeholder="Company website" disabled>
                             </div>
                         </div>
                         <div class="line1Setup">
@@ -340,7 +340,7 @@
                     <p class="customizeUnderTitle">Wallet security options</p>
                     <div class="line1Setup">
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">3.1 Display security advanced settings</p>
+                            <p class="optionDivMainTitle">2.5 Display security advanced settings</p>
                             <p class="optionDivSecondTitle">If checked, display the Advanced Security Settings option in
                                 Wallet Security .</p>
                             <div class="optionsDivRow">
@@ -362,7 +362,7 @@
                             </div>
                         </div>
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">3.2 Request the user consent to acces issuers</p>
+                            <p class="optionDivMainTitle">2.6 Request the user consent to acces issuers</p>
                             <p class="optionDivSecondTitle">If checked, the wallet requests the user consent to access
                                 the issuer domain.</p>
                             <div class="optionsDivRow">
@@ -388,7 +388,7 @@
                     <div class="line1Setup">
 
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">3.3 Request the user consent to acces verifiers</p>
+                            <p class="optionDivMainTitle">2.7 Request the user consent to acces verifiers</p>
                             <p class="optionDivSecondTitle">If checked, the wallet requests the user consent to access
                                 the verifier domain.</p>
                             <div class="optionsDivRow">
@@ -409,7 +409,7 @@
                             </div>
                         </div>
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">3.4 Secure authentication with pin code</p>
+                            <p class="optionDivMainTitle">2.8 Secure authentication with pin code</p>
                             <p class="optionDivSecondTitle">If checked, the wallet requests the user consent to
                                 authenticate (siopv2 or presentationRequest flow).</p>
                             <div class="optionsDivRow">
@@ -445,7 +445,7 @@
                     <div id="blockchainDiv">
                         <p class="title">Blockchain options</p>
                         <div class="optionDivDisabled">
-                            <p class="optionDivMainTitle">4.1 Blockchains that you want to be supported by the wallet
+                            <p class="optionDivMainTitle">3.1 Blockchains that you want to be supported by the wallet
                             </p>
                             <div class="line1Setup">
                                 <div class="blockchainRow">
@@ -492,7 +492,7 @@
                     </div>
                     <div class="line1Setup">
                         <div class="optionDivDisabled">
-                            <p class="optionDivMainTitle">4.2 Use Tzpro rpc node</p>
+                            <p class="optionDivMainTitle">3.2 Use Tzpro rpc node</p>
                             <p class="optionDivSecondTitle">If checked wallet uses a custom Tzpro Rpc node to broadcast
                                 transaction on Tezos.</p>
                             <div class="optionsDivRow">
@@ -512,7 +512,7 @@
                             </div>
                         </div>
                         <div class="optionDivDisabled">
-                            <p class="optionDivMainTitle">4.3 Use Infura rpc node</p>
+                            <p class="optionDivMainTitle">3.3 Use Infura rpc node</p>
                             <p class="optionDivSecondTitle">If checked, the wallet uses a custom Infura rpc node to
                                 broadcast transactions on EVM (Altme only).</p>
                             <div class="optionsDivRow">
@@ -557,7 +557,7 @@
                     <p class="title">Self Sovereign Identity Options</p>
                     <div class="line1Setup">
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">5.1 Display Manage decentralized ID menu in Self Sovereign
+                            <p class="optionDivMainTitle">4.1 Display Manage decentralized ID menu in Self Sovereign
                                 Identity screen</p>
                             <p class="optionDivSecondTitle">If checked the Manage Decentralized ID menu is displayed in
                                 the Self Sovereign Identity screen</p>
@@ -631,7 +631,7 @@
 
 
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">5.2 Security level</p>
+                            <p class="optionDivMainTitle">4.2 Security level</p>
                             <p class="optionDivSecondTitle">If Low, wallet does not check signature of jwt client
                                 request</p>
                             <div class="optionsDivRow">
@@ -649,7 +649,7 @@
 
                         </div>
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">5.3 Credential manifest support</p>
+                            <p class="optionDivMainTitle">4.3 Credential manifest support</p>
                             <p class="optionDivSecondTitle"></p>
 
                             <div class="optionsDivRow">
@@ -671,7 +671,7 @@
                             </div>
                         </div>
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">5.4 User PIN digits</p>
+                            <p class="optionDivMainTitle">4.4 User PIN digits</p>
                             <p class="optionDivSecondTitle">4 or 6 digits for pre authorized code flow PIN code.</p>
                             <div class="optionsDivRow">
                                 <div class="labelAndButton">
@@ -696,7 +696,7 @@
 
 
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.5 Default DID Method</p>
+                                <p class="optionDivMainTitle">4.5 Default DID Method</p>
                                 <p class="optionDivSecondTitle">DID of the wallet</p>
                                 <select class="selectSetup" id="defaultDid" name="defaultDid">
                                     <option value="did:key:ebsi">did:key:ebsi</option>
@@ -707,7 +707,7 @@
                                 </select>
                             </div>
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.6 Subject syntax</p>
+                                <p class="optionDivMainTitle">4.6 Subject syntax</p>
                                 <p class="optionDivSecondTitle">When the Subject Syntax Type is JWK Thumbprint, the
                                     valid value is urn:ietf:params:oauth:jwk-thumbprint. When the Subject Syntax Type is
                                     a Decentralized Identifier, valid values MUST be done </p>
@@ -744,7 +744,7 @@
 
 
                             <div class="optionDivDisabled">
-                                <p class="optionDivMainTitle">5.7 Cryptographic Holder Binding</p>
+                                <p class="optionDivMainTitle">4.7 Cryptographic Holder Binding</p>
                                 <p class="optionDivSecondTitle">If not checked VC will be issued as a bearer credential
                                 </p>
                                 <div class="optionsDivRow">
@@ -764,7 +764,7 @@
                                 </div>
                             </div>
                             <div class="optionDivDisabled">
-                                <p class="optionDivMainTitle">5.8 Scope parameters</p>
+                                <p class="optionDivMainTitle">4.8 Scope parameters</p>
                                 <p class="optionDivSecondTitle">If checked use scope parameters to request credential
                                     issuance.
                                 </p>
@@ -794,7 +794,7 @@
 
 
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.9 Client authentication method</p>
+                                <p class="optionDivMainTitle">4.9 Client authentication method</p>
                                 <p class="optionDivSecondTitle">Client authentication method as public client or
                                     confidential client</p>
                                 <a class="linkSetup" href="https://www.rfc-editor.org/rfc/rfc6749#section-2.3">Client
@@ -813,8 +813,6 @@
                                         <option value="client_id">Client id</option>
 
                                     </select>
-                                    <button type="button" onclick="generateCredentials()"
-                                        class="generateCredentials">Generate random credentials</button>
                                     <div id="basicAuthDiv">
                                         <input type="text" class="inputTextSetup" placeholder="client_id"
                                             name="client_id" id="client_id">
@@ -830,7 +828,7 @@
                         <div class="line1Setup">
 
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.10 Standard OIDC4VCI Draft version</p>
+                                <p class="optionDivMainTitle">4.10 Standard OIDC4VCI Draft version</p>
 
 
 
@@ -863,7 +861,7 @@
                                 <!--<p>13</p><input type="radio" name="oidc4vciDraft" value="13">-->
                             </div>
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.11 Standard OIDC4VP Draft version</p>
+                                <p class="optionDivMainTitle">4.11 Standard OIDC4VP Draft version</p>
 
 
 
@@ -888,7 +886,7 @@
                                 <!--<p>20</p><input type="radio" name="oidc4vpDraft" value="20">-->
                             </div>
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">5.12 Standard SIOPV2 Draft version</p>
+                                <p class="optionDivMainTitle">4.12 Standard SIOPV2 Draft version</p>
 
 
                                 <div class="optionsDivRow">
@@ -922,7 +920,7 @@
                     <div class="line1Setup">
 
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">6.1 Display chat support in menu</p>
+                            <p class="optionDivMainTitle">5.1 Display chat support in menu</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
@@ -941,7 +939,7 @@
                             </div>
                         </div>
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">6.2 Customize chat</p>
+                            <p class="optionDivMainTitle">5.2 Customize chat</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
@@ -963,7 +961,7 @@
 
 
                         <div class="optionDiv" id="customChatDiv">
-                            <p class="optionDivMainTitle">6.3 Custom chat support name</p>
+                            <p class="optionDivMainTitle">5.3 Custom chat support name</p>
                             <p class="optionDivSecondTitle"></p>
                             <input id="customChatSupportName" name="customChatSupportName" type="text"
                                 class="inputTextSetup">
@@ -974,7 +972,7 @@
                     <div class="line1Setup">
 
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">6.4 Display email support in menu</p>
+                            <p class="optionDivMainTitle">5.4 Display email support in menu</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
@@ -994,7 +992,7 @@
 
                         </div>
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">6.5 Custom support email</p>
+                            <p class="optionDivMainTitle">5.5 Custom support email</p>
                             <p class="optionDivSecondTitle"></p>
 
                             <div class="optionsDivRow">
@@ -1017,7 +1015,7 @@
 
                         </div>
                         <div class="optionDiv" id="customEmailDiv">
-                            <p class="optionDivMainTitle">6.6 Custom email</p>
+                            <p class="optionDivMainTitle">5.6 Custom email</p>
                             <p class="optionDivSecondTitle"></p>
                             <input id="customEmail" name="customEmail" type="text" class="inputTextSetup">
                         </div>
@@ -1038,7 +1036,7 @@
                     <div class="line1Setup">
 
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">7.1 Display rewards category</p>
+                            <p class="optionDivMainTitle">6.1 Display rewards category</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
@@ -1058,7 +1056,7 @@
                             </div>
                         </div>
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">7.2 Display Over18</p>
+                            <p class="optionDivMainTitle">6.2 Display Over18</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
@@ -1079,7 +1077,7 @@
 
 
                         <div class="optionDiv" id="customChatDiv">
-                            <p class="optionDivMainTitle">7.3 Display Over13</p>
+                            <p class="optionDivMainTitle">6.3 Display Over13</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
@@ -1103,7 +1101,7 @@
                     <div class="line1Setup">
 
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">7.4 Display Over15</p>
+                            <p class="optionDivMainTitle">6.4 Display Over15</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
@@ -1123,7 +1121,7 @@
 
                         </div>
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">7.5 Display VerifiableId</p>
+                            <p class="optionDivMainTitle">6.5 Display VerifiableId</p>
                             <p class="optionDivSecondTitle"></p>
 
                             <div class="optionsDivRow">
@@ -1148,7 +1146,7 @@
                     </div>
                     <div class="line1Setup">
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">7.6 Display proof of humanity</p>
+                            <p class="optionDivMainTitle">6.6 Display proof of humanity</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
@@ -1167,7 +1165,7 @@
                             </div>
                         </div>
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">7.7 Display defi compliance</p>
+                            <p class="optionDivMainTitle">6.7 Display defi compliance</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
@@ -1318,6 +1316,8 @@
         switchSupportEmail()
         switchChat()
         function goStep1() {
+            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Branding options"
+
             document.getElementById("step6Div").setAttribute("class", "displayNone")
             document.getElementById("step5Div").setAttribute("class", "displayNone")
             document.getElementById("step4Div").setAttribute("class", "displayNone")
@@ -1481,7 +1481,7 @@
             document.getElementById("title6").setAttribute("class", "boldGreyP")
             document.getElementById("circle6").setAttribute("class", "circleInactive")
             document.getElementById("number6").setAttribute("class", "boldGreyP")
-            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Communication options"
+            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Support options"
 
         }
         function goStep6() {
