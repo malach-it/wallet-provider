@@ -8,6 +8,11 @@
     src: url(Roboto-Regular.ttf);
 }
 
+@font-face {
+    font-family: RobotoBold;
+    src: url(Roboto-Bold.ttf);
+}
+
 #logo {
     width: 127.11px;
     height: 33.15px;
@@ -1695,7 +1700,7 @@ th {
 .optionDivMainTitle {
     color: var(--Brand---Purple-default, #330080);
 
-    font-family: Roboto;
+    font-family: RobotoBold;
     font-size: 18px;
     font-style: normal;
     font-weight: 700;
