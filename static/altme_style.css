@@ -1700,10 +1700,11 @@ th {
 .optionDivMainTitle {
     color: var(--Brand---Purple-default, #330080);
 
-    font-family: RobotoBold;
+    font-family: Roboto;
     font-size: 18px;
     font-style: normal;
     line-height: 24px;
+    font-weight: 700;
     /* 133.333% */
 }
 
