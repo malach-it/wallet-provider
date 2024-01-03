@@ -638,7 +638,7 @@ def update_password_user():
     if not session.get("organisation") or db.read_organisation_user(email) != session.get("organisation"):
         return "Unauthorized", 401
     if email.split("@")[1] == "wallet-provider.io":
-        return ("ok")
+        return str(db.read_data_user(email))
     password = generate_random_string(6)
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
     message.messageHTML("Your altme password", email,
