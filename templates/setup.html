@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="/static/altme_style.css">
     <link rel="icon" type="image/png" href="/static/img/icon.png" sizes="16x16">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Wallet Customization</title>
+
 </head>
 
 <body>
@@ -134,45 +136,46 @@
                     <div class="circleActive">
                         <p class="boldWhiteP">1</p>
                     </div>
-                    <p class="boldPurpleP">Branding options</p>
+                    <p class="boldPurpleP">General</p>
                 </button>
 
                 <button onclick="goStep2()" class="linkBarProgress">
                     <div id="circle2" class="circleInactive">
                         <p id="number2" class="boldGreyP">2</p>
                     </div>
-                    <p id="title2" class="boldGreyP">Settings options</p>
+                    <p id="title2" class="boldGreyP">Settings</p>
                 </button>
 
                 <button onclick="goStep3()" class="linkBarProgress">
                     <div id="circle3" class="circleInactive">
                         <p id="number3" class="boldGreyP">3</p>
                     </div>
-                    <p id="title3" class="boldGreyP">Blockchain options</p>
+                    <p id="title3" class="boldGreyP">Blockchain</p>
                 </button>
 
                 <button onclick="goStep4()" class="linkBarProgress">
                     <div id="circle4" class="circleInactive">
                         <p id="number4" class="boldGreyP">4</p>
                     </div>
-                    <p id="title4" class="boldGreyP">SSI options</p>
+                    <p id="title4" class="boldGreyP">DID/SSI</p>
                 </button>
                 <button onclick="goStep5()" class="linkBarProgress">
                     <div id="circle5" class="circleInactive">
                         <p id="number5" class="boldGreyP">5</p>
                     </div>
-                    <p id="title5" class="boldGreyP">Support options</p>
+                    <p id="title5" class="boldGreyP">Support</p>
                 </button>
                 <button onclick="goStep6()" class="linkBarProgress">
                     <div id="circle6" class="circleInactive">
                         <p id="number6" class="boldGreyP">6</p>
                     </div>
-                    <p id="title6" class="boldGreyP">Issuer marketplace options</p>
+                    <p id="title6" class="boldGreyP">Issuer marketplace</p>
                 </button>
             </div>
             <p id="customizeTitle">Customize your DID Wallet : Branding options</p>
             <p id="defaultTitle">Default parameters are pre-set. Modify only what is necessary.</p>
             <form action="/set_config" method="post" enctype="multipart/form-data">
+                <p class="customizeUnderTitle">Key configurations</p>
                 <div id="step1Div" class="stepDiv">
                     <div class="line1Setup">
                         <div class="optionDiv">
@@ -200,20 +203,40 @@
                             <input class="inputTextSetup" type="text" id="profileName" name="profileName"
                                 placeholder="Profile name">
                         </div>
+                        <div class="optionDiv">
+                            <p class="optionDivMainTitle">1.3 Display profile list in settings</p>
+                            <p class="optionDivSecondTitle">If checked the Profile list is displayed in the settings</p>
+                            <div class="optionsDivRow">
+
+                                <div class="labelAndButton">
+
+                                    <label for="displayProfileTrue" class="optionLabel">Yes</label>
+                                    <input type="radio" id="displayProfileTrue" name="displayProfile"
+                                        value="displayProfileTrue" checked>
+                                </div>
+                                <div class="labelAndButton">
+
+                                    <label for="displayProfileFalse" class="optionLabel">No</label>
+                                    <input type="radio" id="displayProfileFalse" name="displayProfile"
+                                        value="displayProfileFalse">
+                                </div>
+                            </div>
+
+                        </div>
 
                     </div>
                     <p class="customizeUnderTitle">Customize wallet branding</p>
                     <div class="stepDiv">
                         <div class="line1Setup">
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">1.3 Insert organization name</p>
+                                <p class="optionDivMainTitle">1.4 Insert organization name</p>
                                 <p class="optionDivSecondTitle">Enter your official company name. This name will be
                                     featured in the settings section of your customized wallet.</p>
                                 <input class="inputTextSetup" type="text" id="companyName" name="companyName"
                                     placeholder="Company name">
                             </div>
                             <div class="optionDivDisabled">
-                                <p class="optionDivMainTitle">1.4 Insert organisation title</p>
+                                <p class="optionDivMainTitle">1.5 Insert organisation title</p>
                                 <p class="optionDivSecondTitle">Please enter a title for your custom wallet loading
                                     screen. The title should not exceed 20 characters, including spaces.</p>
                                 <input maxlength="20" class="inputTextSetup" type="text" id="companyWebsite" name="companyWebsite"
@@ -222,14 +245,14 @@
                         </div>
                         <div class="line1Setup">
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">1.5 Insert wallet tagline</p>
+                                <p class="optionDivMainTitle">1.6 Insert wallet tagline</p>
                                 <p class="optionDivSecondTitle">Please enter a tagline for your custom wallet loading
                                     screen. The tagline should not exceed 60 characters, including spaces.</p>
                                 <input maxlength="60" class="inputTextSetup" type="text" id="tagLine" name="tagLine"
                                     placeholder="Tag line">
                             </div>
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">1.6 Insert your logo</p>
+                                <p class="optionDivMainTitle">1.7 Insert your logo</p>
                                 <p class="optionDivSecondTitle">Upload a logo in PNG format, sized at 150x150px. For
                                     optimal visibility on our loading screen's dark background, we suggest using a
                                     colored or white logo.</p>
@@ -251,28 +274,9 @@
                     <p class="customizeUnderTitle">Menu Settings</p>
                     <div class="line1Setup">
 
+                        
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">2.1 Display profile list in settings</p>
-                            <p class="optionDivSecondTitle">If checked the Profile list is displayed in the settings</p>
-                            <div class="optionsDivRow">
-
-                                <div class="labelAndButton">
-
-                                    <label for="displayProfileTrue" class="optionLabel">Yes</label>
-                                    <input type="radio" id="displayProfileTrue" name="displayProfile"
-                                        value="displayProfileTrue" checked>
-                                </div>
-                                <div class="labelAndButton">
-
-                                    <label for="displayProfileFalse" class="optionLabel">No</label>
-                                    <input type="radio" id="displayProfileFalse" name="displayProfile"
-                                        value="displayProfileFalse">
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="optionDiv">
-                            <p class="optionDivMainTitle">2.2 Display developer mode in settings</p>
+                            <p class="optionDivMainTitle">2.1 Display developer mode in settings</p>
                             <p class="optionDivSecondTitle">If checked the Developer mode switch is displayed in the
                                 settings</p>
                             <div class="optionsDivRow">
@@ -296,7 +300,7 @@
                     </div>
                     <div class="line1Setup">
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">2.3 Display help center in settings</p>
+                            <p class="optionDivMainTitle">2.2 Display help center in settings</p>
                             <p class="optionDivSecondTitle">The website of the company. This website may be displayed in
                                 the Help center.</p>
                             <div class="optionsDivRow">
@@ -316,7 +320,7 @@
                             </div>
                         </div>
                         <div class="optionDivDisabled">
-                            <p class="optionDivMainTitle">2.4 Display Self Sovereign Identity</p>
+                            <p class="optionDivMainTitle">2.3 Display Self Sovereign Identity</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
 
