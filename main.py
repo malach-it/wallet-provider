@@ -187,7 +187,7 @@ def disable_wallet_get_code():
     session["code"] = generate_random_code(4)
     session["email"] = request.get_json().get("email")
     message.messageHTML("Your altme code", request.get_json().get("email"),
-                            'code_auth_en', {'code': str(session["code"])})
+                        'code_auth_en', {'code': str(session["code"])})
     return "ok"
 
 
@@ -468,8 +468,12 @@ def set_config():
         image.save('./logos/'+logo_file+'.png')
         wallet_provider_configuration["generalOptions"]["companyLogo"] = "https://wallet-provider.talao.co/logo/" + logo_file
     else:
-        wallet_provider_configuration["generalOptions"]["companyLogo"] = db.read_logo_url(
+        logo = db.read_logo_url(
             session["organisation"])
+        if len(logo)==0:
+            logo = "https://wallet-provider.talao.co/logo/"+request.form.to_dict()[
+        "walletType"]
+        wallet_provider_configuration["generalOptions"]["companyLogo"] = logo
     db.update_config(json.dumps(wallet_provider_configuration),
                      session["organisation"])
     return redirect("/dashboard")
@@ -504,6 +508,8 @@ def add_user():
     if db.read_plan(session.get("organisation")) == "free":
         return "Unauthorized", 401
     email = request.get_json().get("email").lower()
+    if len(email) == 0:
+        return "Bad request", 400
     first_name = request.get_json().get("firstName")
     last_name = request.get_json().get("lastName")
     organisation = session["organisation"]
@@ -520,6 +526,8 @@ def add_organisation():
         return "Unauthorized", 401
     organisation = request.get_json().get("organisation")
     email = request.get_json().get("emailAdmin").lower()
+    if len(organisation) == 0 or len(email) == 0:
+        return "Bad request", 400
     first_name = request.get_json().get("firstNameAdmin")
     last_name = request.get_json().get("lastNameAdmin")
     company_name = request.get_json().get("companyName")
