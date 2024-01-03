@@ -52,9 +52,9 @@
             <td>
 
                 <div class="statusChanger{{row[1]}}">
-                    <select id="newStatus{{row[1]}}" class="inputDashboard">
-                        <option onclick="changeStatus('{{row[1]}}')" value="active">active</option>
-                        <option onclick="changeStatus('{{row[1]}}')" value="inactive">inactive</option>
+                    <select onchange="changeStatus('{{row[1]}}')" id="newStatus{{row[1]}}" class="inputDashboard">
+                        <option  value="active">active</option>
+                        <option  value="inactive">inactive</option>
                     </select>
 
                 </div>

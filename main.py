@@ -249,7 +249,7 @@ def setup():
     if request.MOBILE:
         return render_template("mobile.html")
     if not session.get("organisation") or session.get("organisation") == "Talao":
-        return "Unauthorized", 401
+        return redirect('/')
     organisation = session["organisation"]
     if db.read_configured(organisation) == 0:
         config = json.load(open('./wallet-provider-configuration.json', 'r'))
@@ -479,7 +479,7 @@ def dashboard():
     if request.MOBILE:
         return render_template("mobile.html")
     if not session.get("organisation"):
-        return redirect("/login")
+        return redirect("/")
     if session.get("organisation") == "Talao":
         session["organisation"] = request.args.get("organisation")
     if db.read_configured(session.get("organisation")) == 0:
@@ -503,7 +503,7 @@ def add_user():
         return "Unauthorized", 401
     if db.read_plan(session.get("organisation")) == "free":
         return "Unauthorized", 401
-    email = request.get_json().get("email")
+    email = request.get_json().get("email").lower()
     first_name = request.get_json().get("firstName")
     last_name = request.get_json().get("lastName")
     organisation = session["organisation"]
@@ -519,7 +519,7 @@ def add_organisation():
     if session.get("organisation") != "Talao":
         return "Unauthorized", 401
     organisation = request.get_json().get("organisation")
-    email = request.get_json().get("emailAdmin")
+    email = request.get_json().get("emailAdmin").lower()
     first_name = request.get_json().get("firstNameAdmin")
     last_name = request.get_json().get("lastNameAdmin")
     company_name = request.get_json().get("companyName")

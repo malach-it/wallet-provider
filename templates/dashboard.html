@@ -144,9 +144,9 @@
               <td>{{row[0]}}</td>
               <td>
                 <div>
-                  <select id="newStatus{{row[0]}}" class="inputDashboard">
-                    <option onclick="changeStatus('{{row[0]}}','active')" value="active">active</option>
-                    <option onclick="changeStatus('{{row[0]}}','inactive')" value="inactive">inactive</option>
+                  <select onchange="changeStatus('{{row[0]}}')" id="newStatus{{row[0]}}" class="inputDashboard">
+                    <option value="active">active</option>
+                    <option value="inactive">inactive</option>
                   </select>
 
                 </div>
@@ -312,7 +312,8 @@
             .then(response => { console.log(response.status); vNotify.info({ text: 'Info has been sent trough chat to users.', title: 'Info', sticky: true }); })
             .catch(error => console.error('Error:', error));
         }
-        function changeStatus(email, newStatus) {
+        function changeStatus(email) {
+          let newStatus = document.getElementById("newStatus"+email).value
           fetch('/change_status', {
             method: 'POST',
             headers: {
