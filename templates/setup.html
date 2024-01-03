@@ -175,8 +175,9 @@
             <p id="customizeTitle">Customize your DID Wallet : Branding options</p>
             <p id="defaultTitle">Default parameters are pre-set. Modify only what is necessary.</p>
             <form action="/set_config" method="post" enctype="multipart/form-data">
-                <p class="customizeUnderTitle">Key configurations</p>
                 <div id="step1Div" class="stepDiv">
+                    <p class="customizeUnderTitle">Key configurations</p>
+
                     <div class="line1Setup">
                         <div class="optionDiv">
                             <p class="optionDivMainTitle">1.1 Select your Wallet Base</p>
@@ -189,7 +190,8 @@
                                 </div>
                                 <div class="labelAndButton">
 
-                                    <a class="optionLabelA" href="https://talao.io/talao-wallet" target="_blank">Talao</a><input type="radio" id="talao" name="walletType"
+                                    <a class="optionLabelA" href="https://talao.io/talao-wallet"
+                                        target="_blank">Talao</a><input type="radio" id="talao" name="walletType"
                                         value="talao">
                                 </div>
                             </div>
@@ -239,8 +241,8 @@
                                 <p class="optionDivMainTitle">1.5 Insert organisation title</p>
                                 <p class="optionDivSecondTitle">Please enter a title for your custom wallet loading
                                     screen. The title should not exceed 20 characters, including spaces.</p>
-                                <input maxlength="20" class="inputTextSetup" type="text" id="companyWebsite" name="companyWebsite"
-                                    placeholder="Company website" disabled>
+                                <input maxlength="20" class="inputTextSetup" type="text" id="companyWebsite"
+                                    name="companyWebsite" placeholder="Company website" disabled>
                             </div>
                         </div>
                         <div class="line1Setup">
@@ -257,7 +259,7 @@
                                     optimal visibility on our loading screen's dark background, we suggest using a
                                     colored or white logo.</p>
                                 <input type="file" id="file" name="file" onchange="previewImage(event)">
-                                <img id="preview" src="{{config["generalOptions"]["companyLogo"]}}">
+                                <img id="preview" src="{{config[" generalOptions"]["companyLogo"]}}">
                             </div>
                         </div>
                     </div>
@@ -274,7 +276,7 @@
                     <p class="customizeUnderTitle">Menu Settings</p>
                     <div class="line1Setup">
 
-                        
+
                         <div class="optionDiv">
                             <p class="optionDivMainTitle">2.1 Display developer mode in settings</p>
                             <p class="optionDivSecondTitle">If checked the Developer mode switch is displayed in the
@@ -1320,7 +1322,7 @@
         switchSupportEmail()
         switchChat()
         function goStep1() {
-            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Branding options"
+            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Branding options"
 
             document.getElementById("step6Div").setAttribute("class", "displayNone")
             document.getElementById("step5Div").setAttribute("class", "displayNone")
@@ -1367,7 +1369,7 @@
             document.getElementById("title6").setAttribute("class", "boldGreyP")
             document.getElementById("circle6").setAttribute("class", "circleInactive")
             document.getElementById("number6").setAttribute("class", "boldGreyP")
-            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Settings options"
+            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Settings options"
 
         }
         function goNextStep2() {
@@ -1378,7 +1380,7 @@
                 document.getElementById("title3").setAttribute("class", "boldPurpleP")
                 document.getElementById("circle3").setAttribute("class", "circleActive")
                 document.getElementById("number3").setAttribute("class", "boldWhiteP")
-                document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Blockchain options"
+                document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Blockchain options"
 
             }
             else {
@@ -1408,7 +1410,7 @@
             document.getElementById("title6").setAttribute("class", "boldGreyP")
             document.getElementById("circle6").setAttribute("class", "circleInactive")
             document.getElementById("number6").setAttribute("class", "boldGreyP")
-            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Blockchain options"
+            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Blockchain options"
 
         }
         function goStep4() {
@@ -1433,7 +1435,7 @@
             document.getElementById("title6").setAttribute("class", "boldGreyP")
             document.getElementById("circle6").setAttribute("class", "circleInactive")
             document.getElementById("number6").setAttribute("class", "boldGreyP")
-            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : SSI options"
+            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : SSI options"
 
         }
         function goBackStep4() {
@@ -1442,21 +1444,21 @@
                 document.getElementById("step3Div").setAttribute("class", "stepDiv")
                 document.getElementById("step4Div").setAttribute("class", "displayNone")
                 document.getElementById("title2").setAttribute("class", "boldPurpleP")
-            document.getElementById("circle2").setAttribute("class", "circleActive")
-            document.getElementById("number2").setAttribute("class", "boldWhiteP")
-            document.getElementById("title3").setAttribute("class", "boldPurpleP")
-            document.getElementById("circle3").setAttribute("class", "circleActive")
-            document.getElementById("number3").setAttribute("class", "boldWhiteP")
-            document.getElementById("title4").setAttribute("class", "boldGreyP")
-            document.getElementById("circle4").setAttribute("class", "circleInactive")
-            document.getElementById("number4").setAttribute("class", "boldGreyP")
-            document.getElementById("title5").setAttribute("class", "boldGreyP")
-            document.getElementById("circle5").setAttribute("class", "circleInactive")
-            document.getElementById("number5").setAttribute("class", "boldGreyP")
-            document.getElementById("title6").setAttribute("class", "boldGreyP")
-            document.getElementById("circle6").setAttribute("class", "circleInactive")
-            document.getElementById("number6").setAttribute("class", "boldGreyP")
-            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Blockchain options"
+                document.getElementById("circle2").setAttribute("class", "circleActive")
+                document.getElementById("number2").setAttribute("class", "boldWhiteP")
+                document.getElementById("title3").setAttribute("class", "boldPurpleP")
+                document.getElementById("circle3").setAttribute("class", "circleActive")
+                document.getElementById("number3").setAttribute("class", "boldWhiteP")
+                document.getElementById("title4").setAttribute("class", "boldGreyP")
+                document.getElementById("circle4").setAttribute("class", "circleInactive")
+                document.getElementById("number4").setAttribute("class", "boldGreyP")
+                document.getElementById("title5").setAttribute("class", "boldGreyP")
+                document.getElementById("circle5").setAttribute("class", "circleInactive")
+                document.getElementById("number5").setAttribute("class", "boldGreyP")
+                document.getElementById("title6").setAttribute("class", "boldGreyP")
+                document.getElementById("circle6").setAttribute("class", "circleInactive")
+                document.getElementById("number6").setAttribute("class", "boldGreyP")
+                document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Blockchain options"
 
             }
             else {
@@ -1485,7 +1487,7 @@
             document.getElementById("title6").setAttribute("class", "boldGreyP")
             document.getElementById("circle6").setAttribute("class", "circleInactive")
             document.getElementById("number6").setAttribute("class", "boldGreyP")
-            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Support options"
+            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Support options"
 
         }
         function goStep6() {
@@ -1510,7 +1512,7 @@
             document.getElementById("title6").setAttribute("class", "boldPurpleP")
             document.getElementById("circle6").setAttribute("class", "circleActive")
             document.getElementById("number6").setAttribute("class", "boldWhiteP")
-            document.getElementById("customizeTitle").innerHTML="Customize your DID Wallet : Issuer marketplace"
+            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Issuer marketplace"
 
         }
         function switchTzproRpcNode() {
