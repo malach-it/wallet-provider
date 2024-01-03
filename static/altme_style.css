@@ -651,6 +651,8 @@ footer {
 
 #preview {
     width: 40%;
+    background-color: black;
+    padding: 30px;
 }
 
 .nav-02 {
@@ -1889,7 +1891,7 @@ th {
     border-radius: 8px;
     border: 1px solid var(--Gray-400, #CED4DA);
     background: var(--Gray-White, #FFF);
-    padding:  6px 30px 6px 12px;
+    padding: 6px 30px 6px 12px;
     width: fit-content;
     font-size: 16px;
 }
@@ -1999,4 +2001,3 @@ button {
     letter-spacing: -0.25px;
     text-align: center;
 }
-
