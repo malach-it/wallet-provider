@@ -274,8 +274,8 @@ def set_config():
     wallet_provider_configuration["generalOptions"]["companyName"] = request.form.to_dict()[
         "companyName"]
 
-    wallet_provider_configuration["generalOptions"]["companyWebsite"] = request.form.to_dict()[
-        "companyWebsite"]
+    """wallet_provider_configuration["generalOptions"]["companyWebsite"] = request.form.to_dict()[
+        "companyWebsite"]"""
     wallet_provider_configuration["generalOptions"]["tagLine"] = request.form.to_dict()[
         "tagLine"]
     wallet_provider_configuration["generalOptions"]["published"] = datetime.today(
