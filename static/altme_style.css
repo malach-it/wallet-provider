@@ -651,8 +651,9 @@ footer {
 
 #preview {
     width: 40%;
-    background-color: black;
-    padding: 30px;
+    background-color: #0b0e19;
+    padding: 15px;
+    border-radius: 16px;
 }
 
 .nav-02 {
