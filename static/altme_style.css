@@ -1649,7 +1649,7 @@ th {
     display: flex;
     flex-direction: column;
     width: 70vw;
-    gap: 24px;
+    gap: 34px;
 }
 
 .optionDiv {
