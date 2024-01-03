@@ -231,33 +231,28 @@
                     <div class="stepDiv">
                         <div class="line1Setup">
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">1.4 Insert organization name</p>
-                                <p class="optionDivSecondTitle">Enter your official company name. This name will be
-                                    featured in the settings section of your customized wallet.</p>
+                                <p class="optionDivMainTitle">1.4 Organization name</p>
+                                <p class="optionDivSecondTitle">Enter your organization name as it should appear in the wallet settings.</p>
                                 <input class="inputTextSetup" type="text" id="companyName" name="companyName"
                                     placeholder="Company name">
                             </div>
                             <div class="optionDivDisabled">
-                                <p class="optionDivMainTitle">1.5 Insert organisation title</p>
-                                <p class="optionDivSecondTitle">Please enter a title for your custom wallet loading
-                                    screen. The title should not exceed 20 characters, including spaces.</p>
+                                <p class="optionDivMainTitle">1.5 Wallet title</p>
+                                <p class="optionDivSecondTitle">Enter a title for your wallet's loading screen (max 20 characters)</p>
                                 <input maxlength="20" class="inputTextSetup" type="text" id="companyWebsite"
                                     name="companyWebsite" placeholder="Company website" disabled>
                             </div>
                         </div>
                         <div class="line1Setup">
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">1.6 Insert wallet tagline</p>
-                                <p class="optionDivSecondTitle">Please enter a tagline for your custom wallet loading
-                                    screen. The tagline should not exceed 54 characters, including spaces.</p>
+                                <p class="optionDivMainTitle">1.6 Wallet tagline</p>
+                                <p class="optionDivSecondTitle">Enter a tagline for the loading screen (max 54 characters).</p>
                                 <input maxlength="54" class="inputTextSetup" type="text" id="tagLine" name="tagLine"
                                     placeholder="Tag line">
                             </div>
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">1.7 Insert your logo</p>
-                                <p class="optionDivSecondTitle">Upload a logo in PNG format, sized at 150x150px. For
-                                    optimal visibility on our loading screen's dark background, we suggest using a
-                                    colored or white logo.</p>
+                                <p class="optionDivMainTitle">1.7 Upload logo</p>
+                                <p class="optionDivSecondTitle">Upload a 150x150px PNG logo. We recommend to use a colored or white logo because to match our default dark wallet backgrounds.</p>
                                 <input type="file" id="file" name="file" onchange="previewImage(event)">
                                 <img id="preview" src="{{config["generalOptions"]["companyLogo"]}}">
                             </div>
@@ -1322,7 +1317,7 @@
         switchSupportEmail()
         switchChat()
         function goStep1() {
-            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Branding options"
+            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : General"
 
             document.getElementById("step6Div").setAttribute("class", "displayNone")
             document.getElementById("step5Div").setAttribute("class", "displayNone")
@@ -1369,7 +1364,7 @@
             document.getElementById("title6").setAttribute("class", "boldGreyP")
             document.getElementById("circle6").setAttribute("class", "circleInactive")
             document.getElementById("number6").setAttribute("class", "boldGreyP")
-            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Settings options"
+            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Settings"
 
         }
         function goNextStep2() {
@@ -1380,7 +1375,7 @@
                 document.getElementById("title3").setAttribute("class", "boldPurpleP")
                 document.getElementById("circle3").setAttribute("class", "circleActive")
                 document.getElementById("number3").setAttribute("class", "boldWhiteP")
-                document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Blockchain options"
+                document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Blockchain"
 
             }
             else {
@@ -1410,7 +1405,7 @@
             document.getElementById("title6").setAttribute("class", "boldGreyP")
             document.getElementById("circle6").setAttribute("class", "circleInactive")
             document.getElementById("number6").setAttribute("class", "boldGreyP")
-            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Blockchain options"
+            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Blockchain"
 
         }
         function goStep4() {
@@ -1435,7 +1430,7 @@
             document.getElementById("title6").setAttribute("class", "boldGreyP")
             document.getElementById("circle6").setAttribute("class", "circleInactive")
             document.getElementById("number6").setAttribute("class", "boldGreyP")
-            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : SSI options"
+            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : DID/SSI"
 
         }
         function goBackStep4() {
@@ -1458,7 +1453,7 @@
                 document.getElementById("title6").setAttribute("class", "boldGreyP")
                 document.getElementById("circle6").setAttribute("class", "circleInactive")
                 document.getElementById("number6").setAttribute("class", "boldGreyP")
-                document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Blockchain options"
+                document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Blockchain"
 
             }
             else {
@@ -1487,7 +1482,7 @@
             document.getElementById("title6").setAttribute("class", "boldGreyP")
             document.getElementById("circle6").setAttribute("class", "circleInactive")
             document.getElementById("number6").setAttribute("class", "boldGreyP")
-            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Support options"
+            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Support"
 
         }
         function goStep6() {
