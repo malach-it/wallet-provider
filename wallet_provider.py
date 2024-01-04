@@ -283,7 +283,6 @@ def wallet_configuration_endpoint():
         jti = wallet_attestation.get('jti')
         exp = wallet_attestation['exp']
         user_jwk = wallet_attestation['cnf']['jwk']
-        kid = user_jwk['kid']
         user_sub = wallet_attestation['sub']
     except Exception as e:
         return Response(**manage_error('invalid_client', 'incorrect wallet attestation format -> ' + str(e)))
@@ -307,7 +306,9 @@ def wallet_configuration_endpoint():
         return Response(**manage_error('invalid_request', 'Wallet attestation expired'))
 
     # check if user is suspended
-    # if not db.read_status_from_thumbprint(kid):
+    status = data_of_this_user['status']
+    logging.info("user status = %s", status)
+    # if status != "active":
     #    return Response(**manage_error('invalid_client', 'User has been suspended'))
 
     # Update user data with user wallet attestation data
@@ -362,7 +363,7 @@ def wallet_update_endpoint():
         try:
             basic = base64.urlsafe_b64decode(payload.encode()).decode()
             logging.info('No padding issue')
-        except:
+        except Exception:
             logging.info('Padding issue')
             payload += "=" * ((4 - len(payload) % 4) % 4)
             basic = base64.urlsafe_b64decode(payload.encode()).decode()
@@ -377,7 +378,7 @@ def wallet_update_endpoint():
     except Exception:
         return Response(**manage_error('server_error', 'verify_password_user DB call failed'))
     if not check:
-        return Response(**manage_error('invalid_client', 'user not found'))
+        return Response(**manage_error('invalid_client', 'user not found in DB'))
     logging.info('logging/password is fine for %s', user_email)
 
     try:
@@ -407,9 +408,14 @@ def wallet_update_endpoint():
         return Response(**manage_error('invalid_request', 'Wallet attestation expired'))
 
      # check if user is suspended
-    if not db.read_status_from_thumbprint(kid):
-        logging.warning("User %s has been suspended", user_email)
-        # return Response(**manage_error('invalid_client', 'User has been suspended'))
+    try:
+        data_of_this_user = db.read_data_user(user_email)
+        status = data_of_this_user['status']
+    except Exception:
+        return Response(**manage_error('invalid_client', 'User data not found for ' + user_email))
+    logging.info("user status = %s", status)
+    # if status != "active":
+    #    return Response(**manage_error('invalid_client', 'User has been suspended'))
 
     # check user data with user wallet attestation data
     user_data = db.read_data_user(user_email)  # -> dict
