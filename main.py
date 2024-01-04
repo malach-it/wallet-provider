@@ -97,7 +97,9 @@ def get_payload_from_token(token):
 
 
 def init_app(app, red):
-    app.add_url_rule('/',  view_func=login,
+    app.add_url_rule('/',  view_func=landing,
+                     methods=['GET'])
+    app.add_url_rule('/login',  view_func=login,
                      methods=['GET'])
     app.add_url_rule('/login_password',  view_func=login_password,
                      methods=['POST'])
@@ -206,6 +208,13 @@ def disable_wallet_set_inactive():
         return "ok"
     return "Unauthorized", 401
 
+
+def landing():
+    if request.MOBILE:
+        return render_template("mobile.html")
+    else:
+        return redirect('/login')
+    
 
 @auth.oidc_auth('default')
 def login():
@@ -470,9 +479,6 @@ def set_config():
     else:
         logo = db.read_logo_url(
             session["organisation"])
-        if len(logo)==0:
-            logo = "https://wallet-provider.talao.co/logo/"+request.form.to_dict()[
-        "walletType"]
         wallet_provider_configuration["generalOptions"]["companyLogo"] = logo
     db.update_config(json.dumps(wallet_provider_configuration),
                      session["organisation"])
@@ -507,7 +513,7 @@ def add_user():
         return "Unauthorized", 401
     if db.read_plan(session.get("organisation")) == "free":
         return "Unauthorized", 401
-    email = request.get_json().get("email").lower()
+    email = request.get_json().get("email").lower().replace(" ", "")
     if len(email) == 0:
         return "Bad request", 400
     first_name = request.get_json().get("firstName")
@@ -525,7 +531,7 @@ def add_organisation():
     if session.get("organisation") != "Talao":
         return "Unauthorized", 401
     organisation = request.get_json().get("organisation")
-    email = request.get_json().get("emailAdmin").lower()
+    email = request.get_json().get("emailAdmin").lower().replace(" ", "")
     if len(organisation) == 0 or len(email) == 0:
         return "Bad request", 400
     first_name = request.get_json().get("firstNameAdmin")
@@ -540,7 +546,9 @@ def add_organisation():
     if email.split("@")[1] != "wallet-provider.io":
         message.messageHTML("Your altme password", email,
                             'password', {'code': str(password)})
-    db.create_organisation(organisation)
+    wallet_provider_configuration = json.load(
+        open('./wallet-provider-configuration.json', 'r'))
+    db.create_organisation(organisation,json.dumps(wallet_provider_configuration))
     db.create_admin(email, sha256_hash, organisation, first_name, last_name)
     db.create_user(email, sha256_hash, organisation, first_name, last_name)
     return ("ok")

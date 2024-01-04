@@ -64,18 +64,19 @@ def create_user(email: str, password: str, organisation: str, first_name: str, l
     c = conn.cursor()
     timestamp = int(time.time())
     data = '{"password": "'+password+'", "organisation": "'+organisation + \
-        '","first_name":"'+first_name+'","last_name":"'+last_name+'","status":"active","creation":"'+str(timestamp)+'"}'
+        '","first_name":"'+first_name+'","last_name":"'+last_name + \
+        '","status":"active","creation":"'+str(timestamp)+'"}'
     c.execute("""insert into users values ('{email}','{data}')""".format(
         email=email, data=data))
     conn.commit()
     return True
 
 
-def create_organisation(name: str) -> bool:
+def create_organisation(name: str, config: str) -> bool:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute(
-        """insert into organisations values ('{name}','{{"generalOptions": {{"customerPlan": "free"}}}}',0)""".format(name=name))
+        """insert into organisations values ('{name}','{config}',0)""".format(name=name, config=config))
     conn.commit()
     return True
 
@@ -220,6 +221,7 @@ def read_status_from_thumbprint(thumbprint):
     if rows[0][0] == "active":
         return True
     return False
+
 
 def read_config(email: str) -> dict:
     conn = sqlite3.connect('db.sqlite')
