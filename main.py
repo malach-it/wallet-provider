@@ -214,7 +214,7 @@ def landing():
         return render_template("mobile.html")
     else:
         return redirect('/login')
-    
+
 
 @auth.oidc_auth('default')
 def login():
@@ -538,8 +538,8 @@ def add_organisation():
     last_name = request.get_json().get("lastNameAdmin")
     company_name = request.get_json().get("companyName")
     password = generate_random_string(6)
-    if len(email.split("@"))<2:
-        return "Bad request",400
+    if len(email.split("@")) < 2:
+        return "Bad request", 400
     if email.split("@")[1] == "wallet-provider.io":
         logging.info("demo organisation created")
         password = json.load(open("keys.json", "r"))["password_demo"]
@@ -549,10 +549,15 @@ def add_organisation():
                             'password', {'code': str(password)})
     wallet_provider_configuration = json.load(
         open('./wallet-provider-configuration.json', 'r'))
-    wallet_provider_configuration["generalOptions"]["companyName"]=company_name
-    wallet_provider_configuration["generalOptions"]["companyName"]=company_name
-
-    db.create_organisation(organisation,json.dumps(wallet_provider_configuration))
+    wallet_provider_configuration["generalOptions"]["companyName"] = company_name
+    wallet_provider_configuration["generalOptions"]["companyName"] = company_name
+    profileId = base64.b64encode(
+        str(uuid.uuid1()).encode()).decode().replace("=", "")[:10]
+    wallet_provider_configuration["generalOptions"]["profileId"] = profileId
+    wallet_provider_configuration["generalOptions"]["published"] = datetime.today(
+    ).strftime('%Y-%m-%d')
+    db.create_organisation(organisation, json.dumps(
+        wallet_provider_configuration))
     db.create_admin(email, sha256_hash, organisation, first_name, last_name)
     db.create_user(email, sha256_hash, organisation, first_name, last_name)
     return ("ok")
