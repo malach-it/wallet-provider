@@ -537,8 +537,9 @@ def add_organisation():
     first_name = request.get_json().get("firstNameAdmin")
     last_name = request.get_json().get("lastNameAdmin")
     company_name = request.get_json().get("companyName")
-    company_website = request.get_json().get("companyWebsite")
     password = generate_random_string(6)
+    if len(email.split("@"))<2:
+        return "Bad request",400
     if email.split("@")[1] == "wallet-provider.io":
         logging.info("demo organisation created")
         password = json.load(open("keys.json", "r"))["password_demo"]
@@ -548,6 +549,9 @@ def add_organisation():
                             'password', {'code': str(password)})
     wallet_provider_configuration = json.load(
         open('./wallet-provider-configuration.json', 'r'))
+    wallet_provider_configuration["generalOptions"]["companyName"]=company_name
+    wallet_provider_configuration["generalOptions"]["companyName"]=company_name
+
     db.create_organisation(organisation,json.dumps(wallet_provider_configuration))
     db.create_admin(email, sha256_hash, organisation, first_name, last_name)
     db.create_user(email, sha256_hash, organisation, first_name, last_name)

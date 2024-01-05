@@ -2,79 +2,97 @@
 <html>
 
 <head>
-    <title>Dashboard</title>
     <link rel="stylesheet" type="text/css" href="/static/dashboard.css">
-
+    <link rel="stylesheet" href="/static/dist/vanilla-notify.css" />
+    <title>Wallet customization TALAO admin</title>
+    <script src="/static/dist/vanilla-notify.js"></script>
 </head>
 
 <body>
-    <p id="dashboardTitle">Dashboard admin Talao</p>
-    <button id="logout" onclick="logout()">Logout</button>
-    <div>
-        <input type="text" id="newOrganisation" placeholder="Name of the organisation">
-        <input type="text" id="emailAdmin" placeholder="Email of the admin">
-        <input type="text" id="firstNameAdmin" placeholder="First name of the admin">
-        <input type="text" id="lastNameAdmin" placeholder="Last name of the admin">
-        <input type="text" id="companyName" placeholder="Company name">
-        <input type="text" id="companyWebsite" placeholder="Company website">
-        <button onclick="addOrganisation()">Add organisation</button>
+    <div id="mainBox">
+        <div class="divRow">
+            <p id="dashboardTitle">Dashboard admin Talao</p>
+            <button id="logout" onclick="logout()" class="buttonAltmeInversed">Logout</button>
+        </div>
+
+        <div class="section">
+            <input type="text" id="newOrganisation" placeholder="Name of the organisation">
+            <input type="text" id="emailAdmin" placeholder="Email of the admin">
+            <input type="text" id="firstNameAdmin" placeholder="First name of the admin">
+            <input type="text" id="lastNameAdmin" placeholder="Last name of the admin">
+            <input type="text" id="companyName" placeholder="Company name">
+            <button onclick="addOrganisation()" class="buttonAltme">Add organisation</button>
+        </div>
+        <div class="section">
+            <input type="text" id="organisationDashboard" placeholder="organisation name">
+            <button onclick="goDashboard()" class="buttonAltme">Go to dashboard</button>
+        </div>
+
+        <table id="tableDashboard">
+            <tr>
+                <th>Organisation</th>
+                <th>Admin email</th>
+                <th>Configured</th>
+                <th>Plan</th>
+            </tr>
+            {% for row in table %}
+            <tr>
+                <td>{{row[1]}}</td>
+
+                <td>{{row[0]}}</td>
+                <td>{{row[4]}}</td>
+                <td>
+
+                    <div class="planChanger{{row[1]}}">
+                        <select onchange="changePlan('{{row[1]}}')" class="inputDashboard" id="newPlan{{row[1]}}">
+                            <option value="free">Free</option>
+                            <option value="paid">Paid</option>
+                        </select>
+
+                    </div>
+                </td>
+                <td><button class="buttonTable" onclick="sendNewPassword('{{row[0]}}')">send a new password</button>
+                </td>
+
+                <td><button class="buttonTable" onclick="deleteOrga('{{row[1]}}')"
+                        class="delete{{row[1]}}">delete</button></td>
+
+                <td>
+
+                    <div class="statusChanger{{row[1]}}">
+                        <select onchange="changeStatus('{{row[1]}}')" id="newStatus{{row[1]}}" class="inputDashboard">
+                            <option value="active">active</option>
+                            <option value="inactive">inactive</option>
+                        </select>
+
+                    </div>
+                </td>
+
+            </tr>
+            {% endfor %}
+        </table>
     </div>
-    <input type="text" id="organisationDashboard">
-    <button onclick="goDashboard()">Go to dashboard</button>
-    <table>
-        <tr>
-            <th>Organisation</th>
-            <th>Admin email</th>
-            <th>Configured</th>
-            <th>Plan</th>
-        </tr>
-        {% for row in table %}
-        <tr>
-            <td>{{row[1]}}</td>
 
-            <td>{{row[0]}}</td>
-            <td>{{row[4]}}</td>
-            <td>{{row[5]}}</td>
-            <td><button onclick="sendNewPassword('{{row[0]}}')">send a new password</button></td>
-
-            <td ><button onclick="deleteOrga('{{row[1]}}')" class="delete{{row[1]}}">delete</button></td>
-            <td>
-                <div class="planChanger{{row[1]}}">
-                    <select id="newPlan{{row[1]}}">
-                        <option value="free">Free</option>
-                        <option value="paid">Paid</option>
-                    </select>
-                    <button onclick="changePlan('{{row[1]}}',document.getElementById('newPlan{{row[1]}}').value)">Change
-                        plan</button>
-                </div>
-
-            </td>
-            <td>
-
-                <div class="statusChanger{{row[1]}}">
-                    <select onchange="changeStatus('{{row[1]}}')" id="newStatus{{row[1]}}" class="inputDashboard">
-                        <option  value="active">active</option>
-                        <option  value="inactive">inactive</option>
-                    </select>
-
-                </div>
-            </td>
-
-        </tr>
-        {% endfor %}
-    </table>
     <script>
         function changeStatus(organisation) {
-            console.log("changing status ", organisation, " ", document.getElementById("newStatus" + organisation).value)
+            let newStatus = document.getElementById("newStatus" + organisation).value
             fetch('/update_status_organisation', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ "organisation": organisation, "new_status": document.getElementById("newStatus" + organisation).value })
+                body: JSON.stringify({ "organisation": organisation, "new_status": newStatus })
 
             })
-                .then(response => { console.log(response.status); })
+                .then(response => {
+                    console.log(response.status)
+                    if (response.status === 200) {
+                        vNotify.info({ text: organisation + ' status changed to ' + newStatus, title: 'Info', sticky: false ,  visibleDuration: 5000})
+                    }
+                    else {
+                        vNotify.error({ text: organisation + ' status not changed: ' + response.status, title: 'Error', sticky: true })
+                    }
+                })
                 .catch(error => console.error('Error:', error));
         }
         {% for row in table %}
@@ -98,21 +116,29 @@
                 .catch(error => console.error('Error:', error));
         }
         function addOrganisation() {
+            let organisation = document.getElementById("newOrganisation").value
             fetch('/add_organisation', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    organisation: document.getElementById("newOrganisation").value,
+                    organisation: organisation,
                     emailAdmin: document.getElementById("emailAdmin").value,
                     firstNameAdmin: document.getElementById("firstNameAdmin").value,
                     lastNameAdmin: document.getElementById("lastNameAdmin").value,
                     companyName: document.getElementById("companyName").value,
-                    companyWebsite: document.getElementById("companyWebsite").value,
                 })
             })
-                .then(response => console.log(response.status))
+                .then(response => {
+                    console.log(response.status);
+                    if (response.status === 200) {
+                        vNotify.info({ text: 'New organisation ' + organisation + ' created.', title: 'Info', sticky: false,  visibleDuration: 5000 })
+                    }
+                    else {
+                        vNotify.error({ text: 'New organisation ' + organisation + ' not created: ' + response.status, title: 'Error', sticky: true })
+                    }
+                })
                 .catch(error => console.error('Error:', error));
         }
 
@@ -130,7 +156,8 @@
                 .then(response => { console.log(response.status); window.location.reload() })
                 .catch(error => console.error('Error:', error));
         }
-        function changePlan(organisation, newPlan) {
+        function changePlan(organisation) {
+            let newPlan = document.getElementById("newPlan" + organisation).value
             fetch('/change_plan', {
                 method: 'POST',
                 headers: {
@@ -141,7 +168,15 @@
                     newPlan: newPlan
                 })
             })
-                .then(response => console.log(response.status))
+                .then(response => {
+                    console.log(response.status)
+                    if (response.status === 200) {
+                        vNotify.info({ text: organisation + ' plan changed to ' + newPlan, title: 'Info', sticky: false,  visibleDuration: 5000 })
+                    }
+                    else {
+                        vNotify.error({ text: organisation + ' plan not changed: ' + response.status, title: 'Error', sticky: true })
+                    }
+                })
                 .catch(error => console.error('Error:', error));
         }
         function sendNewPassword(email) {
@@ -155,7 +190,15 @@
 
                 })
             })
-                .then(response => { console.log(response.status); window.location.reload() })
+                .then(response => {
+                    console.log(response.status);
+                    if (response.status === 200) {
+                        vNotify.info({ text: 'New password sent to ' + email, title: 'Info', sticky: false,  visibleDuration: 5000 })
+                    }
+                    else {
+                        vNotify.error({ text: 'Cannot send new password to ' + email + ": " + response.status, title: 'Error', sticky: true })
+                    }
+                })
                 .catch(error => console.error('Error:', error));
         }
         function goDashboard() {
