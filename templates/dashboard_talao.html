@@ -33,14 +33,16 @@
                 <th>Organisation</th>
                 <th>Admin email</th>
                 <th>Configured</th>
+                <th>Version config</th>
                 <th>Plan</th>
             </tr>
             {% for row in table %}
             <tr>
                 <td>{{row[1]}}</td>
-
                 <td>{{row[0]}}</td>
                 <td>{{row[4]}}</td>
+                <td>{{row[7]}}</td>
+
                 <td>
 
                     <div class="planChanger{{row[1]}}">

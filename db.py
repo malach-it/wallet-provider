@@ -252,7 +252,7 @@ def read_config_from_organisation(organisation: str):
 def read_tables():
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute('select email,json_extract(data,"$.organisation") as organisation,json_extract(data,"$.password")as password,name,configured ,json_extract(config,"$.generalOptions.customerPlan") as plan ,json_extract(config,"$.generalOptions.organizationStatus") as status from admins,organisations where json_extract(data,"$.organisation")=name')
+    c.execute('select email,json_extract(data,"$.organisation") as organisation,json_extract(data,"$.password")as password,name,configured ,json_extract(config,"$.generalOptions.customerPlan") as plan ,json_extract(config,"$.generalOptions.organizationStatus") as status,json_extract(config,"$.version") as version from admins,organisations where json_extract(data,"$.organisation")=name')
     rows = c.fetchall()
     return rows
 
