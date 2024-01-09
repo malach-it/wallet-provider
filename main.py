@@ -268,8 +268,11 @@ def setup():
         config = json.load(open('./wallet-provider-configuration.json', 'r'))
     else:
         config = db.read_config_from_organisation(session.get("organisation"))
-    issuers = json.loads(db.read_issuers(organisation))
-    print(issuers)
+    issuers = db.read_issuers(organisation)
+    if not issuers:
+        issuers = []
+    else:
+        issuers = json.loads(issuers)
     return render_template("setup.html", config=config, version=VERSION,issuers=issuers,len=len(issuers))
 
 
