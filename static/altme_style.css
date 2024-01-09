@@ -1518,7 +1518,7 @@ th {
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    gap: 12px;
+    gap: 24px;
 }
 
 #customizeTitle {
@@ -1802,3 +1802,19 @@ button {
     letter-spacing: -0.25px;
     text-align: center;
 }
+
+#addAnIssuer{
+    width: fit-content;
+}
+
+input[type="color"] {
+    height: 54px;
+  }
+
+  .inputColor{
+    display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  font-family: Roboto;
+  }

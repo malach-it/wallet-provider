@@ -232,7 +232,7 @@ def read_config(email: str) -> dict:
     if len(rows) < 1 or rows[0][0] == None:
         return None
     config = json.load(open('./wallet-provider-configuration.json', 'r'))
-    config.update(json.loads(rows[0][0]))
+    config = merge_dicts(config, json.loads(rows[0][0]))
     return config
 
 
@@ -245,7 +245,7 @@ def read_config_from_organisation(organisation: str):
     if len(rows) < 1 or rows[0][0] == None:
         return None
     config = json.load(open('./wallet-provider-configuration.json', 'r'))
-    config.update(json.loads(rows[0][0]))
+    config = merge_dicts(config, json.loads(rows[0][0]))
     return config
 
 
@@ -326,3 +326,22 @@ def update_plan(organisation, newPlan):
         newPlan=newPlan, organisation=organisation))
     conn.commit()
     return True
+
+
+def read_issuers(organisation: str):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("select json_extract(config,'$.discoverCardsOptions.displayExternalIssuer') from organisations where name='{organisation}'".format(
+        organisation=organisation))
+    rows = c.fetchone()
+    return rows[0]
+
+
+def merge_dicts(d1, d2):
+    merged = d1.copy()
+    for key, value in d2.items():
+        if key in merged and isinstance(merged[key], dict) and isinstance(value, dict):
+            merged[key] = merge_dicts(merged[key], value)
+        else:
+            merged[key] = value
+    return merged

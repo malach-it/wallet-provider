@@ -15,10 +15,12 @@ signature = '\r\n\r\n\r\nThe Altme team.\r\nhttps://altme.io/'
 # dict of HTML templates with commented formating needed
 HTML_templates = {'code_auth_en': 'templates/code_auth_en.html',  # code
                   'password': 'templates/password.html',  # code
+                  'password_admin': 'templates/password_admin.html',
                   }
 
 
 def messageHTML(subject, to, HTML_key, format_dict):
+    print(subject, to, HTML_key, str(format_dict))
     password = json.load(open("keys.json", "r"))["smtp_password"]
     fromaddr = "relay@talao.io"
     toaddr = [to]

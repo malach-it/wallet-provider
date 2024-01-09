@@ -54,7 +54,7 @@
                 <td><button class="buttonTable" onclick="sendNewPassword('{{row[0]}}')">send a new password</button>
                 </td>
 
-                <td><button class="buttonTable" onclick="deleteOrga('{{row[1]}}')"
+                <td><button class="buttonTable" onclick="openPopup('{{row[1]}}')"
                         class="delete{{row[1]}}">delete</button></td>
 
                 <td>
@@ -72,8 +72,17 @@
             {% endfor %}
         </table>
     </div>
-
+    <div id="overlay" class="displayNone">
+        <div id="popup">
+            <p id="titlePopup"></p>
+            <div id="buttonsPopup">
+                <button id="deleteButton" onclick="deleteOrga()">Delete</button>
+                <button id="backButton" onclick="openPopup('')">Go back</button>
+            </div>
+        </div>
+    </div>
     <script>
+        var organisationDashboard;
         function changeStatus(organisation) {
             let newStatus = document.getElementById("newStatus" + organisation).value
             fetch('/update_status_organisation', {
@@ -142,7 +151,8 @@
                 .catch(error => console.error('Error:', error));
         }
 
-        function deleteOrga(organisation) {
+        function deleteOrga() {
+            let organisation = organisationToDelete
             fetch('/delete_organisation', {
                 method: 'POST',
                 headers: {
@@ -203,6 +213,11 @@
         }
         function goDashboard() {
             window.location = "/dashboard?organisation=" + document.getElementById("organisationDashboard").value
+        }
+        function openPopup(organisation){
+            organisationToDelete=organisation
+            document.getElementById("titlePopup").innerHTML="Do you really want to delete the organisation "+organisation+" ?"
+            document.getElementById("overlay").getAttribute("class")==="displayNone"?document.getElementById("overlay").setAttribute("class",""):document.getElementById("overlay").setAttribute("class","displayNone")
         }
     </script>
 </body>

@@ -146,6 +146,10 @@ def init_app(app, red):
                      view_func=update_status_organisation, methods=['POST'])
     app.add_url_rule('/send_message',
                      view_func=send_message, methods=['POST'])
+    app.add_url_rule('/add_issuer',
+                     view_func=add_issuer, methods=['POST'])
+    app.add_url_rule('/remove_issuer',
+                     view_func=remove_issuer, methods=['POST'])
     return
 
 
@@ -264,7 +268,9 @@ def setup():
         config = json.load(open('./wallet-provider-configuration.json', 'r'))
     else:
         config = db.read_config_from_organisation(session.get("organisation"))
-    return render_template("setup.html", config=config, version=VERSION)
+    issuers = json.loads(db.read_issuers(organisation))
+    print(issuers)
+    return render_template("setup.html", config=config, version=VERSION,issuers=issuers,len=len(issuers))
 
 
 def allowed_file(filename):
@@ -455,16 +461,12 @@ def set_config():
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableId"] = True
 
-    if request.form.to_dict()["displayHumanity"] == "displayHumanityFalse":
-        wallet_provider_configuration["discoverCardsOptions"]["displayHumanity"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayHumanity"] = True
-
     if request.form.to_dict()["displayDefi"] == "displayDefiFalse":
         wallet_provider_configuration["discoverCardsOptions"]["displayDefi"] = False
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayDefi"] = True
-
+    print(json.loads(db.read_issuers(session["organisation"])))
+    wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"]= json.loads(db.read_issuers(session["organisation"]))
     file = request.files.get('file')
     if file and allowed_file(file.filename):
         img = Image.open(file)
@@ -503,7 +505,7 @@ def dashboard():
 
 def dashboard_talao():
     if session.get("organisation") != "Talao":
-        return "Unauthorized", 401
+        return redirect("/")
     table = db.read_tables()
     return render_template("dashboard_talao.html", table=table, version=VERSION)
 
@@ -546,7 +548,7 @@ def add_organisation():
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
     if email.split("@")[1] != "wallet-provider.io":
         message.messageHTML("Your altme password", email,
-                            'password', {'code': str(password)})
+                            'password_admin', {'code': str(password)})
     wallet_provider_configuration = json.load(
         open('./wallet-provider-configuration.json', 'r'))
     wallet_provider_configuration["generalOptions"]["companyName"] = company_name
@@ -653,7 +655,7 @@ def update_password_admin():
     password = generate_random_string(6)
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
     message.messageHTML("Your altme password", email,
-                        'password', {'code': str(password)})
+                        'password_admin', {'code': str(password)})
     db.update_password_admin(email, sha256_hash)
     return ("ok")
 
@@ -707,6 +709,28 @@ def alert_users():
                 pass
                 # logging.error(user[0])
     return "ok"
+
+
+def add_issuer():
+    if not session.get("organisation"):
+        return "Unauthorized", 401
+    organisation = session.get("organisation")
+    config = db.read_config_from_organisation(organisation)
+    config["discoverCardsOptions"]["displayExternalIssuer"].append(request.get_json())
+    print(config)
+
+    db.update_config(json.dumps(config),organisation)
+    return ("ok")
+
+
+def remove_issuer():
+    if not session.get("organisation"):
+        return "Unauthorized", 401
+    organisation = session.get("organisation")
+    config = db.read_config_from_organisation(organisation)
+    config["discoverCardsOptions"]["displayExternalIssuer"].pop(request.get_json()["issuerToDelete"])
+    db.update_config(json.dumps(config),organisation)
+    return ("ok")
 
 
 init_app(app, red)

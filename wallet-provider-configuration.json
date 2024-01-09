@@ -1,14 +1,15 @@
 {
-    "version": "1.11",
+    "version": "1.12",
     "generalOptions": {
         "walletType": "altme",
         "companyName": "",
-        "companyWebsite": "Professional wallet",
+        "companyWebsite": "https://altme.io",
         "companyLogo": "https://wallet-provider.talao.co/logo/default",
-        "tagLine": "Professional wallet",
+        "tagLine": "Wallet",
+        "splashScreenTitle": "Professional Wallet",
         "profileName": "Wallet Profile Demo",
         "profileVersion": "1.0",
-        "published": "",
+        "published": "2023-12-03",
         "profileId": "",
         "customerPlan": "free",
         "organizationStatus": true
@@ -71,8 +72,14 @@
         "displayOver18": true,
         "displayOver13": false,
         "displayOver15": false,
+        "displayOver21": false,
+        "displayOver50": false,
+        "displayOver65": false,
+        "displayAgeRange": false,
+        "displayGender": false,
         "displayVerifiableId": true,
         "displayHumanity": true,
-        "displayDefi": false
+        "displayDefi": false,
+        "displayExternalIssuer": []
     }
 }
