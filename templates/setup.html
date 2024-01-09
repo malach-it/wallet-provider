@@ -1424,8 +1424,10 @@
                                 <td>{{issuers[i]["description"]}}</td>
                                 <td>{{issuers[i]["category"]}}</td>
                                 <td>{{issuers[i]["redirect"]}}</td>
-                                <td><button class="buttonTable" type="button"
-                                        onclick="removeIssuer({{i}})">Delete</button></td>
+                                <td>
+                                    <button class="buttonTable" type="button"
+                                        onclick="removeIssuer({{i}})">Delete</button>
+                                </td>
                             </tr>
                             {% endfor %}
 
