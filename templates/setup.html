@@ -1302,7 +1302,7 @@
                         </div>
 
                     </div>
-                    <p class="title">Other issuers</p>
+                    <p class="title">Externals issuers</p>
                     <div id="issuerAdder" class="optionDiv">
                         <p class="optionDivMainTitle">Add an issuer</p>
 
@@ -1363,7 +1363,7 @@
                                     })
 
                                 })
-                                    .then(response => { console.log(response.status); })
+                                    .then(response => { console.log(response.status);if(response.status===200){window.location.replace("/setup?step=6#tableDashboard");window.location.reload(); }  })
                                     .catch(error => console.error('Error:', error));
 
                             }
@@ -1379,7 +1379,7 @@
                                     })
 
                                 })
-                                    .then(response => { console.log(response.status); })
+                                    .then(response => { console.log(response.status); if(response.status===200){window.location.replace("/setup?step=6#tableDashboard");window.location.reload(); } })
                                     .catch(error => console.error('Error:', error));
 
                             }
@@ -1395,7 +1395,7 @@
                         </thead>
                         <tbody>
                             {% for i in range(0,len) %}
-                            <tr>
+                            <tr id="issuer{{i}}">
                                 <td>{{issuers[i]["name"]}}</td>
                                 <td>{{issuers[i]["description"]}}</td>
                                 <td>{{issuers[i]["category"]}}</td>
@@ -1464,6 +1464,15 @@
         })
     </script>
     <script>
+        const url = new URL(document.location);
+
+        const searchParams = url.searchParams;
+        let step=searchParams.get("step")
+        console.log(step)
+
+        if(step==="6"){
+            goStep6()
+        }
         document.getElementById("{{config["generalOptions"]["walletType"]}}").checked = true
         document.getElementById("profileName").value = "{{config["generalOptions"]["profileName"]}}"
         document.getElementById("companyName").value = "{{config["generalOptions"]["companyName"]}}"
@@ -1534,6 +1543,8 @@
         document.getElementById("displayHumanity{{config["discoverCardsOptions"]["displayHumanity"]}}").checked = true
         document.getElementById("displayDefi{{config["discoverCardsOptions"]["displayDefi"]}}").checked = true
 
+        document.getElementById("categoryIssuer").value="othersCards"
+        document.getElementById("backgroundColorIssuer").value="#ffffff"
 
         //switchProfile()
         switchSupportEmail()
