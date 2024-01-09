@@ -273,7 +273,7 @@ def setup():
         issuers = []
     else:
         issuers = json.loads(issuers)
-    return render_template("setup.html", config=config, version=VERSION,issuers=issuers,len=len(issuers))
+    return render_template("setup.html", config=config, version=VERSION, issuers=issuers, len=len(issuers))
 
 
 def allowed_file(filename):
@@ -468,8 +468,11 @@ def set_config():
         wallet_provider_configuration["discoverCardsOptions"]["displayDefi"] = False
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayDefi"] = True
-    print(json.loads(db.read_issuers(session["organisation"])))
-    wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"]= json.loads(db.read_issuers(session["organisation"]))
+    issuers = db.read_issuers(session["organisation"])
+    if not issuers:
+        wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = []
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = json.loads(issuers)
     file = request.files.get('file')
     if file and allowed_file(file.filename):
         img = Image.open(file)
@@ -719,10 +722,11 @@ def add_issuer():
         return "Unauthorized", 401
     organisation = session.get("organisation")
     config = db.read_config_from_organisation(organisation)
-    config["discoverCardsOptions"]["displayExternalIssuer"].append(request.get_json())
+    config["discoverCardsOptions"]["displayExternalIssuer"].append(
+        request.get_json())
     print(config)
 
-    db.update_config(json.dumps(config),organisation)
+    db.update_config(json.dumps(config), organisation)
     return ("ok")
 
 
@@ -731,8 +735,9 @@ def remove_issuer():
         return "Unauthorized", 401
     organisation = session.get("organisation")
     config = db.read_config_from_organisation(organisation)
-    config["discoverCardsOptions"]["displayExternalIssuer"].pop(request.get_json()["issuerToDelete"])
-    db.update_config(json.dumps(config),organisation)
+    config["discoverCardsOptions"]["displayExternalIssuer"].pop(
+        request.get_json()["issuerToDelete"])
+    db.update_config(json.dumps(config), organisation)
     return ("ok")
 
 
