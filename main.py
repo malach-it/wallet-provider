@@ -225,6 +225,7 @@ def login():
     if request.MOBILE:
         return render_template("mobile.html")
     user_session = UserSession(flask.session)
+    logging.info(user_session.userinfo)
     email = user_session.userinfo["vp_token_payload"]["verifiableCredential"]["credentialSubject"]["email"]
     if not db.read_organisation(email):
         session["organisation"] = None
