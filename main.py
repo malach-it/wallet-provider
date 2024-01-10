@@ -292,8 +292,8 @@ def set_config():
     wallet_provider_configuration["generalOptions"]["companyName"] = request.form.to_dict()[
         "companyName"]
 
-    """wallet_provider_configuration["generalOptions"]["companyWebsite"] = request.form.to_dict()[
-        "companyWebsite"]"""
+    wallet_provider_configuration["generalOptions"]["splashScreenTitle"] = request.form.to_dict()[
+        "splashScreenTitle"]
     wallet_provider_configuration["generalOptions"]["tagLine"] = request.form.to_dict()[
         "tagLine"]
     wallet_provider_configuration["generalOptions"]["published"] = datetime.today(
@@ -312,14 +312,24 @@ def set_config():
         wallet_provider_configuration["settingsMenu"]["displayProfile"] = False
     else:
         wallet_provider_configuration["settingsMenu"]["displayProfile"] = True
+
     if request.form.to_dict()["displayDeveloperMode"] == "displayDeveloperModeFalse":
         wallet_provider_configuration["settingsMenu"]["displayDeveloperMode"] = False
     else:
         wallet_provider_configuration["settingsMenu"]["displayDeveloperMode"] = True
+
     if request.form.to_dict()["displayHelpCenter"] == "displayHelpCenterFalse":
         wallet_provider_configuration["settingsMenu"]["displayHelpCenter"] = False
     else:
         wallet_provider_configuration["settingsMenu"]["displayHelpCenter"] = True
+
+    if request.form.to_dict()["displaySelfSovereignIdentity"] == "displaySelfSovereignIdentityFalse":
+        wallet_provider_configuration["settingsMenu"]["displaySelfSovereignIdentity"] = False
+        print("false")
+    else:
+        wallet_provider_configuration["settingsMenu"]["displaySelfSovereignIdentity"] = True
+        print("true")
+
 
     if request.form.to_dict()["displaySecurityAdvancedSettings"] == "displaySecurityAdvancedSettingsFalse":
         wallet_provider_configuration["walletSecurityOptions"]["displaySecurityAdvancedSettings"] = False

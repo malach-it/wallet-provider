@@ -237,12 +237,12 @@
                                 <input class="inputTextSetup" type="text" id="companyName" name="companyName"
                                     placeholder="Company name">
                             </div>
-                            <div class="optionDivDisabled">
+                            <div class="optionDiv">
                                 <p class="optionDivMainTitle">1.5 Wallet title</p>
                                 <p class="optionDivSecondTitle">Enter a title for your wallet's loading screen (max 20
                                     characters)</p>
-                                <input maxlength="20" class="inputTextSetup" type="text" id="companyWebsite"
-                                    name="companyWebsite" placeholder="Company website" disabled>
+                                <input maxlength="20" class="inputTextSetup" type="text" id="splashScreenTitle"
+                                    name="splashScreenTitle" placeholder="Company website" >
                             </div>
                         </div>
                         <div class="line1Setup">
@@ -320,7 +320,7 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="optionDivDisabled">
+                        <div class="optionDiv">
                             <p class="optionDivMainTitle">2.3 Display Self Sovereign Identity</p>
                             <p class="optionDivSecondTitle"></p>
                             <div class="optionsDivRow">
@@ -329,15 +329,13 @@
 
                                     <label for="displaySelfSovereignIdentityTrue" class="optionLabel">Yes</label>
                                     <input type="radio" id="displaySelfSovereignIdentityTrue"
-                                        name="displaySelfSovereignIdentity" value="displaySelfSovereignIdentityTrue"
-                                        checked disabled>
+                                        name="displaySelfSovereignIdentity" value="displaySelfSovereignIdentityTrue" checked>
                                 </div>
                                 <div class="labelAndButton">
 
                                     <label for="displaySelfSovereignIdentityFalse" class="optionLabel">No</label>
                                     <input type="radio" id="displaySelfSovereignIdentityFalse"
-                                        name="displaySelfSovereignIdentity" value="displaySelfSovereignIdentityFalse"
-                                        disabled>
+                                        name="displaySelfSovereignIdentity" value="displaySelfSovereignIdentityFalse">
                                 </div>
                             </div>
                         </div>
@@ -1495,20 +1493,19 @@
 
         const searchParams = url.searchParams;
         let step = searchParams.get("step")
-        console.log(step)
-
         if (step === "6") {
             goStep6()
         }
         document.getElementById("{{config["generalOptions"]["walletType"]}}").checked = true
         document.getElementById("profileName").value = "{{config["generalOptions"]["profileName"]}}"
         document.getElementById("companyName").value = "{{config["generalOptions"]["companyName"]}}"
-        document.getElementById("companyWebsite").value = "{{config["generalOptions"]["companyWebsite"]}}"
+        document.getElementById("splashScreenTitle").value = "{{config["generalOptions"]["splashScreenTitle"]}}"
         document.getElementById("tagLine").value = "{{config["generalOptions"]["tagLine"]}}"
 
         document.getElementById("displayProfile{{config["settingsMenu"]["displayProfile"]}}").checked = true
         document.getElementById("displayDeveloperMode{{config["settingsMenu"]["displayDeveloperMode"]}}").checked = true
         document.getElementById("displayHelpCenter{{config["settingsMenu"]["displayHelpCenter"]}}").checked = true
+        document.getElementById("displaySelfSovereignIdentity{{config["settingsMenu"]["displaySelfSovereignIdentity"]}}").checked = true
 
         document.getElementById("displaySecurityAdvancedSettings{{config["walletSecurityOptions"]["displaySecurityAdvancedSettings"]}}").checked = true
         document.getElementById("verifySecurityIssuerWebsiteIdentity{{config["walletSecurityOptions"]["verifySecurityIssuerWebsiteIdentity"]}}").checked = true
