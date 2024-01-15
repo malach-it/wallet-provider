@@ -242,7 +242,7 @@
                                 <p class="optionDivSecondTitle">Enter a title for your wallet's loading screen (max 20
                                     characters)</p>
                                 <input maxlength="20" class="inputTextSetup" type="text" id="splashScreenTitle"
-                                    name="splashScreenTitle" placeholder="Company website" >
+                                    name="splashScreenTitle" placeholder="Company website">
                             </div>
                         </div>
                         <div class="line1Setup">
@@ -329,7 +329,8 @@
 
                                     <label for="displaySelfSovereignIdentityTrue" class="optionLabel">Yes</label>
                                     <input type="radio" id="displaySelfSovereignIdentityTrue"
-                                        name="displaySelfSovereignIdentity" value="displaySelfSovereignIdentityTrue" checked>
+                                        name="displaySelfSovereignIdentity" value="displaySelfSovereignIdentityTrue"
+                                        checked>
                                 </div>
                                 <div class="labelAndButton">
 
@@ -1035,139 +1036,165 @@
                 </div>
 
                 <div id="step6Div" class="displayNone">
-                    <p class="title">Discover card options</p>
-                    <div class="line1Setup">
+                    <p class="title">Talao issuers</p>
+                    <table>
+                        <thead>
+                            <th>Name</th>
+                            <th>Description</th>
+                            <th>Category</th>
+                            <th>Issuer</th>
+                            <th>Image</th>
+                            <th>Status</th>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>AgeOver13</td>
+                                <td>Prove you are over 13 years old</td>
+                                <td>Identity cards</td>
+                                <td>Talao</td>
+                                <td></td>
+                                <td><select name="displayOver13" id="displayOver13" class="selectSetup">
+                                        <option value="displayOver13True">Visible</option>
+                                        <option value="displayOver13False">Invisible</option>
 
+                                    </select></td>
 
+                            </tr>
+                            <tr>
+                                <td>AgeOver15</td>
+                                <td>Prove you are over 15 years old</td>
+                                <td>Identity cards</td>
+                                <td>Talao</td>
+                                <td></td>
+                                <td><select name="displayOver15" id="displayOver15" class="selectSetup">
+                                        <option value="displayOver15True">Visible</option>
+                                        <option value="displayOver15False">Invisible</option>
 
+                                    </select></td>
 
-                        <div class="optionDiv">
-                            <p class="optionDivMainTitle">6.1 Display Over13</p>
-                            <p class="optionDivSecondTitle"></p>
-                            <div class="optionsDivRow">
+                            </tr>
+                            <tr>
+                                <td>AgeOver18</td>
+                                <td>Prove you are over 18 years old</td>
+                                <td>Identity cards</td>
+                                <td>Talao</td>
+                                <td></td>
+                                <td><select name="displayOver18" id="displayOver18" class="selectSetup">
+                                        <option value="displayOver18True">Visible</option>
+                                        <option value="displayOver18False">Invisible</option>
 
-                                <div class="labelAndButton">
+                                    </select></td>
 
-                                    <label for="displayOver13True" class="optionLabel">Yes</label>
-                                    <input type="radio" id="displayOver13True" name="displayOver13"
-                                        value="displayOver13True" checked>
-                                </div>
-                                <div class="labelAndButton">
+                            </tr>
+                            <tr>
+                                <td>AgeOver21</td>
+                                <td>Prove you are over 21 years old</td>
+                                <td>Identity cards</td>
+                                <td>Talao</td>
+                                <td></td>
+                                <td><select name="displayOver21" id="displayOver21" disabled class="selectSetup">
+                                        <option value="displayOver21True">Visible</option>
+                                        <option value="displayOver21False">Invisible</option>
 
-                                    <label for="displayOver13False" class="optionLabel">No</label>
-                                    <input type="radio" id="displayOver13False" name="displayOver13"
-                                        value="displayOver13False">
-                                </div>
-                            </div>
+                                    </select></td>
 
-                        </div>
-                        <div class="optionDiv">
-                            <p class="optionDivMainTitle">6.2 Display Over15</p>
-                            <p class="optionDivSecondTitle"></p>
-                            <div class="optionsDivRow">
+                            </tr>
+                            <tr>
+                                <td>AgeOver50</td>
+                                <td>Prove you are over 50 years old</td>
+                                <td>Identity cards</td>
+                                <td>Talao</td>
+                                <td></td>
+                                <td><select name="displayOver50" id="displayOver50" disabled class="selectSetup">
+                                        <option value="displayOver50True">Visible</option>
+                                        <option value="displayOver50False">Invisible</option>
 
-                                <div class="labelAndButton">
+                                    </select></td>
 
-                                    <label for="displayOver15True" class="optionLabel">Yes</label>
-                                    <input type="radio" id="displayOver15True" name="displayOver15"
-                                        value="displayOver15True" checked>
-                                </div>
-                                <div class="labelAndButton">
+                            </tr>
+                            <tr>
+                                <td>AgeOver65</td>
+                                <td>Prove you are over 65 years old</td>
+                                <td>Identity cards</td>
+                                <td>Talao</td>
+                                <td></td>
+                                <td><select name="displayOver65" id="displayOver65" disabled class="selectSetup">
+                                        <option value="displayOver65True">Visible</option>
+                                        <option value="displayOver65False">Invisible</option>
 
-                                    <label for="displayOver15False" class="optionLabel">No</label>
-                                    <input type="radio" id="displayOver15False" name="displayOver15"
-                                        value="displayOver15False">
-                                </div>
-                            </div>
+                                    </select></td>
 
-                        </div>
-                        <div class="optionDiv">
-                            <p class="optionDivMainTitle">6.3 Display Over18</p>
-                            <p class="optionDivSecondTitle"></p>
-                            <div class="optionsDivRow">
+                            </tr>
+                            <tr>
+                                <td>VerifiableId</td>
+                                <td>Prove your identity</td>
+                                <td>Identity cards</td>
+                                <td>Talao</td>
+                                <td></td>
+                                <td><select name="displayVerifiableId" id="displayVerifiableId" class="selectSetup">
+                                        <option value="displayVerifiableIdTrue">Visible</option>
+                                        <option value="displayVerifiableIdFalse">Invisible</option>
 
-                                <div class="labelAndButton">
+                                    </select></td>
 
-                                    <label for="displayOver18True" class="optionLabel">Yes</label>
-                                    <input type="radio" id="displayOver18True" name="displayOver18"
-                                        value="displayOver18True" checked>
-                                </div>
-                                <div class="labelAndButton">
+                            </tr>
+                            <tr>
+                                <td>DefiCompliance</td>
+                                <td>Prove you are defi compliant</td>
+                                <td>Identity cards</td>
+                                <td>Talao</td>
+                                <td></td>
+                                <td><select name="displayDefi" id="displayDefi" class="selectSetup">
+                                        <option value="displayDefiTrue">Visible</option>
+                                        <option value="displayDefiFalse">Invisible</option>
 
-                                    <label for="displayOver18False" class="optionLabel">No</label>
-                                    <input type="radio" id="displayOver18False" name="displayOver18"
-                                        value="displayOver18False">
-                                </div>
-                            </div>
-                        </div>
+                                    </select></td>
 
-                    </div>
-                    <div class="line1Setup">
+                            </tr>
+                            <tr>
+                                <td>Proof of humanity</td>
+                                <td>Prove you are an human being</td>
+                                <td>Identity cards</td>
+                                <td>Talao</td>
+                                <td></td>
+                                <td><select name="displayHumanity" id="displayHumanity" disabled class="selectSetup">
+                                        <option value="displayHumanityTrue">Visible</option>
+                                        <option value="displayHumanityFalse">Invisible</option>
 
+                                    </select></td>
 
+                            </tr>
+                            <tr>
+                                <td>AgeRange</td>
+                                <td>Prove your age range</td>
+                                <td>Identity cards</td>
+                                <td>Talao</td>
+                                <td></td>
+                                <td><select name="displayAgeRange" id="displayAgeRange" disabled class="selectSetup">
+                                        <option value="displayAgeRangeTrue">Visible</option>
+                                        <option value="displayAgeRangeFalse">Invisible</option>
 
+                                    </select></td>
 
-                        <div class="optionDivDisabled">
-                            <p class="optionDivMainTitle">6.4 Display Over21</p>
-                            <p class="optionDivSecondTitle"></p>
-                            <div class="optionsDivRow">
+                            </tr>
+                            <tr>
+                                <td>Proof of gender</td>
+                                <td>Prove you gender</td>
+                                <td>Identity cards</td>
+                                <td>Talao</td>
+                                <td></td>
+                                <td>
+                                    <select name="displayGender" id="displayGender" disabled class="selectSetup">
+                                        <option value="displayGenderTrue">Visible</option>
+                                        <option value="displayGenderFalse">Invisible</option>
 
-                                <div class="labelAndButton">
+                                    </select>
+                                </td>
 
-                                    <label for="displayOver21True" class="optionLabel">Yes</label>
-                                    <input type="radio" id="displayOver21True" name="displayOver21"
-                                        value="displayOver21True" checked disabled>
-                                </div>
-                                <div class="labelAndButton">
+                            </tr>
+                        </tbody>
+                    </table>
 
-                                    <label for="displayOver21False" class="optionLabel">No</label>
-                                    <input type="radio" id="displayOver21False" name="displayOver21"
-                                        value="displayOver21False" disabled>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="optionDivDisabled">
-                            <p class="optionDivMainTitle">6.5 Display Over50</p>
-                            <p class="optionDivSecondTitle"></p>
-                            <div class="optionsDivRow">
-
-                                <div class="labelAndButton">
-
-                                    <label for="displayOver50True" class="optionLabel">Yes</label>
-                                    <input type="radio" id="displayOver50True" name="displayOver50"
-                                        value="displayOver50True" checked disabled>
-                                </div>
-                                <div class="labelAndButton">
-
-                                    <label for="displayOver50False" class="optionLabel">No</label>
-                                    <input type="radio" id="displayOver50False" name="displayOver50"
-                                        value="displayOver50False" disabled>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="optionDivDisabled">
-                            <p class="optionDivMainTitle">6.6 Display Over65</p>
-                            <p class="optionDivSecondTitle"></p>
-                            <div class="optionsDivRow">
-
-                                <div class="labelAndButton">
-
-                                    <label for="displayOver65True" class="optionLabel">Yes</label>
-                                    <input type="radio" id="displayOver65True" name="displayOver65"
-                                        value="displayOver65True" checked disabled>
-                                </div>
-                                <div class="labelAndButton">
-
-                                    <label for="displayOver65False" class="optionLabel">No</label>
-                                    <input type="radio" id="displayOver65False" name="displayOver65"
-                                        value="displayOver65False" disabled>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
                     <div class="line1Setup">
 
 
@@ -1191,246 +1218,56 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="optionDiv">
-                            <p class="optionDivMainTitle">6.5 Display VerifiableId</p>
-                            <p class="optionDivSecondTitle"></p>
 
-                            <div class="optionsDivRow">
-
-                                <div class="labelAndButton">
-
-                                    <label for="displayVerifiableIdTrue" class="optionLabel">Yes</label>
-                                    <input type="radio" id="displayVerifiableIdTrue" name="displayVerifiableId"
-                                        value="displayVerifiableIdTrue" checked>
-                                </div>
-                                <div class="labelAndButton">
-
-                                    <label for="displayVerifiableIdFalse" class="optionLabel">No</label>
-                                    <input type="radio" id="displayVerifiableIdFalse" name="displayVerifiableId"
-                                        value="displayVerifiableIdFalse">
-                                </div>
-                            </div>
-
-                        </div>
 
 
                     </div>
-                    <div class="line1Setup">
-                        <div class="optionDiv">
-                            <p class="optionDivMainTitle">6.7 Display defi compliance</p>
-                            <p class="optionDivSecondTitle"></p>
-                            <div class="optionsDivRow">
 
-                                <div class="labelAndButton">
 
-                                    <label for="displayDefiTrue" class="optionLabel">Yes</label>
-                                    <input type="radio" id="displayDefiTrue" name="displayDefi" value="displayDefiTrue"
-                                        checked>
-                                </div>
-                                <div class="labelAndButton">
-
-                                    <label for="displayDefiFalse" class="optionLabel">No</label>
-                                    <input type="radio" id="displayDefiFalse" name="displayDefi"
-                                        value="displayDefiFalse">
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="optionDivDisabled">
-                            <p class="optionDivMainTitle">6.8 Display proof of humanity</p>
-                            <p class="optionDivSecondTitle"></p>
-                            <div class="optionsDivRow">
-
-                                <div class="labelAndButton">
-
-                                    <label for="displayHumanityTrue" class="optionLabel">Yes</label>
-                                    <input type="radio" id="displayHumanityTrue" name="displayHumanity"
-                                        value="displayHumanityTrue" checked disabled>
-                                </div>
-                                <div class="labelAndButton">
-
-                                    <label for="displayHumanityFalse" class="optionLabel">No</label>
-                                    <input type="radio" id="displayHumanityFalse" name="displayHumanity"
-                                        value="displayHumanityFalse" disabled>
-                                </div>
-                            </div>
-
-                        </div>
-
-                    </div>
-                    <div class="line1Setup">
-                        <div class="optionDivDisabled">
-                            <p class="optionDivMainTitle">6.9 Display AgeRange</p>
-                            <p class="optionDivSecondTitle"></p>
-                            <div class="optionsDivRow">
-
-                                <div class="labelAndButton">
-
-                                    <label for="displayAgeRangeTrue" class="optionLabel">Yes</label>
-                                    <input type="radio" id="displayAgeRangeTrue" name="displayAgeRange"
-                                        value="displayAgeRangeTrue" checked disabled>
-                                </div>
-                                <div class="labelAndButton">
-
-                                    <label for="displayAgeRangeFalse" class="optionLabel">No</label>
-                                    <input type="radio" id="displayAgeRangeFalse" name="displayAgeRange"
-                                        value="displayAgeRangeFalse" disabled>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="optionDivDisabled">
-                            <p class="optionDivMainTitle">6.10 Display proof of gender</p>
-                            <p class="optionDivSecondTitle"></p>
-                            <div class="optionsDivRow">
-
-                                <div class="labelAndButton">
-
-                                    <label for="displayGenderTrue" class="optionLabel">Yes</label>
-                                    <input type="radio" id="displayGenderTrue" name="displayGender"
-                                        value="displayGenderTrue" checked disabled>
-                                </div>
-                                <div class="labelAndButton">
-
-                                    <label for="displayGenderFalse" class="optionLabel">No</label>
-                                    <input type="radio" id="displayGenderFalse" name="displayGender"
-                                        value="displayGenderFalse" disabled>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
                     <p class="title">Externals issuers</p>
-                    <div id="issuerAdder" class="optionDiv">
-                        <p class="optionDivMainTitle">Add an issuer</p>
 
-                        <div class="optionsDivRow">
-                            <input class="inputTextSetup" type="text" id="nameIssuer" placeholder="name"
-                                autocomplete="off">
-                            <input class="inputTextSetup" type="text" id="descriptionIssuer" placeholder="description"
-                                autocomplete="off">
-                            <select class="selectSetup" id="categoryIssuer" autocomplete="off">
-                                <option value="advantagesCards">Advantages cards</option>
-                                <option value="identityCards">Identity cards</option>
-                                <option value="professionalCards">Professional cards</option>
-                                <option value="contactInfoCredentials">Contact info credentials cards</option>
-                                <option value="educationCards">Education cards</option>
-                                <option value="financeCards">Finance cards</option>
-                                <option value="humanityProofCards">Humanity proof cards</option>
-                                <option value="socialMediaCards">Social media cards</option>
-                                <option value="blockchainAccountsCards">Blockchain accounts cards</option>
-                                <option value="othersCards">Other cards</option>
-                            </select>
-                            <input class="inputTextSetup" type="text" id="redirectIssuer" placeholder="redirect URL"
-                                autocomplete="off">
-                        </div>
-                        <div class="optionsDivRow">
-                            <input class="inputTextSetup" type="text" id="backgroundImageIssuer" autocomplete="off"
-                                placeholder="background image URL">
-                            <input class="inputTextSetup" type="text" id="logoIssuer" placeholder="logo URL"
-                                autocomplete="off">
-                            <div class="inputColor">
-                                <p>Background color</p>
-                                <input type="color" id="backgroundColorIssuer" placeholder="background color"
-                                    autocomplete="off">
-                            </div>
-                            <div class="inputColor">
-                                <p>Text color</p>
-                                <input type="color" id="textColorIssuer" placeholder="text color" autocomplete="off">
-                            </div>
-
-                        </div>
-                        <button type="button" id="addAnIssuer" onclick="addIssuer()" class="buttonAltme">Add an
-                            issuer</button>
-                        <script>
-                            function addIssuer() {
-                                fetch('/add_issuer', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({
-                                        "name": document.getElementById("nameIssuer").value,
-                                        "description": document.getElementById("descriptionIssuer").value,
-                                        "category": document.getElementById("categoryIssuer").value,
-                                        "redirect": document.getElementById("redirectIssuer").value,
-                                        "background_image": document.getElementById("backgroundImageIssuer").value,
-                                        "logo": document.getElementById("logoIssuer").value,
-                                        "background_color": document.getElementById("backgroundColorIssuer").value,
-                                        "text_color": document.getElementById("textColorIssuer").value,
-
-                                    })
-
-                                })
-                                    .then(response => {
-                                        console.log(response.status); if (response.status === 200) {
-
-                                            let step = searchParams.get("step")
-                                            console.log(step)
-
-                                            if (step === "6") {
-                                                window.location.reload();
-                                            }
-                                            else { window.location.replace("/setup?step=6#tableDashboard"); }
-                                        }
-                                    })
-                                    .catch(error => console.error('Error:', error));
-
-                            }
-                            function removeIssuer(index) {
-                                fetch('/remove_issuer', {
-                                    method: 'POST',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    },
-                                    body: JSON.stringify({
-                                        "issuerToDelete": index
-
-                                    })
-
-                                })
-                                    .then(response => {
-                                        console.log(response.status); if (response.status === 200) {
-
-                                            let step = searchParams.get("step")
-                                            console.log(step)
-
-                                            if (step === "6") {
-                                                window.location.reload();
-                                            }
-                                            else { window.location.replace("/setup?step=6#tableDashboard"); }
-                                        }
-
-                                    })
-                                    .catch(error => console.error('Error:', error));
-
-                            }
-                        </script>
-                    </div>
                     <table id="tableDashboard">
                         <thead>
                             <th>Name</th>
-                            <th>Description</th>
                             <th>Category</th>
-                            <th>Redirect URL</th>
-                            <th></th>
+                            <th>Subtitle</th>
+                            <th>Issuer name</th>
+                            <th>Issuer URL</th>
+                            <th>Format</th>
+
+                            <th>Logo</th>
+                            <th>Background</th>
+                            <th>Status</th>
                         </thead>
                         <tbody>
-                            {% for i in range(0,len) %}
-                            <tr id="issuer{{i}}">
-                                <td>{{issuers[i]["name"]}}</td>
-                                <td>{{issuers[i]["description"]}}</td>
-                                <td>{{issuers[i]["category"]}}</td>
-                                <td>{{issuers[i]["redirect"]}}</td>
+                            {% for row in issuers_availables %}
+                            <tr id="issuer{{i}}" class="externalsIssuersRow{{row[11]}}"
+                                onclick="modifyIssuer('{{row[0]}}','{{row[11]}}')">
+                                <td>{{row[2]}}</td>
+                                <td>{{row[4]}}</td>
+                                <td>{{row[3]}}</td>
+                                <td>{{row[7]}}</td>
+                                <td>{{row[6]}}</td>
+                                <td>{{row[5]}}</td>
+                                <td></td>
+                                <td></td>
                                 <td>
-                                    <button class="buttonTable" type="button"
-                                        onclick="removeIssuer({{i}})">Delete</button>
+                                    <select class="selectSetup" onchange="changeStatusExternalIssuer('{{row[0]}}')"
+                                        id="statusIssuer{{row[0]}}">
+                                        <option value="visible">Visible</option>
+                                        <option value="invisible">Invisible</option>
+
+                                    </select>
                                 </td>
                             </tr>
                             {% endfor %}
 
                         </tbody>
                     </table>
+                    <button type="button" id="addCredential" class="buttonAltme" onclick="openIssuerPopup('add')">ADD A
+                        NEW
+                        VERIFIABLE
+                        CREDENTIAL</button>
                     <div class="buttonsStep">
 
                         <button type="button" class="previousStep" onclick="goStep5()">Previous step</button>
@@ -1443,8 +1280,117 @@
         </div>
 
     </div>
+    <div id="overlay" class="displayNone">
+
+        <div id="issuerPopup">
+            <div id="line1Popup">
+                <button id="closePopup" type="button" onclick="openIssuerPopup()">X</button>
+                <p id="createYourVC" class="title">Create your verifiable credential (VC)</p>
+            </div>
+            <div class="sectionPopup">
+                <p class="titlePopup">1. Verifiable Credential</p>
+                <div class="sectionInputPopup">
+                    <p class="labelPopup">Title / Name*</p>
+                    <input id="titleIssuer" class="inputTextPopup" type="text" placeholder="Title/ Name">
+                </div>
+                <div class="sectionInputPopup">
+                    <p class="labelPopup">Subtitle*</p>
+                    <input id="subtitleIssuer" class="inputTextPopup" type="text" placeholder="Subtitle">
+                </div>
+                <div class="sectionInputPopup">
+                    <p class="labelPopup">Description</p>
+                    <textarea id="descriptionIssuer" rows="5" class="inputTextPopup"
+                        placeholder="The description should provide users with detailed and clear information about this verifiable credential, such as its purpose and usage. The description will be exclusively displayed on the 'Credential Details' page within the user's mobile wallet and will not appear on the visual representation of the VC (Virtual Card) itself."></textarea>
+                </div>
+                <div class="sectionInputPopup">
+                    <p class="labelPopup">Expiration date</p>
+                    <input id="expirationDateIssuer" class="inputTextPopup" type="text" placeholder="Expiration date">
+                </div>
+                <div class="sectionInputPopup">
+                    <p class="labelPopup">How to get it</p>
+                    <textarea id="howToGetItIssuer" rows="5" class="inputTextPopup"
+                        placeholder="How to get it description..."></textarea>
+                </div>
+                <div class="sectionInputPopup">
+                    <p class="labelPopup">Category*</p>
+                    <select class="selectPopup" id="categoryIssuer" autocomplete="off">
+                        <option value="advantagesCards">Advantages cards</option>
+                        <option value="identityCards">Identity cards</option>
+                        <option value="professionalCards">Professional cards</option>
+                        <option value="contactInfoCredentials">Contact info credentials cards</option>
+                        <option value="educationCards">Education cards</option>
+                        <option value="financeCards">Finance cards</option>
+                        <option value="humanityProofCards">Humanity proof cards</option>
+                        <option value="socialMediaCards">Social media cards</option>
+                        <option value="blockchainAccountsCards">Blockchain accounts cards</option>
+                        <option value="othersCards">Other cards</option>
+                    </select>
+                </div>
+                <div class="sectionInputPopup">
+                    <p class="labelPopup">Format*</p>
+                    <select class="selectPopup" id="formatIssuer" autocomplete="off">
+                        <option value="ldp_vc">ldp_vc</option>
+                        <option value="jwt_vc_json">jwt_vc_json</option>
+                        <option value="jwt_vc_json-ld">jwt_vc_json-ld</option>
+
+                    </select>
+                </div>
+            </div>
+            <div class="sectionPopup">
+                <p class="titlePopup">2. Issuer</p>
+                <div class="sectionInputPopup">
+                    <p class="labelPopup">Issuer name (signer)*</p>
+                    <input id="nameIssuer" class="inputTextPopup" type="text" placeholder="Issuer name">
+                </div>
+                <div class="sectionInputPopup">
+                    <p class="labelPopup">Issuer URL*</p>
+                    <input id="URLIssuer" class="inputTextPopup" type="text" placeholder="https://">
+                </div>
+                <div class="sectionInputPopup">
+                    <p class="labelPopup">Privacy</p>
+                    <select class="selectPopup" id="privacyIssuer" autocomplete="off">
+                        <option value="public">Public</option>
+                        <option value="private">Private</option>
+                    </select>
+                    <p class="italicPopup">Choose if you want to make your VC issuer accessible to all Altme / Talao
+                        users or only to your team</p>
+                </div>
+            </div>
+            <div class="sectionPopup">
+                <p class="titlePopup">3. Customize your VC visual</p>
+                <div class="sectionInputPopup">
+                    <p class="labelPopup">URL of your logo*</p>
+                    <input class="inputTextPopup" type="text" placeholder="https://">
+                    <p class="italicPopup">Upload a logo in PNG format, sized at 150x150px</p>
+                </div>
+                <div class="sectionInputPopup">
+                    <p class="labelPopup">Color of the VC text</p>
+                    <input type="color" id="textColorIssuer" autocomplete="off">
+                </div>
+            </div>
+            <div class="sectionPopup">
+                <p class="titlePopup">4. Customize your VC background</p>
+                <div class="sectionInputPopup">
+                    <p class="labelPopup">URL of your background image</p>
+                    <input class="inputTextPopup" type="text" placeholder="https://">
+                    <p class="italicPopup">Upload an image in PNG format, sized at 1000x600px</p>
+                </div>
+                <p class="titlePopup">or</p>
+                <div class="sectionInputPopup">
+                    <p class="labelPopup">Color of your background</p>
+                    <input type="color" id="backgroundColorIssuer" autocomplete="off">
+                </div>
 
 
+            </div>
+            <div id="lastLinePopup">
+                <button id="lastLineButtonPopup" type="button" class="buttonAltme"
+                    onclick="updateIssuerTable()"></button>
+                <button id="deleteVCButton" type="button" class="displayNone" onclick="">DELETE VC</button>
+                <button onclick="openIssuerPopup()" type="button" id="cancelButton">CANCEL</button>
+            </div>
+        </div>
+    </div>
     <div class="bg-white-color ">
         <footer class="footer-02" id="footer">
             <div class="footer-02__wrapper">
@@ -1473,6 +1419,126 @@
 
     </div>
     <script>
+        var updateIssuer;
+
+        function openIssuerPopup(action,id) {
+
+            if (document.getElementById("overlay").getAttribute("class") === "displayNone") {
+                document.getElementById("overlay").setAttribute("class", "");
+                document.getElementById('issuerPopup').scrollTop = 0;
+                if (action === "add") {
+                    document.getElementById("lastLineButtonPopup").innerHTML = "CREATE VC"
+                    document.getElementById("deleteVCButton").setAttribute("class", "displayNone")
+                    updateIssuer = "add"
+                } else if (action === "modify") {
+                    fetch('/get_issuer_infos/'+id, {
+                        method: 'GET',
+                        headers: {
+                            'Content-Type': 'application/json'
+                        }
+                    }).then(res => {
+                        res.json().then(data=>{
+                            console.log(data)
+                            document.getElementById("titleIssuer").value=data.title
+                        })
+                    })
+                    document.getElementById("lastLineButtonPopup").innerHTML = "UPDATE VC"
+                    document.getElementById("deleteVCButton").setAttribute("class", "buttonAltmeInversed")
+                    updateIssuer = "modify"
+                }
+            }
+            else { document.getElementById("overlay").setAttribute("class", "displayNone") }
+
+        }
+        function updateIssuerTable() {
+            if (updateIssuer === "add") {
+                fetch('/add_issuer_db', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        privacyIssuer: document.getElementById("privacyIssuer").value,
+                        data: {
+                            "title": document.getElementById("titleIssuer").value,
+                            "subtitle": document.getElementById("subtitleIssuer").value,
+                            "category": document.getElementById("categoryIssuer").value,
+                            "format": document.getElementById("formatIssuer").value,
+                            "description": document.getElementById("descriptionIssuer").value,
+                            "howToGetIt": document.getElementById("howToGetItIssuer").value,
+                            "expirationDate": document.getElementById("expirationDateIssuer").value,
+                            "name": document.getElementById("nameIssuer").value,
+                            "url": document.getElementById("URLIssuer").value,
+
+
+                        }
+                    })
+                })
+                    .then(response => { console.log(response.status); })
+                    .catch(error => console.error('Error:', error));
+            }
+            else if (updateIssuer === "modify") {
+                fetch('/modify_issuer_db', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        data: {
+                            "title": document.getElementById("titleIssuer").value,
+                            "subtitle": document.getElementById("subtitleIssuer").value,
+                            "category": document.getElementById("categoryIssuer").value,
+                            "format": document.getElementById("formatIssuer").value,
+                            "description": document.getElementById("descriptionIssuer").value,
+                            "howToGetIt": document.getElementById("howToGetItIssuer").value,
+                            "expirationDate": document.getElementById("expirationDateIssuer").value,
+                            "name": document.getElementById("nameIssuer").value,
+                            "url": document.getElementById("URLIssuer").value,
+                        }
+                    })
+                })
+                    .then(response => { console.log(response.status); })
+                    .catch(error => console.error('Error:', error));
+            }
+        }
+
+        function changeStatusExternalIssuer(idIssuer) {
+            let newStatus = document.getElementById("statusIssuer" + idIssuer).value
+            console.log("setting issuer " + idIssuer + " to " + newStatus)
+
+            fetch('/change_issuer_config', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    id: idIssuer,
+                    newStatus: newStatus
+                })
+            })
+                .then(response => { console.log(response.status); })
+                .catch(error => console.error('Error:', error));
+
+
+        }
+        function modifyIssuer(id, owner) {
+            console.log(owner)
+            if (owner === "1") {
+                console.log("owner")
+                openIssuerPopup("modify",id)
+            }
+            else {
+                console.log("not owner")
+            }
+        }
+        {% for row in issuers_availables %}
+        document.getElementById("statusIssuer{{row[0]}}").value = {{ row[10] }} === 1 ? "visible" : "invisible"
+        document.getElementById('statusIssuer{{row[0]}}').addEventListener('click', function (e) {
+            e.stopPropagation(); // Prevent the click event from bubbling up
+            // Do other stuff here
+        });
+        {% endfor %}
+
         document.getElementById('buttonMenu').addEventListener('click', () => {
             if (document.getElementById('imageButtonMenu').getAttribute("class") === "imgButtonMenuInactive") {
                 document.getElementById('menuDiv').setAttribute("class", "flex");
@@ -1557,16 +1623,17 @@
 
 
         document.getElementById("displayRewardsCategory{{config["discoverCardsOptions"]["displayRewardsCategory"]}}").checked = true
-        document.getElementById("displayOver18{{config["discoverCardsOptions"]["displayOver18"]}}").checked = true
-        document.getElementById("displayOver13{{config["discoverCardsOptions"]["displayOver13"]}}").checked = true
-        document.getElementById("displayOver15{{config["discoverCardsOptions"]["displayOver15"]}}").checked = true
-        document.getElementById("displayOver21{{config["discoverCardsOptions"]["displayOver21"]}}").checked = true
-        document.getElementById("displayOver50{{config["discoverCardsOptions"]["displayOver50"]}}").checked = true
-        document.getElementById("displayOver65{{config["discoverCardsOptions"]["displayOver65"]}}").checked = true
-        document.getElementById("displayVerifiableId{{config["discoverCardsOptions"]["displayVerifiableId"]}}").checked = true
-        document.getElementById("displayHumanity{{config["discoverCardsOptions"]["displayHumanity"]}}").checked = true
-        document.getElementById("displayDefi{{config["discoverCardsOptions"]["displayDefi"]}}").checked = true
-
+        document.getElementById("displayOver13").value = "displayOver13{{config["discoverCardsOptions"]["displayOver13"]}}"
+        document.getElementById("displayOver15").value = "displayOver15{{config["discoverCardsOptions"]["displayOver15"]}}"
+        document.getElementById("displayOver18").value = "displayOver18{{config["discoverCardsOptions"]["displayOver18"]}}"
+        document.getElementById("displayOver21").value = "displayOver21{{config["discoverCardsOptions"]["displayOver21"]}}"
+        document.getElementById("displayOver50").value = "displayOver50{{config["discoverCardsOptions"]["displayOver50"]}}"
+        document.getElementById("displayOver65").value = "displayOver65{{config["discoverCardsOptions"]["displayOver65"]}}"
+        document.getElementById("displayVerifiableId").value = "displayVerifiableId{{config["discoverCardsOptions"]["displayVerifiableId"]}}"
+        document.getElementById("displayDefi").value = "displayDefi{{config["discoverCardsOptions"]["displayDefi"]}}"
+        document.getElementById("displayHumanity").value = "displayHumanity{{config["discoverCardsOptions"]["displayHumanity"]}}"
+        document.getElementById("displayGender").value = "displayGender{{config["discoverCardsOptions"]["displayGender"]}}"
+        document.getElementById("displayAgeRange").value = "displayAgeRange{{config["discoverCardsOptions"]["displayAgeRange"]}}"
         document.getElementById("categoryIssuer").value = "othersCards"
         document.getElementById("backgroundColorIssuer").value = "#ffffff"
 
@@ -1833,3 +1900,7 @@
 </body>
 
 </html>
+
+TODO remplir chaque champ du formulaire issuer 
+faire marcher update et delete
+finir design

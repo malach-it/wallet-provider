@@ -19,6 +19,11 @@ c.execute('''CREATE TABLE IF NOT EXISTS organisations (
 c.execute('''CREATE TABLE IF NOT EXISTS users (
              email TEXT PRIMARY KEY,
              data TEXT)''')
+c.execute('''CREATE TABLE IF NOT EXISTS issuers (
+             id TEXT PRIMARY KEY,
+          organisation TEXT,
+             data TEXT,
+          privacy text)''')
 conn.commit()
 
 
@@ -70,6 +75,38 @@ def create_user(email: str, password: str, organisation: str, first_name: str, l
         email=email, data=data))
     conn.commit()
     return True
+
+
+def create_issuer(id: str, organisation: str, data: dict, privacy: str):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("""insert into issuers values ('{id}','{organisation}','{data}','{privacy}')""".format(
+        id=id, organisation=organisation, data=data, privacy=privacy))
+    conn.commit()
+    return True
+
+
+def read_issuers_availables(organisation, issuers):
+    issuers = str(issuers).replace("[", "(").replace("]", ")")
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute(
+        'select id,organisation,json_extract(data,"$.title") as title,json_extract(data,"$.subtitle") as subtitle,\
+json_extract(data,"$.category") as category,json_extract(data,"$.format") as format,json_extract(data,"$.url") as url,\
+json_extract(data,"$.name") as name,privacy,organisation="{organisation}" as owner,\
+CASE WHEN id IN {issuers} THEN 1 ELSE 0 END AS is_in_set , case when organisation="{organisation}" then 1 else 0 end as owner \
+from issuers where organisation="{organisation}" or privacy="public"'.format(organisation=organisation, issuers=issuers))
+    rows = c.fetchall()
+    return rows
+
+
+def read_issuer(id):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("select data from issuers where id ='{id}'".format(id=id))
+    rows = c.fetchone()
+    print(rows)
+    return rows
 
 
 def create_organisation(name: str, config: str) -> bool:
@@ -334,7 +371,10 @@ def read_issuers(organisation: str):
     c.execute("select json_extract(config,'$.discoverCardsOptions.displayExternalIssuer') from organisations where name='{organisation}'".format(
         organisation=organisation))
     rows = c.fetchone()
-    return rows[0]
+    issuers_ids = []
+    for row in json.loads(rows[0]):
+        issuers_ids.append(row["id"])
+    return issuers_ids
 
 
 def merge_dicts(d1, d2):
@@ -345,3 +385,13 @@ def merge_dicts(d1, d2):
         else:
             merged[key] = value
     return merged
+
+
+"""
+select id,organisation,json_extract(data,"$.title") as title,json_extract(data,"$.subtitle") as subtitle,
+json_extract(data,"$.category") as category,json_extract(data,"$.format") as format,json_extract(data,"$.url") as url,
+json_extract(data,"$.name") as name,privacy,organisation="France" as owner ,
+CASE WHEN id IN ('0aac5b8e-b136-11ee-993c-85bc5f87420b', '2', '3') THEN 1 ELSE 0 END AS is_in_set 
+from issuers where organisation="France" or privacy="public";
+
+"""

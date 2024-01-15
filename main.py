@@ -146,10 +146,16 @@ def init_app(app, red):
                      view_func=update_status_organisation, methods=['POST'])
     app.add_url_rule('/send_message',
                      view_func=send_message, methods=['POST'])
-    app.add_url_rule('/add_issuer',
-                     view_func=add_issuer, methods=['POST'])
-    app.add_url_rule('/remove_issuer',
-                     view_func=remove_issuer, methods=['POST'])
+    app.add_url_rule('/add_issuer_db',
+                     view_func=add_issuer_db, methods=['POST'])
+    app.add_url_rule('/modify_issuer_db',
+                     view_func=modify_issuer_db, methods=['POST'])
+    app.add_url_rule('/remove_issuer_db',
+                     view_func=remove_issuer_db, methods=['POST'])
+    app.add_url_rule('/change_issuer_config',
+                     view_func=change_issuer_config, methods=['POST'])
+    app.add_url_rule('/get_issuer_infos/<id>',
+                     view_func=get_issuer_infos, methods=['GET'])
     return
 
 
@@ -225,7 +231,13 @@ def login():
     if request.MOBILE:
         return render_template("mobile.html")
     user_session = UserSession(flask.session)
-    logging.info(user_session.userinfo)
+    if isinstance(user_session.userinfo["vp_token_payload"]["verifiableCredential"], list):
+        logging.warning("bad presentation")
+        session["organisation"] = None
+        session["configured"] = None
+        user_session.clear()
+        session.clear()
+        return redirect("/")
     email = user_session.userinfo["vp_token_payload"]["verifiableCredential"]["credentialSubject"]["email"]
     if not db.read_organisation(email):
         session["organisation"] = None
@@ -273,8 +285,9 @@ def setup():
     if not issuers:
         issuers = []
     else:
-        issuers = json.loads(issuers)
-    return render_template("setup.html", config=config, version=VERSION, issuers=issuers, len=len(issuers))
+        issuers = issuers
+    issuers_availables = db.read_issuers_availables(organisation, issuers)
+    return render_template("setup.html", config=config, version=VERSION, issuers_availables=issuers_availables)
 
 
 def allowed_file(filename):
@@ -330,7 +343,6 @@ def set_config():
     else:
         wallet_provider_configuration["settingsMenu"]["displaySelfSovereignIdentity"] = True
         print("true")
-
 
     if request.form.to_dict()["displaySecurityAdvancedSettings"] == "displaySecurityAdvancedSettingsFalse":
         wallet_provider_configuration["walletSecurityOptions"]["displaySecurityAdvancedSettings"] = False
@@ -481,9 +493,11 @@ def set_config():
         wallet_provider_configuration["discoverCardsOptions"]["displayDefi"] = True
     issuers = db.read_issuers(session["organisation"])
     if not issuers:
-        wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = []
+        wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = [
+        ]
     else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = json.loads(issuers)
+        wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = json.loads(
+            issuers)
     file = request.files.get('file')
     if file and allowed_file(file.filename):
         img = Image.open(file)
@@ -728,20 +742,27 @@ def alert_users():
     return "ok"
 
 
-def add_issuer():
+def add_issuer_db():
     if not session.get("organisation"):
         return "Unauthorized", 401
     organisation = session.get("organisation")
-    config = db.read_config_from_organisation(organisation)
-    config["discoverCardsOptions"]["displayExternalIssuer"].append(
-        request.get_json())
-    print(config)
-
-    db.update_config(json.dumps(config), organisation)
+    id = str(uuid.uuid1())
+    privacy = request.get_json()["privacyIssuer"]
+    data = json.dumps(request.get_json()["data"])
+    db.create_issuer(id, organisation, data, privacy)
     return ("ok")
 
 
-def remove_issuer():
+def modify_issuer_db():
+    if not session.get("organisation"):
+        return "Unauthorized", 401
+    organisation = session.get("organisation")
+    data = json.dumps(request.get_json()["data"])
+    db.update_issuer(id, data)
+    return ("ok")
+
+
+def remove_issuer_db():
     if not session.get("organisation"):
         return "Unauthorized", 401
     organisation = session.get("organisation")
@@ -750,6 +771,34 @@ def remove_issuer():
         request.get_json()["issuerToDelete"])
     db.update_config(json.dumps(config), organisation)
     return ("ok")
+
+
+def get_issuer_infos(id):
+    if not session.get("organisation"):
+        return "Unauthorized", 401
+    return json.loads(db.read_issuer(id)[0])
+    
+
+def change_issuer_config():
+    if not session.get("organisation"):
+        return "Unauthorized", 401
+    organisation = session.get("organisation")
+    new_status = request.get_json()["newStatus"]
+    id = request.get_json()["id"]
+
+    print("setting to "+new_status+" "+id+" to "+organisation)
+    if new_status == "visible":
+        config = db.read_config_from_organisation(organisation)
+        issuer = json.loads(db.read_issuer(id)[0])
+        print(issuer)
+        issuer["id"]=id
+        config["discoverCardsOptions"]["displayExternalIssuer"].append(issuer)
+        db.update_config(json.dumps(config), organisation)
+    elif new_status == "invisible":
+        config = db.read_config_from_organisation(organisation)
+        config["discoverCardsOptions"]["displayExternalIssuer"] = [d for d in config["discoverCardsOptions"]["displayExternalIssuer"] if d.get("id") != id]
+        db.update_config(json.dumps(config), organisation)
+    return "ok"
 
 
 init_app(app, red)
