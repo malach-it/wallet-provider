@@ -339,10 +339,8 @@ def set_config():
 
     if request.form.to_dict()["displaySelfSovereignIdentity"] == "displaySelfSovereignIdentityFalse":
         wallet_provider_configuration["settingsMenu"]["displaySelfSovereignIdentity"] = False
-        print("false")
     else:
         wallet_provider_configuration["settingsMenu"]["displaySelfSovereignIdentity"] = True
-        print("true")
 
     if request.form.to_dict()["displaySecurityAdvancedSettings"] == "displaySecurityAdvancedSettingsFalse":
         wallet_provider_configuration["walletSecurityOptions"]["displaySecurityAdvancedSettings"] = False
@@ -767,11 +765,9 @@ def remove_issuer_db():
     if not session.get("organisation"):
         return "Unauthorized", 401
     organisation = session.get("organisation")
-    config = db.read_config_from_organisation(organisation)
-    config["discoverCardsOptions"]["displayExternalIssuer"].pop(
-        request.get_json()["issuerToDelete"])
-    db.update_config(json.dumps(config), organisation)
-    return ("ok")
+    id = request.get_json()["id"]
+    db.delete_issuer(id, organisation)
+    return "ok"
 
 
 def get_issuer_infos(id):
@@ -789,13 +785,22 @@ def change_issuer_config():
     if new_status == "visible":
         config = db.read_config_from_organisation(organisation)
         issuer = json.loads(db.read_issuer(id)[0])
-        print(issuer)
-        issuer["id"]=id
-        config["discoverCardsOptions"]["displayExternalIssuer"].append(issuer)
+        issuerFormated = {
+            "name":issuer["title"],
+            "description":issuer["description"],
+            "category":issuer["category"],
+            "redirect":issuer["url"],
+            "background_image":issuer["background_url"],
+            "logo":issuer["logo_url"],
+            "background_color":issuer["background_color"],
+            "text_color":issuer["text_color"],
+            "issuerId":id
+        }
+        config["discoverCardsOptions"]["displayExternalIssuer"].append(issuerFormated)
         db.update_config(json.dumps(config), organisation)
     elif new_status == "invisible":
         config = db.read_config_from_organisation(organisation)
-        config["discoverCardsOptions"]["displayExternalIssuer"] = [d for d in config["discoverCardsOptions"]["displayExternalIssuer"] if d.get("id") != id]
+        config["discoverCardsOptions"]["displayExternalIssuer"] = [d for d in config["discoverCardsOptions"]["displayExternalIssuer"] if d.get("issuerId") != id]
         db.update_config(json.dumps(config), organisation)
     return "ok"
 

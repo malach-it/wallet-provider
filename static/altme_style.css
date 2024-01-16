@@ -1971,3 +1971,35 @@ input[type="color"] {
     font-weight: 700;
     font-size: 16px;
 }
+
+.talaoIssuersRow {
+    background-color: white !important;
+}
+
+#talaoIssuersTable td {
+    border: solid 1px #F1EDF6;
+}
+
+#talaoIssuersTable th {
+    border: solid 1px #F1EDF6;
+}
+
+#talaoIssuersTable {
+    border-collapse: collapse;
+}
+
+#talaoIssuersTable th {
+    background-color: #F1EDF6;
+}
+
+.robotoBold {
+    font-family: RobotoBold;
+}
+
+#backgroundDiv {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 50px;
+    align-items: center;
+}

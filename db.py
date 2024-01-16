@@ -86,6 +86,8 @@ def create_issuer(id: str, organisation: str, data: dict, privacy: str):
     return True
 
 
+
+
 def read_issuers_availables(organisation, issuers):
     issuers = str(issuers).replace("[", "(").replace("]", ")")
     conn = sqlite3.connect('db.sqlite')
@@ -105,7 +107,6 @@ def read_issuer(id):
     c = conn.cursor()
     c.execute("select data from issuers where id ='{id}'".format(id=id))
     rows = c.fetchone()
-    print(rows)
     return rows
 
 
@@ -373,21 +374,26 @@ def read_issuers(organisation: str):
     rows = c.fetchone()
     issuers_ids = []
     for row in json.loads(rows[0]):
-        issuers_ids.append(row["id"])
+        issuers_ids.append(row["issuerId"])
     return issuers_ids
 
 
 def update_issuer(id, data, organisation):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    print("update issuers set data = '{data}'   where id='{id}' and organisation='{organisation}'".format(
-        id=id, data=data, organisation=organisation))
     c.execute("update issuers set data = '{data}'   where id='{id}' and organisation='{organisation}'".format(
         id=id, data=data, organisation=organisation))
     conn.commit()
     return True
 
 
+def delete_issuer(id, organisation) -> bool:
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("delete from issuers where id='{id}' and organisation='{organisation}'".format(
+        organisation=organisation, id=id))
+    conn.commit()
+    return True
 def merge_dicts(d1, d2):
     merged = d1.copy()
     for key, value in d2.items():
