@@ -376,7 +376,7 @@ def read_issuers(organisation: str):
     try:
         for row in json.loads(rows[0]):
             try:
-                issuers_ids.append(row["issuerId"])
+                issuers_ids.append(row["issuer_id"])
             except KeyError:
                 pass
     except TypeError:

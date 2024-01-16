@@ -506,12 +506,12 @@ def set_config():
         wallet_provider_configuration["discoverCardsOptions"]["displayGender"] = True
 
     issuers = db.read_issuers(session["organisation"])
+    print(issuers)
     if not issuers:
         wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = [
         ]
     else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = json.loads(
-            issuers)
+        wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = issuers
     file = request.files.get('file')
     if file and allowed_file(file.filename):
         img = Image.open(file)
@@ -802,21 +802,25 @@ def change_issuer_config():
         config = db.read_config_from_organisation(organisation)
         issuer = json.loads(db.read_issuer(id)[0])
         issuerFormated = {
-            "name":issuer["title"],
+            "title":issuer["title"],
+            "subtitle":issuer["subtitle"],
             "description":issuer["description"],
+            "how_to_get_it":issuer["howToGetIt"],
+            "validity_period":issuer["expirationDate"],
             "category":issuer["category"],
+            "name":issuer["name"],
             "redirect":issuer["url"],
             "background_image":issuer["background_url"],
             "logo":issuer["logo_url"],
             "background_color":issuer["background_color"],
             "text_color":issuer["text_color"],
-            "issuerId":id
+            "issuer_id":id,
         }
         config["discoverCardsOptions"]["displayExternalIssuer"].append(issuerFormated)
         db.update_config(json.dumps(config), organisation)
     elif new_status == "invisible":
         config = db.read_config_from_organisation(organisation)
-        config["discoverCardsOptions"]["displayExternalIssuer"] = [d for d in config["discoverCardsOptions"]["displayExternalIssuer"] if d.get("issuerId") != id]
+        config["discoverCardsOptions"]["displayExternalIssuer"] = [d for d in config["discoverCardsOptions"]["displayExternalIssuer"] if d.get("issuer_id") != id]
         db.update_config(json.dumps(config), organisation)
     return "ok"
 

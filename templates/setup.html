@@ -8,6 +8,8 @@
     <link rel="icon" type="image/png" href="/static/img/icon.png" sizes="16x16">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Wallet Customization</title>
+    <script src="/static/dist/vanilla-notify.js"></script>
+    <link rel="stylesheet" href="/static/dist/vanilla-notify.css" />
 
 </head>
 
@@ -1037,6 +1039,34 @@
 
                 <div id="step6Div" class="displayNone">
                     <p class="title">Talao issuers</p>
+                    <div class="line1Setup">
+
+
+                        <div class="optionDiv">
+                            <p class="optionDivMainTitle">6.1 Display rewards category</p>
+                            <p class="optionDivSecondTitle">Only available on Android</p>
+                            <div class="optionsDivRow">
+
+                                <div class="labelAndButton">
+
+                                    <label for="displayRewardsCategoryTrue" class="optionLabel">Yes</label>
+                                    <input type="radio" id="displayRewardsCategoryTrue" name="displayRewardsCategory"
+                                        value="displayRewardsCategoryTrue" checked>
+                                </div>
+                                <div class="labelAndButton">
+
+                                    <label for="displayRewardsCategoryFalse" class="optionLabel">No</label>
+
+                                    <input type="radio" id="displayRewardsCategoryFalse" name="displayRewardsCategory"
+                                        value="displayRewardsCategoryFalse">
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                    </div>
+
                     <table id="talaoIssuersTable">
                         <thead>
                             <th class="robotoBold">Name</th>
@@ -1195,34 +1225,7 @@
                         </tbody>
                     </table>
 
-                    <div class="line1Setup">
-
-
-                        <div class="optionDiv">
-                            <p class="optionDivMainTitle">6.4 Display rewards category</p>
-                            <p class="optionDivSecondTitle"></p>
-                            <div class="optionsDivRow">
-
-                                <div class="labelAndButton">
-
-                                    <label for="displayRewardsCategoryTrue" class="optionLabel">Yes</label>
-                                    <input type="radio" id="displayRewardsCategoryTrue" name="displayRewardsCategory"
-                                        value="displayRewardsCategoryTrue" checked>
-                                </div>
-                                <div class="labelAndButton">
-
-                                    <label for="displayRewardsCategoryFalse" class="optionLabel">No</label>
-
-                                    <input type="radio" id="displayRewardsCategoryFalse" name="displayRewardsCategory"
-                                        value="displayRewardsCategoryFalse">
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                    </div>
-
+                    
 
                     <p class="title">Externals issuers</p>
 
@@ -1252,7 +1255,7 @@
                                 <td></td>
                                 <td></td>
                                 <td>
-                                    <select class="selectSetup" onchange="changeStatusExternalIssuer('{{row[0]}}')"
+                                    <select class="selectSetup" onchange="changeStatusExternalIssuer('{{row[0]}}','{{row[2]}}')"
                                         id="statusIssuer{{row[0]}}">
                                         <option value="visible">Visible</option>
                                         <option value="invisible">Invisible</option>
@@ -1580,7 +1583,7 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
-        function changeStatusExternalIssuer(idIssuer) {
+        function changeStatusExternalIssuer(idIssuer,nameIssuer) {
             let newStatus = document.getElementById("statusIssuer" + idIssuer).value
             console.log("setting issuer " + idIssuer + " to " + newStatus)
 
@@ -1594,7 +1597,7 @@
                     newStatus: newStatus
                 })
             })
-                .then(response => { console.log(response.status); })
+                .then(response => { console.log(response.status);vNotify.info({ text: 'Issuer '+nameIssuer+" set to "+newStatus, title: 'Info', sticky: true }); })
                 .catch(error => console.error('Error:', error));
 
 
