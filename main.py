@@ -489,6 +489,22 @@ def set_config():
         wallet_provider_configuration["discoverCardsOptions"]["displayDefi"] = False
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayDefi"] = True
+
+    if request.form.to_dict()["displayHumanity"] == "displayHumanityFalse":
+        wallet_provider_configuration["discoverCardsOptions"]["displayHumanity"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayHumanity"] = True
+
+    if request.form.to_dict()["displayAgeRange"] == "displayAgeRangeFalse":
+        wallet_provider_configuration["discoverCardsOptions"]["displayAgeRange"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayAgeRange"] = True
+
+    if request.form.to_dict()["displayGender"] == "displayGenderFalse":
+        wallet_provider_configuration["discoverCardsOptions"]["displayGender"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayGender"] = True
+
     issuers = db.read_issuers(session["organisation"])
     if not issuers:
         wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = [
