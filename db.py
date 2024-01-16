@@ -377,6 +377,17 @@ def read_issuers(organisation: str):
     return issuers_ids
 
 
+def update_issuer(id, data, organisation):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    print("update issuers set data = '{data}'   where id='{id}' and organisation='{organisation}'".format(
+        id=id, data=data, organisation=organisation))
+    c.execute("update issuers set data = '{data}'   where id='{id}' and organisation='{organisation}'".format(
+        id=id, data=data, organisation=organisation))
+    conn.commit()
+    return True
+
+
 def merge_dicts(d1, d2):
     merged = d1.copy()
     for key, value in d2.items():

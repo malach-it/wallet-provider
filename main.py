@@ -758,7 +758,8 @@ def modify_issuer_db():
         return "Unauthorized", 401
     organisation = session.get("organisation")
     data = json.dumps(request.get_json()["data"])
-    db.update_issuer(id, data)
+    id = request.get_json()["id"]
+    db.update_issuer(id, data,organisation)
     return ("ok")
 
 
@@ -785,8 +786,6 @@ def change_issuer_config():
     organisation = session.get("organisation")
     new_status = request.get_json()["newStatus"]
     id = request.get_json()["id"]
-
-    print("setting to "+new_status+" "+id+" to "+organisation)
     if new_status == "visible":
         config = db.read_config_from_organisation(organisation)
         issuer = json.loads(db.read_issuer(id)[0])
