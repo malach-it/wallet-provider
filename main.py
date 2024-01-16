@@ -817,6 +817,7 @@ def change_issuer_config():
             "issuer_id":id,
         }
         config["discoverCardsOptions"]["displayExternalIssuer"].append(issuerFormated)
+        print(config["discoverCardsOptions"]["displayExternalIssuer"])
         db.update_config(json.dumps(config), organisation)
     elif new_status == "invisible":
         config = db.read_config_from_organisation(organisation)
