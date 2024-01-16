@@ -374,7 +374,10 @@ def read_issuers(organisation: str):
     rows = c.fetchone()
     issuers_ids = []
     for row in json.loads(rows[0]):
-        issuers_ids.append(row["issuerId"])
+        try:
+            issuers_ids.append(row["issuerId"])
+        except KeyError:
+            pass
     return issuers_ids
 
 
