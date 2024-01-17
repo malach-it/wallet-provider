@@ -505,8 +505,10 @@ def set_config():
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayGender"] = True
 
-    issuers = db.read_issuers(session["organisation"])
-    print(issuers)
+    try:
+        issuers = json.loads(db.read_issuers_config(session["organisation"]))
+    except TypeError:
+        issuers = []
     if not issuers:
         wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = [
         ]

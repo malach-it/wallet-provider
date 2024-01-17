@@ -1315,6 +1315,11 @@
                         placeholder="How to get it description..."></textarea>
                 </div>
                 <div class="sectionInputPopup">
+                    <p class="labelPopup">Why get this card</p>
+                    <textarea id="whyGetThisCardIssuer" rows="5" class="inputTextPopup"
+                        placeholder="Why get this card description..."></textarea>
+                </div>
+                <div class="sectionInputPopup">
                     <p class="labelPopup">Category*</p>
                     <select class="selectPopup" id="categoryIssuer" autocomplete="off">
                         <option value="advantagesCards">Advantages cards</option>
@@ -1348,6 +1353,10 @@
                 <div class="sectionInputPopup">
                     <p class="labelPopup">Issuer URL*</p>
                     <input id="URLIssuer" class="inputTextPopup" type="text" placeholder="https://">
+                </div>
+                <div class="sectionInputPopup">
+                    <p class="labelPopup">Issuer website URL</p>
+                    <input id="websiteIssuer" class="inputTextPopup" type="text" placeholder="Issuer website">
                 </div>
                 <div class="sectionInputPopup">
                     <p class="labelPopup">Public/Private visibility*</p>
@@ -1443,6 +1452,9 @@
             document.getElementById("textColorIssuer").value = "#ffffff"
             document.getElementById("backgroundURLIssuer").value = ""
             document.getElementById("backgroundColorIssuer").value = "#202ffc"
+            document.getElementById("whyGetThisCardIssuer").value=""
+            document.getElementById("websiteIssuer").value=""
+
         }
         resetIssuerForm()
         function openIssuerPopup(action, id) {

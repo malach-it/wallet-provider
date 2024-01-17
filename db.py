@@ -384,6 +384,15 @@ def read_issuers(organisation: str):
     return issuers_ids
 
 
+def read_issuers_config(organisation: str):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("select json_extract(config,'$.discoverCardsOptions.displayExternalIssuer') from organisations where name='{organisation}'".format(
+        organisation=organisation))
+    rows = c.fetchone()
+    return rows[0]
+
+
 def update_issuer(id, data, organisation):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
@@ -410,11 +419,3 @@ def merge_dicts(d1, d2):
     return merged
 
 
-"""
-select id,organisation,json_extract(data,"$.title") as title,json_extract(data,"$.subtitle") as subtitle,
-json_extract(data,"$.category") as category,json_extract(data,"$.format") as format,json_extract(data,"$.url") as url,
-json_extract(data,"$.name") as name,privacy,organisation="France" as owner ,
-CASE WHEN id IN ('0aac5b8e-b136-11ee-993c-85bc5f87420b', '2', '3') THEN 1 ELSE 0 END AS is_in_set 
-from issuers where organisation="France" or privacy="public";
-
-"""
