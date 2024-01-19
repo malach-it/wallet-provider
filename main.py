@@ -773,9 +773,10 @@ def modify_issuer_db():
     if not session.get("organisation"):
         return "Unauthorized", 401
     organisation = session.get("organisation")
+    privacy = request.get_json()["privacyIssuer"]
     data = json.dumps(request.get_json()["data"])
     id = request.get_json()["id"]
-    db.update_issuer(id, data,organisation)
+    db.update_issuer(id, data,organisation,privacy)
     return ("ok")
 
 
@@ -791,8 +792,9 @@ def remove_issuer_db():
 def get_issuer_infos(id):
     if not session.get("organisation"):
         return "Unauthorized", 401
-    return json.loads(db.read_issuer(id)[0])
-    
+    infos = json.loads(db.read_issuer(id)[0])
+    infos["privacy"] = db.read_issuer(id)[1]
+    return infos   
 
 def change_issuer_config():
     if not session.get("organisation"):

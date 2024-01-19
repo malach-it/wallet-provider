@@ -1492,6 +1492,7 @@
                             document.getElementById("textColorIssuer").value = data.text_color
                             document.getElementById("backgroundURLIssuer").value = data.background_url
                             document.getElementById("backgroundColorIssuer").value = data.background_color
+                            document.getElementById("privacyIssuer").value = data.privacy
 
                         })
                     })
@@ -1506,6 +1507,25 @@
             }
 
         }
+
+        function resetForm(){
+            document.getElementById("titleIssuer").value = ""
+                            document.getElementById("subtitleIssuer").value = ""
+                            document.getElementById("categoryIssuer").value = "othersCards"
+                            document.getElementById("formatIssuer").value = "ldp_vc"
+                            document.getElementById("descriptionIssuer").value = ""
+                            document.getElementById("howToGetItIssuer").innerHTML = ""
+                            document.getElementById("expirationDateIssuer").value = ""
+                            document.getElementById("nameIssuer").value = ""
+                            document.getElementById("URLIssuer").value = ""
+                            document.getElementById("logoIssuer").value = ""
+                            document.getElementById("textColorIssuer").value = ""
+                            document.getElementById("backgroundURLIssuer").value = ""
+                            document.getElementById("backgroundColorIssuer").value = ""
+                            document.getElementById("privacyIssuer").value = "public"
+        }
+
+
         function updateIssuerTable() {
             let data = {
                 "title": document.getElementById("titleIssuer").value,
@@ -1553,6 +1573,7 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
+                        privacyIssuer: document.getElementById("privacyIssuer").value,
                         id: idIssuer,
                         data: data
                     })
@@ -1992,5 +2013,3 @@
 </body>
 
 </html>
-
-finir design

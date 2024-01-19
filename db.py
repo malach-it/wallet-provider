@@ -105,10 +105,9 @@ from issuers where organisation="{organisation}" or privacy="public"'.format(org
 def read_issuer(id):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute("select data from issuers where id ='{id}'".format(id=id))
+    c.execute("select data,privacy from issuers where id ='{id}'".format(id=id))
     rows = c.fetchone()
     return rows
-
 
 def create_organisation(name: str, config: str) -> bool:
     conn = sqlite3.connect('db.sqlite')
@@ -393,14 +392,13 @@ def read_issuers_config(organisation: str):
     return rows[0]
 
 
-def update_issuer(id, data, organisation):
+def update_issuer(id, data, organisation,privacy):
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute("update issuers set data = '{data}'   where id='{id}' and organisation='{organisation}'".format(
-        id=id, data=data, organisation=organisation))
+    c.execute("update issuers set data = '{data}' , privacy = '{privacy}'  where id='{id}' and organisation='{organisation}'".format(
+        id=id, data=data, organisation=organisation,privacy=privacy))
     conn.commit()
     return True
-
 
 def delete_issuer(id, organisation) -> bool:
     conn = sqlite3.connect('db.sqlite')
