@@ -1463,8 +1463,8 @@
                 document.getElementById("overlay").setAttribute("class", "");
                 document.getElementById('issuerPopup').scrollTop = 0;
                 if (action === "add") {
+                    resetForm()
                     document.getElementById("backgroundColorIssuer").value = "#202ffc"
-
                     document.getElementById("lastLineButtonPopup").innerHTML = "CREATE VC Issuer"
                     document.getElementById("deleteVCButton").setAttribute("class", "displayNone")
                     updateIssuer = "add"
