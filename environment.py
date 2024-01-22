@@ -21,6 +21,7 @@ class currentMode() :
 			self.port = 5000
 		elif self.myenv == 'achille' :
 			self.server = "https://afc8-2a04-cec0-10f9-9541-9a43-a6fb-67df-5f02.ngrok-free.app"
+			#self.server = "http://localhost:3000/"
 			self.IP = "localhost"
 			self.port = 3000
 		else :
