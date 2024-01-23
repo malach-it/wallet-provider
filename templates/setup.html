@@ -173,6 +173,12 @@
                     </div>
                     <p id="title6" class="boldGreyP">Issuer marketplace</p>
                 </button>
+                <button onclick="goStep7()" class="linkBarProgress">
+                    <div id="circle7" class="circleInactive">
+                        <p id="number7" class="boldGreyP">7</p>
+                    </div>
+                    <p id="title7" class="boldGreyP">Signature</p>
+                </button>
             </div>
             <p id="customizeTitle">Customize your DID Wallet : Branding options</p>
             <p id="defaultTitle">Default parameters are pre-set. Modify only what is necessary.</p>
@@ -965,14 +971,22 @@
                             </div>
                         </div>
 
+                        <!-- DivDisabled -->
+                        <div class="optionDivDisabled" >
+                            <p class="optionDivMainTitle">5.3 Custom chat support name</p>
+                            <p class="optionDivSecondTitle"></p>
+                            <!-- <input id="customChatSupportName" name="customChatSupportName" type="text"
+                                class="inputTextSetup"> -->
+                        </div>
 
-                        <div class="optionDiv" id="customChatDiv">
+                        <!-- DivAbled -->
+                        <!-- <div class="optionDiv" id="customChatDiv">
                             <p class="optionDivMainTitle">5.3 Custom chat support name</p>
                             <p class="optionDivSecondTitle"></p>
                             <input id="customChatSupportName" name="customChatSupportName" type="text"
                                 class="inputTextSetup">
 
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="line1Setup">
@@ -1132,7 +1146,7 @@
                                 <td>contact@talao.io</td>
                                 <td></td>
                                 <td>
-                                    <select name="displayOver21" id="displayOver21" disabled class="selectSetup">
+                                    <select name="displayOver21" id="displayOver21" class="selectSetup">
                                         <option value="displayOver21True">Visible</option>
                                         <option value="displayOver21False">Invisible</option>
                                     </select>
@@ -1147,7 +1161,7 @@
                                 <td>contact@talao.io</td>
                                 <td></td>
                                 <td>
-                                    <select name="displayOver50" id="displayOver50" disabled class="selectSetup">
+                                    <select name="displayOver50" id="displayOver50" class="selectSetup">
                                         <option value="displayOver50True">Visible</option>
                                         <option value="displayOver50False">Invisible</option>
                                     </select>
@@ -1162,7 +1176,7 @@
                                 <td>contact@talao.io</td>
                                 <td></td>
                                 <td>
-                                    <select name="displayOver65" id="displayOver65" disabled class="selectSetup">
+                                    <select name="displayOver65" id="displayOver65" class="selectSetup">
                                         <option value="displayOver65True">Visible</option>
                                         <option value="displayOver65False">Invisible</option>
                                     </select>
@@ -1257,7 +1271,7 @@
                             <th>VC Format</th>
                             <th>Issuer contact</th>
                             <!-- <th>Issuer URL</th> -->
-                            <th>Logo</th>
+                            <!-- <th>Logo</th> -->
                             <th>Image</th>
                             <th>Status</th>
                         </thead>
@@ -1278,7 +1292,7 @@
                                 <!-- VC Format -->
                                 <td>{{row[7]}}</td>
                                 <!-- Logo -->
-                                <td></td>
+                                <!-- <td></td> -->
                                 <!-- Background -->
                                 <td></td>
                                 <!-- Status -->
@@ -1299,13 +1313,46 @@
                         VERIFIABLE
                         CREDENTIAL ISSUER</button>
                     <div class="buttonsStep">
-
                         <button type="button" class="previousStep" onclick="goStep5()">Previous step</button>
+                        <input class="submit" type="submit" value="Set up configuration now">
+                        <button type="button" class="nextStep" onclick="goStep7()">Next step</button>
+                    </div>
+                </div>
+
+                
+                <div id="step7Div" class="displayNone">
+                    <p class="title">Signature</p>
+                    <div class="line1Setup">
+                        <div class="optionDiv">
+                            <p class="optionDivMainTitle">7.1 Allow user to sign </p>
+                            <p class="optionDivSecondTitle">User is allowed to sign on behalf of the company</p>
+                            <div class="optionsDivRow">
+                                <div class="labelAndButton">
+                                    <label for="isAllowedTrue" class="optionLabel">Yes</label>
+                                    <input type="radio" id="isAllowedTrue" name="isAllowed" value="true">
+                                </div>
+                                <div class="labelAndButton">
+                                    <label for="isAllowedFalse" class="optionLabel">No</label>
+                                    <input type="radio" id="isAllowedFalse" name="isAllowed" value="false" checked>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="optionDiv">
+                            <p class="optionDivMainTitle">7.2 Company private key</p>
+                            <p class="optionDivSecondTitle">Company private key in JWK json format</p>
+                            <input id="companyKey" name="companyKey" type="text" class="inputTextSetup" placeholder="Enter JWK json formatted key" maxlength="10"></input>
+                        </div>
+                        <div class="optionDiv">
+                            <p class="optionDivMainTitle">7.3 Company key identifier</p>
+                            <p class="optionDivSecondTitle">Kid of the private company key in a DID format</p>
+                            <input id="kid" name="kid" type="text" class="inputTextSetup" placeholder="Enter kid" maxlength="50">
+                        </div>
+                    </div>
+                    <div class="buttonsStep">
+                        <button type="button" class="previousStep" onclick="goStep6()">Previous step</button>
                         <input id="finalPreviousStep" class="submit" type="submit" value="Set up configuration now">
                     </div>
-
-
-                </div>
+                </div>                
             </form>
         </div>
 
@@ -1341,11 +1388,11 @@
                     <textarea id="howToGetItIssuer" rows="5" class="inputTextPopup"
                         placeholder="How to get it description..."></textarea>
                 </div>
-                <div class="sectionInputPopup">
+                <!-- <div class="sectionInputPopup">
                     <p class="labelPopup">Why get this card</p>
                     <textarea id="whyGetThisCardIssuer" rows="5" class="inputTextPopup"
                         placeholder="Why get this card description..."></textarea>
-                </div>
+                </div> -->
                 <div class="sectionInputPopup">
                     <p class="labelPopup">Category*</p>
                     <select class="selectPopup" id="categoryIssuer" autocomplete="off">
@@ -1391,8 +1438,7 @@
                         <option value="public">Public</option>
                         <option value="private">Private</option>
                     </select>
-                    <p class="italicPopup">Choose if you want to make your VC issuer accessible to all Altme / Talao
-                        users or only to your team</p>
+                    <p class="italicPopup">Choose if you want to make your VC issuer accessible to all Altme / Talao Enterprise client users or only to your team</p>
                 </div>
             </div>
             <div class="sectionPopup">
@@ -1829,6 +1875,9 @@
             document.getElementById("title6").setAttribute("class", "boldGreyP")
             document.getElementById("circle6").setAttribute("class", "circleInactive")
             document.getElementById("number6").setAttribute("class", "boldGreyP")
+            document.getElementById("title7").setAttribute("class", "boldGreyP")
+            document.getElementById("circle7").setAttribute("class", "circleInactive")
+            document.getElementById("number7").setAttribute("class", "boldGreyP")
             document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Settings"
 
         }
@@ -1870,6 +1919,9 @@
             document.getElementById("title6").setAttribute("class", "boldGreyP")
             document.getElementById("circle6").setAttribute("class", "circleInactive")
             document.getElementById("number6").setAttribute("class", "boldGreyP")
+            document.getElementById("title7").setAttribute("class", "boldGreyP")
+            document.getElementById("circle7").setAttribute("class", "circleInactive")
+            document.getElementById("number7").setAttribute("class", "boldGreyP")
             document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Blockchain"
 
         }
@@ -1895,6 +1947,9 @@
             document.getElementById("title6").setAttribute("class", "boldGreyP")
             document.getElementById("circle6").setAttribute("class", "circleInactive")
             document.getElementById("number6").setAttribute("class", "boldGreyP")
+            document.getElementById("title7").setAttribute("class", "boldGreyP")
+            document.getElementById("circle7").setAttribute("class", "circleInactive")
+            document.getElementById("number7").setAttribute("class", "boldGreyP")
             document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : DID/SSI"
 
         }
@@ -1918,6 +1973,9 @@
                 document.getElementById("title6").setAttribute("class", "boldGreyP")
                 document.getElementById("circle6").setAttribute("class", "circleInactive")
                 document.getElementById("number6").setAttribute("class", "boldGreyP")
+                document.getElementById("title7").setAttribute("class", "boldGreyP")
+            document.getElementById("circle7").setAttribute("class", "circleInactive")
+            document.getElementById("number7").setAttribute("class", "boldGreyP")
                 document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Blockchain"
 
             }
@@ -1947,11 +2005,45 @@
             document.getElementById("title6").setAttribute("class", "boldGreyP")
             document.getElementById("circle6").setAttribute("class", "circleInactive")
             document.getElementById("number6").setAttribute("class", "boldGreyP")
+            document.getElementById("title7").setAttribute("class", "boldGreyP")
+            document.getElementById("circle7").setAttribute("class", "circleInactive")
+            document.getElementById("number7").setAttribute("class", "boldGreyP")
             document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Support"
 
         }
         function goStep6() {
             document.getElementById("step6Div").setAttribute("class", "stepDiv")
+            document.getElementById("step1Div").setAttribute("class", "displayNone")
+            document.getElementById("step2Div").setAttribute("class", "displayNone")
+            document.getElementById("step3Div").setAttribute("class", "displayNone")
+            document.getElementById("step5Div").setAttribute("class", "displayNone")
+            document.getElementById("step4Div").setAttribute("class", "displayNone")
+            document.getElementById("step7Div").setAttribute("class", "displayNone");
+            document.getElementById("title2").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle2").setAttribute("class", "circleActive")
+            document.getElementById("number2").setAttribute("class", "boldWhiteP")
+            document.getElementById("title3").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle3").setAttribute("class", "circleActive")
+            document.getElementById("number3").setAttribute("class", "boldWhiteP")
+            document.getElementById("title4").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle4").setAttribute("class", "circleActive")
+            document.getElementById("number4").setAttribute("class", "boldWhiteP")
+            document.getElementById("title5").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle5").setAttribute("class", "circleActive")
+            document.getElementById("number5").setAttribute("class", "boldWhiteP")
+            document.getElementById("title6").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle6").setAttribute("class", "circleActive")
+            document.getElementById("number6").setAttribute("class", "boldWhiteP")
+            document.getElementById("title7").setAttribute("class", "boldGreyP")
+            document.getElementById("circle7").setAttribute("class", "circleInactive")
+            document.getElementById("number7").setAttribute("class", "boldGreyP")
+            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Issuer marketplace"
+
+        }
+
+        function goStep7() {
+            document.getElementById("step7Div").setAttribute("class", "stepDiv")
+            document.getElementById("step6Div").setAttribute("class", "displayNone");
             document.getElementById("step1Div").setAttribute("class", "displayNone")
             document.getElementById("step2Div").setAttribute("class", "displayNone")
             document.getElementById("step3Div").setAttribute("class", "displayNone")
@@ -1972,9 +2064,27 @@
             document.getElementById("title6").setAttribute("class", "boldPurpleP")
             document.getElementById("circle6").setAttribute("class", "circleActive")
             document.getElementById("number6").setAttribute("class", "boldWhiteP")
+            document.getElementById("title7").setAttribute("class", "boldPurpleP")
+            document.getElementById("circle7").setAttribute("class", "circleActive")
+            document.getElementById("number7").setAttribute("class", "boldWhiteP")
             document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Issuer marketplace"
 
         }
+        // document.getElementById("step7Div").setAttribute("class", "stepDiv");
+        // document.getElementById("step6Div").setAttribute("class", "displayNone");
+
+
+
+        // // traiter les données du formulaire lors de la soumission et save les données cryptées sur le serveur dans /keystore.
+        // document.getElementById('finalPreviousStep').addEventListener('click', function() {
+        //     var isAllowed = document.querySelector('input[name="isAllowed"]:checked').value;
+        //     var companyKey = document.getElementById('companyKey').value;
+        //     var kid = document.getElementById('kid').value;
+
+        //     // Ajoutez votre logique pour sauvegarder les données sur le serveur ici
+        //     // Utilisez les valeurs de isAllowed, companyKey, et kid pour effectuer les opérations nécessaires.
+        // });
+
         function switchTzproRpcNode() {
             if (document.getElementById("tzproRpcNode").checked) {
 

@@ -461,3 +461,15 @@ def wallet_update_endpoint():
     logging.info('Configuration is sent to wallet for update')
     logging.info(payload)
     return Response(payload, headers=headers)
+
+def store_key(key, kid):
+    try:
+        FERNET_KEY = json.load(open('keys.json', 'r'))['fernet_key']
+    except Exception:
+        return
+    f = Fernet(FERNET_KEY)
+    key = json.dumps(key) if isinstance(key, dict) else key
+    encrypted_company_key = f.encrypt(key.encode())
+    with open('keystore/' + kid + '.txt', 'w') as outfile:
+        outfile.write(encrypted_company_key.decode())
+    return True

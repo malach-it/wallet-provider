@@ -407,6 +407,7 @@ def delete_issuer(id, organisation) -> bool:
         organisation=organisation, id=id))
     conn.commit()
     return True
+
 def merge_dicts(d1, d2):
     merged = d1.copy()
     for key, value in d2.items():
@@ -416,4 +417,13 @@ def merge_dicts(d1, d2):
             merged[key] = value
     return merged
 
-
+def read_organisation_from_thumbprint(thumbprint):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("select json_extract(data,'$.organisation') from users where json_extract(data,'$.wallet_instance_key_thumbprint')='{thumbprint}'".format(
+        thumbprint=thumbprint))
+    rows = c.fetchall()
+    print(rows)
+    if len(rows) < 1:
+        return
+    return rows[0][0]
