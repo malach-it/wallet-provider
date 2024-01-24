@@ -159,7 +159,7 @@
                     <div id="circle4" class="circleInactive">
                         <p id="number4" class="boldGreyP">4</p>
                     </div>
-                    <p id="title4" class="boldGreyP">DID/SSI</p>
+                    <p id="title4" class="boldGreyP">SSI</p>
                 </button>
                 <button onclick="goStep5()" class="linkBarProgress">
                     <div id="circle5" class="circleInactive">
@@ -913,6 +913,18 @@
                                 </div>
                                 <!--<p>5</p><input type="radio" name="siopv2Draft" value="5">-->
                             </div>
+
+                            <div class="optionDiv">
+                                <p class="optionDivMainTitle">4.13 VC Format</p>
+                                <p class="optionDivSecondTitle">Select the format of VC</p>
+                                <select class="selectSetup" id="VC_format" name="VC_format">
+                                    <option value="ldp_vc">ldp_vc</option>
+                                    <option value="jwt_vc">jwt_vc</option>
+                                    <option value="jwt_vc_json">jwt_vc_json</option>
+                                    <option value="jwt_vc_json-ld">jwt_vc_json-ld</option>
+                                </select>
+                            </div>
+
                         </div>
 
 
@@ -1052,34 +1064,7 @@
 
                 <div id="step6Div" class="displayNone">
                     <p class="title">Talao issuers</p>
-                    <div class="line1Setup">
-
-
-                        <div class="optionDiv">
-                            <p class="optionDivMainTitle">6.1 Display rewards category</p>
-                            <p class="optionDivSecondTitle">Only available on Android</p>
-                            <div class="optionsDivRow">
-
-                                <div class="labelAndButton">
-
-                                    <label for="displayRewardsCategoryTrue" class="optionLabel">Yes</label>
-                                    <input type="radio" id="displayRewardsCategoryTrue" name="displayRewardsCategory"
-                                        value="displayRewardsCategoryTrue" checked>
-                                </div>
-                                <div class="labelAndButton">
-
-                                    <label for="displayRewardsCategoryFalse" class="optionLabel">No</label>
-
-                                    <input type="radio" id="displayRewardsCategoryFalse" name="displayRewardsCategory"
-                                        value="displayRewardsCategoryFalse">
-                                </div>
-                            </div>
-                        </div>
-
-
-
-                    </div>
-
+ 
                     <table id="talaoIssuersTable">
                         <thead>
                             <th class="robotoBold">Title / Name</th>
@@ -1198,6 +1183,21 @@
                             </tr>
 
                             <tr class="talaoIssuersRow">
+                                <td class="robotoBold">Verifiable Id</td>
+                                <td>Get your digital identity card</td>
+                                <td>Identity cards</td>
+                                <td>jwt_vc_json</td>
+                                <td>contact@talao.io</td>
+                                <td></td>
+                                <td>
+                                    <select name="displayVerifiableId2" id="displayVerifiableId2" class="selectSetup">
+                                        <option value="displayVerifiableId2True">Visible</option>
+                                        <option value="displayVerifiableId2False">Invisible</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr class="talaoIssuersRow">
                                 <td class="robotoBold">Defi Compliance</td>
                                 <td>Prove you are defi compliant</td>
                                 <td>Identity cards</td>
@@ -1262,7 +1262,7 @@
                 
                     <p class="title">External issuers</p>
 
-                    <table id="tableDashboard">
+                    <table id="talaoIssuersTable">
                         <thead>
                             <th>Title / Name</th>
                             <th>Subtitle (short description)</th>
@@ -1328,23 +1328,29 @@
                             <div class="optionsDivRow">
                                 <div class="labelAndButton">
                                     <label for="isAllowedTrue" class="optionLabel">Yes</label>
-                                    <input type="radio" id="isAllowedTrue" name="isAllowed" value="true">
+                                    <input type="radio" id="isAllowedTrue" name="CustomSignature" value="CustomSignaturetrue">
                                 </div>
                                 <div class="labelAndButton">
                                     <label for="isAllowedFalse" class="optionLabel">No</label>
-                                    <input type="radio" id="isAllowedFalse" name="isAllowed" value="false" checked>
+                                    <input type="radio" id="isAllowedFalse" name="CustomSignature" value="CustomSignaturefalse" checked>
                                 </div>
                             </div>
                         </div>
                         <div class="optionDiv">
                             <p class="optionDivMainTitle">7.2 Company private key</p>
                             <p class="optionDivSecondTitle">Company private key in JWK json format</p>
-                            <input id="companyKey" name="companyKey" type="text" class="inputTextSetup" placeholder="Enter JWK json formatted key" maxlength="10"></input>
+                            <textarea id="CompanyKey" name="CompanyKey" class="inputTextSetup" placeholder="Enter JWK json formatted key"></textarea>
                         </div>
                         <div class="optionDiv">
                             <p class="optionDivMainTitle">7.3 Company key identifier</p>
                             <p class="optionDivSecondTitle">Kid of the private company key in a DID format</p>
-                            <input id="kid" name="kid" type="text" class="inputTextSetup" placeholder="Enter kid" maxlength="50">
+                            <textarea id="Companykid" name="Companykid" type="text" class="inputTextSetup" placeholder="Enter kid"></textarea>
+                        </div>
+                        <div class="optionDivDisabled">
+                        <!-- <div class="optionDiv"> -->
+                            <p class="optionDivMainTitle">7.4 key Certificate</p>
+                            <p class="optionDivSecondTitle">key Certificate for your signature</p>
+                            <input type="file" id="keyCertificateFile" name="keyCertificateFile" class="fileInputSetup" value="Choose File">
                         </div>
                     </div>
                     <div class="buttonsStep">
@@ -1797,6 +1803,7 @@
         document.getElementById("clientAuthentication").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["clientAuthentication"]}}"
         document.getElementById("client_id").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_id"]}}"
         document.getElementById("client_secret").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_secret"]}}"
+        document.getElementById("VC_format").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["VC_format"]}}"
 
         document.getElementById("displayChatSupport{{config["helpCenterOptions"]["displayChatSupport"]}}").checked = true
         document.getElementById("customChatSupport{{config["helpCenterOptions"]["customChatSupport"]}}").checked = true
@@ -1816,12 +1823,15 @@
         document.getElementById("displayOver50").value = "displayOver50{{config["discoverCardsOptions"]["displayOver50"]}}"
         document.getElementById("displayOver65").value = "displayOver65{{config["discoverCardsOptions"]["displayOver65"]}}"
         document.getElementById("displayVerifiableId").value = "displayVerifiableId{{config["discoverCardsOptions"]["displayVerifiableId"]}}"
+        document.getElementById("displayVerifiableId2").value = "displayVerifiableId2{{config["discoverCardsOptions"]["displayVerifiableId2"]}}"
         document.getElementById("displayDefi").value = "displayDefi{{config["discoverCardsOptions"]["displayDefi"]}}"
         document.getElementById("displayHumanity").value = "displayHumanity{{config["discoverCardsOptions"]["displayHumanity"]}}"
         document.getElementById("displayGender").value = "displayGender{{config["discoverCardsOptions"]["displayGender"]}}"
         document.getElementById("displayAgeRange").value = "displayAgeRange{{config["discoverCardsOptions"]["displayAgeRange"]}}"
         document.getElementById("categoryIssuer").value = "othersCards"
         document.getElementById("backgroundColorIssuer").value = "#ffffff"
+
+      
 
         //switchProfile()
         switchSupportEmail()
@@ -1949,7 +1959,7 @@
             document.getElementById("title7").setAttribute("class", "boldGreyP")
             document.getElementById("circle7").setAttribute("class", "circleInactive")
             document.getElementById("number7").setAttribute("class", "boldGreyP")
-            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : DID/SSI"
+            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : SSI"
 
         }
         function goBackStep4() {
@@ -2066,7 +2076,7 @@
             document.getElementById("title7").setAttribute("class", "boldPurpleP")
             document.getElementById("circle7").setAttribute("class", "circleActive")
             document.getElementById("number7").setAttribute("class", "boldWhiteP")
-            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Issuer marketplace"
+            document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Signature"
 
         }
         // document.getElementById("step7Div").setAttribute("class", "stepDiv");
@@ -2145,6 +2155,14 @@
         function previewImage(event) {
             var preview = document.getElementById('preview');
             preview.src = URL.createObjectURL(event.target.files[0]);
+        }
+        function switchSignature() {
+            if (document.getElementById("CustomSignaturetrue").checked === true) {
+                document.getElementById("customSignatureDiv").setAttribute("class", "optionDiv")
+            } else {
+                document.getElementById("customSignatureDiv").setAttribute("class", "displayNone")
+
+            }
         }
     </script>
 </body>

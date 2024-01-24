@@ -1,5 +1,5 @@
 {
-    "version": "1.13",
+    "version": "1.14",
     "generalOptions": {
         "walletType": "altme",
         "companyName": "Altme",
@@ -48,6 +48,7 @@
         "displayVerifiableDataRegistry": false,
         "oidv4vcProfile": "",
         "customOidc4vcProfile": {
+            "vcFormat": "ldp_vc",
             "securityLevel": false,
             "clientAuthentication": "client_id",
             "credentialManifestSupport": true,
@@ -83,9 +84,9 @@
         "displayAgeRange": false,
         "displayGender": false,
         "displayVerifiableId": true,
+        "displayVerifiableIdJwt": true,
         "displayHumanity": true,
         "displayDefi": false,
         "displayExternalIssuer": []
     }
 }
-
