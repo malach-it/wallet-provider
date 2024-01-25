@@ -460,11 +460,7 @@ def set_config():
         "customChatSupportName"]
     wallet_provider_configuration["helpCenterOptions"]["customEmail"] = request.form.to_dict()[
         "customEmail"]
-    if request.form.to_dict()["displayRewardsCategory"] == "displayRewardsCategoryFalse":
-        wallet_provider_configuration["discoverCardsOptions"]["displayRewardsCategory"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayRewardsCategory"] = True
-
+    
     if request.form.to_dict()["displayOver18"] == "displayOver18False":
         wallet_provider_configuration["discoverCardsOptions"]["displayOver18"] = False
     else:
