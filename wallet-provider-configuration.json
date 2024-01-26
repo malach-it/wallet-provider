@@ -1,5 +1,5 @@
 {
-    "version": "1.14",
+    "version": "1.15",
     "generalOptions": {
         "walletType": "altme",
         "companyName": "Altme",
@@ -75,6 +75,7 @@
     "discoverCardsOptions" : {
         "displayRewardsCategory": true,
         "displayOver18": true,
+        "displayOver18Jwt": true,
         "displayOver13": false,
         "displayOver15": false,
         "displayOver21": false,
@@ -87,6 +88,8 @@
         "displayVerifiableIdJwt": true,
         "displayHumanity": true,
         "displayDefi": false,
+        "displayChainborn": false,
+        "displayTezotopia": false,
         "displayExternalIssuer": []
     }
 }

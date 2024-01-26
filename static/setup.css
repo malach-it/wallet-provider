@@ -72,17 +72,23 @@ body {
     gap: 10px;
 }
 
-.statusIndicator {
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-    display: inline-block;
-}
-
-.statusIndicator.visible {
+.selectSetupIssuer {
+    color: white;
+    padding: 12px;
+    width: 150px; /* Adjust the width as needed */
+    border: none;
+    font-size: 16px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    -webkit-appearance: button;
+    appearance: button;
+    outline: none;
+    background-color: red; /* Default background color */
+  }
+  
+  .selectSetupIssuer.select-visible {
     background-color: green;
-}
-
-.statusIndicator.invisible {
+  }
+  
+  .selectSetupIssuer.select-invisible {
     background-color: red;
-}
+  }

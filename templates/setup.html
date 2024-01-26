@@ -1082,9 +1082,8 @@
                                 <td style="text-align: center;">Identity cards</td>
                                 <td style="text-align: center;">ldp_vc</td>
                                 <td>
-                                    <span class="emailCell">contact@talao.io 
-                                    <!-- <button onclick="copyMeOnClipboard()">Copy</button> -->
-                                    </span> 
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button onclick="copySpanText()">Copy</button>
                                 </td>
                                 <td><img src="/static/img/Proof_Over13.svg" alt="Proof_Over13" width="90" height="50"></td>
                                 <td>
@@ -1102,19 +1101,21 @@
                                     </select>
                                 </td>
                             </tr>
-
+                            
                             <tr class="talaoIssuersRow">
                                 <td class="robotoBold">Proof of Over 15</td>
                                 <td>Prove you are over 15 years old</td>
                                 <td style="text-align: center;">Identity cards</td>
-                               <td style="text-align: center;">ldp_vc</td>
-                                <td>contact@talao.io</td>
+                                <td style="text-align: center;">ldp_vc</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button onclick="copySpanText()">📋</button>
+                                </td>
                                 <td><img src="/static/img/Proof_Over15.svg" alt="Proof_Over15" width="90" height="50"></td>
                                 <td>
                                     <select name="displayOver15" id="displayOver15" class="selectSetup">
                                         <option value="displayOver15True">Visible</option>
                                         <option value="displayOver15False">Invisible</option>
-
                                     </select>
                                 </td>
                             </tr>
@@ -1123,13 +1124,53 @@
                                 <td class="robotoBold">Proof of Over 18</td>
                                 <td>Prove you are over 18 years old</td>
                                 <td style="text-align: center;">Identity cards</td>
-                               <td style="text-align: center;">ldp_vc</td>
-                                <td>contact@talao.io</td>
+                                <td style="text-align: center;">ldp_vc</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button onclick="copySpanText()">📋</button>
+                                </td>
                                 <td><img src="/static/img/Proof_Over18.svg" alt="Proof_Over18" width="90" height="50"></td>
                                 <td>
+                                    <!-- <select name="displayOver18" id="displayOver18" class="selectSetupIssuer"> -->
                                     <select name="displayOver18" id="displayOver18" class="selectSetup">
-                                        <option value="displayOver18True">Visible</option>
-                                        <option value="displayOver18False">Invisible</option>
+                                      <option value="displayOver18True">Visible</option>
+                                      <option value="displayOver18False">Invisible</option>
+                                    </select>
+                                  </td>
+                                  
+                            </tr>
+
+  <script>
+ document.getElementById("displayOver18").addEventListener("change", function() {
+  var selectedValue = this.value;
+  var selectElement = document.getElementById("displayOver18");
+
+  // Remove any existing classes
+  selectElement.classList.remove("select-visible", "select-invisible");
+
+  // Add the appropriate class based on the selected option
+  if (selectedValue === "displayOver18True") {
+    selectElement.classList.add("select-visible");
+  } else if (selectedValue === "displayOver18False") {
+    selectElement.classList.add("select-invisible");
+  }
+});
+
+</script>
+                            <tr class="talaoIssuersRow">
+                                <td class="robotoBold">Proof of Over 18</td>
+                                <td>Prove you are over 18 years old</td>
+                                <td style="text-align: center;">Identity cards</td>
+                                <td style="text-align: center;">jwt_vc_json</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button onclick="copySpanText()">📋</button>
+                                </td>
+                                <td><img src="/static/img/Proof_Over18.svg" alt="Proof_Over18" width="90" height="50"></td>
+                                <td>
+                                    <select name="displayOver18_2" id="displayOver18_2" class="selectSetup">
+                                        <option value="displayOver18_2True">Visible</option>
+                                        <option value="displayOver18_2False">Invisible</option>
                                     </select>
                                 </td>
                             </tr>
@@ -1138,8 +1179,11 @@
                                 <td class="robotoBold">Proof of Over 21</td>
                                 <td>Prove you are over 21 years old</td>
                                 <td style="text-align: center;">Identity cards</td>
-                               <td style="text-align: center;">ldp_vc</td>
-                                <td>contact@talao.io</td>
+                                <td style="text-align: center;">ldp_vc</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button onclick="copySpanText()">📋</button>
+                                </td>
                                 <td><img src="/static/img/Proof_Over21.svg" alt="Proof_Over21" width="90" height="50"></td>
                                 <td>
                                     <select name="displayOver21" id="displayOver21" class="selectSetup">
@@ -1153,8 +1197,11 @@
                                 <td class="robotoBold">Proof of Over 50</td>
                                 <td>Prove you are over 50 years old</td>
                                 <td style="text-align: center;">Identity cards</td>
-                               <td style="text-align: center;">ldp_vc</td>
-                                <td>contact@talao.io</td>
+                                <td style="text-align: center;">ldp_vc</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button onclick="copySpanText()">📋</button>
+                                </td>
                                 <td><img src="/static/img/Proof_Over50.svg" alt="Proof_Over50" width="90" height="50"></td>
                                 <td>
                                     <select name="displayOver50" id="displayOver50" class="selectSetup">
@@ -1168,8 +1215,11 @@
                                 <td class="robotoBold">Proof of Over 65</td>
                                 <td>Prove you are over 65 years old</td>
                                 <td style="text-align: center;">Identity cards</td>
-                               <td style="text-align: center;">ldp_vc</td>
-                                <td>contact@talao.io</td>
+                                <td style="text-align: center;">ldp_vc</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button onclick="copySpanText()">📋</button>
+                                </td>
                                 <td><img src="/static/img/Proof_Over65.svg" alt="Proof_Over65" width="90" height="50"></td>
                                 <td>
                                     <select name="displayOver65" id="displayOver65" class="selectSetup">
@@ -1183,8 +1233,11 @@
                                 <td class="robotoBold">Verifiable Id</td>
                                 <td>Prove your identity</td>
                                 <td style="text-align: center;">Identity cards</td>
-                               <td style="text-align: center;">ldp_vc</td>
-                                <td>contact@talao.io</td>
+                                <td style="text-align: center;">ldp_vc</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button onclick="copySpanText()">📋</button>
+                                </td>
                                 <td><img src="/static/img/Verifiable_ID.svg" alt="Verifiable_ID" width="90" height="50"></td>
                                 <td>
                                     <select name="displayVerifiableId" id="displayVerifiableId" class="selectSetup">
@@ -1199,7 +1252,10 @@
                                 <td>Prove your identity</td>
                                 <td style="text-align: center;">Identity cards</td>
                                 <td style="text-align: center;">jwt_vc_json</td>
-                                <td>contact@talao.io</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button onclick="copySpanText()">📋</button>
+                                </td>
                                 <td><img src="/static/img/Verifiable_ID.svg" alt="Verifiable_ID" width="90" height="50"></td>
                                 <td>
                                     <select name="displayVerifiableId2" id="displayVerifiableId2" class="selectSetup">
@@ -1213,8 +1269,11 @@
                                 <td class="robotoBold">Defi Compliance</td>
                                 <td>Prove you are defi compliant</td>
                                 <td style="text-align: center;">Identity cards</td>
-                               <td style="text-align: center;">ldp_vc</td>
-                                <td>contact@talao.io</td>
+                                <td style="text-align: center;">ldp_vc</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button onclick="copySpanText()">📋</button>
+                                </td>
                                 <td><img src="/static/img/Defi_compliance.svg" alt="Defi_compliance" width="90" height="50"></td>
                                 <td>
                                     <select name="displayDefi" id="displayDefi" class="selectSetup">
@@ -1228,8 +1287,11 @@
                                 <td class="robotoBold">Proof of humanity</td>
                                 <td>Prove you are an human being</td>
                                 <td style="text-align: center;">Identity cards</td>
-                               <td style="text-align: center;">ldp_vc</td>
-                                <td>contact@talao.io</td>
+                                <td style="text-align: center;">ldp_vc</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button onclick="copySpanText()">📋</button>
+                                </td>
                                 <td><img src="/static/img/Proof_of_humanity.svg" alt="Proof_of_humanity" width="90" height="50"></td>
                                 <td>
                                     <select name="displayHumanity" id="displayHumanity" class="selectSetup">
@@ -1243,8 +1305,11 @@
                                 <td class="robotoBold">Age Range</td>
                                 <td>Prove your age range</td>
                                 <td style="text-align: center;">Identity cards</td>
-                               <td style="text-align: center;">ldp_vc</td>
-                                <td>contact@talao.io</td>
+                                <td style="text-align: center;">ldp_vc</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button onclick="copySpanText()">📋</button>
+                                </td>
                                 <td><img src="/static/img/Age_range.svg" alt="Age_range" width="90" height="50"></td>
                                 <td>
                                     <select name="displayAgeRange" id="displayAgeRange" class="selectSetup">
@@ -1258,8 +1323,11 @@
                                 <td class="robotoBold">Proof of gender</td>
                                 <td>Prove you gender</td>
                                 <td style="text-align: center;">Identity cards</td>
-                               <td style="text-align: center;">ldp_vc</td>
-                                <td>contact@talao.io</td>
+                                <td style="text-align: center;">ldp_vc</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button onclick="copySpanText()">📋</button>
+                                </td>
                                 <td><img src="/static/img/Proof_of_gender.svg" alt="Proof_of_gender" width="90" height="50"></td>
                                 <td>
                                     <select name="displayGender" id="displayGender" class="selectSetup">
@@ -1273,8 +1341,11 @@
                                 <td class="robotoBold">Tezotopia</td>
                                 <td>Membership card</td>
                                 <td style="text-align: center;">Advantages cards</td>
-                               <td style="text-align: center;">ldp_vc</td>
-                                <td>contact@talao.io</td>
+                                <td style="text-align: center;">ldp_vc</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button onclick="copySpanText()">📋</button>
+                                </td>
                                 <td><img src="/static/img/tezotopia.svg" alt="tezotopia" width="90" height="50"></td>
                                 <td>
                                     <select name="displayTezotopia" id="displayTezotopia" class="selectSetup">
@@ -1288,8 +1359,11 @@
                                 <td class="robotoBold">Chainborn</td>
                                 <td>Loyalty card</td>
                                 <td style="text-align: center;">Advantages cards</td>
-                               <td style="text-align: center;">ldp_vc</td>
-                                <td>contact@talao.io</td>
+                                <td style="text-align: center;">ldp_vc</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button onclick="copySpanText()">📋</button>
+                                </td>
                                 <td><img src="/static/img/chainborn.svg" alt="chainborn" width="90" height="50"></td>
                                 <td>
                                     <select name="displayChainborn" id="displayChainborn" class="selectSetup">
@@ -1330,7 +1404,10 @@
                                 <!-- Issuer URL -->
                                 <!-- <td>{{row[6]}}</td> -->
                                 <!-- Issuer contactt -->
-                                <td style="text-align: center;">{{row[7]}}</td>
+                                <td style="text-align: center;">
+                                    <span id="issuerContact{{loop.index}}">{{row[7]}}</span>
+                                    <button onclick="copySpanTextTabExternalIssuer('{{loop.index}}')">📋</button>
+                                </td>
                                 <!-- Logo -->
                                 <!-- <td></td> -->
                                 <!-- Image -->
@@ -1561,20 +1638,61 @@
         </footer>
 
     </div>
-    <script>
-        // Copy mail
-        // const copyText = document.querySelector("#copyMe")
-        // const showText = document.querySelector("p")
 
-        // const copyMeOnClipboard = () => {
-        // copyText.select()
-        // copyText.setSelectionRange(0, 99999) // used for mobile phone
-        // document.execCommand("copy")
-        // showText.innerHTML = `${copyText.value} is copied`
-        // setTimeout(() => {
-        //     showText.innerHTML = ""
-        // }, 1000)
-        // }
+    <script>
+        //Copie mail
+        function copySpanText() {
+        // Get the span element
+        var spanText = document.getElementById("mySpan");
+                                
+        // Create a temporary input element
+        var tempInput = document.createElement("input");
+                                    
+        // Set the value of the temporary input to the text content of the span
+        tempInput.value = spanText.textContent;
+                                
+        // Append the temporary input to the body
+        document.body.appendChild(tempInput);
+                                
+        // Select the text in the temporary input
+        tempInput.select();
+        tempInput.setSelectionRange(0, 99999); // For mobile devices
+                                
+        // Copy the text inside the temporary input
+        document.execCommand("copy");
+                                
+        // Remove the temporary input from the DOM
+        document.body.removeChild(tempInput);
+                                
+        alert("The Issuer contact has been copied : " + spanText.textContent);
+        }
+
+        //Copie mail external issuer
+        function copySpanTextTabExternalIssuer(index) {
+        // Get the span element based on the index
+        var spanText = document.getElementById("issuerContact" + index);
+
+        // Create a temporary input element
+        var tempInput = document.createElement("input");
+        
+        // Set the value of the temporary input to the text content of the span
+        tempInput.value = spanText.textContent;
+
+        // Append the temporary input to the body
+        document.body.appendChild(tempInput);
+
+        // Select the text in the temporary input
+        tempInput.select();
+        tempInput.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text inside the temporary input
+        document.execCommand("copy");
+
+        // Remove the temporary input from the DOM
+        document.body.removeChild(tempInput);
+
+        alert("The Issuer contact has been copied : " + spanText.textContent);
+        }
 
         var updateIssuer;
         var idIssuer;
@@ -1881,11 +1999,12 @@
         document.getElementById("displayOver13").value = "displayOver13{{config["discoverCardsOptions"]["displayOver13"]}}"
         document.getElementById("displayOver15").value = "displayOver15{{config["discoverCardsOptions"]["displayOver15"]}}"
         document.getElementById("displayOver18").value = "displayOver18{{config["discoverCardsOptions"]["displayOver18"]}}"
+        document.getElementById("displayOver18_2").value = "displayOver18_2{{config["discoverCardsOptions"]["displayOver18Jwt"]}}"
         document.getElementById("displayOver21").value = "displayOver21{{config["discoverCardsOptions"]["displayOver21"]}}"
         document.getElementById("displayOver50").value = "displayOver50{{config["discoverCardsOptions"]["displayOver50"]}}"
         document.getElementById("displayOver65").value = "displayOver65{{config["discoverCardsOptions"]["displayOver65"]}}"
         document.getElementById("displayVerifiableId").value = "displayVerifiableId{{config["discoverCardsOptions"]["displayVerifiableId"]}}"
-        document.getElementById("displayVerifiableId2").value = "displayVerifiableId2{{config["discoverCardsOptions"]["displayVerifiableId2"]}}"
+        document.getElementById("displayVerifiableId2").value = "displayVerifiableId2{{config["discoverCardsOptions"]["displayVerifiableIdJwt"]}}"
         document.getElementById("displayDefi").value = "displayDefi{{config["discoverCardsOptions"]["displayDefi"]}}"
         document.getElementById("displayHumanity").value = "displayHumanity{{config["discoverCardsOptions"]["displayHumanity"]}}"
         document.getElementById("displayGender").value = "displayGender{{config["discoverCardsOptions"]["displayGender"]}}"

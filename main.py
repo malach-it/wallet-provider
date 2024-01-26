@@ -456,8 +456,8 @@ def set_config():
         "oidc4vpDraft"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["siopv2Draft"] = request.form.to_dict()[
         "siopv2Draft"]
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["VC_format"] = request.form.to_dict()[
-        "VC_format"]
+    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["VC_format"] = request.form.to_dict().get(
+        "VC_format","ldp_vc")
     wallet_provider_configuration["helpCenterOptions"]["customChatSupportName"] = request.form.to_dict()[
         "customChatSupportName"]
     wallet_provider_configuration["helpCenterOptions"]["customEmail"] = request.form.to_dict()[
@@ -477,7 +477,12 @@ def set_config():
         wallet_provider_configuration["discoverCardsOptions"]["displayOver18"] = False
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayOver18"] = True
- 
+
+    if request.form.to_dict()["displayOver18_2"] == "displayOver18_2False":
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver18Jwt"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver18Jwt"] = True
+        
     if request.form.to_dict()["displayOver21"] == "displayOver21False":
         wallet_provider_configuration["discoverCardsOptions"]["displayOver21"] = False
     else:
@@ -499,9 +504,9 @@ def set_config():
         wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableId"] = True
     
     if request.form.to_dict()["displayVerifiableId2"] == "displayVerifiableId2False":
-        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableId2"] = False
+        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableIdJwt"] = False
     else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableId2"] = True
+        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableIdJwt"] = True
 
     if request.form.to_dict()["displayDefi"] == "displayDefiFalse":
         wallet_provider_configuration["discoverCardsOptions"]["displayDefi"] = False
