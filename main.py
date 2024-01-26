@@ -456,16 +456,13 @@ def set_config():
         "oidc4vpDraft"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["siopv2Draft"] = request.form.to_dict()[
         "siopv2Draft"]
+    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["VC_format"] = request.form.to_dict()[
+        "VC_format"]
     wallet_provider_configuration["helpCenterOptions"]["customChatSupportName"] = request.form.to_dict()[
         "customChatSupportName"]
     wallet_provider_configuration["helpCenterOptions"]["customEmail"] = request.form.to_dict()[
         "customEmail"]
     
-    if request.form.to_dict()["displayOver18"] == "displayOver18False":
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver18"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver18"] = True
-
     if request.form.to_dict()["displayOver13"] == "displayOver13False":
         wallet_provider_configuration["discoverCardsOptions"]["displayOver13"] = False
     else:
@@ -476,10 +473,35 @@ def set_config():
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayOver15"] = True
 
+    if request.form.to_dict()["displayOver18"] == "displayOver18False":
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver18"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver18"] = True
+ 
+    if request.form.to_dict()["displayOver21"] == "displayOver21False":
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver21"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver21"] = True
+
+    if request.form.to_dict()["displayOver50"] == "displayOver50False":
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver50"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver50"] = True
+
+    if request.form.to_dict()["displayOver65"] == "displayOver65False":
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver65"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayOver65"] = True
+
     if request.form.to_dict()["displayVerifiableId"] == "displayVerifiableIdFalse":
         wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableId"] = False
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableId"] = True
+    
+    if request.form.to_dict()["displayVerifiableId2"] == "displayVerifiableId2False":
+        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableId2"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableId2"] = True
 
     if request.form.to_dict()["displayDefi"] == "displayDefiFalse":
         wallet_provider_configuration["discoverCardsOptions"]["displayDefi"] = False
@@ -500,6 +522,18 @@ def set_config():
         wallet_provider_configuration["discoverCardsOptions"]["displayGender"] = False
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayGender"] = True
+    
+    
+    if request.form.to_dict()["displayTezotopia"] == "displayTezotopiaFalse":
+        wallet_provider_configuration["discoverCardsOptions"]["displayTezotopia"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayTezotopia"] = True
+
+    
+    if request.form.to_dict()["displayChainborn"] == "displayChainbornFalse":
+        wallet_provider_configuration["discoverCardsOptions"]["displayChainborn"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayChainborn"] = True
 
     try:
         issuers = json.loads(db.read_issuers_config(session["organisation"]))
