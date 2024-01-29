@@ -2003,3 +2003,25 @@ input[type="color"] {
     gap: 50px;
     align-items: center;
 }
+
+.selectSetupIssuer {
+    color: white;
+    padding: 6px 30px 6px 12px;
+    width: fit-content;
+    border-radius: 8px;
+    border: 1px solid var(--Gray-400, #CED4DA);
+    font-size: 16px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    -webkit-appearance: button;
+    appearance: button;
+    outline: none;
+    background-color: rgb(91, 35, 174); /* Default background color */
+  }
+  
+  .select-invisible.selectSetupIssuer {
+  background-color: #d1cce3;
+}
+
+.select-visible.selectSetupIssuer {
+  background-color: #00B267;
+}

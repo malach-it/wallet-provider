@@ -917,7 +917,7 @@
                             <div class="optionDiv">
                                 <p class="optionDivMainTitle">4.13 VC Format</p>
                                 <p class="optionDivSecondTitle">Select the format of VC</p>
-                                <select class="selectSetup" id="VC_format" name="VC_format">
+                                <select class="selectSetup" id="vcFormat" name="vcFormat">
                                     <option value="ldp_vc">ldp_vc</option>
                                     <option value="jwt_vc">jwt_vc</option>
                                     <option value="jwt_vc_json">jwt_vc_json</option>
@@ -1083,21 +1083,15 @@
                                 <td style="text-align: center;">ldp_vc</td>
                                 <td>
                                     <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button onclick="copySpanText()">📋</button>
+                                    <button onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <td><img src="/static/img/Proof_Over13.svg" alt="Proof_Over13" width="90" height="50"></td>
                                 <td>
-                                    <select name="displayOver13" id="displayOver13" class="selectSetup" >
-                                        <option value="displayOver13True">Visible 
-                                            <span class="svgContainer"> 
-                                                <img src="/static/img/rond_vert.svg" alt="rond_vert" width="16" height="16">
-                                            </span>
-                                        </option>
-                                        <option value="displayOver13False">Invisible
-                                            <span class="svgContainer"> 
-                                                <img src="/static/img/rond_rouge.svg" alt="rond_rouge" width="16" height="16">
-                                            </span>
-                                        </option>
+                                    <select name="displayOver13" id="displayOver13" class="selectSetupIssuer">
+                                        <option value="displayOver13True">Visible</option>
+                                        <option value="displayOver13False">Invisible</option>
                                     </select>
                                 </td>
                             </tr>
@@ -1109,11 +1103,13 @@
                                 <td style="text-align: center;">ldp_vc</td>
                                 <td>
                                     <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button onclick="copySpanText()">📋</button>
+                                    <button onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <td><img src="/static/img/Proof_Over15.svg" alt="Proof_Over15" width="90" height="50"></td>
                                 <td>
-                                    <select name="displayOver15" id="displayOver15" class="selectSetup">
+                                    <select name="displayOver15" id="displayOver15" class="selectSetupIssuer">
                                         <option value="displayOver15True">Visible</option>
                                         <option value="displayOver15False">Invisible</option>
                                     </select>
@@ -1127,36 +1123,20 @@
                                 <td style="text-align: center;">ldp_vc</td>
                                 <td>
                                     <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button onclick="copySpanText()">📋</button>
+                                    <button onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <td><img src="/static/img/Proof_Over18.svg" alt="Proof_Over18" width="90" height="50"></td>
                                 <td>
-                                    <!-- <select name="displayOver18" id="displayOver18" class="selectSetupIssuer"> -->
-                                    <select name="displayOver18" id="displayOver18" class="selectSetup">
+                                    <select name="displayOver18" id="displayOver18" class="selectSetupIssuer">
+                                    <!-- <select name="displayOver18" id="displayOver18" class="selectSetup"> -->
                                       <option value="displayOver18True">Visible</option>
                                       <option value="displayOver18False">Invisible</option>
                                     </select>
                                   </td>
-                                  
                             </tr>
 
-  <script>
- document.getElementById("displayOver18").addEventListener("change", function() {
-  var selectedValue = this.value;
-  var selectElement = document.getElementById("displayOver18");
-
-  // Remove any existing classes
-  selectElement.classList.remove("select-visible", "select-invisible");
-
-  // Add the appropriate class based on the selected option
-  if (selectedValue === "displayOver18True") {
-    selectElement.classList.add("select-visible");
-  } else if (selectedValue === "displayOver18False") {
-    selectElement.classList.add("select-invisible");
-  }
-});
-
-</script>
                             <tr class="talaoIssuersRow">
                                 <td class="robotoBold">Proof of Over 18</td>
                                 <td>Prove you are over 18 years old</td>
@@ -1164,11 +1144,13 @@
                                 <td style="text-align: center;">jwt_vc_json</td>
                                 <td>
                                     <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button onclick="copySpanText()">📋</button>
+                                    <button onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <td><img src="/static/img/Proof_Over18.svg" alt="Proof_Over18" width="90" height="50"></td>
                                 <td>
-                                    <select name="displayOver18_2" id="displayOver18_2" class="selectSetup">
+                                    <select name="displayOver18_2" id="displayOver18_2" class="selectSetupIssuer">
                                         <option value="displayOver18_2True">Visible</option>
                                         <option value="displayOver18_2False">Invisible</option>
                                     </select>
@@ -1182,11 +1164,13 @@
                                 <td style="text-align: center;">ldp_vc</td>
                                 <td>
                                     <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button onclick="copySpanText()">📋</button>
+                                    <button onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <td><img src="/static/img/Proof_Over21.svg" alt="Proof_Over21" width="90" height="50"></td>
                                 <td>
-                                    <select name="displayOver21" id="displayOver21" class="selectSetup">
+                                    <select name="displayOver21" id="displayOver21" class="selectSetupIssuer">
                                         <option value="displayOver21True">Visible</option>
                                         <option value="displayOver21False">Invisible</option>
                                     </select>
@@ -1200,11 +1184,13 @@
                                 <td style="text-align: center;">ldp_vc</td>
                                 <td>
                                     <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button onclick="copySpanText()">📋</button>
+                                    <button onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <td><img src="/static/img/Proof_Over50.svg" alt="Proof_Over50" width="90" height="50"></td>
                                 <td>
-                                    <select name="displayOver50" id="displayOver50" class="selectSetup">
+                                    <select name="displayOver50" id="displayOver50" class="selectSetupIssuer">
                                         <option value="displayOver50True">Visible</option>
                                         <option value="displayOver50False">Invisible</option>
                                     </select>
@@ -1218,11 +1204,13 @@
                                 <td style="text-align: center;">ldp_vc</td>
                                 <td>
                                     <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button onclick="copySpanText()">📋</button>
+                                    <button onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <td><img src="/static/img/Proof_Over65.svg" alt="Proof_Over65" width="90" height="50"></td>
                                 <td>
-                                    <select name="displayOver65" id="displayOver65" class="selectSetup">
+                                    <select name="displayOver65" id="displayOver65" class="selectSetupIssuer">
                                         <option value="displayOver65True">Visible</option>
                                         <option value="displayOver65False">Invisible</option>
                                     </select>
@@ -1236,11 +1224,13 @@
                                 <td style="text-align: center;">ldp_vc</td>
                                 <td>
                                     <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button onclick="copySpanText()">📋</button>
+                                    <button onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <td><img src="/static/img/Verifiable_ID.svg" alt="Verifiable_ID" width="90" height="50"></td>
                                 <td>
-                                    <select name="displayVerifiableId" id="displayVerifiableId" class="selectSetup">
+                                    <select name="displayVerifiableId" id="displayVerifiableId" class="selectSetupIssuer">
                                         <option value="displayVerifiableIdTrue">Visible</option>
                                         <option value="displayVerifiableIdFalse">Invisible</option>
                                     </select>
@@ -1254,11 +1244,13 @@
                                 <td style="text-align: center;">jwt_vc_json</td>
                                 <td>
                                     <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button onclick="copySpanText()">📋</button>
+                                    <button onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <td><img src="/static/img/Verifiable_ID.svg" alt="Verifiable_ID" width="90" height="50"></td>
                                 <td>
-                                    <select name="displayVerifiableId2" id="displayVerifiableId2" class="selectSetup">
+                                    <select name="displayVerifiableId2" id="displayVerifiableId2" class="selectSetupIssuer">
                                         <option value="displayVerifiableId2True">Visible</option>
                                         <option value="displayVerifiableId2False">Invisible</option>
                                     </select>
@@ -1272,11 +1264,13 @@
                                 <td style="text-align: center;">ldp_vc</td>
                                 <td>
                                     <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button onclick="copySpanText()">📋</button>
+                                    <button onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <td><img src="/static/img/Defi_compliance.svg" alt="Defi_compliance" width="90" height="50"></td>
                                 <td>
-                                    <select name="displayDefi" id="displayDefi" class="selectSetup">
+                                    <select name="displayDefi" id="displayDefi" class="selectSetupIssuer">
                                         <option value="displayDefiTrue">Visible</option>
                                         <option value="displayDefiFalse">Invisible</option>
                                     </select>
@@ -1290,11 +1284,13 @@
                                 <td style="text-align: center;">ldp_vc</td>
                                 <td>
                                     <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button onclick="copySpanText()">📋</button>
+                                    <button onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <td><img src="/static/img/Proof_of_humanity.svg" alt="Proof_of_humanity" width="90" height="50"></td>
                                 <td>
-                                    <select name="displayHumanity" id="displayHumanity" class="selectSetup">
+                                    <select name="displayHumanity" id="displayHumanity" class="selectSetupIssuer">
                                         <option value="displayHumanityTrue">Visible</option>
                                         <option value="displayHumanityFalse">Invisible</option>
                                     </select>
@@ -1308,11 +1304,13 @@
                                 <td style="text-align: center;">ldp_vc</td>
                                 <td>
                                     <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button onclick="copySpanText()">📋</button>
+                                    <button onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <td><img src="/static/img/Age_range.svg" alt="Age_range" width="90" height="50"></td>
                                 <td>
-                                    <select name="displayAgeRange" id="displayAgeRange" class="selectSetup">
+                                    <select name="displayAgeRange" id="displayAgeRange" class="selectSetupIssuer">
                                         <option value="displayAgeRangeTrue">Visible</option>
                                         <option value="displayAgeRangeFalse">Invisible</option>
                                     </select>
@@ -1326,11 +1324,13 @@
                                 <td style="text-align: center;">ldp_vc</td>
                                 <td>
                                     <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button onclick="copySpanText()">📋</button>
+                                    <button onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <td><img src="/static/img/Proof_of_gender.svg" alt="Proof_of_gender" width="90" height="50"></td>
                                 <td>
-                                    <select name="displayGender" id="displayGender" class="selectSetup">
+                                    <select name="displayGender" id="displayGender" class="selectSetupIssuer">
                                         <option value="displayGenderTrue">Visible</option>
                                         <option value="displayGenderFalse">Invisible</option>
                                     </select>
@@ -1344,11 +1344,13 @@
                                 <td style="text-align: center;">ldp_vc</td>
                                 <td>
                                     <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button onclick="copySpanText()">📋</button>
+                                    <button onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <td><img src="/static/img/tezotopia.svg" alt="tezotopia" width="90" height="50"></td>
                                 <td>
-                                    <select name="displayTezotopia" id="displayTezotopia" class="selectSetup">
+                                    <select name="displayTezotopia" id="displayTezotopia" class="selectSetupIssuer">
                                         <option value="displayTezotopiaTrue">Visible</option>
                                         <option value="displayTezotopiaFalse">Invisible</option>
                                     </select>
@@ -1362,11 +1364,13 @@
                                 <td style="text-align: center;">ldp_vc</td>
                                 <td>
                                     <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button onclick="copySpanText()">📋</button>
+                                    <button onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <td><img src="/static/img/chainborn.svg" alt="chainborn" width="90" height="50"></td>
                                 <td>
-                                    <select name="displayChainborn" id="displayChainborn" class="selectSetup">
+                                    <select name="displayChainborn" id="displayChainborn" class="selectSetupIssuer">
                                         <option value="displayChainbornTrue">Visible</option>
                                         <option value="displayChainbornFalse">Invisible</option>
                                     </select>
@@ -1406,7 +1410,9 @@
                                 <!-- Issuer contactt -->
                                 <td style="text-align: center;">
                                     <span id="issuerContact{{loop.index}}">{{row[7]}}</span>
-                                    <button onclick="copySpanTextTabExternalIssuer('{{loop.index}}')">📋</button>
+                                    <button onclick="copySpanTextTabExternalIssuer('{{loop.index}}')" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
                                 </td>
                                 <!-- Logo -->
                                 <!-- <td></td> -->
@@ -1414,7 +1420,7 @@
                                 <td></td>
                                 <!-- Status -->
                                 <td>
-                                    <select class="selectSetup" onchange="changeStatusExternalIssuer('{{row[0]}}','{{row[2]}}')"
+                                    <select class="selectSetupIssuer" onchange="changeStatusExternalIssuer('{{row[0]}}','{{row[2]}}')"
                                         id="statusIssuer{{row[0]}}">
                                         <option value="visible">Visible</option>
                                         <option value="invisible">Invisible</option>
@@ -1640,58 +1646,101 @@
     </div>
 
     <script>
+        //couleur Status visible/invisible
+        document.addEventListener("DOMContentLoaded", function() {
+        var selectElements = document.querySelectorAll('[id^="display"]');
+        
+        selectElements.forEach(function(selectElement) {
+            // Set the initial background color based on the selected option
+            updateSelectBackground(selectElement);
+
+            // Add an event listener to handle changes in selection
+            selectElement.addEventListener("change", function() {
+            updateSelectBackground(this);
+            });
+        });
+
+        function updateSelectBackground(element) {
+            var selectedValue = element.value;
+
+            // Remove existing classes
+            element.classList.remove("select-visible", "select-invisible");
+
+            // Add the appropriate class based on the selected option
+            if (selectedValue === "displayOver13True" || selectedValue === "displayOver15True" ||
+                selectedValue === "displayOver18True" || selectedValue === "displayOver18_2True" ||
+                selectedValue === "displayOver21True" || selectedValue === "displayOver50True" ||
+                selectedValue === "displayOver65True" || selectedValue === "displayVerifiableIdTrue" ||
+                selectedValue === "displayVerifiableId2True" || selectedValue === "displayDefiTrue" ||
+                selectedValue === "displayHumanityTrue" || selectedValue === "displayAgeRangeTrue" ||
+                selectedValue === "displayGenderTrue" || selectedValue === "displayTezotopiaTrue" ||
+                selectedValue === "displayChainbornTrue") {
+            element.classList.add("select-visible");
+            } else if (selectedValue === "displayOver13False" || selectedValue === "displayOver15False" ||
+                    selectedValue === "displayOver18False" || selectedValue === "displayOver18_2False" ||
+                    selectedValue === "displayOver21False" || selectedValue === "displayOver50False" ||
+                    selectedValue === "displayOver65False" || selectedValue === "displayVerifiableIdFalse" ||
+                    selectedValue === "displayVerifiableId2False" || selectedValue === "displayDefiFalse" ||
+                    selectedValue === "displayHumanityFalse" || selectedValue === "displayAgeRangeFalse" ||
+                    selectedValue === "displayGenderFalse" || selectedValue === "displayTezotopiaFalse" ||
+                    selectedValue === "displayChainbornFalse") {
+            element.classList.add("select-invisible");
+            }
+        }
+        });
+
         //Copie mail
         function copySpanText() {
-        // Get the span element
-        var spanText = document.getElementById("mySpan");
-                                
-        // Create a temporary input element
-        var tempInput = document.createElement("input");
+            // Get the span element
+            var spanText = document.getElementById("mySpan");
                                     
-        // Set the value of the temporary input to the text content of the span
-        tempInput.value = spanText.textContent;
-                                
-        // Append the temporary input to the body
-        document.body.appendChild(tempInput);
-                                
-        // Select the text in the temporary input
-        tempInput.select();
-        tempInput.setSelectionRange(0, 99999); // For mobile devices
-                                
-        // Copy the text inside the temporary input
-        document.execCommand("copy");
-                                
-        // Remove the temporary input from the DOM
-        document.body.removeChild(tempInput);
-                                
-        alert("The Issuer contact has been copied : " + spanText.textContent);
+            // Create a temporary input element
+            var tempInput = document.createElement("input");
+                                        
+            // Set the value of the temporary input to the text content of the span
+            tempInput.value = spanText.textContent;
+                                    
+            // Append the temporary input to the body
+            document.body.appendChild(tempInput);
+                                    
+            // Select the text in the temporary input
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999); // For mobile devices
+                                    
+            // Copy the text inside the temporary input
+            document.execCommand("copy");
+                                    
+            // Remove the temporary input from the DOM
+            document.body.removeChild(tempInput);
+                                    
+            alert("The Issuer contact has been copied : " + spanText.textContent);
         }
 
         //Copie mail external issuer
         function copySpanTextTabExternalIssuer(index) {
-        // Get the span element based on the index
-        var spanText = document.getElementById("issuerContact" + index);
+            // Get the span element based on the index
+            var spanText = document.getElementById("issuerContact" + index);
 
-        // Create a temporary input element
-        var tempInput = document.createElement("input");
-        
-        // Set the value of the temporary input to the text content of the span
-        tempInput.value = spanText.textContent;
+            // Create a temporary input element
+            var tempInput = document.createElement("input");
+            
+            // Set the value of the temporary input to the text content of the span
+            tempInput.value = spanText.textContent;
 
-        // Append the temporary input to the body
-        document.body.appendChild(tempInput);
+            // Append the temporary input to the body
+            document.body.appendChild(tempInput);
 
-        // Select the text in the temporary input
-        tempInput.select();
-        tempInput.setSelectionRange(0, 99999); // For mobile devices
+            // Select the text in the temporary input
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999); // For mobile devices
 
-        // Copy the text inside the temporary input
-        document.execCommand("copy");
+            // Copy the text inside the temporary input
+            document.execCommand("copy");
 
-        // Remove the temporary input from the DOM
-        document.body.removeChild(tempInput);
+            // Remove the temporary input from the DOM
+            document.body.removeChild(tempInput);
 
-        alert("The Issuer contact has been copied : " + spanText.textContent);
+            alert("The Issuer contact has been copied : " + spanText.textContent);
         }
 
         var updateIssuer;
@@ -1714,6 +1763,7 @@
             document.getElementById("websiteIssuer").value=""
 
         }
+
         resetIssuerForm()
         function openIssuerPopup(action, id) {
 
@@ -1764,7 +1814,6 @@
                 document.getElementById("overlay").setAttribute("class", "displayNone")
                 resetIssuerForm()
             }
-
         }
  
         function resetForm(){
@@ -1783,7 +1832,6 @@
                             document.getElementById("backgroundColorIssuer").value = ""
                             document.getElementById("privacyIssuer").value = "public"
         }
-
 
         function updateIssuerTable() {
             let data = {
@@ -1850,8 +1898,8 @@
                     })
                     .catch(error => console.error('Error:', error));
             }
-
         }
+
         function removeIssuer() {
             fetch('/remove_issuer_db', {
                 method: 'POST',
@@ -1875,6 +1923,7 @@
                 })
                 .catch(error => console.error('Error:', error));
         }
+
         function changeStatusExternalIssuer(idIssuer,nameIssuer) {
             let newStatus = document.getElementById("statusIssuer" + idIssuer).value
             console.log("setting issuer " + idIssuer + " to " + newStatus)
@@ -1891,9 +1940,8 @@
             })
                 .then(response => { console.log(response.status);vNotify.info({ text: 'Issuer '+nameIssuer+" set to "+newStatus, title: 'Info', sticky: true }); })
                 .catch(error => console.error('Error:', error));
-
-
         }
+
         function modifyIssuer(id, owner) {
             if (owner === "1") {
                 console.log("owner")
@@ -1983,7 +2031,7 @@
         document.getElementById("clientAuthentication").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["clientAuthentication"]}}"
         document.getElementById("client_id").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_id"]}}"
         document.getElementById("client_secret").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_secret"]}}"
-        document.getElementById("VC_format").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["VC_format"]}}"
+        document.getElementById("vcFormat").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["vcFormat"]}}"
 
         document.getElementById("displayChatSupport{{config["helpCenterOptions"]["displayChatSupport"]}}").checked = true
         document.getElementById("customChatSupport{{config["helpCenterOptions"]["customChatSupport"]}}").checked = true
