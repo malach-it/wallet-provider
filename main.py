@@ -462,7 +462,8 @@ def set_config():
         "customChatSupportName"]
     wallet_provider_configuration["helpCenterOptions"]["customEmail"] = request.form.to_dict()[
         "customEmail"]
-    
+    print("resultat","1")
+    print(request.form.to_dict().get("displayExternalIssuer"))
     if request.form.to_dict()["displayOver13"] == "displayOver13False":
         wallet_provider_configuration["discoverCardsOptions"]["displayOver13"] = False
     else:
@@ -539,6 +540,11 @@ def set_config():
         wallet_provider_configuration["discoverCardsOptions"]["displayChainborn"] = False
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayChainborn"] = True
+
+    # if request.form.to_dict()["displayExternalIssuer"] == "displayExternalIssuerFalse":
+    #     wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = False
+    # else:
+    #     wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = True
 
     try:
         issuers = json.loads(db.read_issuers_config(session["organisation"]))
@@ -837,6 +843,7 @@ def change_issuer_config():
     organisation = session.get("organisation")
     new_status = request.get_json()["newStatus"]
     id = request.get_json()["id"]
+    print("status=",new_status, "id=",id)
     if new_status == "visible":
         config = db.read_config_from_organisation(organisation)
         issuer = json.loads(db.read_issuer(id)[0])
@@ -861,6 +868,7 @@ def change_issuer_config():
     elif new_status == "invisible":
         config = db.read_config_from_organisation(organisation)
         config["discoverCardsOptions"]["displayExternalIssuer"] = [d for d in config["discoverCardsOptions"]["displayExternalIssuer"] if d.get("issuer_id") != id]
+        print(config["discoverCardsOptions"]["displayExternalIssuer"])
         db.update_config(json.dumps(config), organisation)
     return "ok"
 

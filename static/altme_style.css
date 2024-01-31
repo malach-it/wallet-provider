@@ -2015,13 +2015,13 @@ input[type="color"] {
     -webkit-appearance: button;
     appearance: button;
     outline: none;
-    background-color: rgb(91, 35, 174); /* Default background color */
+    background-color: #8d1bd9; /* Default background color */
   }
   
-  .select-invisible.selectSetupIssuer {
-  background-color: #d1cce3;
+.select-visible.selectSetupIssuer {
+   background-color: #00B267;
 }
 
-.select-visible.selectSetupIssuer {
-  background-color: #00B267;
+.select-invisible.selectSetupIssuer {
+  background-color: #d1cce3;
 }
