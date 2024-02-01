@@ -509,6 +509,26 @@ def set_config():
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableIdJwt"] = True
 
+    if request.form.to_dict()["displayEmailPass"] == "displayEmailPassFalse":
+        wallet_provider_configuration["discoverCardsOptions"]["displayEmailPass"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayEmailPass"] = True
+    
+    if request.form.to_dict()["displayEmailPassJwt"] == "displayEmailPassJwtFalse":
+        wallet_provider_configuration["discoverCardsOptions"]["displayEmailPassJwt"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayEmailPassJwt"] = True
+
+    if request.form.to_dict()["displayPhonePass"] == "displayPhonePassFalse":
+        wallet_provider_configuration["discoverCardsOptions"]["displayPhonePass"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayPhonePass"] = True
+
+    if request.form.to_dict()["displayPhonePassJwt"] == "displayPhonePassJwtFalse":
+        wallet_provider_configuration["discoverCardsOptions"]["displayPhonePassJwt"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayPhonePassJwt"] = True
+
     if request.form.to_dict()["displayDefi"] == "displayDefiFalse":
         wallet_provider_configuration["discoverCardsOptions"]["displayDefi"] = False
     else:
@@ -518,6 +538,11 @@ def set_config():
         wallet_provider_configuration["discoverCardsOptions"]["displayHumanity"] = False
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayHumanity"] = True
+
+    if request.form.to_dict()["displayHumanityJwt"] == "displayHumanityJwtFalse":
+        wallet_provider_configuration["discoverCardsOptions"]["displayHumanityJwt"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayHumanityJwt"] = True
 
     if request.form.to_dict()["displayAgeRange"] == "displayAgeRangeFalse":
         wallet_provider_configuration["discoverCardsOptions"]["displayAgeRange"] = False

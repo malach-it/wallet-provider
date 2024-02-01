@@ -1258,6 +1258,88 @@
                             </tr>
 
                             <tr class="talaoIssuersRow">
+                                <td class="robotoBold">Proof of Email</td>
+                                <td>Prove your email</td>
+                                <td style="text-align: center;">Identity cards</td>
+                                <td style="text-align: center;">ldp_vc</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button type="button" onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
+                                </td>
+                                <td><img src="/static/img/Proof_of_mail.svg" alt="displayEmailPass" width="90" height="50"></td>
+                                <td>
+                                    <select name="displayEmailPass" id="displayEmailPass" class="selectSetupIssuer">
+                                        <option value="displayEmailPassTrue">Visible</option>
+                                        <option value="displayEmailPassFalse">Invisible</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr class="talaoIssuersRow">
+                                <td class="robotoBold">Proof of Email</td>
+                                <td>Prove your email</td>
+                                <td style="text-align: center;">Identity cards</td>
+                                <td style="text-align: center;">jwt_vc_json</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button type="button" onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
+                                </td>
+                                <td><img src="/static/img/Proof_of_mail.svg" alt="displayEmailPass" width="90" height="50"></td>
+                                <td>
+                                    <select name="displayEmailPassJwt" id="displayEmailPassJwt" class="selectSetupIssuer">
+                                        <option value="displayEmailPassJwtTrue">Visible</option>
+                                        <option value="displayEmailPassJwtFalse">Invisible</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr class="talaoIssuersRow">
+                                <td class="robotoBold">Proof of phone number</td>
+                                <td>Prove your phone number</td>
+                                <td style="text-align: center;">Identity cards</td>
+                                <td style="text-align: center;">ldp_vc</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button type="button" onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
+                                </td>
+                                <td><img src="/static/img/Proof_of_phone.svg" alt="Proof_of_phone" width="90" height="50"></td>
+                                <td>
+                                    <select name="displayPhonePass" id="displayPhonePass" class="selectSetupIssuer">
+                                        <option value="displayPhonePassTrue">Visible</option>
+                                        <option value="displayPhonePassFalse">Invisible</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr class="talaoIssuersRow">
+                                <td class="robotoBold">Proof of phone number</td>
+                                <td>Prove your phone number</td>
+                                <td style="text-align: center;">Identity cards</td>
+                                <td style="text-align: center;">jwt_vc_json</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button type="button" onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
+                                </td>
+                                <td><img src="/static/img/Proof_of_phone.svg" alt="Proof_of_phone" width="90" height="50"></td>
+                                <td>
+                                    <select name="displayPhonePassJwt" id="displayPhonePassJwt" class="selectSetupIssuer">
+                                        <option value="displayPhonePassJwtTrue">Visible</option>
+                                        <option value="displayPhonePassJwtFalse">Invisible</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+
+
+                            <tr class="talaoIssuersRow">
                                 <td class="robotoBold">Defi Compliance</td>
                                 <td>Prove you are defi compliant</td>
                                 <td style="text-align: center;">Identity cards</td>
@@ -1293,6 +1375,26 @@
                                     <select name="displayHumanity" id="displayHumanity" class="selectSetupIssuer">
                                         <option value="displayHumanityTrue">Visible</option>
                                         <option value="displayHumanityFalse">Invisible</option>
+                                    </select>
+                                </td>
+                            </tr>
+
+                            <tr class="talaoIssuersRow">
+                                <td class="robotoBold">Proof of humanity</td>
+                                <td>Prove you are an human being</td>
+                                <td style="text-align: center;">Identity cards</td>
+                                <td style="text-align: center;">jwt_vc_json</td>
+                                <td>
+                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
+                                    <button type="button" onclick="copySpanText()" style="background: none; border: none; padding: 0;">
+                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
+                                    </button>
+                                </td>
+                                <td><img src="/static/img/Proof_of_humanity.svg" alt="Proof_of_humanity" width="90" height="50"></td>
+                                <td>
+                                    <select name="displayHumanityJwt" id="displayHumanityJwt" class="selectSetupIssuer">
+                                        <option value="displayHumanityJwtTrue">Visible</option>
+                                        <option value="displayHumanityJwtFalse">Invisible</option>
                                     </select>
                                 </td>
                             </tr>
@@ -1422,7 +1524,7 @@
                                 <td style="text-align: center;">{{row[5]}}</td>
                                 <!-- Issuer URL -->
                                 <!-- <td>{{row[6]}}</td> -->
-                                <!-- Issuer contactt -->
+                                <!-- Issuer contact -->
                                 <td style="text-align: center;">
                                     <script>
                                         var issuerContactText = "{{row[7]}}";
@@ -1438,19 +1540,15 @@
                                 <!-- Logo -->
                                 <!-- <td></td> -->
                                 <!-- Image -->
+                                <!-- <td>
+                                    {{ row[1] }} {{ row[2] }} {{ row[3] }} {{ row[4] }} {{ row[5] }} {{ row[6] }} {{ row[7] }} {{ row[8] }} {{ row[9] }} {{ row[10] }} {{ row[11] }} {{ row[12] }} {{ row[13] }} 
+                                </td>                 -->
                                 <td>
                                     {% if row[12] %}
-                                        <script>
-                                            console.log("Background URL:", "{{ row[12].background_url }}");
-
-                                            if ("{{ row[12].background_url }}") {
-                                                document.write('<img src="{{ row[12].background_url }}" alt="Background Image" style="width: 100px; height: 60px;">');
-                                            } else {
-                                                document.write("No Image");
-                                            }
-                                        </script>
+                                        <img src="{{ row[12].background_url }}" alt="Issuer Image" style="width: 50px; height: 50px;">
                                     {% endif %}
                                 </td>
+                                
                                 <!-- Status -->
                                 <td>
                                     <select class="selectSetupIssuer select-{{ 'visible' if row[10] == 1 else 'invisible' }}" 
@@ -1729,19 +1827,23 @@
                 selectedValue === "displayOver18True" || selectedValue === "displayOver18_2True" ||
                 selectedValue === "displayOver21True" || selectedValue === "displayOver50True" ||
                 selectedValue === "displayOver65True" || selectedValue === "displayVerifiableIdTrue" ||
-                selectedValue === "displayVerifiableId2True" || selectedValue === "displayDefiTrue" ||
-                selectedValue === "displayHumanityTrue" || selectedValue === "displayAgeRangeTrue" ||
-                selectedValue === "displayGenderTrue" || selectedValue === "displayTezotopiaTrue" ||
-                selectedValue === "displayChainbornTrue") {
+                selectedValue === "displayVerifiableId2True" || selectedValue === "displayEmailPassTrue" ||
+                selectedValue === "displayEmailPassJwtTrue" || selectedValue === "displayPhonePassTrue" ||
+                selectedValue === "displayPhonePassJwtTrue"|| selectedValue === "displayDefiTrue" ||
+                selectedValue === "displayHumanityTrue" || selectedValue === "displayHumanityJwtTrue"|| 
+                selectedValue === "displayAgeRangeTrue" || selectedValue === "displayGenderTrue" || 
+                selectedValue === "displayTezotopiaTrue" || selectedValue === "displayChainbornTrue") {
             element.classList.add("select-visible");
             } else if (selectedValue === "displayOver13False" || selectedValue === "displayOver15False" ||
                     selectedValue === "displayOver18False" || selectedValue === "displayOver18_2False" ||
                     selectedValue === "displayOver21False" || selectedValue === "displayOver50False" ||
                     selectedValue === "displayOver65False" || selectedValue === "displayVerifiableIdFalse" ||
-                    selectedValue === "displayVerifiableId2False" || selectedValue === "displayDefiFalse" ||
-                    selectedValue === "displayHumanityFalse" || selectedValue === "displayAgeRangeFalse" ||
-                    selectedValue === "displayGenderFalse" || selectedValue === "displayTezotopiaFalse" ||
-                    selectedValue === "displayChainbornFalse") {
+                    selectedValue === "displayVerifiableId2False" || selectedValue === "displayEmailPassFalse" ||
+                    selectedValue === "displayEmailPassJwtFalse" || selectedValue === "displayPhonePassFalse" ||
+                    selectedValue === "displayPhonePassJwtFalse"|| selectedValue === "displayDefiFalse" ||
+                    selectedValue === "displayHumanityFalse" ||  selectedValue === "displayHumanityJwtFalse" ||
+                    selectedValue === "displayAgeRangeFalse" || selectedValue === "displayGenderFalse" || 
+                    selectedValue === "displayTezotopiaFalse" || selectedValue === "displayChainbornFalse") {
             element.classList.add("select-invisible");
             }
         }
@@ -2155,8 +2257,13 @@
         document.getElementById("displayOver65").value = "displayOver65{{config["discoverCardsOptions"]["displayOver65"]}}"
         document.getElementById("displayVerifiableId").value = "displayVerifiableId{{config["discoverCardsOptions"]["displayVerifiableId"]}}"
         document.getElementById("displayVerifiableId2").value = "displayVerifiableId2{{config["discoverCardsOptions"]["displayVerifiableIdJwt"]}}"
+        document.getElementById("displayEmailPass").value = "displayEmailPass{{config["discoverCardsOptions"]["displayEmailPass"]}}"
+        document.getElementById("displayEmailPassJwt").value = "displayEmailPassJwt{{config["discoverCardsOptions"]["displayEmailPassJwt"]}}"
+        document.getElementById("displayPhonePass").value = "displayPhonePass{{config["discoverCardsOptions"]["displayPhonePass"]}}"
+        document.getElementById("displayPhonePassJwt").value = "displayPhonePassJwt{{config["discoverCardsOptions"]["displayPhonePassJwt"]}}"
         document.getElementById("displayDefi").value = "displayDefi{{config["discoverCardsOptions"]["displayDefi"]}}"
         document.getElementById("displayHumanity").value = "displayHumanity{{config["discoverCardsOptions"]["displayHumanity"]}}"
+        document.getElementById("displayHumanityJwt").value = "displayHumanityJwt{{config["discoverCardsOptions"]["displayHumanityJwt"]}}"
         document.getElementById("displayGender").value = "displayGender{{config["discoverCardsOptions"]["displayGender"]}}"
         document.getElementById("displayTezotopia").value = "displayTezotopia{{config["discoverCardsOptions"]["displayTezotopia"]}}"
         document.getElementById("displayChainborn").value = "displayChainborn{{config["discoverCardsOptions"]["displayChainborn"]}}"
