@@ -1,5 +1,5 @@
 {
-    "version": "1.17",
+    "version": "1.18",
     "generalOptions": {
         "walletType": "altme",
         "companyName": "Altme",
@@ -49,9 +49,11 @@
         "oidv4vcProfile": "",
         "customOidc4vcProfile": {
             "vcFormat": "ldp_vc",
+            "proofHeader": "kid",
+            "proofType": "jwt",
             "securityLevel": false,
             "clientAuthentication": "client_id",
-            "credentialManifestSupport": true,
+            "credentialManifestSupport": false,
             "userPinDigits": "4",
             "defaultDid": "did:key:p-256",
             "subjectSyntaxeType": "did",
@@ -90,6 +92,7 @@
         "displayGender": false,
         "displayVerifiableId": true,
         "displayVerifiableIdJwt": true,
+        "displayVerifiableIdSdJwt": true,
         "displayHumanity": true,
         "displayHumanityJwt": true,
         "displayDefi": false,

@@ -446,33 +446,6 @@
                         </div>
                     </div>
 
-                    <p class="title">Self Sovereign Identity Options</p>
-                    <div class="line1Setup">
-                        <div class="optionDiv">
-                            <p class="optionDivMainTitle">2.8 Display Manage decentralized ID menu in Self Sovereign
-                                Identity screen</p>
-                            <p class="optionDivSecondTitle">If checked the Manage Decentralized ID menu is displayed in
-                                the Self Sovereign Identity screen</p>
-                            <div class="optionsDivRow">
-
-                                <div class="labelAndButton">
-
-                                    <label for="displayManageDecentralizedIdTrue" class="optionLabel">Yes</label>
-                                    <input type="radio" id="displayManageDecentralizedIdTrue"
-                                        name="displayManageDecentralizedId" value="displayManageDecentralizedIdTrue"
-                                        autocomplete="off">
-                                </div>
-                                <div class="labelAndButton">
-
-                                    <label for="displayManageDecentralizedIdFalse" class="optionLabel">No</label>
-                                    <input type="radio" id="displayManageDecentralizedIdFalse"
-                                        name="displayManageDecentralizedId" value="displayManageDecentralizedIdFalse"
-                                        checked autocomplete="off">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
                     <div class="buttonsStep">
                         <button type="button" class="previousStep" onclick="goStep1()">Previous step</button>
                         <input class="submit" type="submit" value="Set up configuration now">
@@ -593,331 +566,461 @@
 
                 </div>
                 <div id="step4Div" class="displayNone">
+                    <p class="title">Self Sovereign Identity Options</p>
+
                     
-                    <p class="title">Custom Self Sovereign Identity profile options</p>
-
                     <div class="line1Setup">
-
-
+                        <!-- Custom wallet SSI bouton -->
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">4.1 Security level</p>
-                            <p class="optionDivSecondTitle">If Low, wallet does not check signature of jwt client
-                                request</p>
-                            <div class="optionsDivRow">
-                                <div class="labelAndButton">
-
-                                    <p class="optionLabel">Permissive</p><input type="radio" id="permissive"
-                                        name="securityLevel" value="permissive" checked>
-                                </div>
-                                <div class="labelAndButton">
-
-                                    <p class="optionLabel">Strict</p><input type="radio" id="strict"
-                                        name="securityLevel" value="strict">
-                                </div>
-                            </div>
-
+                            <img src="/static/img/Custom_SSI.svg" alt="Custom_SSI" width="40" height="40">
+                            <p class="optionDivMainTitle">Custom advanced settings (Recommended for experienced users)</p>
+                            <p class="optionDivSecondTitle">Choose your whole wallet Profile configuration : DID Method, Client Authentication method...</p>
+                            <br>
+                            <button onclick="afficherCustom_SSI()">Select Custom SSI</button>
                         </div>
+                    
+                        <!-- EBSI SSI bouton -->
                         <div class="optionDiv">
-                            <p class="optionDivMainTitle">4.2 Credential manifest support</p>
-                            <p class="optionDivSecondTitle"></p>
-
-                            <div class="optionsDivRow">
-
-                                <div class="labelAndButton">
-
-                                    <label for="credentialManifestSupportTrue" class="optionLabel">Yes</label>
-                                    <input type="radio" id="credentialManifestSupportTrue"
-                                        name="credentialManifestSupport" value="credentialManifestSupportTrue"
-                                        autocomplete="off">
-                                </div>
-                                <div class="labelAndButton">
-
-                                    <label for="credentialManifestSupportFalse" class="optionLabel">No</label>
-                                    <input type="radio" id="credentialManifestSupportFalse"
-                                        name="credentialManifestSupport" value="credentialManifestSupportFalse" checked
-                                        autocomplete="off">
-                                </div>
-                            </div>
+                            <img src="/static/img/EBSI_SSI.svg" alt="EBSI_SSI" width="69" height="26">
+                            <p class="optionDivMainTitle">European Blockchain Services Infrastructure (EBSI)</p>
+                            <p class="optionDivSecondTitle">
+                                <a href="https://ec.europa.eu/digital-building-blocks/sites/display/EBSl/Home" target="_blank">
+                                    https://ec.europa.eu/digital-building-blocks/sites/display/EBSl/Home
+                                </a>
+                            </p>
+                            <br>
+                            <button onclick="afficherEBSI_SSI()">Select EBSI SSI</button>
                         </div>
-                        <!-- <div class="optionDiv">
-                            <p class="optionDivMainTitle">4.4 User PIN digits</p>
-                            <p class="optionDivSecondTitle">4 or 6 digits for pre authorized code flow PIN code.</p>
-                            <div class="optionsDivRow">
-                                <div class="labelAndButton">
+                   
+                        <!-- DIIP SSI bouton -->
+                        <div class="optionDiv">
+                            <img src="/static/img/DIPP_SSI.svg" alt="DIPP_SSI" width="40" height="40">
+                            <p class="optionDivMainTitle">Decentralized Identity Interop Profil (DIIP)</p>
+                            <p class="optionDivSecondTitle">
+                                <a href="https://dutchblockchaincoalition.org/en/bouwstenen-2/diip-2" target="_blank">
+                                    https://dutchblockchaincoalition.org/en/bouwstenen-2/diip-2
+                                </a>
+                            </p>
+                            <br>
+                            <button onclick="afficherDIIP_SSI()">Select DIIP SSI</button>
+                        </div>
 
-                                    <p class="optionLabel">4</p><input type="radio" id="four" name="userPinDigits"
-                                        value="4" checked>
-                                </div>
-                                <div class="labelAndButton">
+                        <!-- OWF SSI bouton -->
+                        <div class="optionDiv">
+                            <img src="/static/img/OWF_SSI.svg" alt="OWF_SSI" width="40" height="40">
+                            <p class="optionDivMainTitle">OWF Baseline Profile</p>
+                            <p class="optionDivSecondTitle">
+                                <a href="OWF_SSI.com" target="_blank"> OWF LINK </a>
+                            </p>
+                            <br>
+                            <button onclick="afficherOWF_SSI()">Select OWF Baseline</button>
+                        </div>
+                    
 
-                                    <p class="optionLabel">6</p><input type="radio" id="six" name="userPinDigits"
-                                        value="6">
+                    <div id="Custom_SSI" style="display: none;">
+                        <div class="line1Setup">
+                            <div class="optionDiv">
+                                <p class="optionDivMainTitle">4.1 Display Manage decentralized ID menu in Self Sovereign
+                                    Identity screen</p>
+                                <p class="optionDivSecondTitle">If checked the Manage Decentralized ID menu is displayed in
+                                    the Self Sovereign Identity screen</p>
+                                <div class="optionsDivRow">
+
+                                    <div class="labelAndButton">
+
+                                        <label for="displayManageDecentralizedIdTrue" class="optionLabel">Yes</label>
+                                        <input type="radio" id="displayManageDecentralizedIdTrue"
+                                            name="displayManageDecentralizedId" value="displayManageDecentralizedIdTrue"
+                                            autocomplete="off">
+                                    </div>
+                                    <div class="labelAndButton">
+
+                                        <label for="displayManageDecentralizedIdFalse" class="optionLabel">No</label>
+                                        <input type="radio" id="displayManageDecentralizedIdFalse"
+                                            name="displayManageDecentralizedId" value="displayManageDecentralizedIdFalse"
+                                            checked autocomplete="off">
+                                    </div>
                                 </div>
                             </div>
-                        </div> -->
-                    </div>
+                            <!--
+                            <div class="optionDiv">
+                                <p class="optionDivMainTitle">5.2 Display advanced settings option menu in Self Sovereign Identity screen</p>
+                                <p class="optionDivSecondTitle">If checked the Advanced Settings option is displayed in the
+                                    Self Sovereign Identity screen</p>
+                                <div class="optionsDivRow">
 
-                    <div id="customProfileDiv">
+                                    <div class="labelAndButton">
 
+                                        <label for="displaySsiAdvancedSettingsTrue" class="optionLabel">Yes</label>
+                                        <input type="radio" id="displaySsiAdvancedSettingsTrue"
+                                            name="displaySsiAdvancedSettings" value="displaySsiAdvancedSettingsTrue"
+                                            autocomplete="off">
+                                    </div>
+                                    <div class="labelAndButton">
+
+                                        <label for="displaySsiAdvancedSettingsFalse" class="optionLabel">No</label>
+                                        <input type="radio" id="displaySsiAdvancedSettingsFalse"
+                                            name="displaySsiAdvancedSettings" value="displaySsiAdvancedSettingsFalse"
+                                            checked autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="optionDiv">
+                                <p class="optionDivMainTitle">5.3 Display verifiable data registry menu in Self Sovereign Identity screen</p>
+                                <p class="optionDivSecondTitle">If checked the Verifiable Data Registry menu is displayed in
+                                    the Self Sovereign Identity screen.</p>
+                                <div class="optionsDivRow">
+
+                                    <div class="labelAndButton">
+
+                                        <label for="displayVerifiableDataRegistryTrue" class="optionLabel">Yes</label>
+                                        <input type="radio" id="displayVerifiableDataRegistryTrue"
+                                            name="displayVerifiableDataRegistry" value="displayVerifiableDataRegistryTrue"
+                                            autocomplete="off">
+                                    </div>
+                                    <div class="labelAndButton">
+
+                                        <label for="displayVerifiableDataRegistryFalse" class="optionLabel">No</label>
+                                        <input type="radio" id="displayVerifiableDataRegistryFalse"
+                                            name="displayVerifiableDataRegistry" value="displayVerifiableDataRegistryFalse"
+                                            checked autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>-->
+                        </div>
+                        <p class="title">Custom Self Sovereign Identity profile options</p>
 
                         <div class="line1Setup">
 
 
                             <div class="optionDiv">
-                                <p class="optionDivMainTitle">4.3 Default DID Method</p>
-                                <p class="optionDivSecondTitle">DID of the wallet</p>
-                                <select class="selectSetup" id="defaultDid" name="defaultDid">
-                                    <option value="did:key:eddsa">did:key:eddsa</option>
-                                    <option value="did:key:ebsi">did:key:ebsi</option>
-                                    <option value="did:jwk:p-256">did:jwk:p-256</option>
-                                    <option value="did:key:secp256k1">did:key:secp256k1</option>
-                                    <option value="did:key:p-256">did:key:p-256</option> 
-                                </select>
-                            </div>
-                            <div class="optionDiv">
-                                <p class="optionDivMainTitle">4.4 OIDC4VCI Client Type</p>
-                                <p class="optionDivSecondTitle">When the Subject Syntax Type is JWK Thumbprint, the
-                                    valid value is urn:ietf:params:oauth:jwk-thumbprint. When the Subject Syntax Type is
-                                    a Decentralized Identifier, valid values MUST be done </p>
-                                <a class="linkSetup"
-                                    href="https://openid.net/specs/openid-connect-self-issued-v2-1_0.html#name-subject-syntax-types">Subject
-                                    syntax documentation</a>
+                                <p class="optionDivMainTitle">4.2 Security level</p>
+                                <p class="optionDivSecondTitle">If Low, wallet does not check signature of jwt client
+                                    request</p>
                                 <div class="optionsDivRow">
                                     <div class="labelAndButton">
-                                        <p class="optionLabel">did</p>
-                                        <input type="radio" id="did" name="subjectSyntaxeType" value="did" checked>
-                                    </div>
 
-                                    <div class="labelAndButton">
-                                        <p class="optionLabel">urn:ietf:params:oauth:jwk-thumbprint</p>
-                                        <input type="radio" id="urn:ietf:params:oauth:jwk-thumbprint"
-                                            name="subjectSyntaxeType" value="urn:ietf:params:oauth:jwk-thumbprint">
+                                        <p class="optionLabel">Permissive</p><input type="radio" id="permissive"
+                                            name="securityLevel" value="permissive" checked>
                                     </div>
-
                                     <div class="labelAndButton">
 
-                                        <p class="optionLabel">confidential</p>
-                                        <input type="radio" id="confidential" name="subjectSyntaxeType" value="confidential">
+                                        <p class="optionLabel">Strict</p><input type="radio" id="strict"
+                                            name="securityLevel" value="strict">
                                     </div>
                                 </div>
+
+                            </div>
+                            <div class="optionDiv">
+                                <p class="optionDivMainTitle">4.3 Credential manifest support</p>
+                                <p class="optionDivSecondTitle"></p>
+
+                                <div class="optionsDivRow">
+
+                                    <div class="labelAndButton">
+
+                                        <label for="credentialManifestSupportTrue" class="optionLabel">Yes</label>
+                                        <input type="radio" id="credentialManifestSupportTrue"
+                                            name="credentialManifestSupport" value="credentialManifestSupportTrue"
+                                            autocomplete="off">
+                                    </div>
+                                    <div class="labelAndButton">
+
+                                        <label for="credentialManifestSupportFalse" class="optionLabel">No</label>
+                                        <input type="radio" id="credentialManifestSupportFalse"
+                                            name="credentialManifestSupport" value="credentialManifestSupportFalse" checked
+                                            autocomplete="off">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="optionDiv">
+                                <p class="optionDivMainTitle">4.4 User PIN digits</p>
+                                <p class="optionDivSecondTitle">4 or 6 digits for pre authorized code flow PIN code.</p>
+                                <div class="optionsDivRow">
+                                    <div class="labelAndButton">
+
+                                        <p class="optionLabel">4</p><input type="radio" id="four" name="userPinDigits"
+                                            value="4" checked>
+                                    </div>
+                                    <div class="labelAndButton">
+
+                                        <p class="optionLabel">6</p><input type="radio" id="six" name="userPinDigits"
+                                            value="6">
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
 
-                        <!--
-                    <div class="optionDiv">
-                        <p>CRV</p>
-                        <p>P-256</p><input type="radio" name="crv" value="P-256">
-                        <p>secp256k1</p><input type="radio" name="crv" value="  secp256k1" checked>
-                        <p>Ed25519</p><input type="radio" name="crv" value="Ed25519">
-                    </div>
-                -->
-                        <div class="line1Setup">
+                        <div id="customProfileDiv">
 
 
-
-                            <div class="optionDiv">
-                                <p class="optionDivMainTitle">4.5 Cryptographic Holder Binding</p>
-                                <p class="optionDivSecondTitle">Disable cryptograpĥic binding for claim based binding credentials</p>
-                                <div class="optionsDivRow">
-
-                                    <div class="labelAndButton">
-                                        <label for="cryptoHolderBindingTrue" class="optionLabel">Yes</label>
-                                        <input type="radio" id="cryptoHolderBindingTrue" name="cryptoHolderBinding"
-                                            value="cryptoHolderBindingTrue" checked >
-                                    </div>
-
-                                    <div class="labelAndButton">
-                                        <label for="cryptoHolderBindingFalse" class="optionLabel">No</label>
-                                        <input type="radio" id="cryptoHolderBindingFalse" name="cryptoHolderBinding"
-                                            value="cryptoHolderBindingFalse" >
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="optionDiv">
-                                <p class="optionDivMainTitle">4.6 Scope parameters</p>
-                                <p class="optionDivSecondTitle">If checked use scope parameters to request credential
-                                    issuance.
-                                </p>
-                                <a class="linkSetup"
-                                    href="https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#request_scope">Scope
-                                    documentation</a>
-                                <div class="optionsDivRow">
-
-                                    <div class="labelAndButton">
-
-                                        <label for="scopeTrue" class="optionLabel">Yes</label>
-                                        <input type="radio" id="scopeTrue" name="scope" value="scopeTrue"
-                                            autocomplete="off" >
-                                    </div>
-                                    <div class="labelAndButton">
-
-                                        <label for="scopeFalse" class="optionLabel">No</label>
-                                        <input type="radio" id="scopeFalse" name="scope" value="scopeFalse" checked
-                                            autocomplete="off" >
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="line1Setup">
+                            <div class="line1Setup">
 
 
-
-
-                            <div class="optionDiv">
-                                <p class="optionDivMainTitle">4.7 Client authentication method</p>
-                                <p class="optionDivSecondTitle">Client authentication method as public client or
-                                    confidential client</p>
-                                <a class="linkSetup" href="https://www.rfc-editor.org/rfc/rfc6749#section-2.3">Client
-                                    authentication documentation</a>
-                                <a class="linkSetup"
-                                    href="https://datatracker.ietf.org/doc/html/draft-looker-oauth-attestation-based-client-auth">Attestation-Based
-                                    Client Authentication documentation</a>
-
-                                <div class="optionsDivRow">
-
-                                    <select class="selectSetup" id="clientAuthentication" name="clientAuthentication">
-                                        <option value="none">None</option>
-                                        <option value="client_secret_basic">Client secret basic</option>
-                                        <option value="client_secret_post">Client secret post </option>
-                                        <option value="client_secret_jwt">Wallet attestation</option>
-                                        <option value="client_id">Client id</option>
-
+                                <div class="optionDiv">
+                                    <p class="optionDivMainTitle">4.5 Default DID Method</p>
+                                    <p class="optionDivSecondTitle">DID of the wallet</p>
+                                    <select class="selectSetup" id="defaultDid" name="defaultDid">
+                                        <option value="did:key:eddsa">did:key:eddsa</option>
+                                        <option value="did:key:ebsi">did:key:ebsi</option>
+                                        <option value="did:jwk:p-256">did:jwk:p-256</option>
+                                        <option value="did:key:secp256k1">did:key:secp256k1</option>
+                                        <option value="did:key:p-256">did:key:p-256</option> 
                                     </select>
-                                    <div id="basicAuthDiv">
-                                        <input type="text" class="inputTextSetup" placeholder="client_id"
-                                            name="client_id" id="client_id">
-                                        <input placeholder="client_secret" type="text" class="inputTextSetup"
-                                            name="client_secret" id="client_secret">
+                                </div>
+                                <div class="optionDiv">
+                                    <p class="optionDivMainTitle">4.6 Subject syntax</p>
+                                    <p class="optionDivSecondTitle">When the Subject Syntax Type is JWK Thumbprint, the
+                                        valid value is urn:ietf:params:oauth:jwk-thumbprint. When the Subject Syntax Type is
+                                        a Decentralized Identifier, valid values MUST be done </p>
+                                    <a class="linkSetup"
+                                        href="https://openid.net/specs/openid-connect-self-issued-v2-1_0.html#name-subject-syntax-types">Subject
+                                        syntax documentation</a>
+                                    <div class="optionsDivRow">
+                                        <div class="labelAndButton">
+
+                                            <p class="optionLabel">did</p>
+
+                                            <input type="radio" id="did" name="subjectSyntaxeType" value="did" checked>
+                                        </div>
+                                        <div class="labelAndButton">
+
+                                            <p class="optionLabel">urn:ietf:params:oauth:jwk-thumbprint</p>
+                                            <input type="radio" id="urn:ietf:params:oauth:jwk-thumbprint"
+                                                name="subjectSyntaxeType" value="urn:ietf:params:oauth:jwk-thumbprint">
+                                        </div>
                                     </div>
                                 </div>
-                                <script>
-                                    // Fonction pour basculer la visibilité de la zone de texte
-                                    function toggleBasicAuthDiv() {
-                                        var clientAuthentication = document.getElementById('clientAuthentication');
-                                        var basicAuthDiv = document.getElementById('basicAuthDiv');
-                                
-                                        // Cache la zone de texte si la méthode de client sélectionnée est "none", "client_id", ou "wallet attestation"
-                                        basicAuthDiv.style.display = (clientAuthentication.value === "none" || clientAuthentication.value === "client_id" || clientAuthentication.value === "client_secret_jwt") ? "none" : "block";
-                                    }
-                                
-                                    // Ajoute un gestionnaire d'événements au changement de la sélection
-                                    document.getElementById('clientAuthentication').addEventListener('change', toggleBasicAuthDiv);
-                                
-                                    // Appel initial pour garantir que la visibilité est correcte lors du chargement de la page
-                                    toggleBasicAuthDiv();
-                                </script>
                             </div>
 
-
+                            <!--
+                        <div class="optionDiv">
+                            <p>CRV</p>
+                            <p>P-256</p><input type="radio" name="crv" value="P-256">
+                            <p>secp256k1</p><input type="radio" name="crv" value="  secp256k1" checked>
+                            <p>Ed25519</p><input type="radio" name="crv" value="Ed25519">
                         </div>
-
-                        <div class="line1Setup">
-
-                            <div class="optionDiv">
-                                <p class="optionDivMainTitle">4.8 Standard OIDC4VCI Draft version</p>
+                    -->
+                            <div class="line1Setup">
 
 
 
+                                <div class="optionDivDisabled">
+                                    <p class="optionDivMainTitle">4.7 Cryptographic Holder Binding</p>
+                                    <p class="optionDivSecondTitle">If not checked VC will be issued as a bearer credential
+                                    </p>
+                                    <div class="optionsDivRow">
 
+                                        <div class="labelAndButton">
 
-                                <div class="optionsDivRow">
-                                    <div class="labelAndButton">
-                                        <a class="optionLabelA" target="_blank"
-                                            href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0-08.html">Draft
-                                            8</a>
-                                        <input type="radio" name="oidc4vciDraft" value="8" id="eightvci">
+                                            <label for="cryptoHolderBindingTrue" class="optionLabel">Yes</label>
+                                            <input type="radio" id="cryptoHolderBindingTrue" name="cryptoHolderBinding"
+                                                value="cryptoHolderBindingTrue" autocomplete="off" disabled>
+                                        </div>
+                                        <div class="labelAndButton">
+
+                                            <label for="cryptoHolderBindingFalse" class="optionLabel">No</label>
+                                            <input type="radio" id="cryptoHolderBindingFalse" name="cryptoHolderBinding"
+                                                value="cryptoHolderBindingFalse" checked autocomplete="off" disabled>
+                                        </div>
                                     </div>
-                                    <div class="labelAndButton">
-                                        <a href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0-11.html"
-                                            class="optionLabelA" target="_blank">Draft 11</a><input type="radio"
-                                            name="oidc4vciDraft" value="11" id="elevenvci">
+                                </div>
+                                <div class="optionDivDisabled">
+                                    <p class="optionDivMainTitle">4.8 Scope parameters</p>
+                                    <p class="optionDivSecondTitle">If checked use scope parameters to request credential
+                                        issuance.
+                                    </p>
+                                    <a class="linkSetup"
+                                        href="https://openid.net/specs/openid-4-verifiable-presentations-1_0.html#request_scope">Scope
+                                        documentation</a>
+                                    <div class="optionsDivRow">
+
+                                        <div class="labelAndButton">
+
+                                            <label for="scopeTrue" class="optionLabel">Yes</label>
+                                            <input type="radio" id="scopeTrue" name="scope" value="scopeTrue"
+                                                autocomplete="off" disabled>
+                                        </div>
+                                        <div class="labelAndButton">
+
+                                            <label for="scopeFalse" class="optionLabel">No</label>
+                                            <input type="radio" id="scopeFalse" name="scope" value="scopeFalse" checked
+                                                autocomplete="off" disabled>
+                                        </div>
                                     </div>
-                                    <div class="labelAndButton">
-                                        <a href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html"
-                                            class="optionLabelA" target="_blank">Draft 12</a><input type="radio"
-                                            name="oidc4vciDraft" value="12" id="twelvevci">
-                                    </div>
-                                    <div class="labelAndButton">
-                                        <a href="https://openid.github.io/OpenID4VCI/openid-4-verifiable-credential-issuance-wg-draft.html"
-                                            class="optionLabelA" target="_blank">Draft 13</a><input type="radio"
-                                            name="oidc4vciDraft" value="13" id="thirteenvci">
+                                </div>
+                            </div>
+                            <div class="line1Setup">
+
+
+
+
+                                <div class="optionDiv">
+                                    <p class="optionDivMainTitle">4.9 Client authentication method</p>
+                                    <p class="optionDivSecondTitle">Client authentication method as public client or
+                                        confidential client</p>
+                                    <a class="linkSetup" href="https://www.rfc-editor.org/rfc/rfc6749#section-2.3">Client
+                                        authentication documentation</a>
+                                    <a class="linkSetup"
+                                        href="https://datatracker.ietf.org/doc/html/draft-looker-oauth-attestation-based-client-auth">Attestation-Based
+                                        Client Authentication documentation</a>
+
+                                    <div class="optionsDivRow">
+
+                                        <select class="selectSetup" id="clientAuthentication" name="clientAuthentication">
+                                            <option value="none">None</option>
+                                            <option value="client_secret_basic">Client secret basic</option>
+                                            <option value="client_secret_post">Client secret post </option>
+                                            <option value="client_secret_jwt">Wallet attestation</option>
+                                            <option value="client_id">Client id</option>
+
+                                        </select>
+                                        <div id="basicAuthDiv">
+                                            <input type="text" class="inputTextSetup" placeholder="client_id"
+                                                name="client_id" id="client_id">
+                                            <input placeholder="client_secret" type="text" class="inputTextSetup"
+                                                name="client_secret" id="client_secret">
+                                        </div>
                                     </div>
                                 </div>
 
-                                <!--<p>13</p><input type="radio" name="oidc4vciDraft" value="13">-->
+
                             </div>
-                            <div class="optionDiv">
-                                <p class="optionDivMainTitle">4.9 Standard OIDC4VP Draft version</p>
 
-                                <div class="optionsDivRow">
+                            <div class="line1Setup">
 
-                                    <div class="labelAndButton">
+                                <div class="optionDiv">
+                                    <p class="optionDivMainTitle">4.10 Standard OIDC4VCI Draft version</p>
 
-                                        <a href="https://openid.net/specs/openid-4-verifiable-presentations-1_0-13.html"
-                                            class="optionLabelA" target="_blank">Draft 13</a><input type="radio"
-                                            name="oidc4vpDraft" value="13" id="thirteenvp">
+
+
+
+
+                                    <div class="optionsDivRow">
+                                        <div class="labelAndButton">
+                                            <a class="optionLabelA" target="_blank"
+                                                href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0-08.html">Draft
+                                                8</a>
+                                            <input type="radio" name="oidc4vciDraft" value="8" id="eightvci">
+                                        </div>
+                                        <div class="labelAndButton">
+                                            <a href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0-11.html"
+                                                class="optionLabelA" target="_blank">Draft 11</a><input type="radio"
+                                                name="oidc4vciDraft" value="11" id="elevenvci">
+                                        </div>
+                                        <div class="labelAndButton">
+                                            <a href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html"
+                                                class="optionLabelA" target="_blank">Draft 12</a><input type="radio"
+                                                name="oidc4vciDraft" value="12" id="twelvevci">
+                                        </div>
+                                        <div class="labelAndButton">
+                                            <a href="https://openid.github.io/OpenID4VCI/openid-4-verifiable-credential-issuance-wg-draft.html"
+                                                class="optionLabelA" target="_blank">Draft 13</a><input type="radio"
+                                                name="oidc4vciDraft" value="13" id="thirteenvci">
+                                        </div>
                                     </div>
-                                    <div class="labelAndButton">
 
-                                        <a href="https://openid.net/specs/openid-4-verifiable-presentations-1_0-18.html"
-                                            class="optionLabelA" target="_blank">Draft 18</a><input type="radio"
-                                            name="oidc4vpDraft" value="18" id="eighteenvp">
-                                    </div>
+                                    <!--<p>13</p><input type="radio" name="oidc4vciDraft" value="13">-->
                                 </div>
-                                <!--<p>20</p><input type="radio" name="oidc4vpDraft" value="20">-->
-                            </div>
-                            <div class="optionDiv">
-                                <p class="optionDivMainTitle">4.10 Standard SIOPV2 Draft version</p>
+                                <div class="optionDiv">
+                                    <p class="optionDivMainTitle">4.11 Standard OIDC4VP Draft version</p>
 
+                                    <div class="optionsDivRow">
 
-                                <div class="optionsDivRow">
+                                        <div class="labelAndButton">
 
-                                    <!--<p>7</p><input type="radio" name="siopv2Draft" value="7" id="sevenssiop">-->
-                                    <div class="labelAndButton">
+                                            <a href="https://openid.net/specs/openid-4-verifiable-presentations-1_0-13.html"
+                                                class="optionLabelA" target="_blank">Draft 13</a><input type="radio"
+                                                name="oidc4vpDraft" value="13" id="thirteenvp">
+                                        </div>
+                                        <div class="labelAndButton">
 
-                                        <a href="https://openid.net/specs/openid-4-verifiable-presentations-1_0-12.html"
-                                            class="optionLabelA" target="_blank">Draft 12</a><input type="radio"
-                                            name="siopv2Draft" value="12" id="twelvesiop">
+                                            <a href="https://openid.net/specs/openid-4-verifiable-presentations-1_0-18.html"
+                                                class="optionLabelA" target="_blank">Draft 18</a><input type="radio"
+                                                name="oidc4vpDraft" value="18" id="eighteenvp">
+                                        </div>
                                     </div>
+                                    <!--<p>20</p><input type="radio" name="oidc4vpDraft" value="20">-->
                                 </div>
-                                <!--<p>5</p><input type="radio" name="siopv2Draft" value="5">-->
-                            </div>
-                        </div>
+                                <div class="optionDiv">
+                                    <p class="optionDivMainTitle">4.12 Standard SIOPV2 Draft version</p>
 
-                        <div class="line1Setup">
-                            <div class="optionDiv">
-                                <p class="optionDivMainTitle">4.11 VC Format</p>
-                                <p class="optionDivSecondTitle">Select the format of VC</p>
-                                <select class="selectSetup" id="vcFormat" name="vcFormat">
-                                    <option value="ldp_vc">ldp_vc</option>
-                                    <option value="jwt_vc">jwt_vc</option>
-                                    <option value="jwt_vc_json">jwt_vc_json</option>
-                                    <option value="jwt_vc_json-ld">jwt_vc_json-ld</option>
-                                    <option value="vc+sd-jwt">vc+sd-jwt</option>
-                                </select>
-                            </div>
-                                                
-                            <div class="optionDiv">
-                                <p class="optionDivMainTitle">4.12 OIDC4VCI Proof Type</p>
-                                <p class="optionDivSecondTitle">Select OIDC4VCI Proof Type</p>
-                                <select class="selectSetup" id="proofType" name="proofType">
-                                    <option value="jwt">jwt</option>
-                                    <option value="ldp_vp">ldp_vp</option>
-                                </select>
+
+                                    <div class="optionsDivRow">
+
+                                        <!--<p>7</p><input type="radio" name="siopv2Draft" value="7" id="sevenssiop">-->
+                                        <div class="labelAndButton">
+
+                                            <a href="https://openid.net/specs/openid-4-verifiable-presentations-1_0-12.html"
+                                                class="optionLabelA" target="_blank">Draft 12</a><input type="radio"
+                                                name="siopv2Draft" value="12" id="twelvesiop">
+                                        </div>
+                                    </div>
+                                    <!--<p>5</p><input type="radio" name="siopv2Draft" value="5">-->
+                                </div>
+
+                                <div class="optionDiv">
+                                    <p class="optionDivMainTitle">4.13 VC Format</p>
+                                    <p class="optionDivSecondTitle">Select the format of VC</p>
+                                    <select class="selectSetup" id="vcFormat" name="vcFormat">
+                                        <option value="ldp_vc">ldp_vc</option>
+                                        <option value="jwt_vc">jwt_vc</option>
+                                        <option value="jwt_vc_json">jwt_vc_json</option>
+                                        <option value="jwt_vc_json-ld">jwt_vc_json-ld</option>
+                                    </select>
+                                </div>
+
                             </div>
 
-                            <div class="optionDiv">
-                                <p class="optionDivMainTitle">4.13 OIDC4VCI Jwt Proof Type</p>
-                                <p class="optionDivSecondTitle">Select OIDC4VCI Jwt Proof Type</p>
-                                <select class="selectSetup" id="proofHeader" name="proofHeader">
-                                    <option value="kid">kid</option>
-                                    <option value="jwt">jwt</option>
-                                </select>
-                            </div>
+
+
                         </div>
                     </div>
 
+                    <div id="EBSI_SSI" style="display: none;">
+<!-- copier le code ici -->
+                    </div>
+
+                    <div id="DIIP_SSI" style="display: none;">
+<!-- copier le code ici -->
+                    </div>
+
+                    <div id="OWF_SSI" style="display: none;">
+<!-- copier le code ici -->
+                    </div>
+
+                        <script>
+                            function afficherCustom_SSI() {
+                                document.getElementById("Custom_SSI").style.display = "block";
+                                document.getElementById("EBSI_SSI").style.display = "none";
+                                document.getElementById("DIIP_SSI").style.display = "none";
+                                document.getElementById("OWF_SSI").style.display = "none";
+                            }
+                        
+                            function afficherEBSI_SSI() {
+                                document.getElementById("Custom_SSI").style.display = "none";
+                                document.getElementById("EBSI_SSI").style.display = "block";
+                                document.getElementById("DIIP_SSI").style.display = "none";
+                                document.getElementById("OWF_SSI").style.display = "none";
+                            }
+
+                            function afficherDIIP_SSI() {
+                                document.getElementById("Custom_SSI").style.display = "none";
+                                document.getElementById("EBSI_SSI").style.display = "none";
+                                document.getElementById("DIIP_SSI").style.display = "block";
+                                document.getElementById("OWF_SSI").style.display = "none";
+                            }
+                            function afficherOWF_SSI() {
+                                document.getElementById("Custom_SSI").style.display = "none";
+                                document.getElementById("EBSI_SSI").style.display = "none";
+                                document.getElementById("DIIP_SSI").style.display = "none";
+                                document.getElementById("OWF_SSI").style.display = "block";
+                            }
+                        </script>
+                    </div>
+                </div>  
+                <div class="line1Setup">
                     <div class="buttonsStep">
 
                         <button type="button" class="previousStep" onclick="goBackStep4()">Previous step</button>
@@ -925,8 +1028,9 @@
 
                         <button type="button" class="nextStep" onclick="goStep5()">Next step</button>
                     </div>
-
                 </div>
+            </div>
+
                 <div id="step5Div" class="displayNone">
                     <p class="title">Help center option</p>
                     <div class="line1Setup">
@@ -972,20 +1076,20 @@
                         </div>
 
                         <!-- DivDisabled -->
-                        <!-- <div id="customChatDiv" class="optionDivDisabled">
+                        <div id="customChatDiv" class="optionDivDisabled">
                             <p class="optionDivMainTitle">5.3 Custom chat support name</p>
                             <p class="optionDivSecondTitle"></p>
                             <input id="customChatSupportName" name="customChatSupportName" type="text" class="inputTextSetup" style="display: none;">
-                        </div> -->
+                        </div>
 
                         <!-- DivAbled -->
-                        <div class="optionDiv" id="customChatDiv">
+                        <!-- <div class="optionDiv" id="customChatDiv">
                             <p class="optionDivMainTitle">5.3 Custom chat support name</p>
                             <p class="optionDivSecondTitle"></p>
                             <input id="customChatSupportName" name="customChatSupportName" type="text"
                                 class="inputTextSetup">
 
-                        </div>
+                        </div> -->
                     </div>
 
                     <div class="line1Setup">
@@ -1053,10 +1157,6 @@
                 <div id="step6Div" class="displayNone">
                     <p class="title">Talao issuers</p>
  
-                    <!-- <button type="button" id="sortVisibleBtn" class="buttonSort sortVisible">Sort Visible</button>
-                    <button type="button" id="sortInvisibleBtn" class="buttonSort sortInvisible">Sort Invisible</button> -->
-
-
                     <table id="talaoIssuersTable">
                         <thead>
                             <th style="text-align: center;" class="robotoBold">Title / Name</th>
@@ -1245,26 +1345,6 @@
                                     <select name="displayVerifiableId2" id="displayVerifiableId2" class="selectSetupIssuer">
                                         <option value="displayVerifiableId2True">Visible</option>
                                         <option value="displayVerifiableId2False">Invisible</option>
-                                    </select>
-                                </td>
-                            </tr>
-
-                            <tr class="talaoIssuersRow">
-                                <td class="robotoBold">Verifiable Id</td>
-                                <td>Prove your identity</td>
-                                <td style="text-align: center;">Identity cards</td>
-                                <td style="text-align: center;">vc+sd-jwt</td>
-                                <td>
-                                    <span class="emailCell" id="mySpan">contact@talao.io</span>
-                                    <button type="button" onclick="copySpanText()" style="background: none; border: none; padding: 0;">
-                                        <img src="/static/img/Copy.png" alt="Copy" style="width: 10px; height: 10px;">
-                                    </button>
-                                </td>
-                                <td><img src="/static/img/Verifiable_ID.svg" alt="Verifiable_ID" width="90" height="50"></td>
-                                <td>
-                                    <select name="displayVerifiableIdSdJwt" id="displayVerifiableIdSdJwt" class="selectSetupIssuer">
-                                        <option value="displayVerifiableIdSdJwtTrue">Visible</option>
-                                        <option value="displayVerifiableIdSdJwtFalse">Invisible</option>
                                     </select>
                                 </td>
                             </tr>
@@ -1494,9 +1574,6 @@
                     </table>
                 
                     <p class="title">External issuers</p>
-
-                    <!-- <button  type="button" id="sortVisibleBtnextIssuer" class="buttonSort sortVisible">Sort Visible</button>
-                    <button  type="button"id="sortInvisibleBtnextIssuervisibleBtn" class="buttonSort sortInvisible">Sort Invisible</button> -->
 
                     <table id="talaoIssuersTable">
                         <thead>
@@ -1816,59 +1893,6 @@
 
     </div>
 
-    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#sortVisibleBtn, #sortInvisibleBtn, #sortVisibleBtnextIssuer, #sortInvisibleBtnextIssuervisibleBtn").click(function (event) {
-            event.preventDefault();
-            sortTableByVisibility(!$(this).hasClass("sortInvisible"));
-        });
-    });
-
-    function sortTableByVisibility(visible) {
-        var rows = $(".talaoIssuersRow");
-        rows.sort(function (a, b) {
-            var valueA = getVisibilityValue($(a).find("select").val());
-            var valueB = getVisibilityValue($(b).find("select").val());
-
-            return (visible ? valueB - valueA : valueA - valueB);
-        });
-
-        $("#talaoIssuersTable tbody").html(rows);
-    }
-
-    function getVisibilityValue(selectionValue) {
-        switch (selectionValue) {
-            case "displayOver13True":
-            case "displayOver15True":
-            case "displayOver18True":
-            case "displayOver18_2True":
-            case "displayOver21True":
-            case "displayOver50True":
-            case "displayOver65True":
-            case "displayVerifiableIdTrue":
-            case "displayVerifiableId2True":
-            case "displayVerifiableIdSdJwtTrue":
-            case "displayEmailPassTrue":
-            case "displayEmailPassJwtTrue":
-            case "displayPhonePassTrue":
-            case "displayPhonePassJwtTrue":
-            case "displayDefiTrue":
-            case "displayHumanityTrue":
-            case "displayHumanityJwtTrue":
-            case "displayAgeRangeTrue":
-            case "displayGenderTrue":
-            case "displayTezotopiaTrue":
-            case "displayChainbornTrue":
-                return 1;
-            default:
-                return 0;
-        }
-    }
-</script>
-    
-
-
     <script>
         //couleur Status visible/invisible
         document.addEventListener("DOMContentLoaded", function() {
@@ -1895,25 +1919,23 @@
                 selectedValue === "displayOver18True" || selectedValue === "displayOver18_2True" ||
                 selectedValue === "displayOver21True" || selectedValue === "displayOver50True" ||
                 selectedValue === "displayOver65True" || selectedValue === "displayVerifiableIdTrue" ||
-                selectedValue === "displayVerifiableId2True" || selectedValue === "displayVerifiableIdSdJwtTrue" ||
-                selectedValue === "displayEmailPassTrue" || selectedValue === "displayEmailPassJwtTrue" || 
-                selectedValue === "displayPhonePassTrue" || selectedValue === "displayPhonePassJwtTrue"|| 
-                selectedValue === "displayDefiTrue" || selectedValue === "displayHumanityTrue" || 
-                selectedValue === "displayHumanityJwtTrue"|| selectedValue === "displayAgeRangeTrue" || 
-                selectedValue === "displayGenderTrue" || selectedValue === "displayTezotopiaTrue" || 
-                selectedValue === "displayChainbornTrue") {
+                selectedValue === "displayVerifiableId2True" || selectedValue === "displayEmailPassTrue" ||
+                selectedValue === "displayEmailPassJwtTrue" || selectedValue === "displayPhonePassTrue" ||
+                selectedValue === "displayPhonePassJwtTrue"|| selectedValue === "displayDefiTrue" ||
+                selectedValue === "displayHumanityTrue" || selectedValue === "displayHumanityJwtTrue"|| 
+                selectedValue === "displayAgeRangeTrue" || selectedValue === "displayGenderTrue" || 
+                selectedValue === "displayTezotopiaTrue" || selectedValue === "displayChainbornTrue") {
             element.classList.add("select-visible");
             } else if (selectedValue === "displayOver13False" || selectedValue === "displayOver15False" ||
                     selectedValue === "displayOver18False" || selectedValue === "displayOver18_2False" ||
                     selectedValue === "displayOver21False" || selectedValue === "displayOver50False" ||
                     selectedValue === "displayOver65False" || selectedValue === "displayVerifiableIdFalse" ||
-                    selectedValue === "displayVerifiableId2False" || selectedValue === "displayVerifiableIdSdJwtFalse" ||
-                    selectedValue === "displayEmailPassFalse" || selectedValue === "displayEmailPassJwtFalse" || 
-                    selectedValue === "displayPhonePassFalse" || selectedValue === "displayPhonePassJwtFalse"|| 
-                    selectedValue === "displayDefiFalse" || selectedValue === "displayHumanityFalse" ||
-                    selectedValue === "displayHumanityJwtFalse" || selectedValue === "displayAgeRangeFalse" ||
-                    selectedValue === "displayGenderFalse" || selectedValue === "displayTezotopiaFalse" || 
-                    selectedValue === "displayChainbornFalse") {
+                    selectedValue === "displayVerifiableId2False" || selectedValue === "displayEmailPassFalse" ||
+                    selectedValue === "displayEmailPassJwtFalse" || selectedValue === "displayPhonePassFalse" ||
+                    selectedValue === "displayPhonePassJwtFalse"|| selectedValue === "displayDefiFalse" ||
+                    selectedValue === "displayHumanityFalse" ||  selectedValue === "displayHumanityJwtFalse" ||
+                    selectedValue === "displayAgeRangeFalse" || selectedValue === "displayGenderFalse" || 
+                    selectedValue === "displayTezotopiaFalse" || selectedValue === "displayChainbornFalse") {
             element.classList.add("select-invisible");
             }
         }
@@ -2276,8 +2298,6 @@
         //document.getElementById("displaySsiAdvancedSettings{{config["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"]}}").checked = true
         //document.getElementById("displayVerifiableDataRegistry{{config["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"]}}").checked = true
 
-        document.getElementById("cryptoHolderBinding{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["cryptoHolderBinding"]}}").checked = true
-        document.getElementById("scope{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"]}}").checked = true
         document.getElementById("credentialManifestSupport{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["credentialManifestSupport"]}}").checked = true
 
         //document.getElementById("oidv4vcProfile").value = "{{config["selfSovereignIdentityOptions"]["oidv4vcProfile"]}}"
@@ -2287,10 +2307,10 @@
         else {
             document.getElementById("permissive").checked = true
         }
-        // let userPinDigits = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["userPinDigits"]}}"
-        // userPinDigits = userPinDigits === "4" ? "four" : userPinDigits === "6" ? "six" : null
-        // document.getElementById(userPinDigits).checked = true
-        // document.getElementById("defaultDid").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["defaultDid"]}}"
+        let userPinDigits = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["userPinDigits"]}}"
+        userPinDigits = userPinDigits === "4" ? "four" : userPinDigits === "6" ? "six" : null
+        document.getElementById(userPinDigits).checked = true
+        document.getElementById("defaultDid").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["defaultDid"]}}"
         document.getElementById("{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["subjectSyntaxeType"]}}").checked = true
 
         let oidc4vciDraft = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["oidc4vciDraft"]}}"
@@ -2308,8 +2328,6 @@
         document.getElementById("client_id").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_id"]}}"
         document.getElementById("client_secret").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_secret"]}}"
         document.getElementById("vcFormat").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["vcFormat"]}}"
-        document.getElementById("proofType").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofType"]}}"
-        document.getElementById("proofHeader").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofHeader"]}}"
 
         document.getElementById("displayChatSupport{{config["helpCenterOptions"]["displayChatSupport"]}}").checked = true
         document.getElementById("customChatSupport{{config["helpCenterOptions"]["customChatSupport"]}}").checked = true
@@ -2331,7 +2349,6 @@
         document.getElementById("displayOver65").value = "displayOver65{{config["discoverCardsOptions"]["displayOver65"]}}"
         document.getElementById("displayVerifiableId").value = "displayVerifiableId{{config["discoverCardsOptions"]["displayVerifiableId"]}}"
         document.getElementById("displayVerifiableId2").value = "displayVerifiableId2{{config["discoverCardsOptions"]["displayVerifiableIdJwt"]}}"
-        document.getElementById("displayVerifiableIdSdJwt").value = "displayVerifiableIdSdJwt{{config["discoverCardsOptions"]["displayVerifiableIdSdJwt"]}}"
         document.getElementById("displayEmailPass").value = "displayEmailPass{{config["discoverCardsOptions"]["displayEmailPass"]}}"
         document.getElementById("displayEmailPassJwt").value = "displayEmailPassJwt{{config["discoverCardsOptions"]["displayEmailPassJwt"]}}"
         document.getElementById("displayPhonePass").value = "displayPhonePass{{config["discoverCardsOptions"]["displayPhonePass"]}}"

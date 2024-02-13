@@ -401,15 +401,16 @@ def set_config():
     else:
         wallet_provider_configuration["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"] = True"""
 
-    """if request.form.to_dict()["cryptoHolderBinding"] == "cryptoHolderBindingFalse":
+    if request.form.to_dict()["scope"] == "scopeFalse":
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"] = False
+    else:
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"] = True
+    
+    if request.form.to_dict()["cryptoHolderBinding"] == "cryptoHolderBindingFalse":
         wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["cryptoHolderBinding"] = False
     else:
         wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["cryptoHolderBinding"] = True
 
-    if request.form.to_dict()["scope"] == "scopeFalse":
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"] = False
-    else:
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"] = True"""
     if request.form.to_dict()["credentialManifestSupport"] == "credentialManifestSupportFalse":
         wallet_provider_configuration["selfSovereignIdentityOptions"][
             "customOidc4vcProfile"]["credentialManifestSupport"] = False
@@ -438,8 +439,8 @@ def set_config():
         wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"] = True
     else:
         wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"] = False
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["userPinDigits"] = request.form.to_dict()[
-        "userPinDigits"]
+    # wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["userPinDigits"] = request.form.to_dict()[
+    #     "userPinDigits"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["defaultDid"] = request.form.to_dict()[
         "defaultDid"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["subjectSyntaxeType"] = request.form.to_dict()[
@@ -458,6 +459,10 @@ def set_config():
         "siopv2Draft"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["vcFormat"] = request.form.to_dict().get(
         "vcFormat","ldp_vc")
+    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofType"] = request.form.to_dict().get(
+        "proofType","jwt")
+    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofHeader"] = request.form.to_dict().get(
+        "proofHeader","kid")
     wallet_provider_configuration["helpCenterOptions"]["customChatSupportName"] = request.form.to_dict()[
         "customChatSupportName"]
     wallet_provider_configuration["helpCenterOptions"]["customEmail"] = request.form.to_dict()[
@@ -506,6 +511,11 @@ def set_config():
     
     if request.form.to_dict()["displayVerifiableId2"] == "displayVerifiableId2False":
         wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableIdJwt"] = False
+    else:
+        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableIdJwt"] = True
+
+    if request.form.to_dict()["displayVerifiableIdSdJwt"] == "displayVerifiableIdSdJwtFalse":
+        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableIdSdJwt"] = False
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableIdJwt"] = True
 

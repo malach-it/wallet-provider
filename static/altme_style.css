@@ -2025,3 +2025,21 @@ input[type="color"] {
 .select-invisible.selectSetupIssuer {
   background-color: #d1cce3;
 }
+
+.buttonSort {
+    color: white;
+    padding: 6px 12px;
+    border-radius: 8px;
+    font-size: 16px;
+    box-shadow: 0 5px 25px rgba(0, 0, 0, 0.2);
+    outline: none;
+    cursor: pointer;
+}
+
+.sortVisible {
+    background-color: #00B267;
+}
+
+.sortInvisible {
+    background-color: #d1cce3;
+}
