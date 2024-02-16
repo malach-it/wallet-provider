@@ -1,0 +1,636 @@
+
+function selectAndShow(cardId, showFunction) {
+    console.log('SSI Select : ' + cardId);
+    deselectAllCards();
+    document.getElementById(cardId).classList.add('selected');
+    showFunction();
+}
+function deselectAllCards() {
+    console.log('Désélection de toutes les cartes.');
+    document.querySelectorAll('.custom-card').forEach(card => {
+        card.classList.remove('selected');
+    });
+}
+                
+// Fonction pour basculer la visibilité de la zone de texte
+function toggleBasicAuthDiv() {
+    var clientAuthentication = document.getElementById('clientAuthentication');
+    var basicAuthDiv = document.getElementById('basicAuthDiv');
+
+    // Cache la zone de texte si la méthode de client sélectionnée est "none", "client_id", ou "wallet attestation"
+    basicAuthDiv.style.display = (clientAuthentication.value === "none" || clientAuthentication.value === "client_id" || clientAuthentication.value === "client_secret_jwt") ? "none" : "block";
+}
+
+// Ajoute un gestionnaire d'événements au changement de la sélection
+document.getElementById('clientAuthentication').addEventListener('change', toggleBasicAuthDiv);
+
+// Appel initial pour garantir que la visibilité est correcte lors du chargement de la page
+toggleBasicAuthDiv();
+
+function afficherEBSI_SSI() {
+    const vcFormatElement = document.getElementById('vcFormat');
+    const clientAuthenticationElement = document.getElementById('clientAuthentication');
+    const credentialManifestSupportTrueElement = document.getElementById('credentialManifestSupportTrue');
+    const cryptoHolderBindingTrueElement = document.getElementById('cryptoHolderBindingTrue');
+    const defaultDidElement = document.getElementById('defaultDid');
+    const oidc4vciDraftElement = document.getElementById('elevenvci');
+    const oidc4vpDraftElement = document.getElementById('eighteenvp');
+    const scopeFalseElement = document.getElementById('scopeFalse');
+    const securityLevelFalseElement = document.getElementById('permissive');
+    const siopv2DraftElement = document.getElementById('twelvesiop');
+    const subjectSyntaxeTypeElement = document.getElementById('did');
+    const userPinDigitsElement = document.getElementById('four');
+
+    // Valeurs EBSI SSI
+    vcFormatElement.value = 'jwt_vc';
+    clientAuthenticationElement.value = 'client_id';
+    credentialManifestSupportTrueElement.checked = false;
+    cryptoHolderBindingTrueElement.checked = true;
+    defaultDidElement.value = 'did:key:ebsi';
+    oidc4vciDraftElement.checked = true;
+    oidc4vpDraftElement.checked = true;
+    scopeFalseElement.checked = true;
+    securityLevelFalseElement.checked = true;
+    siopv2DraftElement.checked = true;
+    subjectSyntaxeTypeElement.checked = true;
+    userPinDigitsElement.checked = true;
+
+
+    toggleBasicAuthDiv();
+}
+
+function afficherEBSI_SSI() {
+    const vcFormatElement = document.getElementById('vcFormat');
+    const clientAuthenticationElement = document.getElementById('clientAuthentication');
+    const credentialManifestSupportTrueElement = document.getElementById('credentialManifestSupportTrue');
+    const cryptoHolderBindingTrueElement = document.getElementById('cryptoHolderBindingTrue');
+    const defaultDidElement = document.getElementById('defaultDid');
+    const oidc4vciDraftElement = document.getElementById('elevenvci');
+    const oidc4vpDraftElement = document.getElementById('eighteenvp');
+    const scopeFalseElement = document.getElementById('scopeFalse');
+    const securityLevelFalseElement = document.getElementById('permissive');
+    const siopv2DraftElement = document.getElementById('twelvesiop');
+    const subjectSyntaxeTypeElement = document.getElementById('did');
+    const userPinDigitsElement = document.getElementById('four');
+
+    // Valeurs EBSI SSI
+    vcFormatElement.value = 'jwt_vc';
+    clientAuthenticationElement.value = 'client_id';
+    credentialManifestSupportTrueElement.checked = false;
+    cryptoHolderBindingTrueElement.checked = true;
+    defaultDidElement.value = 'did:key:ebsi';
+    oidc4vciDraftElement.checked = true;
+    oidc4vpDraftElement.checked = true;
+    scopeFalseElement.checked = true;
+    securityLevelFalseElement.checked = true;
+    siopv2DraftElement.checked = true;
+    subjectSyntaxeTypeElement.checked = true;
+    userPinDigitsElement.checked = true;
+
+
+    toggleBasicAuthDiv();
+}
+
+function afficherDIIP_SSI() {
+    const vcFormatElement = document.getElementById('vcFormat');
+    const clientAuthenticationElement = document.getElementById('clientAuthentication');
+    const credentialManifestSupportTrueElement = document.getElementById('credentialManifestSupportTrue');
+    const cryptoHolderBindingTrueElement = document.getElementById('cryptoHolderBindingTrue');
+    const defaultDidElement = document.getElementById('defaultDid');
+    const oidc4vciDraftElement = document.getElementById('elevenvci');
+    const oidc4vpDraftElement = document.getElementById('eighteenvp');
+    const scopeFalseElement = document.getElementById('scopeFalse');
+    const securityLevelFalseElement = document.getElementById('permissive');
+    const siopv2DraftElement = document.getElementById('twelvesiop');
+    const subjectSyntaxeTypeElement = document.getElementById('did');
+    const userPinDigitsElement = document.getElementById('four');
+
+    // Valeurs DIPP_SSI
+    vcFormatElement.value = 'jwt_vc_json';
+    clientAuthenticationElement.value = 'client_id';
+    credentialManifestSupportTrueElement.checked = false;
+    cryptoHolderBindingTrueElement.checked = true;
+    defaultDidElement.value = 'did:jwk:p-256';
+    oidc4vciDraftElement.checked = true;
+    oidc4vpDraftElement.checked = true;
+    scopeFalseElement.checked = true;
+    securityLevelFalseElement.checked = true;
+    siopv2DraftElement.checked = true;
+    subjectSyntaxeTypeElement.checked = true;
+    userPinDigitsElement.checked = true;
+
+    
+    toggleBasicAuthDiv();
+}
+
+function afficherOWF_SSI() {
+    const vcFormatElement = document.getElementById('vcFormat');
+    const proofHeaderElement = document.getElementById('proofHeader');
+    const clientAuthenticationElement = document.getElementById('clientAuthentication');
+    const credentialManifestSupportTrueElement = document.getElementById('credentialManifestSupportTrue');
+    const cryptoHolderBindingTrueElement = document.getElementById('cryptoHolderBindingTrue');
+    const defaultDidElement = document.getElementById('defaultDid');
+    const oidc4vciDraftElement = document.getElementById('thirteenvci');
+    const oidc4vpDraftElement = document.getElementById('eighteenvp');
+    const scopeFalseElement = document.getElementById('scopeFalse');
+    const securityLevelFalseElement = document.getElementById('permissive');
+    const siopv2DraftElement = document.getElementById('twelvesiop');
+    const subjectSyntaxeTypeElement = document.getElementById('did');
+    const userPinDigitsElement = document.getElementById('four');
+
+    // Valeurs OWF_SSI
+    vcFormatElement.value = 'vc+sd-jwt';
+    proofHeaderElement.value = 'kid';
+    clientAuthenticationElement.value = 'client_id';
+    credentialManifestSupportTrueElement.checked = false;
+    cryptoHolderBindingTrueElement.checked = true;
+    defaultDidElement.value = 'did:jwk:p-256';
+    oidc4vciDraftElement.checked = true;
+    oidc4vpDraftElement.checked = true;
+    scopeFalseElement.checked = true;
+    securityLevelFalseElement.checked = true;
+    siopv2DraftElement.checked = true;
+    subjectSyntaxeTypeElement.checked = true;
+    userPinDigitsElement.checked = true;
+
+    
+    toggleBasicAuthDiv();
+}
+
+function afficherCustom_SSI() {
+    document.getElementById("Custom_SSI").style.display = "block";
+    document.getElementById("EBSI_SSI").style.display = "none";
+    document.getElementById("DIIP_SSI").style.display = "none";
+    document.getElementById("OWF_SSI").style.display = "none";
+}
+
+function afficherEBSI_SSI() {
+    document.getElementById("Custom_SSI").style.display = "none";
+    document.getElementById("EBSI_SSI").style.display = "block";
+    document.getElementById("DIIP_SSI").style.display = "none";
+    document.getElementById("OWF_SSI").style.display = "none";
+}
+
+function afficherDIIP_SSI() {
+    document.getElementById("Custom_SSI").style.display = "none";
+    document.getElementById("EBSI_SSI").style.display = "none";
+    document.getElementById("DIIP_SSI").style.display = "block";
+    document.getElementById("OWF_SSI").style.display = "none";
+}
+
+function afficherOWF_SSI() {
+    document.getElementById("Custom_SSI").style.display = "none";
+    document.getElementById("EBSI_SSI").style.display = "none";
+    document.getElementById("DIIP_SSI").style.display = "none";
+    document.getElementById("OWF_SSI").style.display = "block";
+}
+
+// Mettre à jour la classe en fonction de la valeur sélectionnée
+document.addEventListener('DOMContentLoaded', function () {
+    var selectElement = document.getElementById('statusIssuer{{ row[0] }}');
+    var selectedValue = selectElement.value;
+
+    // Supprime les classes existantes
+    selectElement.classList.remove('select-invisible', 'select-visible');
+
+    // Ajoute la classe en fonction de la valeur sélectionnée
+    selectElement.classList.add('select-' + selectedValue);
+});
+
+document.getElementById('statusIssuer{{ row[0] }}').addEventListener('change', function() {
+    var selectElement = this;
+    var selectedValue = selectElement.value;
+
+    // Supprime les classes existantes
+    selectElement.classList.remove('select-invisible', 'select-visible');
+
+    selectElement.classList.add('select-' + selectedValue);
+});
+
+$(document).ready(function () {
+    $("#sortVisibleBtn, #sortInvisibleBtn, #sortVisibleBtnextIssuer, #sortInvisibleBtnextIssuervisibleBtn").click(function (event) {
+        event.preventDefault();
+        sortTableByVisibility(!$(this).hasClass("sortInvisible"));
+    });
+});
+
+function sortTableByVisibility(visible) {
+    var rows = $(".talaoIssuersRow");
+    rows.sort(function (a, b) {
+        var valueA = getVisibilityValue($(a).find("select").val());
+        var valueB = getVisibilityValue($(b).find("select").val());
+
+        return (visible ? valueB - valueA : valueA - valueB);
+    });
+
+    $("#talaoIssuersTable tbody").html(rows);
+}
+
+function getVisibilityValue(selectionValue) {
+    switch (selectionValue) {
+        case "displayOver13True":
+        case "displayOver15True":
+        case "displayOver18True":
+        case "displayOver18_2True":
+        case "displayOver21True":
+        case "displayOver50True":
+        case "displayOver65True":
+        case "displayVerifiableIdTrue":
+        case "displayVerifiableId2True":
+        case "displayVerifiableIdSdJwtTrue":
+        case "displayEmailPassTrue":
+        case "displayEmailPassJwtTrue":
+        case "displayPhonePassTrue":
+        case "displayPhonePassJwtTrue":
+        case "displayDefiTrue":
+        case "displayHumanityTrue":
+        case "displayHumanityJwtTrue":
+        case "displayAgeRangeTrue":
+        case "displayGenderTrue":
+        case "displayTezotopiaTrue":
+        case "displayChainbornTrue":
+            return 1;
+        default:
+            return 0;
+    }
+}
+
+//couleur Status visible/invisible
+document.addEventListener("DOMContentLoaded", function() {
+    var selectElements = document.querySelectorAll('[id^="display"]');
+    
+    selectElements.forEach(function(selectElement) {
+        // Set the initial background color based on the selected option
+        updateSelectBackground(selectElement);
+
+        // Add an event listener to handle changes in selection
+        selectElement.addEventListener("change", function() {
+        updateSelectBackground(this);
+        });
+    });
+
+    function updateSelectBackground(element) {
+        var selectedValue = element.value;
+
+        // Remove existing classes
+        element.classList.remove("select-visible", "select-invisible");
+
+        // Add the appropriate class based on the selected option
+        if (selectedValue === "displayOver13True" || selectedValue === "displayOver15True" ||
+            selectedValue === "displayOver18True" || selectedValue === "displayOver18_2True" ||
+            selectedValue === "displayOver21True" || selectedValue === "displayOver50True" ||
+            selectedValue === "displayOver65True" || selectedValue === "displayVerifiableIdTrue" ||
+            selectedValue === "displayVerifiableId2True" || selectedValue === "displayVerifiableIdSdJwtTrue" ||
+            selectedValue === "displayEmailPassTrue" || selectedValue === "displayEmailPassJwtTrue" || 
+            selectedValue === "displayPhonePassTrue" || selectedValue === "displayPhonePassJwtTrue"|| 
+            selectedValue === "displayDefiTrue" || selectedValue === "displayHumanityTrue" || 
+            selectedValue === "displayHumanityJwtTrue"|| selectedValue === "displayAgeRangeTrue" || 
+            selectedValue === "displayGenderTrue" || selectedValue === "displayTezotopiaTrue" || 
+            selectedValue === "displayChainbornTrue") {
+        element.classList.add("select-visible");
+        } else if (selectedValue === "displayOver13False" || selectedValue === "displayOver15False" ||
+                selectedValue === "displayOver18False" || selectedValue === "displayOver18_2False" ||
+                selectedValue === "displayOver21False" || selectedValue === "displayOver50False" ||
+                selectedValue === "displayOver65False" || selectedValue === "displayVerifiableIdFalse" ||
+                selectedValue === "displayVerifiableId2False" || selectedValue === "displayVerifiableIdSdJwtFalse" ||
+                selectedValue === "displayEmailPassFalse" || selectedValue === "displayEmailPassJwtFalse" || 
+                selectedValue === "displayPhonePassFalse" || selectedValue === "displayPhonePassJwtFalse"|| 
+                selectedValue === "displayDefiFalse" || selectedValue === "displayHumanityFalse" ||
+                selectedValue === "displayHumanityJwtFalse" || selectedValue === "displayAgeRangeFalse" ||
+                selectedValue === "displayGenderFalse" || selectedValue === "displayTezotopiaFalse" || 
+                selectedValue === "displayChainbornFalse") {
+        element.classList.add("select-invisible");
+        }
+    }
+    });
+
+    //Copie mail
+    function copySpanText() {
+        // Get the span element
+        var spanText = document.getElementById("mySpan");
+                                
+        // Create a temporary input element
+        var tempInput = document.createElement("input");
+                                    
+        // Set the value of the temporary input to the text content of the span
+        tempInput.value = spanText.textContent;
+                                
+        // Append the temporary input to the body
+        document.body.appendChild(tempInput);
+                                
+        // Select the text in the temporary input
+        tempInput.select();
+        tempInput.setSelectionRange(0, 99999); // For mobile devices
+                                
+        // Copy the text inside the temporary input
+        document.execCommand("copy");
+                                
+        // Remove the temporary input from the DOM
+        document.body.removeChild(tempInput);
+                                
+        // Display a notification (popup) to indicate that the email has been copied
+        vNotify.success({ text: 'Email copied!', title: 'Succes', sticky: false });
+    }
+
+    //Copie mail external issuer
+    function copySpanTextTabExternalIssuer(index) {
+        // Get the span element based on the index
+        var spanText = document.getElementById("issuerContact" + index);
+
+        // Create a temporary input element
+        var tempInput = document.createElement("input");
+        
+        // Set the value of the temporary input to the text content of the span
+        tempInput.value = spanText.textContent;
+
+        // Append the temporary input to the body
+        document.body.appendChild(tempInput);
+
+        // Select the text in the temporary input
+        tempInput.select();
+        tempInput.setSelectionRange(0, 99999); // For mobile devices
+
+        // Copy the text inside the temporary input
+        document.execCommand("copy");
+
+        // Remove the temporary input from the DOM
+        document.body.removeChild(tempInput);
+
+        // Display a notification (popup) to indicate that the email has been copied
+        vNotify.success({ text: 'Email copied!', title: 'Succes', sticky: false });
+    }
+
+    var updateIssuer;
+    var idIssuer;
+    function resetIssuerForm() {
+        document.getElementById("titleIssuer").value = ""
+        document.getElementById("subtitleIssuer").value = ""
+        document.getElementById("categoryIssuer").value = "othersCards"
+        document.getElementById("formatIssuer").value = "ldp_vc"
+        document.getElementById("descriptionIssuer").value = ""
+        document.getElementById("howToGetItIssuer").innerHTML = ""
+        document.getElementById("expirationDateIssuer").value = ""
+        document.getElementById("nameIssuer").value = ""
+        document.getElementById("URLIssuer").value = ""
+        document.getElementById("logoIssuer").value = ""
+        document.getElementById("textColorIssuer").value = "#ffffff"
+        document.getElementById("backgroundURLIssuer").value = ""
+        document.getElementById("backgroundColorIssuer").value = "#202ffc"
+        // document.getElementById("whyGetThisCardIssuer").value=""
+        document.getElementById("websiteIssuer").value=""
+
+    }
+
+    resetIssuerForm()
+    function openIssuerPopup(action, id) {
+
+        if (document.getElementById("overlay").getAttribute("class") === "displayNone") {
+            document.getElementById("overlay").setAttribute("class", "");
+            document.getElementById('issuerPopup').scrollTop = 0;
+            if (action === "add") {
+                resetForm()
+                document.getElementById("backgroundColorIssuer").value = "#202ffc"
+
+                document.getElementById("lastLineButtonPopup").innerHTML = "CREATE VC ISSUER"
+                document.getElementById("deleteVCButton").setAttribute("class", "displayNone")
+                updateIssuer = "add"
+            }
+            else if (action === "modify") {
+                idIssuer = id
+                fetch('/get_issuer_infos/' + id, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                }).then(res => {
+                    res.json().then(data => {
+                        console.log(data)
+                        document.getElementById("titleIssuer").value = data.title
+                        document.getElementById("subtitleIssuer").value = data.subtitle
+                        document.getElementById("categoryIssuer").value = data.category
+                        document.getElementById("formatIssuer").value = data.format
+                        document.getElementById("descriptionIssuer").value = data.description
+                        document.getElementById("howToGetItIssuer").innerHTML = data.howToGetIt
+                        document.getElementById("expirationDateIssuer").value = data.expirationDate
+                        document.getElementById("nameIssuer").value = data.name
+                        document.getElementById("URLIssuer").value = data.url
+                        document.getElementById("logoIssuer").value = data.logo_url
+                        document.getElementById("textColorIssuer").value = data.text_color
+                        document.getElementById("backgroundURLIssuer").value = data.background_url
+                        document.getElementById("backgroundColorIssuer").value = data.background_color
+                        document.getElementById("privacyIssuer").value = data.privacy
+
+                    })
+                })
+                document.getElementById("lastLineButtonPopup").innerHTML = "UPDATE VC"
+                document.getElementById("deleteVCButton").setAttribute("class", "buttonAltmeInversed")
+                updateIssuer = "modify"
+            }
+        }
+        else {
+            document.getElementById("overlay").setAttribute("class", "displayNone")
+            resetIssuerForm()
+        }
+    }
+
+    function resetForm(){
+        document.getElementById("titleIssuer").value = ""
+                        document.getElementById("subtitleIssuer").value = ""
+                        document.getElementById("categoryIssuer").value = "othersCards"
+                        document.getElementById("formatIssuer").value = "ldp_vc"
+                        document.getElementById("descriptionIssuer").value = ""
+                        document.getElementById("howToGetItIssuer").innerHTML = ""
+                        document.getElementById("expirationDateIssuer").value = ""
+                        document.getElementById("nameIssuer").value = ""
+                        document.getElementById("URLIssuer").value = ""
+                        document.getElementById("logoIssuer").value = ""
+                        document.getElementById("textColorIssuer").value = ""
+                        document.getElementById("backgroundURLIssuer").value = ""
+                        document.getElementById("backgroundColorIssuer").value = ""
+                        document.getElementById("privacyIssuer").value = "public"
+    }
+
+    function updateIssuerTable() {
+        let data = {
+            "title": document.getElementById("titleIssuer").value,
+            "subtitle": document.getElementById("subtitleIssuer").value,
+            "category": document.getElementById("categoryIssuer").value,
+            "format": document.getElementById("formatIssuer").value,
+            "description": document.getElementById("descriptionIssuer").value,
+            "howToGetIt": document.getElementById("howToGetItIssuer").value,
+            "expirationDate": document.getElementById("expirationDateIssuer").value,
+            "name": document.getElementById("nameIssuer").value,
+            "url": document.getElementById("URLIssuer").value,
+            "logo_url": document.getElementById("logoIssuer").value,
+            "text_color": document.getElementById("textColorIssuer").value,
+            "background_url": document.getElementById("backgroundURLIssuer").value,
+            "background_color": document.getElementById("backgroundColorIssuer").value,
+        }
+        if (updateIssuer === "add") {
+            fetch('/add_issuer_db', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    privacyIssuer: document.getElementById("privacyIssuer").value,
+                    data: data
+                })
+            })
+                .then(response => {
+                    console.log(response.status); if (response.status === 200) {
+
+                        let step = searchParams.get("step")
+
+                        if (step === "6") {
+                            window.location.reload();
+                        }
+                        else { window.location.replace("/setup?step=6#addCredential"); }
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+        else if (updateIssuer === "modify") {
+            fetch('/modify_issuer_db', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    privacyIssuer: document.getElementById("privacyIssuer").value,
+                    id: idIssuer,
+                    data: data
+                })
+            })
+                .then(response => {
+                    console.log(response.status); if (response.status === 200) {
+
+                        let step = searchParams.get("step")
+
+                        if (step === "6") {
+                            window.location.reload();
+                        }
+                        else { window.location.replace("/setup?step=6#addCredential"); }
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+        }
+    }
+
+    function removeIssuer() {
+        fetch('/remove_issuer_db', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: idIssuer,
+            })
+        })
+            .then(response => {
+                console.log(response.status); if (response.status === 200) {
+
+                    let step = searchParams.get("step")
+
+                    if (step === "6") {
+                        window.location.reload();
+                    }
+                    else { window.location.replace("/setup?step=6#addCredential"); }
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+    // function changeStatusExternalIssuer(idIssuer, nameIssuer, selectElement) {
+    //     console.log("Change status initiated for issuer " + idIssuer);
+        
+    //     let newStatus = selectElement.value;
+    //     console.log("Setting issuer " + idIssuer + " to " + newStatus);
+
+    //     debugger; 
+
+    //     fetch('/change_issuer_config', {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         body: JSON.stringify({
+    //             id: idIssuer,
+    //             newStatus: newStatus
+    //         })
+    //     })
+    //     // debugger;
+    //     .then(response => {
+    //         console.log("Server response status:", response.status);
+
+    //         // Vérifier si la réponse est OK (200)
+    //         if (response.ok) {
+    //             return response.json(); // Parse la réponse JSON
+    //         } else {
+    //             throw new Error('Server response error');
+    //         }
+    //     })
+    //     // debugger;
+    //     .then(data => {
+    //         console.log("Server response data:", data);
+    //         vNotify.info({ text: 'Issuer ' + nameIssuer + " set to " + newStatus, title: 'Info', sticky: true });
+    //     })
+    //     // debugger;
+    //     .catch(error => {
+    //         console.error('Error:', error);
+    //     });
+    // }
+
+
+
+    function changeStatusExternalIssuer(idIssuer,nameIssuer) {
+        let newStatus = document.getElementById("statusIssuer" + idIssuer).value
+        console.log("setting issuer " + idIssuer + " to " + newStatus)
+
+        fetch('/change_issuer_config', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                id: idIssuer,
+                newStatus: newStatus
+            })
+        })
+            .then(response => { console.log(response.status);vNotify.info({ text: 'Issuer '+nameIssuer+" set to "+newStatus, title: 'Info', sticky: true }); })
+            .catch(error => console.error('Error:', error));
+    }
+
+    function modifyIssuer(id, owner) {
+        if (owner === "1") {
+            console.log("owner")
+            openIssuerPopup("modify", id)
+        }
+        else {
+            console.log("not owner")
+        }
+    }
+    {% for row in issuers_availables %}
+    document.getElementById("statusIssuer{{row[0]}}").value = {{ row[10] }} === 1 ? "visible" : "invisible"
+    document.getElementById('statusIssuer{{row[0]}}').addEventListener('click', function (e) {
+        e.stopPropagation(); // Prevent the click event from bubbling up
+        // Do other stuff here
+    });
+    {% endfor %}
+
+    document.getElementById('buttonMenu').addEventListener('click', () => {
+        if (document.getElementById('imageButtonMenu').getAttribute("class") === "imgButtonMenuInactive") {
+            document.getElementById('menuDiv').setAttribute("class", "flex");
+            document.body.style.overflow = 'hidden';
+            document.getElementById('imageButtonMenu').setAttribute("class", "imgButtonMenuActive");
+            document.getElementById('imageButtonMenu').setAttribute("src", "/static/img/crossMenu.png")
+        }
+        else if (document.getElementById('imageButtonMenu').getAttribute("class") === "imgButtonMenuActive") {
+            document.getElementById('menuDiv').setAttribute("class", "");
+            document.body.style.overflow = '';
+            document.getElementById('imageButtonMenu').setAttribute("class", "imgButtonMenuInactive");
+            document.getElementById('imageButtonMenu').setAttribute("src", "/static/img/div.png")
+        }
+    })
+
+    

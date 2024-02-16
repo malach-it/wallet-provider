@@ -72,3 +72,75 @@ body {
     gap: 10px;
 }
 
+.custom-card {
+    width: 820px;
+    height: 190px;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+    border: 2px solid grey;
+    margin-bottom: 20px;
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+}
+
+.custom-card2 {
+    width: calc(33.33% - 10px); /* Adjusted width with spacing between cards */
+    height: 190px; /* Set the height to match the cards in the first row */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: rgba(200, 200, 200, 0.225);
+    border-radius: 10px;
+    border: 2px solid grey;
+    margin-bottom: 20px;
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+}
+
+.custom-card3 {
+    width: calc(33.33% - 10px); /* Adjusted width with spacing between cards */
+    height: 190px; /* Set the height to match the cards in the first row */
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    background-color: rgba(133, 201, 15, 0.225);
+    border-radius: 10px;
+    border: 2px solid grey;
+    margin-bottom: 20px;
+    justify-content: center; /* Center vertically */
+    align-items: center; /* Center horizontally */
+}
+
+.custom-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-size: cover;
+}
+
+.custom-card.selected .custom-button {
+    background-image: url("/static/img/Check_Card_SSI.svg");
+}
+
+.custom-card:not(.selected) .custom-button {
+    background-color: white;
+    border: 2px solid rgb(209, 209, 209);
+}
+
+.card-link {
+    display: inline-block;
+    word-wrap: break-word;
+    max-width: 100%;
+}
