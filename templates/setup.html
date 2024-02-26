@@ -663,8 +663,6 @@
 
                         <!-- Carte SOON -->
                         <div class="custom-card2">
-                            <!-- <div class="custom-button"></div> -->
-                            <!-- <img src="/static/img/OWF_SSI.svg" alt="OWF_SSI" width="80" height="36"> -->
                             <div style="flex: 1; text-align: center;">
                                 <br><br>
                                 <img src="/static/img/Soon_SSI.svg" alt="Soon_SSI"  width="60%">                                <br><br><br>
@@ -676,32 +674,10 @@
                         
                         <!-- Carte SOON -->
                         <div class="custom-card3">
-                            <!-- <div class="custom-button"></div> -->
-                            <!-- <img src="/static/img/OWF_SSI.svg" alt="OWF_SSI" width="80" height="36"> -->
-                            <!-- <div style="flex: 1; text-align: center;">
-                                <br><br>
-                                <img src="/static/img/Soon_SSI.svg" alt="Soon_SSI"  width="60%">                                <br><br><br>
-                                <p class="optionDivSecondTitle"> 
-                                    <a>Our team is committed to integrate new SSI Profile</a>
-                                </p>
-                            </div> -->
+
                         </div>
 
-                        <script>
-                            function selectAndShow(cardId, showFunction) {
-                                console.log('SSI Select : ' + cardId);
-                                deselectAllCards();
-                                document.getElementById(cardId).classList.add('selected');
-                                showFunction();
-                            }
-
-                            function deselectAllCards() {
-                                console.log('Désélection de toutes les cartes.');
-                                document.querySelectorAll('.custom-card').forEach(card => {
-                                    card.classList.remove('selected');
-                                });
-                            }
-                        </script>
+                        <script src="/static/dist/SSI/selectCard.js"></script>
                     </div>
                 
 
@@ -778,6 +754,7 @@
                                         <option value="did:key:secp256k1">did:key:secp256k1</option>
                                         <option value="did:key:p-256">did:key:p-256</option> 
                                     </select>
+                                    <script src="/static/dist/SSI/default_did_exceptions.js"></script>
                                 </div>
                                 <div class="optionDiv">
                                     <p class="optionDivMainTitle">4.4 OIDC4VCI Client Type</p>
@@ -819,7 +796,7 @@
                             <div class="line1Setup">  
                                 <div class="optionDiv">
                                     <p class="optionDivMainTitle">4.5 Cryptographic Holder Binding</p>
-                                    <p class="optionDivSecondTitle">Disable cryptograpĥic binding for claim based binding credentials</p>
+                                    <p class="optionDivSecondTitle">Disable cryptographic binding for claim based binding credentials</p>
                                     <div class="optionsDivRow">
     
                                         <div class="labelAndButton">
@@ -889,22 +866,7 @@
                                                 name="client_secret" id="client_secret">
                                         </div>
                                     </div>
-                                    <script>
-                                        // Fonction pour basculer la visibilité de la zone de texte
-                                        function toggleBasicAuthDiv() {
-                                            var clientAuthentication = document.getElementById('clientAuthentication');
-                                            var basicAuthDiv = document.getElementById('basicAuthDiv');
-                                    
-                                            // Cache la zone de texte si la méthode de client sélectionnée est "none", "client_id", ou "wallet attestation"
-                                            basicAuthDiv.style.display = (clientAuthentication.value === "none" || clientAuthentication.value === "client_id" || clientAuthentication.value === "client_secret_jwt") ? "none" : "block";
-                                        }
-                                    
-                                        // Ajoute un gestionnaire d'événements au changement de la sélection
-                                        document.getElementById('clientAuthentication').addEventListener('change', toggleBasicAuthDiv);
-                                    
-                                        // Appel initial pour garantir que la visibilité est correcte lors du chargement de la page
-                                        toggleBasicAuthDiv();
-                                    </script>
+                                    <script src="/static/dist/SSI/clientAuthentication.js"></script>
                                 </div>
                             </div>
     
@@ -913,12 +875,12 @@
                                 <div class="optionDiv">
                                     <p class="optionDivMainTitle">4.8 Standard OIDC4VCI Draft version</p>   
                                     <div class="optionsDivRow">
-                                        <div class="labelAndButton">
+                                        <!-- <div class="labelAndButton">
                                             <a class="optionLabelA" target="_blank"
                                                 href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0-08.html">Draft
                                                 8</a>
                                             <input type="radio" name="oidc4vciDraft" value="8" id="eightvci">
-                                        </div>
+                                        </div> -->
                                         <div class="labelAndButton">
                                             <a href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0-11.html"
                                                 class="optionLabelA" target="_blank">Draft 11</a><input type="radio"
@@ -989,18 +951,18 @@
                                     </select>
                                 </div>
                                                     
-                                <div class="optionDiv">
+                                <div class="optionDivDisabled">
                                     <p class="optionDivMainTitle">4.12 OIDC4VCI Proof Type</p>
-                                    <p class="optionDivSecondTitle">Select OIDC4VCI Proof Type</p>
-                                    <select class="selectSetup" id="proofType" name="proofType">
+                                    <p class="optionDivSecondTitle">Select your OIDC4VCI Proof Type</p>
+                                    <select class="selectSetup" id="proofType" name="proofType" disabled>
                                         <option value="jwt">jwt</option>
                                         <option value="ldp_vp">ldp_vp</option>
                                     </select>
                                 </div>
     
                                 <div class="optionDiv">
-                                    <p class="optionDivMainTitle">4.13 OIDC4VCI Jwt Proof Type</p>
-                                    <p class="optionDivSecondTitle">Select OIDC4VCI Jwt Proof Type</p>
+                                    <p class="optionDivMainTitle">4.13 Proof of Possession Header</p>
+                                    <p class="optionDivSecondTitle">Select your Proof of Possession Header</p>
                                     <select class="selectSetup" id="proofHeader" name="proofHeader">
                                         <option value="kid">kid</option>
                                         <option value="jwt">jwt</option>
@@ -1011,149 +973,22 @@
 
                     <div id="EBSI_SSI" style="display: none;">
                         <div id="EBSI_SSI" style="display: none;">
-                            <script>
-                                function afficherEBSI_SSI() {
-                                    const vcFormatElement = document.getElementById('vcFormat');
-                                    const clientAuthenticationElement = document.getElementById('clientAuthentication');
-                                    const credentialManifestSupportTrueElement = document.getElementById('credentialManifestSupportTrue');
-                                    const cryptoHolderBindingTrueElement = document.getElementById('cryptoHolderBindingTrue');
-                                    const defaultDidElement = document.getElementById('defaultDid');
-                                    const oidc4vciDraftElement = document.getElementById('elevenvci');
-                                    const oidc4vpDraftElement = document.getElementById('eighteenvp');
-                                    const scopeFalseElement = document.getElementById('scopeFalse');
-                                    const securityLevelFalseElement = document.getElementById('permissive');
-                                    const siopv2DraftElement = document.getElementById('twelvesiop');
-                                    const subjectSyntaxeTypeElement = document.getElementById('did');
-                                    const userPinDigitsElement = document.getElementById('four');
-                            
-                                    // Valeurs EBSI SSI
-                                    vcFormatElement.value = 'jwt_vc';
-                                    clientAuthenticationElement.value = 'client_id';
-                                    credentialManifestSupportTrueElement.checked = false;
-                                    cryptoHolderBindingTrueElement.checked = true;
-                                    defaultDidElement.value = 'did:key:ebsi';
-                                    oidc4vciDraftElement.checked = true;
-                                    oidc4vpDraftElement.checked = true;
-                                    scopeFalseElement.checked = true;
-                                    securityLevelFalseElement.checked = true;
-                                    siopv2DraftElement.checked = true;
-                                    subjectSyntaxeTypeElement.checked = true;
-                                    userPinDigitsElement.checked = true;
-                            
-                                
-                                    toggleBasicAuthDiv();
-                                }
-                            </script>
+                            <script src="/static/dist/SSI/afficherEBSI_SSI.js"></script>
                         </div>
                     </div>
 
                     <div id="DIIP_SSI" style="display: none;">
-                        <script>
-                            function afficherDIIP_SSI() {
-                                const vcFormatElement = document.getElementById('vcFormat');
-                                const clientAuthenticationElement = document.getElementById('clientAuthentication');
-                                const credentialManifestSupportTrueElement = document.getElementById('credentialManifestSupportTrue');
-                                const cryptoHolderBindingTrueElement = document.getElementById('cryptoHolderBindingTrue');
-                                const defaultDidElement = document.getElementById('defaultDid');
-                                const oidc4vciDraftElement = document.getElementById('elevenvci');
-                                const oidc4vpDraftElement = document.getElementById('eighteenvp');
-                                const scopeFalseElement = document.getElementById('scopeFalse');
-                                const securityLevelFalseElement = document.getElementById('permissive');
-                                const siopv2DraftElement = document.getElementById('twelvesiop');
-                                const subjectSyntaxeTypeElement = document.getElementById('did');
-                                const userPinDigitsElement = document.getElementById('four');
-                    
-                                // Valeurs DIPP_SSI
-                                vcFormatElement.value = 'jwt_vc_json';
-                                clientAuthenticationElement.value = 'client_id';
-                                credentialManifestSupportTrueElement.checked = false;
-                                cryptoHolderBindingTrueElement.checked = true;
-                                defaultDidElement.value = 'did:jwk:p-256';
-                                oidc4vciDraftElement.checked = true;
-                                oidc4vpDraftElement.checked = true;
-                                scopeFalseElement.checked = true;
-                                securityLevelFalseElement.checked = true;
-                                siopv2DraftElement.checked = true;
-                                subjectSyntaxeTypeElement.checked = true;
-                                userPinDigitsElement.checked = true;
-                    
-                                
-                                toggleBasicAuthDiv();
-                            }
-                        </script>
+                        <script src="/static/dist/SSI/afficherDIIP_SSI.js"></script>
                     </div>
                     
 
                     <div id="OWF_SSI" style="display: none;">
-                        <script>
-                            function afficherOWF_SSI() {
-                                const vcFormatElement = document.getElementById('vcFormat');
-                                const proofHeaderElement = document.getElementById('proofHeader');
-                                const clientAuthenticationElement = document.getElementById('clientAuthentication');
-                                const credentialManifestSupportTrueElement = document.getElementById('credentialManifestSupportTrue');
-                                const cryptoHolderBindingTrueElement = document.getElementById('cryptoHolderBindingTrue');
-                                const defaultDidElement = document.getElementById('defaultDid');
-                                const oidc4vciDraftElement = document.getElementById('thirteenvci');
-                                const oidc4vpDraftElement = document.getElementById('eighteenvp');
-                                const scopeFalseElement = document.getElementById('scopeFalse');
-                                const securityLevelFalseElement = document.getElementById('permissive');
-                                const siopv2DraftElement = document.getElementById('twelvesiop');
-                                const subjectSyntaxeTypeElement = document.getElementById('did');
-                                const userPinDigitsElement = document.getElementById('four');
-                    
-                                // Valeurs OWF_SSI
-                                vcFormatElement.value = 'vc+sd-jwt';
-                                proofHeaderElement.value = 'kid';
-                                clientAuthenticationElement.value = 'client_id';
-                                credentialManifestSupportTrueElement.checked = false;
-                                cryptoHolderBindingTrueElement.checked = true;
-                                defaultDidElement.value = 'did:jwk:p-256';
-                                oidc4vciDraftElement.checked = true;
-                                oidc4vpDraftElement.checked = true;
-                                scopeFalseElement.checked = true;
-                                securityLevelFalseElement.checked = true;
-                                siopv2DraftElement.checked = true;
-                                subjectSyntaxeTypeElement.checked = true;
-                                userPinDigitsElement.checked = true;
-                    
-                                
-                                toggleBasicAuthDiv();
-                            }
-                        </script>
+                        <script src="/static/dist/SSI/afficherOWF_SSI.js"></script>
                     </div>
                     
+                    <script src="/static/dist/SSI/afficherCustom.js"></script>
 
-                    <script>
-                        function afficherCustom_SSI() {
-                            document.getElementById("Custom_SSI").style.display = "block";
-                            document.getElementById("EBSI_SSI").style.display = "none";
-                            document.getElementById("DIIP_SSI").style.display = "none";
-                            document.getElementById("OWF_SSI").style.display = "none";
-                        }
-                    
-                        function afficherEBSI_SSI() {
-                            document.getElementById("Custom_SSI").style.display = "none";
-                            document.getElementById("EBSI_SSI").style.display = "block";
-                            document.getElementById("DIIP_SSI").style.display = "none";
-                            document.getElementById("OWF_SSI").style.display = "none";
-                        }
-                    
-                        function afficherDIIP_SSI() {
-                            document.getElementById("Custom_SSI").style.display = "none";
-                            document.getElementById("EBSI_SSI").style.display = "none";
-                            document.getElementById("DIIP_SSI").style.display = "block";
-                            document.getElementById("OWF_SSI").style.display = "none";
-                        }
-                    
-                        function afficherOWF_SSI() {
-                            document.getElementById("Custom_SSI").style.display = "none";
-                            document.getElementById("EBSI_SSI").style.display = "none";
-                            document.getElementById("DIIP_SSI").style.display = "none";
-                            document.getElementById("OWF_SSI").style.display = "block";
-                        }
-                    </script>
-
-                    </div>
+                </div>
                 
                     <div class="line1Setup">
                         <div class="buttonsStep">
@@ -1650,7 +1485,7 @@
                                 </td>
                             </tr>
 
-                            <tr class="talaoIssuersRow">
+                            <!-- <tr class="talaoIssuersRow">
                                 <td class="robotoBold">Age Range</td>
                                 <td>Prove your age range</td>
                                 <td style="text-align: center;">Identity cards</td>
@@ -1668,9 +1503,9 @@
                                         <option value="displayAgeRangeFalse">Invisible</option>
                                     </select>
                                 </td>
-                            </tr>
+                            </tr> -->
 
-                            <tr class="talaoIssuersRow">
+                            <!-- <tr class="talaoIssuersRow">
                                 <td class="robotoBold">Proof of gender</td>
                                 <td>Prove you gender</td>
                                 <td style="text-align: center;">Identity cards</td>
@@ -1688,7 +1523,7 @@
                                         <option value="displayGenderFalse">Invisible</option>
                                     </select>
                                 </td>
-                            </tr>
+                            </tr> -->
 
                             <tr class="talaoIssuersRow">
                                 <td class="robotoBold">Tezotopia</td>
@@ -1862,11 +1697,11 @@
                             <div class="optionsDivRow">
                                 <div class="labelAndButton">
                                     <label for="isAllowedTrue" class="optionLabel">Yes</label>
-                                    <input type="radio" id="isAllowedTrue" name="CustomSignature" value="CustomSignaturetrue">
+                                    <input type="radio" id="isAllowedTrue" name="isAllowed" value="isAllowedtrue">
                                 </div>
                                 <div class="labelAndButton">
                                     <label for="isAllowedFalse" class="optionLabel">No</label>
-                                    <input type="radio" id="isAllowedFalse" name="CustomSignature" value="CustomSignaturefalse" checked>
+                                    <input type="radio" id="isAllowedFalse" name="isAllowed" value="isAllowedfalse" checked>
                                 </div>
                             </div>
                         </div>
@@ -2056,58 +1891,10 @@
     </div>
 
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
-<script>
-    $(document).ready(function () {
-        $("#sortVisibleBtn, #sortInvisibleBtn, #sortVisibleBtnextIssuer, #sortInvisibleBtnextIssuervisibleBtn").click(function (event) {
-            event.preventDefault();
-            sortTableByVisibility(!$(this).hasClass("sortInvisible"));
-        });
-    });
 
-    function sortTableByVisibility(visible) {
-        var rows = $(".talaoIssuersRow");
-        rows.sort(function (a, b) {
-            var valueA = getVisibilityValue($(a).find("select").val());
-            var valueB = getVisibilityValue($(b).find("select").val());
+    <script src="/static/dist/SSI/footer-scripts.js"></script>
 
-            return (visible ? valueB - valueA : valueA - valueB);
-        });
-
-        $("#talaoIssuersTable tbody").html(rows);
-    }
-
-    function getVisibilityValue(selectionValue) {
-        switch (selectionValue) {
-            case "displayOver13True":
-            case "displayOver15True":
-            case "displayOver18True":
-            case "displayOver18_2True":
-            case "displayOver21True":
-            case "displayOver50True":
-            case "displayOver65True":
-            case "displayVerifiableIdTrue":
-            case "displayVerifiableId2True":
-            case "displayVerifiableIdSdJwtTrue":
-            case "displayEmailPassTrue":
-            case "displayEmailPassJwtTrue":
-            case "displayPhonePassTrue":
-            case "displayPhonePassJwtTrue":
-            case "displayDefiTrue":
-            case "displayHumanityTrue":
-            case "displayHumanityJwtTrue":
-            case "displayAgeRangeTrue":
-            case "displayGenderTrue":
-            case "displayTezotopiaTrue":
-            case "displayChainbornTrue":
-                return 1;
-            default:
-                return 0;
-        }
-    }
-</script>
-    
-
-
+    <!-- <script src="/static/dist/SSI/custom-scripts.js"></script> -->
     <script>
         //couleur Status visible/invisible
         document.addEventListener("DOMContentLoaded", function() {
@@ -2395,48 +2182,6 @@
                 .catch(error => console.error('Error:', error));
         }
 
-        // function changeStatusExternalIssuer(idIssuer, nameIssuer, selectElement) {
-        //     console.log("Change status initiated for issuer " + idIssuer);
-            
-        //     let newStatus = selectElement.value;
-        //     console.log("Setting issuer " + idIssuer + " to " + newStatus);
-
-        //     debugger; 
-
-        //     fetch('/change_issuer_config', {
-        //         method: 'POST',
-        //         headers: {
-        //             'Content-Type': 'application/json'
-        //         },
-        //         body: JSON.stringify({
-        //             id: idIssuer,
-        //             newStatus: newStatus
-        //         })
-        //     })
-        //     // debugger;
-        //     .then(response => {
-        //         console.log("Server response status:", response.status);
-
-        //         // Vérifier si la réponse est OK (200)
-        //         if (response.ok) {
-        //             return response.json(); // Parse la réponse JSON
-        //         } else {
-        //             throw new Error('Server response error');
-        //         }
-        //     })
-        //     // debugger;
-        //     .then(data => {
-        //         console.log("Server response data:", data);
-        //         vNotify.info({ text: 'Issuer ' + nameIssuer + " set to " + newStatus, title: 'Info', sticky: true });
-        //     })
-        //     // debugger;
-        //     .catch(error => {
-        //         console.error('Error:', error);
-        //     });
-        // }
-
-
-
         function changeStatusExternalIssuer(idIssuer,nameIssuer) {
             let newStatus = document.getElementById("statusIssuer" + idIssuer).value
             console.log("setting issuer " + idIssuer + " to " + newStatus)
@@ -2487,6 +2232,7 @@
             }
         })
     </script>
+    
     <script>
         const url = new URL(document.location);
 
@@ -2495,22 +2241,26 @@
         if (step === "6") {
             goStep6()
         }
+        //PART 1
         document.getElementById("{{config["generalOptions"]["walletType"]}}").checked = true
         document.getElementById("profileName").value = "{{config["generalOptions"]["profileName"]}}"
         document.getElementById("companyName").value = "{{config["generalOptions"]["companyName"]}}"
         document.getElementById("splashScreenTitle").value = "{{config["generalOptions"]["splashScreenTitle"]}}"
         document.getElementById("tagLine").value = "{{config["generalOptions"]["tagLine"]}}"
 
+        //PART 2
         document.getElementById("displayProfile{{config["settingsMenu"]["displayProfile"]}}").checked = true
         document.getElementById("displayDeveloperMode{{config["settingsMenu"]["displayDeveloperMode"]}}").checked = true
         document.getElementById("displayHelpCenter{{config["settingsMenu"]["displayHelpCenter"]}}").checked = true
         document.getElementById("displaySelfSovereignIdentity{{config["settingsMenu"]["displaySelfSovereignIdentity"]}}").checked = true
 
+        //PART 3
         document.getElementById("displaySecurityAdvancedSettings{{config["walletSecurityOptions"]["displaySecurityAdvancedSettings"]}}").checked = true
         document.getElementById("verifySecurityIssuerWebsiteIdentity{{config["walletSecurityOptions"]["verifySecurityIssuerWebsiteIdentity"]}}").checked = true
         document.getElementById("confirmSecurityVerifierAccess{{config["walletSecurityOptions"]["confirmSecurityVerifierAccess"]}}").checked = true
         document.getElementById("secureSecurityAuthenticationWithPinCode{{config["walletSecurityOptions"]["secureSecurityAuthenticationWithPinCode"]}}").checked = true
 
+        //PART 4
         document.getElementById("displayManageDecentralizedId{{config["selfSovereignIdentityOptions"]["displayManageDecentralizedId"]}}").checked = true
         //document.getElementById("displaySsiAdvancedSettings{{config["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"]}}").checked = true
         //document.getElementById("displayVerifiableDataRegistry{{config["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"]}}").checked = true
@@ -2533,7 +2283,7 @@
         document.getElementById("{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["subjectSyntaxeType"]}}").checked = true
 
         let oidc4vciDraft = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["oidc4vciDraft"]}}"
-        oidc4vciDraft = oidc4vciDraft === "8" ? "eightvci" : oidc4vciDraft === "11" ? "elevenvci" : oidc4vciDraft === "12" ? "twelvevci" : oidc4vciDraft === "13" ? "thirteenvci" : null
+        oidc4vciDraft = oidc4vciDraft === "11" ? "elevenvci" : oidc4vciDraft === "12" ? "twelvevci" : oidc4vciDraft === "13" ? "thirteenvci" : null
         document.getElementById(oidc4vciDraft).checked = true
 
         let oidc4vpDraft = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["oidc4vpDraft"]}}"
@@ -2547,20 +2297,20 @@
         document.getElementById("client_id").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_id"]}}"
         document.getElementById("client_secret").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_secret"]}}"
         document.getElementById("vcFormat").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["vcFormat"]}}"
-        document.getElementById("proofType").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofType"]}}"
+        // document.getElementById("proofType").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofType"]}}"
         document.getElementById("proofHeader").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofHeader"]}}"
 
+        //PART 5
         document.getElementById("displayChatSupport{{config["helpCenterOptions"]["displayChatSupport"]}}").checked = true
         document.getElementById("customChatSupport{{config["helpCenterOptions"]["customChatSupport"]}}").checked = true
         document.getElementById("customChatSupportName").value = "{{config["helpCenterOptions"]["customChatSupportName"]}}"
         document.getElementById("customEmail").value = "{{config["helpCenterOptions"]["customEmail"]}}"
-
         document.getElementById("customEmailSupport{{config["helpCenterOptions"]["customEmailSupport"]}}").checked = true
         document.getElementById("displayEmailSupport{{config["helpCenterOptions"]["displayEmailSupport"]}}").checked = true
 
 
 
-        
+        //PART 6
         document.getElementById("displayOver13").value = "displayOver13{{config["discoverCardsOptions"]["displayOver13"]}}"
         document.getElementById("displayOver15").value = "displayOver15{{config["discoverCardsOptions"]["displayOver15"]}}"
         document.getElementById("displayOver18").value = "displayOver18{{config["discoverCardsOptions"]["displayOver18"]}}"
@@ -2578,16 +2328,20 @@
         document.getElementById("displayDefi").value = "displayDefi{{config["discoverCardsOptions"]["displayDefi"]}}"
         document.getElementById("displayHumanity").value = "displayHumanity{{config["discoverCardsOptions"]["displayHumanity"]}}"
         document.getElementById("displayHumanityJwt").value = "displayHumanityJwt{{config["discoverCardsOptions"]["displayHumanityJwt"]}}"
-        document.getElementById("displayGender").value = "displayGender{{config["discoverCardsOptions"]["displayGender"]}}"
+        // document.getElementById("displayGender").value = "displayGender{{config["discoverCardsOptions"]["displayGender"]}}"
         document.getElementById("displayTezotopia").value = "displayTezotopia{{config["discoverCardsOptions"]["displayTezotopia"]}}"
         document.getElementById("displayChainborn").value = "displayChainborn{{config["discoverCardsOptions"]["displayChainborn"]}}"
         // document.getElementById("displayExternalIssuer").value = "displayExternalIssuer{{config["discoverCardsOptions"]["displayExternalIssuer"]}}"
-        document.getElementById("displayAgeRange").value = "displayAgeRange{{config["discoverCardsOptions"]["displayAgeRange"]}}"
+        // document.getElementById("displayAgeRange").value = "displayAgeRange{{config["discoverCardsOptions"]["displayAgeRange"]}}"
         document.getElementById("categoryIssuer").value = "othersCards"
         document.getElementById("backgroundColorIssuer").value = "#ffffff"
 
-      
+        //PART 7 
+        document.getElementById("isAllowed{{config["companySignature"]["isAllowed"]}}").checked = true
+        document.getElementById("CompanyKey").value = "{{config["companySignature"]["CompanyKey"]}}"
+        document.getElementById("Companykid").value = "{{config["companySignature"]["Companykid"]}}"
 
+        
         //switchProfile()
         switchSupportEmail()
         // switchChat()
@@ -2842,20 +2596,6 @@
             document.getElementById("customizeTitle").innerHTML = "Customize your DID Wallet : Signature"
 
         }
-        // document.getElementById("step7Div").setAttribute("class", "stepDiv");
-        // document.getElementById("step6Div").setAttribute("class", "displayNone");
-
-
-
-        // // traiter les données du formulaire lors de la soumission et save les données cryptées sur le serveur dans /keystore.
-        // document.getElementById('finalPreviousStep').addEventListener('click', function() {
-        //     var isAllowed = document.querySelector('input[name="isAllowed"]:checked').value;
-        //     var companyKey = document.getElementById('companyKey').value;
-        //     var kid = document.getElementById('kid').value;
-
-        //     // Ajoutez votre logique pour sauvegarder les données sur le serveur ici
-        //     // Utilisez les valeurs de isAllowed, companyKey, et kid pour effectuer les opérations nécessaires.
-        // });
 
         function switchTzproRpcNode() {
             if (document.getElementById("tzproRpcNode").checked) {

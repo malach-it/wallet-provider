@@ -459,8 +459,8 @@ def set_config():
         "siopv2Draft"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["vcFormat"] = request.form.to_dict().get(
         "vcFormat","ldp_vc")
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofType"] = request.form.to_dict().get(
-        "proofType","jwt")
+    # wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofType"] = request.form.to_dict().get(
+    #     "proofType","jwt")
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofHeader"] = request.form.to_dict().get(
         "proofHeader","kid")
     wallet_provider_configuration["helpCenterOptions"]["customChatSupportName"] = request.form.to_dict()[
@@ -554,16 +554,15 @@ def set_config():
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayHumanityJwt"] = True
 
-    if request.form.to_dict()["displayAgeRange"] == "displayAgeRangeFalse":
-        wallet_provider_configuration["discoverCardsOptions"]["displayAgeRange"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayAgeRange"] = True
+    # if request.form.to_dict()["displayAgeRange"] == "displayAgeRangeFalse":
+    #     wallet_provider_configuration["discoverCardsOptions"]["displayAgeRange"] = False
+    # else:
+    #     wallet_provider_configuration["discoverCardsOptions"]["displayAgeRange"] = True
 
-    if request.form.to_dict()["displayGender"] == "displayGenderFalse":
-        wallet_provider_configuration["discoverCardsOptions"]["displayGender"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayGender"] = True
-    
+    # if request.form.to_dict()["displayGender"] == "displayGenderFalse":
+    #     wallet_provider_configuration["discoverCardsOptions"]["displayGender"] = False
+    # else:
+    #     wallet_provider_configuration["discoverCardsOptions"]["displayGender"] = True
     
     if request.form.to_dict()["displayTezotopia"] == "displayTezotopiaFalse":
         wallet_provider_configuration["discoverCardsOptions"]["displayTezotopia"] = False
@@ -580,6 +579,18 @@ def set_config():
     #     wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = False
     # else:
     #     wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = True
+
+
+    if request.form.to_dict().get("isAllowed") == "isAllowed":
+        wallet_provider_configuration["companySignature"]["isAllowed"] = True
+    else:
+        wallet_provider_configuration["companySignature"]["isAllowed"] = False
+
+    wallet_provider_configuration["companySignature"]["CompanyKey"] = request.form.to_dict()["CompanyKey"]
+
+    wallet_provider_configuration["companySignature"]["Companykid"] = request.form.to_dict()["Companykid"]
+
+
 
     try:
         issuers = json.loads(db.read_issuers_config(session["organisation"]))
