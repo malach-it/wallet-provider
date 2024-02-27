@@ -4,9 +4,10 @@
 
 <head>
   <meta charset="UTF-8">
-  <link rel="stylesheet" href="/static/altme_style.css">
-  <link rel="icon" type="image/png" href="/static/img/icon.png" sizes="16x16">
+  <link rel="stylesheet" href="/static/configure_style.css">
+  <link rel="icon" type="image/png" href="https://wallet-provider.talao.co/static/img/icon.png" sizes="16x16">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wallet Customization</title>
 </head>
 
 <body>
@@ -21,26 +22,6 @@
 
       <div class="nav-02__list_wrapper  ">
         <div class="nav-02__list nav-02__list--desktop">
-          <!--<div class="nav-02__item">
-                    <a class="button   button--black-outline  button--empty " href="https://altme.io/#slider-07-879531"
-                      target="_self">
-                      <p class="linkP"> Wallet features
-                      </p>
-                    </a>
-                  </div>
-                  <div class="nav-02__item" id="newsNav">
-                    <a class="button   button--black-outline  button--empty " href="https://altme.io/#posts-05-876621"
-                      target="_self">
-                      <p class="linkP">News</p>
-  
-                    </a>
-                  </div>
-                  <div class="nav-02__item" id="roadmapNav">
-                    <a href="https://altme.io/#features-09-390941" target="_self">
-                      <p class="linkP">Roadmap</p>
-  
-                    </a>
-                  </div>-->
           <div class="nav-02__item" id="faqNav">
             <a class="button   button--black-outline  button--empty " href="https://altme.io/" target="_self">
               <p class="linkP">Back to home</p>
@@ -72,24 +53,7 @@
           </p>
         </a>
       </div>
-      <!-- <div class="nav-02__item" id="newsNav">
-              <a class="button   button--black-outline  button--empty " href="https://altme.io/#posts-05-876621"
-                target="_self">
-                <p class="linkP">News</p>
-  
-              </a>
-            </div>
-            <div class="nav-02__item" id="roadmapNav">
-              <a href="https://altme.io/#features-09-390941" target="_self">
-                <p class="linkP">Roadmap</p>
-  
-              </a>
-            </div>
-            <div class="nav-02__item" id="faqNav">
-              <a class="button   button--black-outline  button--empty " href="#superFaq" target="_self">
-                <p class="linkP">FAQ</p>
-              </a>
-            </div>-->
+
       <div class="nav-02__item">
 
         <a data-stripe-product-id="" data-stripe-mode="payment" data-successful-payment-url=""
@@ -123,15 +87,16 @@
     </button>
 
   </div>
-  <div id="mainBox">
-    <p class="title">We could not find an account for {{email}}</p>
-    <a class="buttonAltme" href="/">Get back to login</a>
+ 
 
+  <div id="mainBox" class="recursiveMainBox">
 
-    <script>
+    <!-- <p id="titleVerifier">Start customizing your organization wallet</p> -->
+    <p id="infotext">Scan this QR code to transfer the wallet config</p>
+    <div id="qrcodeDiv">
+      <img id="qrcode" src="{{ qrcode(url) }}">
+    </div>
 
-     
-    </script>
   </div>
 
 
@@ -141,7 +106,6 @@
         <div class="footer-02__text content_box">
           <p id="line1Footer">&copy; 2024&nbsp; Altme All rights reserved, <a href="https://altme.io/cgu/"
               target="_blank">CGU</a>, <a href="https://altme.io/privacy/" target="_blank">Privacy</a></p>
-          <p id="line2Footer" hidden><strong>Built with TzKT API, Spruce Didkit 0.4.0</strong>&nbsp;</p>
         </div>
         <div class="social-buttons  ">
 
@@ -161,33 +125,15 @@
   </div>
   <script>
     document.getElementById('buttonMenu').addEventListener('click', () => {
-      //console.log(document.getElementById('buttonMenu').getAttribute("class"))
       if (document.getElementById('imageButtonMenu').getAttribute("class") === "imgButtonMenuInactive") {
-        /*document.documentElement.setAttribute("class", "noScroll");
-        document.getElementById('bigBox').setAttribute("class", "toHide");
-        document.getElementById('superFaq').setAttribute("class", "toHide");
-        document.getElementById('footer').setAttribute("class", "toHide");
-
-        document.getElementById('menuDiv').setAttribute("class", "menuActive");
-        document.getElementById('generalQuestions').setAttribute("class", "inactiveQuestions");
-        document.getElementById('securityQuestions').setAttribute("class", "inactiveQuestions");
-        document.getElementById('SSIQuestions').setAttribute("class", "inactiveQuestions");
-*/      document.getElementById('menuDiv').setAttribute("class", "flex");
+    document.getElementById('menuDiv').setAttribute("class", "flex");
         document.body.style.overflow = 'hidden';
 
         document.getElementById('imageButtonMenu').setAttribute("class", "imgButtonMenuActive");
         document.getElementById('imageButtonMenu').setAttribute("src", "/static/img/crossMenu.png")
       }
       else if (document.getElementById('imageButtonMenu').getAttribute("class") === "imgButtonMenuActive") {
-        /*document.documentElement.setAttribute("class", "");
-        document.getElementById('bigBox').setAttribute("class", "");
-        document.getElementById('superFaq').setAttribute("class", "");
-        document.getElementById('footer').setAttribute("class", "");
-        document.getElementById('menuDiv').setAttribute("class", "nav-02__list_wrapper");
-        document.getElementById('generalQuestions').setAttribute("class", "activeQuestions");
-        document.getElementById('securityQuestions').setAttribute("class", "inactiveQuestions");
-        document.getElementById('SSIQuestions').setAttribute("class", "inactiveQuestions");
-*/     document.getElementById('menuDiv').setAttribute("class", "");
+    document.getElementById('menuDiv').setAttribute("class", "");
         document.body.style.overflow = '';
 
         document.getElementById('imageButtonMenu').setAttribute("class", "imgButtonMenuInactive");

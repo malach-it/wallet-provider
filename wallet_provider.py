@@ -10,57 +10,81 @@ import sys
 import requests
 import math
 import message
-import db  # db manager for wallet-provider
+import db # db manager for wallet-provider
+from cryptography.fernet import Fernet
+
 
 logging.basicConfig(level=logging.INFO)
 
 try:
-    WALLET_PROVIDER_KEY = json.load(open('keys.json', 'r'))[
-        'wallet_provider_key']
+    WALLET_PROVIDER_KEY = json.load(open('keys.json', 'r'))['wallet_provider_key']
+    FERNET_KEY = json.load(open('keys.json', 'r'))['fernet_key']
 except Exception:
     logging.info('wallet provider key missing')
     sys.exit()
 
 TRUSTED_LIST = ['did:web:talao.co']
-WALLET_PROVIDER_PUBLIC_KEY = copy.copy(WALLET_PROVIDER_KEY)
+WALLET_PROVIDER_PUBLIC_KEY =  copy.copy(WALLET_PROVIDER_KEY)
 del WALLET_PROVIDER_PUBLIC_KEY['d']
 WALLET_PROVIDER_VM = 'did:web:talao.co#key-2'
 WALLET_PROVIDER_DID = 'did:web:talao.co'
 WALLET_API_VERSION = '0.3.1'
-ATTESTATION_DURATION = 365  # days
+ATTESTATION_DURATION = 365 # days
+
+def get_key(kid):
+    f = Fernet(FERNET_KEY)
+    with open('keystore/' + kid + '.txt', 'r') as outfile :
+        encrypted_issuer_key = outfile.read()
+    return f.decrypt(encrypted_issuer_key.encode()).decode()
 
 
+def alg(key):
+    key = json.loads(key) if isinstance(key, str) else key
+    if key['kty'] == 'EC':
+        if key['crv'] in ['secp256k1', 'P-256K']:
+            key['crv'] = 'secp256k1'
+            return 'ES256K' 
+        elif key['crv'] == 'P-256':
+            return 'ES256'
+        elif key['crv'] == 'P-384':
+            return 'ES384'
+        elif key['crv'] == 'P-521':
+            return 'ES512'
+        else:
+            raise Exception("Curve not supported")
+    elif key['kty'] == 'RSA':
+        return 'RS256'
+    elif key['kty'] == 'OKP':
+        return 'EdDSA'
+    else:
+        raise Exception("Key type not supported")
+    
+    
 def init_app(app, red, mode):
     # endpoints for OpenId customer application
-    app.add_url_rule('/nonce',  view_func=nonce,
-                     methods=['GET'], defaults={'red': red})
-    app.add_url_rule('/token',  view_func=wallet_attestation_endpoint,
-                     methods=['POST'], defaults={'red': red})
-    app.add_url_rule('/configuration',
-                     view_func=wallet_configuration_endpoint, methods=['POST'])
-    app.add_url_rule(
-        '/update',  view_func=wallet_update_endpoint, methods=['POST'])
+    app.add_url_rule('/nonce',  view_func=nonce, methods=['GET'], defaults={'red': red})
+    app.add_url_rule('/token',  view_func=wallet_attestation_endpoint, methods=['POST'], defaults={'red': red})
+    app.add_url_rule('/configuration',  view_func=wallet_configuration_endpoint, methods=['POST'])
+    app.add_url_rule('/update',  view_func=wallet_update_endpoint, methods=['POST'])
+    app.add_url_rule('/sign',  view_func=wallet_sign_endpoint, methods=['POST'])
 
-    app.add_url_rule('/wallet_api_version',
-                     view_func=wallet_api_version, methods=['GET'])
+    app.add_url_rule('/wallet_api_version',  view_func=wallet_api_version, methods=['GET'])
 
 
 def thumbprint(key):
-    signer_key = jwk.JWK(**key)
+    signer_key = jwk.JWK(**key) 
     return signer_key.thumbprint()
 
 
 def get_payload_from_token(token) -> dict:
     payload = token.split('.')[1]
-    # solve the padding issue of the base64 python lib
-    payload += '=' * ((4 - len(payload) % 4) % 4)
+    payload += '=' * ((4 - len(payload) % 4) % 4) # solve the padding issue of the base64 python lib
     return json.loads(base64.urlsafe_b64decode(payload).decode())
 
 
 def get_header_from_token(token):
     header = token.split('.')[0]
-    # solve the padding issue of the base64 python lib
-    header += '=' * ((4 - len(header) % 4) % 4)
+    header += '=' * ((4 - len(header) % 4) % 4) # solve the padding issue of the base64 python lib
     return json.loads(base64.urlsafe_b64decode(header).decode())
 
 
@@ -68,7 +92,7 @@ def resolve_did(vm) -> dict:
     did = vm.split('#')[0]
     url = 'https://unires.talao.co/1.0/identifiers/' + did
     try:
-        r = requests.get(url, auth=('unires', 'test'))
+        r = requests.get(url, auth=('unires','test'))
         did_document = r.json()['didDocument']
         logging.info('Talao Universal Resolver used')
     except Exception:
@@ -87,7 +111,7 @@ def resolve_did(vm) -> dict:
                 publicKeyBase58 = verification_method.get('publicKeyBase58')
                 logging.info('publiccKeyBase48 = %s', publicKeyBase58)
                 return publicKeyBase58
-            else:
+            else:  
                 logging.info('publicKeyJwk = %s', jwk)
                 return jwk
     return
@@ -126,17 +150,10 @@ def manage_error(error, error_description, status=400):
     return {'response': json.dumps(payload), 'status': status, 'headers': headers}
 
 
-def get_payload_from_jwt(token) -> dict:
-    payload = token.split('.')[1]
-    # solve the padding issue of the base64 python lib
-    payload += '=' * ((4 - len(payload) % 4) % 4)
-    return json.loads(base64.urlsafe_b64decode(payload).decode())
-
-
 def sign_jwt(payload, typ, nonce=None, aud=None, jti=None, duration=365):
     duration = duration * 24*60*60
     header = {
-        'typ': typ,
+        'typ':typ,
         'kid': WALLET_PROVIDER_VM,
         'alg': 'ES256'
     }
@@ -146,14 +163,14 @@ def sign_jwt(payload, typ, nonce=None, aud=None, jti=None, duration=365):
         'exp': math.floor(datetime.timestamp(datetime.now().replace(second=0, microsecond=0)) + duration)
     }
     if nonce:
-        data['nonce'] = nonce
+        data['nonce'] = nonce  
     if jti:
-        data['jti'] = jti
+        data['jti'] = jti 
     if aud:
         data['aud'] = aud
     data.update(payload)
     token = jwt.JWT(header=header, claims=data, algs=['ES256'])
-    signer_key = jwk.JWK(**WALLET_PROVIDER_KEY)
+    signer_key = jwk.JWK(**WALLET_PROVIDER_KEY) 
     try:
         token.make_signed_token(signer_key)
     except Exception:
@@ -167,7 +184,7 @@ def wallet_api_version():
 
 def nonce(red):
     nonce = str(uuid.uuid1())
-    red.setex(nonce, 10, request.host)
+    red.setex(nonce, 10, request.host )
     logging.info('nonce is sent to wallet')
     return jsonify({'nonce': nonce})
 
@@ -188,8 +205,8 @@ def wallet_attestation_endpoint(red):
         return Response(**manage_error('invalid_grant', 'Assertion expected'))
 
     try:
-        wallet_request = get_payload_from_jwt(assertion)
-        wallet_cnf = copy.copy(wallet_request['cnf'])
+        wallet_request = get_payload_from_token(assertion)
+        wallet_cnf =  copy.copy(wallet_request['cnf'])
         wallet_cnf['jwk'].update({'kid': wallet_request['iss']})
     except Exception as e:
         return Response(**manage_error('invalid_request', 'Assertion format is incorrect -> ' + str(e)))
@@ -203,7 +220,7 @@ def wallet_attestation_endpoint(red):
         return Response(**manage_error('invalid_request', 'Assertion signature check failed'))
 
     logging.info('wallet request signature is ok')
-
+    
     # check wallet request nonce
     nonce = wallet_request['nonce']
     if not red.get(nonce):
@@ -215,7 +232,7 @@ def wallet_attestation_endpoint(red):
         "sub": wallet_request['iss'],
         "cnf": wallet_cnf,
         "wallet_name": "Talao Altme wallet",
-        "key_type": "software",
+        "key_type" : "software",
         "authorization_endpoint": "https://app.altme.io/app/download/authorize",
         "response_types_supported": [
             "vp_token",
@@ -225,14 +242,13 @@ def wallet_attestation_endpoint(red):
             "ES256"
         ],
         "presentation_definition_uri_supported": True,
-    }
+    }   
     jti = str(uuid.uuid1())
-    # TODO can store the jti
-    wallet_attestation = sign_jwt(
-        payload, 'wallet-attestation+jwt', nonce=nonce, jti=jti, duration=ATTESTATION_DURATION)
+    # TODO can store the jti 
+    wallet_attestation = sign_jwt(payload, 'wallet-attestation+jwt', nonce=nonce, jti=jti, duration=ATTESTATION_DURATION)
     if not wallet_attestation:
         return Response(**manage_error("server_error", "Wallet attestation failed to be signed"))
-    headers = {
+    headers = { 
         "Content-Type": "application/jwt",
         "Cache-Control": "no-cache"
     }
@@ -247,7 +263,7 @@ def wallet_configuration_endpoint():
         try:
             basic = base64.urlsafe_b64decode(payload.encode()).decode()
             logging.info('No padding issue')
-        except:
+        except Exception:
             logging.info('Padding issue')
             payload += "=" * ((4 - len(payload) % 4) % 4)
             basic = base64.urlsafe_b64decode(payload.encode()).decode()
@@ -255,7 +271,7 @@ def wallet_configuration_endpoint():
         user_password = basic.split(':')[1]
     except Exception as e:
         return Response(**manage_error('invalid_request', 'basic authentication missing or incorrect -> ' + str(e)))
-
+    
     # check if user and password exist in the customer DB
     try:
         check = db.verify_password_user(user_email, user_password)
@@ -266,17 +282,17 @@ def wallet_configuration_endpoint():
     logging.info('login/password is fine for %s', user_email)
 
     try:
-        wallet_attestation = get_payload_from_jwt(request.form['assertion'])
+        wallet_attestation = get_payload_from_token(request.form['assertion'])
     except Exception as e:
         return Response(**manage_error('invalid_request', 'assertion missing -> ' + str(e)))
 
-     # check wallet attestation signature
+    # check wallet attestation signature
     try:
         verif_token(request.form['assertion'])
         logging.info('wallet attestation signature is ok')
     except Exception as e:
         return Response(**manage_error('invalid_request', 'Wallet attestation signature check failed ->' + str(e)))
-
+    
     # check wallet attestation format
     try:
         iss = wallet_attestation['iss']
@@ -285,38 +301,35 @@ def wallet_configuration_endpoint():
         user_jwk = wallet_attestation['cnf']['jwk']
         user_sub = wallet_attestation['sub']
     except Exception as e:
-        return Response(**manage_error('invalid_client', 'incorrect wallet attestation format -> ' + str(e)))
-
+        return Response(**manage_error('invalid_client', 'incorrect wallet attestation format -> ' + str(e))) 
+    
     # check if this user has multiple wallet attestation
     data_of_this_user = db.read_data_user(user_email)
     if data_of_this_user.get('wallet_instance_jti') and jti != data_of_this_user.get('wallet_instance_jti'):
-        logging.warning(
-            'This user is already registered with another wallet attestation')
-        message.message("This user is already registered with another wallet attestation",
-                        'thierry.thevenet@talao.io', user_email + " is registering multiple configurations")
+        logging.warning('This user is already registered with another wallet attestation')
+        message.message("This user is already registered with another wallet attestation", 'thierry.thevenet@talao.io', user_email + " is registering multiple configurations")
     else:
         pass
-        # message.message("New enterprise wallet configuration", 'thierry.thevenet@talao.io', user_email + " is registering a new configuration")
-        logging.info(
-            'This user is already registered with same wallet attestation')
-
+        #message.message("New enterprise wallet configuration", 'thierry.thevenet@talao.io', user_email + " is registering a new configuration")
+        logging.info('This user is already registered with same wallet attestation')
+        
     if iss not in TRUSTED_LIST:
         return Response(**manage_error('invalid_client', 'Wallet attestation is not issued by trusted wallet provider'))
     if exp < datetime.timestamp(datetime.now().replace(second=0, microsecond=0)):
         return Response(**manage_error('invalid_request', 'Wallet attestation expired'))
-
+    
     # check if user is suspended
     status = data_of_this_user['status']
     logging.info("user status = %s", status)
-    # if status != "active":
+    #if status != "active":
     #    return Response(**manage_error('invalid_client', 'User has been suspended'))
 
     # Update user data with user wallet attestation data
-    user_data = db.read_data_user(user_email)  # -> dict
+    user_data = db.read_data_user(user_email) # -> dict
     if not user_data:
         return Response(**manage_error('invalid_client', 'user not found'))
     user_data.update(
-        {
+        {        
             "wallet_instance_key_thumbprint": user_sub,
             "wallet_instance_jti": jti,
             "wallet_cnf_jwk": user_jwk,
@@ -328,26 +341,24 @@ def wallet_configuration_endpoint():
         return Response(**manage_error('server_error', 'user data update failed -> ' + str(e)))
     logging.info('user data is now updated')
 
-    # Build and sign configuration jwt for user wallet
+    # Build and sign configuration jwt for user wallet 
     config = {}
     try:
-        config = db.read_config(user_email)  # -> dict
+        config = db.read_config(user_email) # -> dict
     except Exception:
         return Response(**manage_error('server_error', 'incorrect configuration file'))
     if not config:
         return Response(**manage_error('invalid_request', 'configuration is not found for this user ' + user_email))
-
+    
     # Check if organization is still active
-    logging.info('Organization status = %s',
-                 config.get('organizationStatus', True))
+    logging.info('Organization status = %s', config.get('organizationStatus', True))
     if not config.get('organizationStatus', True):
         return Response(**manage_error('invalid_client', 'This organization is suspended'))
 
-    payload = sign_jwt(config, 'JWT', duration=90*24*60*60,
-                       jti=config['generalOptions']['profileId'])
+    payload = sign_jwt(config, 'JWT', duration=90*24*60*60, jti=config['generalOptions']['profileId'] )
     if not payload:
         return Response(**manage_error('server_error', 'Configuration fails to be signed'))
-    headers = {
+    headers = { 
         "Content-Type": "application/jwt",
         "Cache-Control": "no-cache"
     }
@@ -357,42 +368,20 @@ def wallet_configuration_endpoint():
 
 
 def wallet_update_endpoint():
+    
+    # Get wallet attestation"
     try:
-        Authorization = request.headers['Authorization']
-        payload = Authorization.split()[1]
-        try:
-            basic = base64.urlsafe_b64decode(payload.encode()).decode()
-            logging.info('No padding issue')
-        except Exception:
-            logging.info('Padding issue')
-            payload += "=" * ((4 - len(payload) % 4) % 4)
-            basic = base64.urlsafe_b64decode(payload.encode()).decode()
-        user_email = basic.split(':')[0]
-        user_password = basic.split(':')[1]
-    except Exception as e:
-        return Response(**manage_error('invalid_request', 'basic authentication missing or incorrect -> ' + str(e)))
-
-    # check user and password
-    try:
-        check = db.verify_password_user(user_email, user_password)
-    except Exception:
-        return Response(**manage_error('server_error', 'verify_password_user DB call failed'))
-    if not check:
-        return Response(**manage_error('invalid_client', 'user not found in DB'))
-    logging.info('logging/password is fine for %s', user_email)
-
-    try:
-        wallet_attestation = get_payload_from_jwt(request.form['assertion'])
+        wallet_attestation = get_payload_from_token(request.form['assertion'])
     except Exception as e:
         return Response(**manage_error('invalid_request', 'assertion missing -> ' + str(e)))
 
-     # check wallet attestation signature
+    # check wallet attestation signature
     try:
         verif_token(request.form['assertion'])
         logging.info('wallet attestation signature is ok')
     except Exception as e:
         return Response(**manage_error('invalid_client', 'Wallet attestation signature check failed ->' + str(e)))
-
+    
     # check wallet attestation format
     try:
         iss = wallet_attestation['iss']
@@ -400,61 +389,37 @@ def wallet_update_endpoint():
         user_jwk = wallet_attestation['cnf']['jwk']
         kid = user_jwk['kid']
     except Exception as e:
-        return Response(**manage_error('invalid_request', 'incorrect wallet attestation format -> ' + str(e)))
-
+        return Response(**manage_error('invalid_request', 'incorrect wallet attestation format -> ' + str(e))) 
+        
     if iss not in TRUSTED_LIST:
         return Response(**manage_error('invalid_request', 'Wallet attestation is not issued by trusted wallet provider'))
     if exp < datetime.timestamp(datetime.now().replace(second=0, microsecond=0)):
         return Response(**manage_error('invalid_request', 'Wallet attestation expired'))
-
-     # check if user is suspended
+    
+    # get organisation
     try:
-        data_of_this_user = db.read_data_user(user_email)
-        status = data_of_this_user['status']
+        organisation = db.read_organisation_from_thumbprint(kid)
     except Exception:
-        return Response(**manage_error('invalid_client', 'User data not found for ' + user_email))
-    logging.info("user status = %s", status)
-    # if status != "active":
-    #    return Response(**manage_error('invalid_client', 'User has been suspended'))
-
-    # check user data with user wallet attestation data
-    user_data = db.read_data_user(user_email)  # -> dict
-    if not user_data:
-        return Response(**manage_error('invalid_request', 'user not found'))
-
-    try:
-        wallet_attestation = get_payload_from_jwt(request.form['assertion'])
-    except Exception as e:
-        return Response(**manage_error('invalid_request', 'assertion missing -> ' + str(e)))
-
-    try:
-        if wallet_attestation['cnf']['jwk']['kid'] != user_data['wallet_instance_key_thumbprint']:
-            return Response(**manage_error('invalid_request', 'incorrect wallet'))
-        else:
-            logging.info('correct wallet for update')
-    except Exception as e:
-        return Response(**manage_error('invalid_request', 'incorrect wallet attestation format -> ' + str(e)))
-
-    # Build and sign configuration jwt for user wallet
-    config = {}
-    try:
-        config = db.read_config(user_email)  # -> dict
+        return Response(**manage_error('server_error', 'incorrect users file'))
+    
+    # get config
+    try:        
+        config = db.read_config_from_organisation(organisation)
     except Exception:
         return Response(**manage_error('server_error', 'incorrect configuration file'))
     if not config:
-        return Response(**manage_error('invalid_client', 'configuration is not found for this user ' + user_email))
+        return Response(**manage_error('invalid_client', 'configuration is not found for this wallet attestation'))
 
-     # Check if organization is still active
-    logging.info('Organization status = %s',
-                 config.get('organizationStatus', True))
+    # Check if organization is still active
+    logging.info('Organization status = %s', config.get('organizationStatus', True))
     if not config.get('organizationStatus', True):
         return Response(**manage_error('invalid_client', 'This organization is suspended'))
-
-    payload = sign_jwt(config, 'JWT', duration=90*24*60*60,
-                       jti=config['generalOptions']['profileId'])
+    
+    # sign JWT config
+    payload = sign_jwt(config, 'JWT', duration=90*24*60*60, jti=config['generalOptions']['profileId'] )
     if not payload:
         return Response(**manage_error('server_error', 'Configuration fails to be signed'))
-    headers = {
+    headers = { 
         "Content-Type": "application/jwt",
         "Cache-Control": "no-cache"
     }
@@ -462,14 +427,79 @@ def wallet_update_endpoint():
     logging.info(payload)
     return Response(payload, headers=headers)
 
-def store_key(key, kid):
+
+def wallet_sign_endpoint():
     try:
-        FERNET_KEY = json.load(open('keys.json', 'r'))['fernet_key']
+        wallet_attestation = get_payload_from_token(request.form['assertion'])
+    except Exception as e:
+        return Response(**manage_error('invalid_request', 'assertion missing -> ' + str(e)))
+    
+    # check wallet attestation signature
+    try:
+        verif_token(request.form['assertion'])
+        logging.info('wallet attestation signature is ok')
+    except Exception as e:
+        return Response(**manage_error('invalid_client', 'Wallet attestation signature check failed ->' + str(e)))
+    
+    # check wallet attestation format
+    try:
+        iss = wallet_attestation['iss']
+        exp = wallet_attestation['exp']
+        user_jwk = wallet_attestation['cnf']['jwk']
+        kid = user_jwk['kid']
+    except Exception as e:
+        return Response(**manage_error('invalid_request', 'incorrect wallet attestation format -> ' + str(e))) 
+    
+    if iss not in TRUSTED_LIST:
+        return Response(**manage_error('invalid_request', 'Wallet attestation is not issued by trusted wallet provider'))
+    if exp < datetime.timestamp(datetime.now().replace(second=0, microsecond=0)):
+        return Response(**manage_error('invalid_request', 'Wallet attestation expired'))
+    
+    # check if instance is active
+    if not db.read_status_from_thumbprint(kid):
+        logging.warning("instance is not suspended")
+    
+    # get organisation name
+    organisation = db.read_organisation_from_thumbprint(kid)
+    if not organisation:
+        return Response(**manage_error('invalid_request', 'Organisaton not found'))
+
+    # get config from organisation
+    config = db.read_config_from_organisation(organisation)
+    logging.info('company signature = %s', config['companySignature'])
+    
+    # get company key
+    try:
+        is_allowed = config['companySignature']['isAllowed']
+        kid = config['companySignature']['kid']
     except Exception:
-        return
-    f = Fernet(FERNET_KEY)
-    key = json.dumps(key) if isinstance(key, dict) else key
-    encrypted_company_key = f.encrypt(key.encode())
-    with open('keystore/' + kid + '.txt', 'w') as outfile:
-        outfile.write(encrypted_company_key.decode())
-    return True
+        kid = None
+        is_allowed = False
+    if not kid or not is_allowed:
+        return Response(**manage_error('invalid_request', 'Company key not found'))
+    company_key = json.loads(get_key(kid))
+    signer_key = jwk.JWK(**company_key)
+    
+    # setup jwt header and payload
+    logging.info("jwt_payload received from wallet = %s", jwt_payload)
+    logging.info("jwt_header received from wallet = %s", jwt_header)
+    jwt_payload = json.loads(request.form['jwt_payload'])
+    jwt_payload['iss'] = kid.split('#')[0]
+    jwt_header = json.loads(request.form['jwt_header'])
+    jwt_header.update({
+        "alg": company_key['alg'],
+        "kid": kid
+    })
+
+    # sign jwt
+    token = jwt.JWT(header=jwt_header, claims=jwt_payload, algs=[company_key["alg"]])
+    token.make_signed_token(signer_key)
+    payload = token.serialize()
+    headers = { 
+        "Content-Type": "application/jwt",
+        "Cache-Control": "no-cache"
+    }
+    logging.info('token signed is sent to wallet')
+    logging.info(payload)
+    return Response(payload, headers=headers)
+

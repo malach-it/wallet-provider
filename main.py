@@ -26,7 +26,7 @@ from io import BytesIO
 import requests
 from flask_mobility import Mobility
 
-VERSION = "0.1.0"
+VERSION = "1.0.0"
 
 
 logging.basicConfig(level=logging.INFO)
@@ -581,7 +581,9 @@ def set_config():
     #     wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = True
 
 
-    if request.form.to_dict().get("isAllowed") == "isAllowed":
+
+    # Part 7 
+    if request.form.to_dict().get("isAllowed") == "isAllowedFalse":
         wallet_provider_configuration["companySignature"]["isAllowed"] = True
     else:
         wallet_provider_configuration["companySignature"]["isAllowed"] = False
@@ -918,6 +920,17 @@ def change_issuer_config():
         db.update_config(json.dumps(config), organisation)
     return "ok"
 
+def store_key(key, kid):
+    try:
+        FERNET_KEY = json.load(open('keys.json', 'r'))['fernet_key']
+    except Exception:
+        return
+    f = Fernet(FERNET_KEY)
+    key = json.dumps(key) if isinstance(key, dict) else key
+    encrypted_company_key = f.encrypt(key.encode())
+    with open('keystore/' + kid + '.txt', 'w') as outfile:
+        outfile.write(encrypted_company_key.decode())
+    return True
 
 init_app(app, red)
 wallet_provider.init_app(app, red, mode)
