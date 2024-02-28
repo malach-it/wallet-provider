@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, jsonify, redirect, session, Response, send_file
+from flask import Flask, render_template, request, jsonify, redirect, session, send_file
 import flask
 import json
 import redis
@@ -16,7 +16,6 @@ import random
 import string
 import message
 import wallet_provider
-import time
 import uuid
 from datetime import datetime, timedelta
 import base64
@@ -25,6 +24,8 @@ from PIL import Image
 from io import BytesIO
 import requests
 from flask_mobility import Mobility
+from flask_qrcode import QRcode
+
 
 VERSION = "1.0.0"
 
@@ -54,6 +55,9 @@ app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=60)
 sess = Session()
 sess.init_app(app)
 Mobility(app)
+qrcode = QRcode(app)
+
+
 """
 Init OpenID Connect client PYOIDC with the 3 bridge parameters :  client_id, client_secret and issuer URL
 """
@@ -660,8 +664,12 @@ def add_user():
     password = generate_random_string(6)
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
     db.create_user(email, sha256_hash, organisation, first_name, last_name)
-    message.messageHTML("Your altme password", email,
-                        'password', {'code': str(password)})
+    message.messageHTML(
+        "Your altme password", email, 'password', {
+            'code': str(password),
+            'website':  mode.server + "configuration/webpage?login=" + email + "&password=" + str(password)
+        }
+    )
     return ("ok")
 
 
@@ -804,8 +812,12 @@ def update_password_user():
         return str(db.read_data_user(email))
     password = generate_random_string(6)
     sha256_hash = sha256(password.encode('utf-8')).hexdigest()
-    message.messageHTML("Your altme password", email,
-                        'password', {'code': str(password)})
+    message.messageHTML(
+        "Your altme password", email, 'password', {
+            'code': str(password),
+            'website':  mode.server + "configuration/webpage?login=" + email + "&password=" + str(password)
+        }
+    )
     db.update_password_user(email, sha256_hash)
     return ("ok")
 

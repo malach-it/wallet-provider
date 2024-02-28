@@ -1,6 +1,6 @@
 import uuid
 import json
-from flask import jsonify, request, Response
+from flask import jsonify, request, Response, render_template
 from datetime import datetime
 import logging
 from jwcrypto import jwk, jwt
@@ -12,6 +12,7 @@ import math
 import message
 import db # db manager for wallet-provider
 from cryptography.fernet import Fernet
+from hashlib import sha256
 
 
 logging.basicConfig(level=logging.INFO)
@@ -66,6 +67,8 @@ def init_app(app, red, mode):
     app.add_url_rule('/token',  view_func=wallet_attestation_endpoint, methods=['POST'], defaults={'red': red})
     app.add_url_rule('/configuration',  view_func=wallet_configuration_endpoint, methods=['POST'])
     app.add_url_rule('/update',  view_func=wallet_update_endpoint, methods=['POST'])
+    app.add_url_rule('/configuration/webpage',  view_func=wallet_configuration_webpage, methods=['GET', 'POST'], defaults={'red': red})
+
     app.add_url_rule('/sign',  view_func=wallet_sign_endpoint, methods=['POST'])
 
     app.add_url_rule('/wallet_api_version',  view_func=wallet_api_version, methods=['GET'])
@@ -272,14 +275,22 @@ def wallet_configuration_endpoint():
     except Exception as e:
         return Response(**manage_error('invalid_request', 'basic authentication missing or incorrect -> ' + str(e)))
     
+    # is guest
+    if user_email.split("@")[0] == "guest":
+        guest = True
+    else:
+        guest = False
+    logging.info("guest = %s", guest)
+    
     # check if user and password exist in the customer DB
-    try:
-        check = db.verify_password_user(user_email, user_password)
-    except Exception:
-        return Response(**manage_error('server_error', 'verify_password_user DB call failed'))
-    if not check:
-        return Response(**manage_error('invalid_request', 'user not found'))
-    logging.info('login/password is fine for %s', user_email)
+    if not guest:
+        try:
+            check = db.verify_password_user(user_email, user_password)
+        except Exception:
+            return Response(**manage_error('server_error', 'verify_password_user DB call failed'))
+        if not check:
+            return Response(**manage_error('invalid_request', 'user not found'))
+        logging.info('login/password is fine for %s', user_email)
 
     try:
         wallet_attestation = get_payload_from_token(request.form['assertion'])
@@ -304,14 +315,15 @@ def wallet_configuration_endpoint():
         return Response(**manage_error('invalid_client', 'incorrect wallet attestation format -> ' + str(e))) 
     
     # check if this user has multiple wallet attestation
-    data_of_this_user = db.read_data_user(user_email)
-    if data_of_this_user.get('wallet_instance_jti') and jti != data_of_this_user.get('wallet_instance_jti'):
-        logging.warning('This user is already registered with another wallet attestation')
-        message.message("This user is already registered with another wallet attestation", 'thierry.thevenet@talao.io', user_email + " is registering multiple configurations")
-    else:
-        pass
-        #message.message("New enterprise wallet configuration", 'thierry.thevenet@talao.io', user_email + " is registering a new configuration")
-        logging.info('This user is already registered with same wallet attestation')
+    if not guest:
+        data_of_this_user = db.read_data_user(user_email)
+        if data_of_this_user.get('wallet_instance_jti') and jti != data_of_this_user.get('wallet_instance_jti'):
+            logging.warning('This user is already registered with another wallet attestation')
+            message.message("This user is already registered with another wallet attestation", 'thierry.thevenet@talao.io', user_email + " is registering multiple configurations")
+        else:
+            pass
+            #message.message("New enterprise wallet configuration", 'thierry.thevenet@talao.io', user_email + " is registering a new configuration")
+            logging.info('This user is already registered with same wallet attestation')
         
     if iss not in TRUSTED_LIST:
         return Response(**manage_error('invalid_client', 'Wallet attestation is not issued by trusted wallet provider'))
@@ -319,27 +331,29 @@ def wallet_configuration_endpoint():
         return Response(**manage_error('invalid_request', 'Wallet attestation expired'))
     
     # check if user is suspended
-    status = data_of_this_user['status']
-    logging.info("user status = %s", status)
-    #if status != "active":
-    #    return Response(**manage_error('invalid_client', 'User has been suspended'))
+    if not guest:
+        status = data_of_this_user['status']
+        logging.info("user status = %s", status)
+        #if status != "active":
+        #    return Response(**manage_error('invalid_client', 'User has been suspended'))
 
     # Update user data with user wallet attestation data
-    user_data = db.read_data_user(user_email) # -> dict
-    if not user_data:
-        return Response(**manage_error('invalid_client', 'user not found'))
-    user_data.update(
-        {        
-            "wallet_instance_key_thumbprint": user_sub,
-            "wallet_instance_jti": jti,
-            "wallet_cnf_jwk": user_jwk,
-            "attestation_iat": datetime.timestamp(datetime.now().replace(second=0, microsecond=0)),
-        })
-    try:
-        check = db.update_data_user(user_email, json.dumps(user_data))
-    except Exception as e:
-        return Response(**manage_error('server_error', 'user data update failed -> ' + str(e)))
-    logging.info('user data is now updated')
+    if not guest:
+        user_data = db.read_data_user(user_email) # -> dict
+        if not user_data:
+            return Response(**manage_error('invalid_client', 'user not found'))
+        user_data.update(
+            {        
+                "wallet_instance_key_thumbprint": user_sub,
+                "wallet_instance_jti": jti,
+                "wallet_cnf_jwk": user_jwk,
+                "attestation_iat": datetime.timestamp(datetime.now().replace(second=0, microsecond=0)),
+            })
+        try:
+            check = db.update_data_user(user_email, json.dumps(user_data))
+        except Exception as e:
+            return Response(**manage_error('server_error', 'user data update failed -> ' + str(e)))
+        logging.info('user data is now updated')
 
     # Build and sign configuration jwt for user wallet 
     config = {}
@@ -350,6 +364,14 @@ def wallet_configuration_endpoint():
     if not config:
         return Response(**manage_error('invalid_request', 'configuration is not found for this user ' + user_email))
     
+    #increment instance
+    try:
+        organisation = db.read_organisation_user(user_email)
+        if organisation:
+            db.increment_instances(organisation)
+    except Exception:
+        logging.error("Cannot increment instances")
+
     # Check if organization is still active
     logging.info('Organization status = %s', config.get('organizationStatus', True))
     if not config.get('organizationStatus', True):
@@ -367,8 +389,14 @@ def wallet_configuration_endpoint():
     return Response(payload, headers=headers)
 
 
+def wallet_configuration_webpage(red):
+    login = request.args.get('login')
+    password = request.args.get("password")
+    url = "configuration://?password=" + password + "&login=" + login + "&wallet-provider=https://wallet-provider.talao.co"
+    return render_template("configure_qrcode.html", url=url)   
+
+
 def wallet_update_endpoint():
-    
     # Get wallet attestation"
     try:
         wallet_attestation = get_payload_from_token(request.form['assertion'])
