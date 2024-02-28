@@ -1,0 +1,227 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+
+<html>
+
+<head>
+  <meta charset="UTF-8">
+  <link rel="stylesheet" href="/static/configure_style.css">
+  <link rel="icon" type="image/png" href="https://wallet-provider.talao.co/static/img/icon.png" sizes="16x16">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Wallet Customization</title>
+  <style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+
+    #navBar,
+    #navBarMobile {
+        background-color: white;
+        padding: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-02__box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-02__list {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-02__item {
+        margin-right: 20px;
+    }
+
+    .nav-02__logo img {
+        max-height: 50px;
+    }
+
+    #menuDiv {
+        display: none;
+        flex-direction: column;
+    }
+
+    #buttonMenu {
+        display: block;
+        cursor: pointer;
+    }
+
+    #buttonMenuLogo img {
+        max-height: 30px;
+    }
+
+    .recursiveMainBox {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: white;
+    }
+
+    #qrcodeDiv {
+        text-align: center;
+    }
+
+    #qrcode {
+        max-width: 100%;
+        height: auto;
+    }
+
+    @media only screen and (max-width: 600px) {
+        #navBar .nav-02__list {
+            display: none;
+        }
+
+        #navBarMobile .nav-02__box {
+            justify-content: space-between;
+        }
+
+        #menuDiv {
+            display: flex;
+        }
+
+        #buttonMenuLogo img {
+            max-height: 20px;
+        }
+    }
+</style>
+</head>
+
+<body>
+  <nav id="navBar" class="js-nav nav-02  nav-02--sticky  nav-02--sticky--white  ">
+
+    <div class="nav-02__box">
+      <div class="nav-02__logo"><a class="nav-02__link" href="https://altme.io/" target="_self">
+          <img loading="lazy" class="nav-02__logo_img"
+            src="/static/img/altme-decentralized-identity-wallet-did-logo.webp" height="70" alt="Logo" />
+        </a></div>
+
+      <div class="nav-02__list_wrapper  ">
+        <div class="nav-02__list nav-02__list--desktop">
+          <div class="nav-02__item" id="faqNav">
+            <a class="button   button--black-outline  button--empty " href="https://altme.io/" target="_self">
+              <p class="linkP">Back to home</p>
+            </a>
+          </div>
+          <div class="nav-02__item">
+
+            <a data-stripe-product-id="" data-stripe-mode="payment" data-successful-payment-url=""
+              data-cancel-payment-url="" class="button button--accent-bg "
+              href="mailto:contact@altme.io?cc=hugo@altme.io&subject=Altme" target="_blank">
+              <div class="contactSpan">
+                <p class="contactP">Contact</p>
+              </div>
+            </a>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </nav>
+
+  <div id="menuDiv" class="nav-02__list_wrapper  ">
+    <div class="nav-02__list nav-02__list--desktop">
+      <div class="nav-02__item">
+        <a class="button   button--black-outline  button--empty " href="https://altme.io/" target="_self">
+          <p class="linkP"> Back to home
+          </p>
+        </a>
+      </div>
+
+      <div class="nav-02__item">
+
+        <a data-stripe-product-id="" data-stripe-mode="payment" data-successful-payment-url=""
+          data-cancel-payment-url="" class="button button--accent-bg "
+          href="mailto:contact@altme.io?cc=hugo@altme.io&subject=Altme" target="_blank">
+          <div class="contactSpan">
+            <p class="contactP">Contact</p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  <!-- <div id="navBarMobile" class="js-nav nav-02  nav-02--sticky  nav-02--sticky--white  ">
+    <div class="nav-02__box">
+      <div class="nav-02__logo">
+        <a class="nav-02__link" href="https://altme.io/" target="_self">
+          <img loading="lazy" class="nav-02__logo_img"
+            src="https://unicorn-cdn.b-cdn.net/653ef4c9-deb9-41af-9fa0-dc973cdd8134/altme-identity-wallet---blockchain---web3---self-sovereign-identity---decentralized-identity---ebsi---ssi---did---digital-identity---logo.png"
+            height="70" alt="Logo" />
+        </a>
+      </div>
+    </div>
+    
+    <button id="buttonMenu">
+      <div id="buttonMenuLogo">
+        <img id="imageButtonMenu" class="imgButtonMenuInactive" src="/static/img/div.png">
+      </div>
+    </button>
+  </div> -->
+ 
+
+  <div id="mainBox" class="recursiveMainBox">
+
+    <!-- <p id="titleVerifier">Start customizing your organization wallet</p> -->
+    <p id="infotext">Scan this QR code to transfer the wallet config</p>
+    <div id="qrcodeDiv">
+      <img id="qrcode" src="{{ qrcode(url) }}">
+    </div>
+
+  </div>
+
+
+  <div class="bg-white-color ">
+    <footer class="footer-02" id="footer">
+      <div class="footer-02__wrapper">
+        <div class="footer-02__text content_box">
+          <p id="line1Footer">&copy; 2024&nbsp; Altme All rights reserved, <a href="https://altme.io/cgu/"
+              target="_blank">CGU</a>, <a href="https://altme.io/privacy/" target="_blank">Privacy</a></p>
+        </div>
+        <div class="social-buttons  ">
+
+          <div class="social-buttons__item"><a class="social-buttons__link social-buttons__link--twitter"
+              href="https://twitter.com/Altme_io" target="_blank"><img loading="lazy" class="social-buttons__icon"
+                alt="twitter icon"
+                src="https://dvzvtsvyecfyp.cloudfront.net/static/img/icons/social/black/twitter.svg" /></a></div>
+          <div class="social-buttons__item"><a class="social-buttons__link social-buttons__link--linkedin"
+              href="https://www.linkedin.com/company/altme-web3/" target="_blank"><img loading="lazy"
+                class="social-buttons__icon" alt="linkedin icon"
+                src="https://dvzvtsvyecfyp.cloudfront.net/static/img/icons/social/black/linkedin.svg" /></a></div>
+
+        </div>
+      </div>
+    </footer>
+
+  </div>
+  <script>
+    document.getElementById('buttonMenu').addEventListener('click', () => {
+      if (document.getElementById('imageButtonMenu').getAttribute("class") === "imgButtonMenuInactive") {
+    document.getElementById('menuDiv').setAttribute("class", "flex");
+        document.body.style.overflow = 'hidden';
+
+        document.getElementById('imageButtonMenu').setAttribute("class", "imgButtonMenuActive");
+        document.getElementById('imageButtonMenu').setAttribute("src", "/static/img/crossMenu.png")
+      }
+      else if (document.getElementById('imageButtonMenu').getAttribute("class") === "imgButtonMenuActive") {
+    document.getElementById('menuDiv').setAttribute("class", "");
+        document.body.style.overflow = '';
+
+        document.getElementById('imageButtonMenu').setAttribute("class", "imgButtonMenuInactive");
+        document.getElementById('imageButtonMenu').setAttribute("src", "/static/img/div.png")
+
+      }
+    })
+  </script>
+</body>
+
+</html>
