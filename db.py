@@ -86,8 +86,6 @@ def create_issuer(id: str, organisation: str, data: dict, privacy: str):
     return True
 
 
-
-
 def read_issuers_availables(organisation, issuers):
     issuers = str(issuers).replace("[", "(").replace("]", ")")
     conn = sqlite3.connect('db.sqlite')
@@ -260,6 +258,44 @@ def read_status_from_thumbprint(thumbprint):
     return False
 
 
+def instances(organisation):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    db_data = { 'organisation': organisation}
+    c.execute('SELECT instances FROM organisations WHERE name =:organisation ', db_data)
+    client_data = c.fetchone()
+    if not client_data[0]:
+        conn.close()
+        return 0
+    conn.close()
+    return client_data[0]
+
+
+def increment_instances(organisation):
+    i = instances(organisation) + 1
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    db_data = { 'organisation': organisation,
+               "instance_number": i}
+    try:
+        c.execute("UPDATE organisations SET instances = :instance_number WHERE name =:organisation ", db_data)
+    except Exception:
+        return None
+    conn.commit()
+    conn.close() 
+
+
+def read_organisation_from_thumbprint(thumbprint):
+    conn = sqlite3.connect('db.sqlite')
+    c = conn.cursor()
+    c.execute("select json_extract(data,'$.organisation') from users where json_extract(data,'$.wallet_instance_key_thumbprint')='{thumbprint}'".format(
+        thumbprint=thumbprint))
+    rows = c.fetchall()
+    if len(rows) < 1:
+        return False
+    return rows[0][0]
+
+
 def read_config(email: str) -> dict:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
@@ -400,6 +436,7 @@ def update_issuer(id, data, organisation,privacy):
     conn.commit()
     return True
 
+
 def delete_issuer(id, organisation) -> bool:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
@@ -407,6 +444,7 @@ def delete_issuer(id, organisation) -> bool:
         organisation=organisation, id=id))
     conn.commit()
     return True
+
 
 def merge_dicts(d1, d2):
     merged = d1.copy()
@@ -417,13 +455,3 @@ def merge_dicts(d1, d2):
             merged[key] = value
     return merged
 
-def read_organisation_from_thumbprint(thumbprint):
-    conn = sqlite3.connect('db.sqlite')
-    c = conn.cursor()
-    c.execute("select json_extract(data,'$.organisation') from users where json_extract(data,'$.wallet_instance_key_thumbprint')='{thumbprint}'".format(
-        thumbprint=thumbprint))
-    rows = c.fetchall()
-    print(rows)
-    if len(rows) < 1:
-        return
-    return rows[0][0]

@@ -8,12 +8,97 @@
   <link rel="icon" type="image/png" href="https://wallet-provider.talao.co/static/img/icon.png" sizes="16x16">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Wallet Customization</title>
+  <style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+
+    #navBar,
+    #navBarMobile {
+        background-color: white;
+        padding: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-02__box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-02__list {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-02__item {
+        margin-right: 20px;
+    }
+
+    .nav-02__logo img {
+        max-height: 50px;
+    }
+
+    #menuDiv {
+        display: none;
+        flex-direction: column;
+    }
+
+    #buttonMenu {
+        display: block;
+        cursor: pointer;
+    }
+
+    #buttonMenuLogo img {
+        max-height: 30px;
+    }
+
+    .recursiveMainBox {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: white;
+    }
+
+    #qrcodeDiv {
+        text-align: center;
+    }
+
+    #qrcode {
+        max-width: 100%;
+        height: auto;
+    }
+
+    @media only screen and (max-width: 600px) {
+        #navBar .nav-02__list {
+            display: none;
+        }
+
+        #navBarMobile .nav-02__box {
+            justify-content: space-between;
+        }
+
+        #menuDiv {
+            display: flex;
+        }
+
+        #buttonMenuLogo img {
+            max-height: 20px;
+        }
+    }
+</style>
 </head>
 
 <body>
-
-
   <nav id="navBar" class="js-nav nav-02  nav-02--sticky  nav-02--sticky--white  ">
+
     <div class="nav-02__box">
       <div class="nav-02__logo"><a class="nav-02__link" href="https://altme.io/" target="_self">
           <img loading="lazy" class="nav-02__logo_img"
@@ -39,12 +124,10 @@
           </div>
         </div>
 
-
       </div>
-
     </div>
-
   </nav>
+
   <div id="menuDiv" class="nav-02__list_wrapper  ">
     <div class="nav-02__list nav-02__list--desktop">
       <div class="nav-02__item">
@@ -65,10 +148,9 @@
         </a>
       </div>
     </div>
-
-
   </div>
-  <div id="navBarMobile" class="js-nav nav-02  nav-02--sticky  nav-02--sticky--white  ">
+  
+  <!-- <div id="navBarMobile" class="js-nav nav-02  nav-02--sticky  nav-02--sticky--white  ">
     <div class="nav-02__box">
       <div class="nav-02__logo">
         <a class="nav-02__link" href="https://altme.io/" target="_self">
@@ -77,16 +159,14 @@
             height="70" alt="Logo" />
         </a>
       </div>
-
-
     </div>
+    
     <button id="buttonMenu">
       <div id="buttonMenuLogo">
         <img id="imageButtonMenu" class="imgButtonMenuInactive" src="/static/img/div.png">
       </div>
     </button>
-
-  </div>
+  </div> -->
  
 
   <div id="mainBox" class="recursiveMainBox">
