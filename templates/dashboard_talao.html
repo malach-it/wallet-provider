@@ -6,6 +6,8 @@
     <link rel="stylesheet" href="/static/dist/vanilla-notify.css" />
     <title>Wallet customization TALAO admin</title>
     <script src="/static/dist/vanilla-notify.js"></script>
+    <script src="/static/dist/dashboard/trier_tableau.js"></script>
+    <link rel="icon" href="/static/img/icon.png" type="image/png">
 </head>
 
 <body>
@@ -30,19 +32,29 @@
 
         <table id="tableDashboard">
             <tr>
-                <th>Organisation</th>
+                <th>Organisation 
+                    <button class="trier_tab" onclick="sortTable('asc')">Sort A-Z</button>
+                    <button class="trier_tab" onclick="sortTable('desc')">Sort Z-A</button>
+                </th>
                 <th>Admin email</th>
                 <th>Configured</th>
+                <th>Nb instances</th>
                 <th>Version config</th>
                 <th>Plan</th>
             </tr>
             {% for row in table %}
             <tr>
+                <!-- orga -->
                 <td>{{row[1]}}</td>
+                <!-- admin mail -->
                 <td>{{row[0]}}</td>
+                <!-- config -->
                 <td>{{row[4]}}</td>
+                <!-- nb instances -->
+                <td>{{row[8]}}</td>
+                <!-- version config -->
                 <td>{{row[7]}}</td>
-
+                <!-- plan -->
                 <td>
 
                     <div class="planChanger{{row[1]}}">

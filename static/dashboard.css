@@ -202,3 +202,14 @@ tr:nth-child(even) {
     flex-direction: row;
     justify-content: space-between;
 }
+
+.trier_tab {
+    border-radius: 8px;
+    background: var(--Brand---Purple-default, #330080);
+    padding: 6px 12px;
+    color: white;
+    border: none;
+    font-family: Roboto;
+    font-weight: 300;
+    font-size: 12px;
+}

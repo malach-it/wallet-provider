@@ -11,6 +11,7 @@
     <script src="/static/dist/vanilla-notify.js"></script>
     <script src="/static/dist/setup.js"></script>
     <link rel="stylesheet" href="/static/dist/vanilla-notify.css" />
+    <link rel="icon" href="/static/img/icon.png" type="image/png">
 
 </head>
 
@@ -951,10 +952,10 @@
                                     </select>
                                 </div>
                                                     
-                                <div class="optionDivDisabled">
+                                <div class="optionDiv">
                                     <p class="optionDivMainTitle">4.12 OIDC4VCI Proof Type</p>
                                     <p class="optionDivSecondTitle">Select your OIDC4VCI Proof Type</p>
-                                    <select class="selectSetup" id="proofType" name="proofType" disabled>
+                                    <select class="selectSetup" id="proofType" name="proofType">
                                         <option value="jwt">jwt</option>
                                         <option value="ldp_vp">ldp_vp</option>
                                     </select>
@@ -2297,7 +2298,7 @@
         document.getElementById("client_id").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_id"]}}"
         document.getElementById("client_secret").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_secret"]}}"
         document.getElementById("vcFormat").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["vcFormat"]}}"
-        // document.getElementById("proofType").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofType"]}}"
+        document.getElementById("proofType").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofType"]}}"
         document.getElementById("proofHeader").value = "{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofHeader"]}}"
 
         //PART 5

@@ -36,7 +36,6 @@ if not myenv:
     myenv = 'achille'
 mode = environment.currentMode(myenv)
 
-
 app = Flask(__name__)
 app.secret_key = json.load(open("keys.json", "r"))["appSecretKey"]
 app.config['UPLOAD_FOLDER'] = 'logos'
@@ -71,6 +70,7 @@ client_metadata = ClientMetadata(
 provider_config = ProviderConfiguration(issuer='https://talao.co/sandbox/verifier/app',
                                         client_metadata=client_metadata)
 auth = OIDCAuthentication({'default': provider_config}, app)
+
 red = redis.Redis(host='127.0.0.1', port=6379, db=0)
 
 
@@ -171,7 +171,6 @@ def error_500(e):
     """
     if mode.server in ['https://talao.co/']:
         email = 'contact@talao.io'
-
         message.email('Error 500 wallet provider',
                       email, str(e))
     return redirect(mode.server + '/')
@@ -302,7 +301,7 @@ def allowed_file(filename):
 
 def set_config():
     if not session.get("organisation"):
-        return "Unauthorized", 401
+        return redirect('/')
     wallet_provider_configuration = json.load(
         open('./wallet-provider-configuration.json', 'r'))
     wallet_provider_configuration["generalOptions"]["walletType"] = request.form.to_dict()[
@@ -667,7 +666,7 @@ def add_user():
     message.messageHTML(
         "Your altme password", email, 'password', {
             'code': str(password),
-            'website':  mode.server + "configuration/webpage?login=" + email + "&password=" + str(password)
+            'website':  mode.server + "configuration/webpage?login=" + email + "&password=" + str(password) + "&wallet-provider=" + mode.server
         }
     )
     return ("ok")
@@ -815,7 +814,7 @@ def update_password_user():
     message.messageHTML(
         "Your altme password", email, 'password', {
             'code': str(password),
-            'website':  mode.server + "configuration/webpage?login=" + email + "&password=" + str(password)
+            'website':  mode.server + "configuration/webpage?login=" + email + "&password=" + str(password) + "&wallet-provider=" + mode.server
         }
     )
     db.update_password_user(email, sha256_hash)

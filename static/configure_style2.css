@@ -1,0 +1,85 @@
+
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background-color: #f0f0f0;
+    }
+
+    #navBar,
+    #navBarMobile {
+        background-color: white;
+        padding: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+
+    .nav-02__box {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .nav-02__list {
+        display: flex;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+    }
+
+    .nav-02__item {
+        margin-right: 20px;
+    }
+
+    .nav-02__logo img {
+        max-height: 50px;
+    }
+
+    #menuDiv {
+        display: none;
+        flex-direction: column;
+    }
+
+    #buttonMenu {
+        display: block;
+        cursor: pointer;
+    }
+
+    #buttonMenuLogo img {
+        max-height: 30px;
+    }
+
+    .recursiveMainBox {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: white;
+    }
+
+    #qrcodeDiv {
+        text-align: center;
+    }
+
+    #qrcode {
+        max-width: 100%;
+        height: auto;
+    }
+
+    @media only screen and (max-width: 600px) {
+        #navBar .nav-02__list {
+            display: none;
+        }
+
+        #navBarMobile .nav-02__box {
+            justify-content: space-between;
+        }
+
+        #menuDiv {
+            display: flex;
+        }
+
+        #buttonMenuLogo img {
+            max-height: 20px;
+        }
+    }

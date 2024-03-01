@@ -111,7 +111,7 @@ def create_organisation(name: str, config: str) -> bool:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute(
-        """insert into organisations values ('{name}','{config}',0)""".format(name=name, config=config))
+        """insert into organisations values ('{name}','{config}',0, 0)""".format(name=name, config=config))
     conn.commit()
     return True
 
@@ -325,7 +325,13 @@ def read_config_from_organisation(organisation: str):
 def read_tables():
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
-    c.execute('select email,json_extract(data,"$.organisation") as organisation,json_extract(data,"$.password")as password,name,configured ,json_extract(config,"$.generalOptions.customerPlan") as plan ,json_extract(config,"$.generalOptions.organizationStatus") as status,json_extract(config,"$.version") as version from admins,organisations where json_extract(data,"$.organisation")=name')
+    c.execute('SELECT email, json_extract(data, "$.organisation") AS organisation, '
+              'json_extract(data, "$.password") AS password, name, configured, '
+              'json_extract(config, "$.generalOptions.customerPlan") AS plan, '
+              'json_extract(config, "$.generalOptions.organizationStatus") AS status, '
+              'json_extract(config, "$.version") AS version, instances '
+              'FROM admins, organisations '
+              'WHERE json_extract(data, "$.organisation") = name')
     rows = c.fetchall()
     return rows
 

@@ -12,7 +12,6 @@ import math
 import message
 import db # db manager for wallet-provider
 from cryptography.fernet import Fernet
-from hashlib import sha256
 
 
 logging.basicConfig(level=logging.INFO)
@@ -47,10 +46,6 @@ def alg(key):
             return 'ES256K' 
         elif key['crv'] == 'P-256':
             return 'ES256'
-        elif key['crv'] == 'P-384':
-            return 'ES384'
-        elif key['crv'] == 'P-521':
-            return 'ES512'
         else:
             raise Exception("Curve not supported")
     elif key['kty'] == 'RSA':
@@ -67,10 +62,8 @@ def init_app(app, red, mode):
     app.add_url_rule('/token',  view_func=wallet_attestation_endpoint, methods=['POST'], defaults={'red': red})
     app.add_url_rule('/configuration',  view_func=wallet_configuration_endpoint, methods=['POST'])
     app.add_url_rule('/update',  view_func=wallet_update_endpoint, methods=['POST'])
-    app.add_url_rule('/configuration/webpage',  view_func=wallet_configuration_webpage, methods=['GET', 'POST'], defaults={'red': red})
-
+    app.add_url_rule('/configuration/webpage',  view_func=wallet_configuration_webpage, methods=['GET', 'POST'])
     app.add_url_rule('/sign',  view_func=wallet_sign_endpoint, methods=['POST'])
-
     app.add_url_rule('/wallet_api_version',  view_func=wallet_api_version, methods=['GET'])
 
 
@@ -153,26 +146,23 @@ def manage_error(error, error_description, status=400):
     return {'response': json.dumps(payload), 'status': status, 'headers': headers}
 
 
-def sign_jwt(payload, typ, nonce=None, aud=None, jti=None, duration=365):
+def sign_jwt(payload, typ, nonce=None, aud=None, jti=None, duration=0):
     duration = duration * 24*60*60
     header = {
         'typ':typ,
         'kid': WALLET_PROVIDER_VM,
-        'alg': 'ES256'
+        'alg': alg(WALLET_PROVIDER_KEY)
     }
     data = {
         'iss': WALLET_PROVIDER_DID,
         'iat': math.floor(datetime.timestamp(datetime.now().replace(second=0, microsecond=0))),
-        'exp': math.floor(datetime.timestamp(datetime.now().replace(second=0, microsecond=0)) + duration)
     }
-    if nonce:
-        data['nonce'] = nonce  
-    if jti:
-        data['jti'] = jti 
-    if aud:
-        data['aud'] = aud
+    if duration != 0: data['exp'] = math.floor(datetime.timestamp(datetime.now().replace(second=0, microsecond=0)) + duration)
+    if nonce: data['nonce'] = nonce  
+    if jti: data['jti'] = jti 
+    if aud: data['aud'] = aud
     data.update(payload)
-    token = jwt.JWT(header=header, claims=data, algs=['ES256'])
+    token = jwt.JWT(header=header, claims=data, algs=[alg(WALLET_PROVIDER_KEY)])
     signer_key = jwk.JWK(**WALLET_PROVIDER_KEY) 
     try:
         token.make_signed_token(signer_key)
@@ -206,7 +196,6 @@ def wallet_attestation_endpoint(red):
         return Response(**manage_error('invalid_request', 'assertion or grant_type missing'))
     if grant_type != 'urn:ietf:params:oauth:grant-type:jwt-bearer':
         return Response(**manage_error('invalid_grant', 'Assertion expected'))
-
     try:
         wallet_request = get_payload_from_token(assertion)
         wallet_cnf =  copy.copy(wallet_request['cnf'])
@@ -228,7 +217,6 @@ def wallet_attestation_endpoint(red):
     nonce = wallet_request['nonce']
     if not red.get(nonce):
         return Response(**manage_error('invalid_request', 'Nonce incorrect'))
-    red.delete(nonce)
 
     # build and send wallet attestation
     payload = {
@@ -242,13 +230,15 @@ def wallet_attestation_endpoint(red):
             "id_token"
         ],
         "request_object_signing_alg_values_supported": [
-            "ES256"
+            "ES256",
+            "ES256K"
         ],
         "presentation_definition_uri_supported": True,
     }   
     jti = str(uuid.uuid1())
     # TODO can store the jti 
-    wallet_attestation = sign_jwt(payload, 'wallet-attestation+jwt', nonce=nonce, jti=jti, duration=ATTESTATION_DURATION)
+    wallet_attestation = sign_jwt(payload, 'wallet-attestation+jwt', nonce=nonce, jti=jti)
+    logging.info('Watte attestation = %s', wallet_attestation)
     if not wallet_attestation:
         return Response(**manage_error("server_error", "Wallet attestation failed to be signed"))
     headers = { 
@@ -276,11 +266,8 @@ def wallet_configuration_endpoint():
         return Response(**manage_error('invalid_request', 'basic authentication missing or incorrect -> ' + str(e)))
     
     # is guest
-    if user_email.split("@")[0] == "guest":
-        guest = True
-    else:
-        guest = False
-    logging.info("guest = %s", guest)
+    guest = (user_email.split("@")[0] == "guest")
+    logging.info("guest is %s", guest )
     
     # check if user and password exist in the customer DB
     if not guest:
@@ -295,24 +282,24 @@ def wallet_configuration_endpoint():
     try:
         wallet_attestation = get_payload_from_token(request.form['assertion'])
     except Exception as e:
-        return Response(**manage_error('invalid_request', 'assertion missing -> ' + str(e)))
+        return Response(**manage_error('invalid_request', 'assertion missing'))
 
     # check wallet attestation signature
     try:
         verif_token(request.form['assertion'])
         logging.info('wallet attestation signature is ok')
-    except Exception as e:
-        return Response(**manage_error('invalid_request', 'Wallet attestation signature check failed ->' + str(e)))
+    except Exception:
+        return Response(**manage_error('invalid_request', 'Wallet attestation signature check failed'))
     
-    # check wallet attestation format
+    # check wallet attestation format and validity
     try:
         iss = wallet_attestation['iss']
         jti = wallet_attestation.get('jti')
-        exp = wallet_attestation['exp']
+        exp = wallet_attestation.get('exp')
         user_jwk = wallet_attestation['cnf']['jwk']
         user_sub = wallet_attestation['sub']
-    except Exception as e:
-        return Response(**manage_error('invalid_client', 'incorrect wallet attestation format -> ' + str(e))) 
+    except Exception:
+        return Response(**manage_error('invalid_client', 'incorrect wallet attestation format')) 
     
     # check if this user has multiple wallet attestation
     if not guest:
@@ -321,13 +308,11 @@ def wallet_configuration_endpoint():
             logging.warning('This user is already registered with another wallet attestation')
             message.message("This user is already registered with another wallet attestation", 'thierry.thevenet@talao.io', user_email + " is registering multiple configurations")
         else:
-            pass
             #message.message("New enterprise wallet configuration", 'thierry.thevenet@talao.io', user_email + " is registering a new configuration")
             logging.info('This user is already registered with same wallet attestation')
-        
     if iss not in TRUSTED_LIST:
         return Response(**manage_error('invalid_client', 'Wallet attestation is not issued by trusted wallet provider'))
-    if exp < datetime.timestamp(datetime.now().replace(second=0, microsecond=0)):
+    if exp and exp < datetime.timestamp(datetime.now().replace(second=0, microsecond=0)):
         return Response(**manage_error('invalid_request', 'Wallet attestation expired'))
     
     # check if user is suspended
@@ -350,13 +335,12 @@ def wallet_configuration_endpoint():
                 "attestation_iat": datetime.timestamp(datetime.now().replace(second=0, microsecond=0)),
             })
         try:
-            check = db.update_data_user(user_email, json.dumps(user_data))
-        except Exception as e:
-            return Response(**manage_error('server_error', 'user data update failed -> ' + str(e)))
+            db.update_data_user(user_email, json.dumps(user_data))
+        except Exception:
+            return Response(**manage_error('server_error', 'user data update failed'))
         logging.info('user data is now updated')
 
     # Build and sign configuration jwt for user wallet 
-    config = {}
     try:
         config = db.read_config(user_email) # -> dict
     except Exception:
@@ -364,10 +348,9 @@ def wallet_configuration_endpoint():
     if not config:
         return Response(**manage_error('invalid_request', 'configuration is not found for this user ' + user_email))
     
-    #increment instance
+    # increment instance in organisation 
     try:
-        organisation = db.read_organisation_user(user_email)
-        if organisation:
+        if organisation := db.read_organisation_user(user_email):
             db.increment_instances(organisation)
     except Exception:
         logging.error("Cannot increment instances")
@@ -384,15 +367,17 @@ def wallet_configuration_endpoint():
         "Content-Type": "application/jwt",
         "Cache-Control": "no-cache"
     }
-    logging.info('Configuration is sent to wallet')
-    logging.info(payload)
+    logging.info('Configuration is sent to wallet = %s', payload)
     return Response(payload, headers=headers)
 
 
-def wallet_configuration_webpage(red):
+def wallet_configuration_webpage():
     login = request.args.get('login')
     password = request.args.get("password")
-    url = "configuration://?password=" + password + "&login=" + login + "&wallet-provider=https://wallet-provider.talao.co"
+    wallet_provider = request.args.get("wallet-provider")
+    if not login or not password or not wallet_provider:
+        return jsonify("Unauthorized"), 404
+    url = "configuration://?password=" + password + "&login=" + login + "&wallet-provider=" + wallet_provider
     return render_template("configure_qrcode.html", url=url)   
 
 
@@ -401,42 +386,43 @@ def wallet_update_endpoint():
     try:
         wallet_attestation = get_payload_from_token(request.form['assertion'])
     except Exception as e:
-        return Response(**manage_error('invalid_request', 'assertion missing -> ' + str(e)))
+        return Response(**manage_error('invalid_request', 'Wallet attestation is missing'))
 
     # check wallet attestation signature
     try:
         verif_token(request.form['assertion'])
         logging.info('wallet attestation signature is ok')
     except Exception as e:
-        return Response(**manage_error('invalid_client', 'Wallet attestation signature check failed ->' + str(e)))
+        return Response(**manage_error('invalid_client', 'Wallet attestation signature check failed'))
     
-    # check wallet attestation format
+    # check wallet attestation validity and format
     try:
         iss = wallet_attestation['iss']
-        exp = wallet_attestation['exp']
+        exp = wallet_attestation.get('exp')
         user_jwk = wallet_attestation['cnf']['jwk']
         kid = user_jwk['kid']
     except Exception as e:
-        return Response(**manage_error('invalid_request', 'incorrect wallet attestation format -> ' + str(e))) 
-        
+        return Response(**manage_error('invalid_request', 'Incorrect wallet attestation')) 
     if iss not in TRUSTED_LIST:
-        return Response(**manage_error('invalid_request', 'Wallet attestation is not issued by trusted wallet provider'))
-    if exp < datetime.timestamp(datetime.now().replace(second=0, microsecond=0)):
+        return Response(**manage_error('invalid_request', 'Wallet attestation is not issued by a trusted wallet provider'))
+    if exp and exp < datetime.timestamp(datetime.now().replace(second=0, microsecond=0)):
         return Response(**manage_error('invalid_request', 'Wallet attestation expired'))
     
     # get organisation
     try:
         organisation = db.read_organisation_from_thumbprint(kid)
     except Exception:
-        return Response(**manage_error('server_error', 'incorrect users file'))
+        return Response(**manage_error('server_error', 'Organisation access failed'))
+    if not organisation:
+        return Response(**manage_error('invalid_client', 'Configuration update is not available for guests'))
     
     # get config
     try:        
         config = db.read_config_from_organisation(organisation)
     except Exception:
-        return Response(**manage_error('server_error', 'incorrect configuration file'))
+        return Response(**manage_error('server_error', 'Incorrect configuration file'))
     if not config:
-        return Response(**manage_error('invalid_client', 'configuration is not found for this wallet attestation'))
+        return Response(**manage_error('invalid_client', 'Configuration update is not available for guests'))
 
     # Check if organization is still active
     logging.info('Organization status = %s', config.get('organizationStatus', True))
@@ -460,27 +446,27 @@ def wallet_sign_endpoint():
     try:
         wallet_attestation = get_payload_from_token(request.form['assertion'])
     except Exception as e:
-        return Response(**manage_error('invalid_request', 'assertion missing -> ' + str(e)))
+        return Response(**manage_error('invalid_request', 'Wallet attestation missing'))
     
     # check wallet attestation signature
     try:
         verif_token(request.form['assertion'])
         logging.info('wallet attestation signature is ok')
     except Exception as e:
-        return Response(**manage_error('invalid_client', 'Wallet attestation signature check failed ->' + str(e)))
+        return Response(**manage_error('invalid_client', 'Wallet attestation signature check failed'))
     
-    # check wallet attestation format
+    # check wallet attestation format and validity
     try:
         iss = wallet_attestation['iss']
-        exp = wallet_attestation['exp']
+        exp = wallet_attestation.get('exp')
         user_jwk = wallet_attestation['cnf']['jwk']
         kid = user_jwk['kid']
     except Exception as e:
-        return Response(**manage_error('invalid_request', 'incorrect wallet attestation format -> ' + str(e))) 
+        return Response(**manage_error('invalid_request', 'Incorrect wallet attestation')) 
     
     if iss not in TRUSTED_LIST:
         return Response(**manage_error('invalid_request', 'Wallet attestation is not issued by trusted wallet provider'))
-    if exp < datetime.timestamp(datetime.now().replace(second=0, microsecond=0)):
+    if exp and exp < datetime.timestamp(datetime.now().replace(second=0, microsecond=0)):
         return Response(**manage_error('invalid_request', 'Wallet attestation expired'))
     
     # check if instance is active
