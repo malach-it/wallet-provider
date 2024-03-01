@@ -462,8 +462,8 @@ def set_config():
         "siopv2Draft"]
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["vcFormat"] = request.form.to_dict().get(
         "vcFormat","ldp_vc")
-    # wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofType"] = request.form.to_dict().get(
-    #     "proofType","jwt")
+    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofType"] = request.form.to_dict().get(
+        "proofType","jwt")
     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofHeader"] = request.form.to_dict().get(
         "proofHeader","kid")
     wallet_provider_configuration["helpCenterOptions"]["customChatSupportName"] = request.form.to_dict()[
