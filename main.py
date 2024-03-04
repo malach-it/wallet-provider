@@ -520,7 +520,7 @@ def set_config():
     if request.form.to_dict()["displayVerifiableIdSdJwt"] == "displayVerifiableIdSdJwtFalse":
         wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableIdSdJwt"] = False
     else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableIdJwt"] = True
+        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableIdSdJwt"] = True
 
     if request.form.to_dict()["displayEmailPass"] == "displayEmailPassFalse":
         wallet_provider_configuration["discoverCardsOptions"]["displayEmailPass"] = False
