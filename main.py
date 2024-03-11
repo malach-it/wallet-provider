@@ -421,6 +421,11 @@ def set_config():
         wallet_provider_configuration["selfSovereignIdentityOptions"][
             "customOidc4vcProfile"]["credentialManifestSupport"] = True
 
+    if request.form.to_dict()["pushAuthorizationRequest"] == "pushAuthorizationRequestFalse":
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["pushAuthorizationRequest"] = False
+    else:
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["pushAuthorizationRequest"] = True
+
     if request.form.to_dict().get("displayChatSupport") == "displayChatSupportTrue":
         wallet_provider_configuration["helpCenterOptions"]["displayChatSupport"] = True
     else:
@@ -586,10 +591,10 @@ def set_config():
 
 
     # Part 7 
-    if request.form.to_dict().get("isAllowed") == "isAllowedFalse":
-        wallet_provider_configuration["companySignature"]["isAllowed"] = True
-    else:
+    if request.form.to_dict()["isAllowed"] == "isAllowedFalse":
         wallet_provider_configuration["companySignature"]["isAllowed"] = False
+    else:
+        wallet_provider_configuration["companySignature"]["isAllowed"] = True
 
     wallet_provider_configuration["companySignature"]["CompanyKey"] = request.form.to_dict()["CompanyKey"]
 

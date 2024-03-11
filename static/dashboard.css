@@ -114,6 +114,7 @@ th {
 }
 
 #tableDashboard {
+    justify-content: center;
     border-radius: 16px;
     border-spacing: 0;
     border: solid 1px #DCDDDF;

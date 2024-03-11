@@ -1,5 +1,5 @@
 {
-    "version": "1.18",
+    "version": "1.19",
     "generalOptions": {
         "walletType": "altme",
         "companyName": "Altme",
@@ -63,7 +63,8 @@
             "client_secret": null,
             "oidc4vciDraft": "11",
             "oidc4vpDraft": "18",
-            "siopv2Draft": "12"
+            "siopv2Draft": "12",
+            "pushAuthorizationRequest": false
         }
     },
     "helpCenterOptions": {

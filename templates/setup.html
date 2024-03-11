@@ -970,6 +970,27 @@
                                     </select>
                                 </div>
                             </div>
+
+                            <div class="optionDiv">
+                                <p class="optionDivMainTitle">4.14 Push Authorization Request (PAR)</p>
+                                <p class="optionDivSecondTitle">Select your Push Authorization Request (PAR) </p>
+                                
+                                <div class="optionsDivRow">
+
+                                    <div class="labelAndButton">
+
+                                        <label for="pushAuthorizationRequestTrue" class="optionLabel">Yes</label>
+                                        <input type="radio" id="pushAuthorizationRequestTrue" name="pushAuthorizationRequest" value="pushAuthorizationRequestTrue"
+                                            autocomplete="off" >
+                                    </div>
+                                    <div class="labelAndButton">
+
+                                        <label for="pushAuthorizationRequestFalse" class="optionLabel">No</label>
+                                        <input type="radio" id="pushAuthorizationRequestFalse" name="pushAuthorizationRequest" value="pushAuthorizationRequestFalse" checked
+                                            autocomplete="off" >
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                     <div id="EBSI_SSI" style="display: none;">
@@ -2269,6 +2290,7 @@
         document.getElementById("cryptoHolderBinding{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["cryptoHolderBinding"]}}").checked = true
         document.getElementById("scope{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"]}}").checked = true
         document.getElementById("credentialManifestSupport{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["credentialManifestSupport"]}}").checked = true
+        document.getElementById("pushAuthorizationRequest{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["pushAuthorizationRequest"]}}").checked = true
 
         //document.getElementById("oidv4vcProfile").value = "{{config["selfSovereignIdentityOptions"]["oidv4vcProfile"]}}"
         if ("{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"]}}" === "True") {
