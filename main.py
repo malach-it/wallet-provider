@@ -113,6 +113,7 @@ def init_app(app, red):
                      methods=['GET'])
     app.add_url_rule('/set_config', view_func=set_config, methods=['POST'])
     app.add_url_rule('/add_user', view_func=add_user, methods=['POST'])
+    app.add_url_rule('/add_user_guest', view_func=add_user_guest, methods=['POST'])
     app.add_url_rule('/logout', view_func=logout, methods=['POST'])
     app.add_url_rule('/dashboard_talao',
                      view_func=dashboard_talao, methods=['GET'])
@@ -676,6 +677,25 @@ def add_user():
     )
     return ("ok")
 
+def generate_random_email():
+    random_part = ''.join(random.choices(string.ascii_lowercase + string.digits, k=8))
+    return f"guest@{random_part}.talao.co"
+
+def add_user_guest():
+    if not session.get("organisation"):
+        return "Unauthorized", 401
+    if db.read_plan(session.get("organisation")) == "free":
+        return "Unauthorized", 401
+    
+    random_email = generate_random_email()  # Générer un email aléatoire
+    password = generate_random_string(6)  # Générer un mot de passe aléatoire
+    
+    # Appeler create_user() avec les informations nécessaires
+    db.create_user(random_email, password, session["organisation"], first_name="guest", last_name="guest")
+    
+    # Autres actions, comme l'envoi d'un email ou la réponse HTTP
+    return "ok"
+ 
 
 def add_organisation():
     if session.get("organisation") != "Talao":

@@ -122,6 +122,23 @@ th {
     border-spacing: 0;
 }
 
+#tableDashboard th,
+#tableDashboard td {
+    padding: 8px;
+    text-align: left;
+}
+
+/* Définir la largeur de chaque colonne */
+#tableDashboard th:nth-child(1),
+#tableDashboard td:nth-child(1) {
+    width: 20%; /* Par exemple, 20% de la largeur totale pour la première colonne */
+}
+
+#tableDashboard th:nth-child(2),
+#tableDashboard td:nth-child(2) {
+    width: 20%;
+}
+
 td,
 th {
     padding: 10px 20px;

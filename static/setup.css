@@ -88,37 +88,7 @@ body {
     align-items: center; /* Center horizontally */
 }
 
-.custom-card2 {
-    width: calc(33.33% - 10px); /* Adjusted width with spacing between cards */
-    height: 190px; /* Set the height to match the cards in the first row */
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    background-color: rgba(200, 200, 200, 0.225);
-    border-radius: 10px;
-    border: 2px solid grey;
-    margin-bottom: 20px;
-    justify-content: center; /* Center vertically */
-    align-items: center; /* Center horizontally */
-}
 
-.custom-card3 {
-    width: calc(33.33% - 10px); /* Adjusted width with spacing between cards */
-    height: 190px; /* Set the height to match the cards in the first row */
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    background-color: rgba(133, 201, 15, 0.225);
-    border-radius: 10px;
-    border: 2px solid grey;
-    margin-bottom: 20px;
-    justify-content: center; /* Center vertically */
-    align-items: center; /* Center horizontally */
-}
 
 .custom-button {
     position: absolute;

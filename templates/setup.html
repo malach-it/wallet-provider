@@ -662,6 +662,19 @@
                             </div>
                         </div>
 
+                         <!-- Carte HAIP SSI -->
+                        <div class="custom-card" id="HAIPSSIButton" onclick="selectAndShow('HAIPSSIButton', afficherHAIP_SSI)">
+                            <div class="custom-button"></div><br><br>
+                            <img src="/static/img/HAIP_SSI.svg" alt="HAIP_SSI"  width="75%">
+                            <div style="flex: 1; text-align: center;">
+                                <br>
+                                <br>
+                                <p class="optionDivSecondTitle">
+                                    <a href="https://openwallet.foundation/" target="_blank"> https://openwallet.foundation/ </a>
+                                </p>
+                            </div>
+                        </div>
+
                         <!-- Carte SOON -->
                         <div class="custom-card2">
                             <div style="flex: 1; text-align: center;">
@@ -754,6 +767,7 @@
                                         <option value="did:jwk:p-256">did:jwk:p-256</option>
                                         <option value="did:key:secp256k1">did:key:secp256k1</option>
                                         <option value="did:key:p-256">did:key:p-256</option> 
+                                        <option value="urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation">Wallet instance key</option> 
                                     </select>
                                     <script src="/static/dist/SSI/default_did_exceptions.js"></script>
                                 </div>
@@ -1006,6 +1020,10 @@
 
                     <div id="OWF_SSI" style="display: none;">
                         <script src="/static/dist/SSI/afficherOWF_SSI.js"></script>
+                    </div>
+
+                    <div id="HAIP_SSI" style="display: none;">
+                        <script src="/static/dist/SSI/afficherHAIP_SSI.js"></script>
                     </div>
                     
                     <script src="/static/dist/SSI/afficherCustom.js"></script>
