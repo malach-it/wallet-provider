@@ -600,7 +600,7 @@
                     <div class="line1Setup" style="display: flex; justify-content: center; align-items: center;">
 
                        <!-- Carte Custom SSI -->
-                        <div class="custom-card" id="customSSIButton" onclick="selectAndShow('customSSIButton', afficherCustom_SSI)">
+                        <div class="custom-card" id="customSSIButton" onclick="selectAndShow('customSSIButton', afficherCustom_SSI); switchProfile('Custom')">
                             <div class="custom-button"></div><br><br>
                             <img src="/static/img/Custom_SSI.svg" alt="Custom_SSI"  width="70%">
                             <div style="flex: 1; text-align: center;">
@@ -613,8 +613,10 @@
                             </div>
                         </div>
 
+                        
+
                         <!-- Carte EBSI SSI -->
-                        <div class="custom-card" id="ebsiSSIButton" onclick="selectAndShow('ebsiSSIButton', afficherEBSI_SSI)">
+                        <div class="custom-card" id="ebsiSSIButton" onclick="selectAndShow('ebsiSSIButton', afficherEBSI_SSI); switchProfile('EBSI')">
                             <div class="custom-button"></div><br><br>
                             <img src="/static/img/EBSI_SSI.svg" alt="EBSI_SSI"  width="70%">
                             <div style="flex: 1; text-align: center;">
@@ -629,8 +631,10 @@
                             </div>
                         </div>
                     
+                        
+
                         <!-- Carte DIIP SSI -->
-                        <div class="custom-card" id="diipSSIButton" onclick="selectAndShow('diipSSIButton', afficherDIIP_SSI)">
+                        <div class="custom-card" id="diipSSIButton" onclick="selectAndShow('diipSSIButton', afficherDIIP_SSI); switchProfile('DIIP')"> 
                             <div class="custom-button"></div><br><br>
                             <img src="/static/img/DIIP_SSI.png" alt="DIPP_SSI" width="70%">
                             <div style="flex: 1; text-align: center;">
@@ -644,12 +648,13 @@
                                 </p>
                             </div>
                         </div>
+                        
 
                     </div>
                     
                     <div class="line1Setup" style="display: flex; justify-content: center; align-items: center;">
                         <!-- Carte OWF SSI -->
-                        <div class="custom-card" id="owfSSIButton" onclick="selectAndShow('owfSSIButton', afficherOWF_SSI)">
+                        <div class="custom-card" id="owfSSIButton" onclick="selectAndShow('owfSSIButton', afficherOWF_SSI); switchProfile('OWF')">
                             <div class="custom-button"></div><br><br>
                             <img src="/static/img/OWF_SSI.svg" alt="OWF_SSI"  width="70%">
                             <div style="flex: 1; text-align: center;">
@@ -662,8 +667,10 @@
                             </div>
                         </div>
 
-                         <!-- Carte HAIP SSI -->
-                        <div class="custom-card" id="HAIPSSIButton" onclick="selectAndShow('HAIPSSIButton', afficherHAIP_SSI)">
+                       
+
+                        <!-- Carte HAIP SSI -->
+                        <div class="custom-card" id="HAIPSSIButton" onclick="selectAndShow('HAIPSSIButton', afficherHAIP_SSI); switchProfile('HAIP')">
                             <div class="custom-button"></div><br><br>
                             <img src="/static/img/HAIP_SSI.png" alt="HAIP_SSI"  width="75%">
                             <div style="flex: 1; text-align: center;">
@@ -687,7 +694,11 @@
                         </div>
                         
                         <script src="/static/dist/SSI/selectCard.js"></script>
+
+                        <!-- Sstocker le profil select -->
+                        <input type="hidden" id="oidv4vcProfile" value="">
                     </div>
+                    <div id="selectedSSIText"></div>
                 
 
                     <div id="Custom_SSI" style="display: none;">
@@ -1002,6 +1013,20 @@
                             </div>
                         </div>
 
+                    
+                        
+                    <!-- <script>
+                        function switchProfile() {
+                            console.log("switching to " + document.getElementById("oidv4vcProfile").value)
+                            if (document.getElementById("oidv4vcProfile").value === "custom") {
+                                document.getElementById("customProfileDiv").setAttribute("class", "")
+                            }
+                            else {
+                                document.getElementById("customProfileDiv").setAttribute("class", "displayNone")
+                            }
+                        }
+                     </script> -->
+
                     <div id="EBSI_SSI" style="display: none;">
                         <div id="EBSI_SSI" style="display: none;">
                             <script src="/static/dist/SSI/afficherEBSI_SSI.js"></script>
@@ -1034,8 +1059,9 @@
                             <button type="button" class="nextStep" onclick="goStep5()">Next step</button>
                         </div>
                     </div>
-
+                
                 </div>
+
                 <div id="step5Div" class="displayNone">
                     <p class="title">Help center option</p>
                     <div class="line1Setup">
@@ -1177,6 +1203,20 @@
                             <th style="text-align: center;" class="robotoBold">Status</th>
                         </thead>
                         <tbody>
+                            <script>
+                                document.addEventListener("DOMContentLoaded", function() {
+                                    // Récupérer la valeur actuelle de oidv4vcProfile
+                                    var currentProfile = document.getElementById("oidv4vcProfile").value;
+                            
+                                    // Sélectionner la carte correspondante si un profil est enregistré
+                                    if (currentProfile) {
+                                        var cardElement = document.getElementById(currentProfile + "SSIButton");
+                                        if (cardElement) {
+                                            cardElement.classList.add('selected');
+                                        }
+                                    }
+                                });
+                            </script>
                             <tr class="talaoIssuersRow">
                                 <td class="robotoBold">Proof of Over 13</td>
                                 <td>Prove you are over 13 years old</td>
@@ -2305,7 +2345,7 @@
         document.getElementById("credentialManifestSupport{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["credentialManifestSupport"]}}").checked = true
         document.getElementById("pushAuthorizationRequest{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["pushAuthorizationRequest"]}}").checked = true
 
-        //document.getElementById("oidv4vcProfile").value = "{{config["selfSovereignIdentityOptions"]["oidv4vcProfile"]}}"
+        // document.getElementById("oidv4vcProfile").value = "{{config["selfSovereignIdentityOptions"]["oidv4vcProfile"]}}"
         if ("{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"]}}" === "True") {
             document.getElementById("strict").checked = true
         }
@@ -2653,16 +2693,7 @@
                 document.getElementById("infuraApiKeyDiv").setAttribute("class", "displayNone")
             }
         }
-        function switchProfile() {
-            console.log("switching to " + document.getElementById("oidv4vcProfile").value)
-            if (document.getElementById("oidv4vcProfile").value === "custom") {
-                document.getElementById("customProfileDiv").setAttribute("class", "")
-            }
-            else {
-                document.getElementById("customProfileDiv").setAttribute("class", "displayNone")
-            }
-        }
-
+        
         function switchSupportEmail() {
             if (document.getElementById("customEmailSupportTrue").checked === true) {
                 document.getElementById("customEmailDiv").setAttribute("class", "optionDiv")
@@ -2703,7 +2734,9 @@
 
             }
         }
-    </script>
+
+ </script>
+
 </body>
 
 </html>

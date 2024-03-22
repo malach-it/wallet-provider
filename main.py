@@ -443,7 +443,10 @@ def set_config():
         wallet_provider_configuration["helpCenterOptions"]["customEmailSupport"] = True
     else:
         wallet_provider_configuration["helpCenterOptions"]["customEmailSupport"] = False
+
+
     # wallet_provider_configuration["selfSovereignIdentityOptions"]["oidv4vcProfile"] = request.form.to_dict()["oidv4vcProfile"]
+
     if request.form.to_dict()["securityLevel"] == "strict":
         wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"] = True
     else:
@@ -629,6 +632,7 @@ def set_config():
         wallet_provider_configuration["generalOptions"]["companyLogo"] = logo
     db.update_config(json.dumps(wallet_provider_configuration),
                      session["organisation"])
+    print(wallet_provider_configuration)
     return redirect("/dashboard")
 
 
