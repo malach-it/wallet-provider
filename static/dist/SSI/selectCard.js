@@ -31,6 +31,9 @@ function switchProfile(cardId) {
 
 
 
+
+
+
 // function switchProfile(cardId) {
 //     console.log("Switching to: " + cardId);
 //     console.debug("2");

@@ -604,6 +604,7 @@ def set_config():
 
     wallet_provider_configuration["companySignature"]["Companykid"] = request.form.to_dict()["Companykid"]
 
+    wallet_provider_configuration["selfSovereignIdentityOptions"]["oidv4vcProfile"] = request.form.to_dict()["oidv4vcProfile"]
 
 
     try:

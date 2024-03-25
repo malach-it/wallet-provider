@@ -600,7 +600,7 @@
                     <div class="line1Setup" style="display: flex; justify-content: center; align-items: center;">
 
                        <!-- Carte Custom SSI -->
-                        <div class="custom-card" id="customSSIButton" onclick="selectAndShow('customSSIButton', afficherCustom_SSI); switchProfile('Custom')">
+                       <div class="custom-card" id="customSSIButton" onclick="selectAndShow('customSSIButton', afficherCustom_SSI); switchProfile('Custom'); updateSelector('Custom');">
                             <div class="custom-button"></div><br><br>
                             <img src="/static/img/Custom_SSI.svg" alt="Custom_SSI"  width="70%">
                             <div style="flex: 1; text-align: center;">
@@ -612,11 +612,17 @@
                                 <p class="optionDivSecondTitle" style="white-space: nowrap;">DID Method, Client Authentication method...</p>
                             </div>
                         </div>
-
-                        
-
+<script>
+function updateSelector(profile) {
+    var select = document.getElementById('optionsSelect');
+    var option = document.querySelector('option[value="' + profile + '"]');
+    if (option) {
+        select.value = profile;
+    }
+}
+</script>
                         <!-- Carte EBSI SSI -->
-                        <div class="custom-card" id="ebsiSSIButton" onclick="selectAndShow('ebsiSSIButton', afficherEBSI_SSI); switchProfile('EBSI')">
+                        <div class="custom-card" id="ebsiSSIButton" onclick="selectAndShow('ebsiSSIButton', afficherEBSI_SSI); switchProfile('EBSI'); updateSelector('EBSI');">
                             <div class="custom-button"></div><br><br>
                             <img src="/static/img/EBSI_SSI.svg" alt="EBSI_SSI"  width="70%">
                             <div style="flex: 1; text-align: center;">
@@ -634,7 +640,7 @@
                         
 
                         <!-- Carte DIIP SSI -->
-                        <div class="custom-card" id="diipSSIButton" onclick="selectAndShow('diipSSIButton', afficherDIIP_SSI); switchProfile('DIIP')"> 
+                        <div class="custom-card" id="diipSSIButton" onclick="selectAndShow('diipSSIButton', afficherDIIP_SSI); switchProfile('DIIP'); updateSelector('DIIP');"> 
                             <div class="custom-button"></div><br><br>
                             <img src="/static/img/DIIP_SSI.png" alt="DIPP_SSI" width="70%">
                             <div style="flex: 1; text-align: center;">
@@ -654,7 +660,7 @@
                     
                     <div class="line1Setup" style="display: flex; justify-content: center; align-items: center;">
                         <!-- Carte OWF SSI -->
-                        <div class="custom-card" id="owfSSIButton" onclick="selectAndShow('owfSSIButton', afficherOWF_SSI); switchProfile('OWF')">
+                        <div class="custom-card" id="owfSSIButton" onclick="selectAndShow('owfSSIButton', afficherOWF_SSI); switchProfile('OWF'); updateSelector('OWF');">
                             <div class="custom-button"></div><br><br>
                             <img src="/static/img/OWF_SSI.svg" alt="OWF_SSI"  width="70%">
                             <div style="flex: 1; text-align: center;">
@@ -670,7 +676,7 @@
                        
 
                         <!-- Carte HAIP SSI -->
-                        <div class="custom-card" id="HAIPSSIButton" onclick="selectAndShow('HAIPSSIButton', afficherHAIP_SSI); switchProfile('HAIP')">
+                        <div class="custom-card" id="HAIPSSIButton" onclick="selectAndShow('HAIPSSIButton', afficherHAIP_SSI); switchProfile('HAIP'); updateSelector('HAIP');">
                             <div class="custom-button"></div><br><br>
                             <img src="/static/img/HAIP_SSI.png" alt="HAIP_SSI"  width="75%">
                             <div style="flex: 1; text-align: center;">
@@ -693,10 +699,18 @@
                             </div>
                         </div>
                         
+                        <select id="optionsSelect" style="display: none;">
+                            <option value="Custom">Custom</option>
+                            <option value="EBSI">EBSI</option>
+                            <option value="DIIP">DIIP</option>
+                            <option value="OWF">OWF</option>
+                            <option value="HAIP">HAIP</option>
+                        </select>
+
                         <script src="/static/dist/SSI/selectCard.js"></script>
 
                         <!-- Sstocker le profil select -->
-                        <input type="hidden" id="oidv4vcProfile" value="">
+                        <input type="hidden" id="oidv4vcProfile" name="oidv4vcProfile" value="">
                     </div>
                     <div id="selectedSSIText"></div>
                 
@@ -887,7 +901,7 @@
                                                 name="client_secret" id="client_secret">
                                         </div>
                                     </div>
-                                    <script src="/static/dist/SSI/clientAuthentication.js"></script>
+                                    <!-- <script src="/static/dist/SSI/clientAuthentication.js"></script> -->
                                 </div>
                             </div>
     
@@ -1048,6 +1062,12 @@
                     
                     <script src="/static/dist/SSI/afficherCustom.js"></script>
 
+                    <!-- <select id="optionsSelect" style="display: none;">
+                        <option value="EBSI">EBSI</option>
+                        <option value="DIIP">DIIP</option>
+                        <option value="OWF">OWF</option>
+                        <option value="HAIP">HAIP</option>
+                    </select> -->
                 </div>
                 
                     <div class="line1Setup">

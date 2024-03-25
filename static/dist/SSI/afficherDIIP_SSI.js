@@ -26,6 +26,5 @@ function afficherDIIP_SSI() {
     subjectSyntaxeTypeElement.checked = true;
     userPinDigitsElement.checked = true;
 
-    
     toggleBasicAuthDiv();
 }
