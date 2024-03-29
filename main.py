@@ -593,7 +593,7 @@ def set_config():
     # else:
     #     wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = True
 
-
+    """
     # Vérif si wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] est bien un tableau
     if "displayExternalIssuer" not in wallet_provider_configuration["discoverCardsOptions"]:
         wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = []
@@ -610,6 +610,14 @@ def set_config():
 
     else:
         print("Erreur : organisation_id non défini")
+    """
+    # update issuer data in external issuer array
+    nb_issuer = len(wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"])
+    for index in range(0, nb_issuer-1):
+        issuer_id = wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"][index]['issuer_id']
+        new_issuer_data = db.read_issuer(issuer_id)[0]
+        wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"][index]= new_issuer_data
+        
 
     # Part 7 
     if request.form.to_dict()["isAllowed"] == "isAllowedFalse":
