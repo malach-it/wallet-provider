@@ -25,6 +25,7 @@ from io import BytesIO
 import requests
 from flask_mobility import Mobility
 from flask_qrcode import QRcode
+from db import read_issuer
 
 
 VERSION = "1.0.0"
@@ -576,16 +577,16 @@ def set_config():
     # else:
     #     wallet_provider_configuration["discoverCardsOptions"]["displayGender"] = True
     
-    if request.form.to_dict()["displayTezotopia"] == "displayTezotopiaFalse":
-        wallet_provider_configuration["discoverCardsOptions"]["displayTezotopia"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayTezotopia"] = True
+    # if request.form.to_dict()["displayTezotopia"] == "displayTezotopiaFalse":
+    #     wallet_provider_configuration["discoverCardsOptions"]["displayTezotopia"] = False
+    # else:
+    #     wallet_provider_configuration["discoverCardsOptions"]["displayTezotopia"] = True
 
     
-    if request.form.to_dict()["displayChainborn"] == "displayChainbornFalse":
-        wallet_provider_configuration["discoverCardsOptions"]["displayChainborn"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayChainborn"] = True
+    # if request.form.to_dict()["displayChainborn"] == "displayChainbornFalse":
+    #     wallet_provider_configuration["discoverCardsOptions"]["displayChainborn"] = False
+    # else:
+    #     wallet_provider_configuration["discoverCardsOptions"]["displayChainborn"] = True
 
     # if request.form.to_dict()["displayExternalIssuer"] == "displayExternalIssuerFalse":
     #     wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = False
@@ -593,6 +594,22 @@ def set_config():
     #     wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = True
 
 
+    # Vérif si wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] est bien un tableau
+    if "displayExternalIssuer" not in wallet_provider_configuration["discoverCardsOptions"]:
+        wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = []
+
+        # Add issuer_data au tableau
+        wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"].append(issuer_data)
+
+        # ADD id issuer data ds le tableau
+        for item in wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"]:
+            item["issuer_id"] = id
+
+        # 
+        print(wallet_provider_configuration)
+
+    else:
+        print("Erreur : organisation_id non défini")
 
     # Part 7 
     if request.form.to_dict()["isAllowed"] == "isAllowedFalse":

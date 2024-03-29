@@ -594,14 +594,43 @@
                     </div>
                 </div>
 
+                <script>
+                    document.addEventListener("DOMContentLoaded", function() {
+                        // Récupérer la valeur de la configuration oidv4vcProfile depuis l'élément input
+                        var oidv4vcProfile = document.getElementById("oidv4vcProfile").value;
+                        
+                        // Afficher le contenu de oidv4vcProfile dans la console
+                        console.log("oidv4vcProfile from organization:", oidv4vcProfile);
+                        
+                        // Sélectionner automatiquement le SSI en fonction de la configuration
+                        selectProfile(oidv4vcProfile);
+                    });
 
+                    function selectProfile(profile) {
+                        // Supprimer la sélection actuelle
+                        document.querySelectorAll('.custom-card').forEach(card => {
+                            card.classList.remove('selected');
+                        });
+
+                        // Sélectionner la carte correspondante
+                        var selectedCard = document.getElementById(profile + 'SSIButton');
+                        if (selectedCard) {
+                            selectedCard.classList.add('selected');
+                        } else {
+                            console.error("Card not found for profile: " + profile);
+                        }
+                    }
+                </script>
+                
+                
+                
                 <div id="step4Div" class="displayNone">
                     <p class="title">Self Sovereign Identity Options</p>
                     <div class="line1Setup" style="display: flex; justify-content: center; align-items: center;">
-
+                        
                        <!-- Carte Custom SSI -->
                        <div class="custom-card" id="customSSIButton" onclick="selectAndShow('customSSIButton', afficherCustom_SSI); switchProfile('Custom'); updateSelector('Custom');">
-                            <div class="custom-button"></div><br><br>
+                            <div class="custom-button" data-profile="Custom"></div><br><br>
                             <img src="/static/img/Custom_SSI.svg" alt="Custom_SSI"  width="70%">
                             <div style="flex: 1; text-align: center;">
                                 <br><br>
@@ -612,18 +641,10 @@
                                 <p class="optionDivSecondTitle" style="white-space: nowrap;">DID Method, Client Authentication method...</p>
                             </div>
                         </div>
-<script>
-function updateSelector(profile) {
-    var select = document.getElementById('optionsSelect');
-    var option = document.querySelector('option[value="' + profile + '"]');
-    if (option) {
-        select.value = profile;
-    }
-}
-</script>
+
                         <!-- Carte EBSI SSI -->
                         <div class="custom-card" id="ebsiSSIButton" onclick="selectAndShow('ebsiSSIButton', afficherEBSI_SSI); switchProfile('EBSI'); updateSelector('EBSI');">
-                            <div class="custom-button"></div><br><br>
+                            <div class="custom-button" data-profile="EBSI"></div><br><br>
                             <img src="/static/img/EBSI_SSI.svg" alt="EBSI_SSI"  width="70%">
                             <div style="flex: 1; text-align: center;">
                                 <br><br>
@@ -641,7 +662,7 @@ function updateSelector(profile) {
 
                         <!-- Carte DIIP SSI -->
                         <div class="custom-card" id="diipSSIButton" onclick="selectAndShow('diipSSIButton', afficherDIIP_SSI); switchProfile('DIIP'); updateSelector('DIIP');"> 
-                            <div class="custom-button"></div><br><br>
+                            <div class="custom-button" data-profile="DIIP"></div><br><br>
                             <img src="/static/img/DIIP_SSI.png" alt="DIPP_SSI" width="70%">
                             <div style="flex: 1; text-align: center;">
                                 <br>
@@ -661,7 +682,7 @@ function updateSelector(profile) {
                     <div class="line1Setup" style="display: flex; justify-content: center; align-items: center;">
                         <!-- Carte OWF SSI -->
                         <div class="custom-card" id="owfSSIButton" onclick="selectAndShow('owfSSIButton', afficherOWF_SSI); switchProfile('OWF'); updateSelector('OWF');">
-                            <div class="custom-button"></div><br><br>
+                            <div class="custom-button" data-profile="OWF"></div><br><br>
                             <img src="/static/img/OWF_SSI.svg" alt="OWF_SSI"  width="70%">
                             <div style="flex: 1; text-align: center;">
                                 <br>
@@ -677,7 +698,7 @@ function updateSelector(profile) {
 
                         <!-- Carte HAIP SSI -->
                         <div class="custom-card" id="HAIPSSIButton" onclick="selectAndShow('HAIPSSIButton', afficherHAIP_SSI); switchProfile('HAIP'); updateSelector('HAIP');">
-                            <div class="custom-button"></div><br><br>
+                            <div class="custom-button" data-profile="HAIP"></div><br><br>
                             <img src="/static/img/HAIP_SSI.png" alt="HAIP_SSI"  width="75%">
                             <div style="flex: 1; text-align: center;">
                                 <br>
@@ -921,11 +942,11 @@ function updateSelector(profile) {
                                                 class="optionLabelA" target="_blank">Draft 11</a><input type="radio"
                                                 name="oidc4vciDraft" value="11" id="elevenvci">
                                         </div>
-                                        <div class="labelAndButton">
+                                        <!-- <div class="labelAndButton">
                                             <a href="https://openid.net/specs/openid-4-verifiable-credential-issuance-1_0.html"
                                                 class="optionLabelA" target="_blank">Draft 12</a><input type="radio"
                                                 name="oidc4vciDraft" value="12" id="twelvevci">
-                                        </div>
+                                        </div> -->
                                         <div class="labelAndButton">
                                             <a href="https://openid.github.io/OpenID4VCI/openid-4-verifiable-credential-issuance-wg-draft.html"
                                                 class="optionLabelA" target="_blank">Draft 13</a><input type="radio"
@@ -1620,7 +1641,7 @@ function updateSelector(profile) {
                                 </td>
                             </tr> -->
 
-                            <tr class="talaoIssuersRow">
+                            <!-- <tr class="talaoIssuersRow">
                                 <td class="robotoBold">Tezotopia</td>
                                 <td>Membership card</td>
                                 <td style="text-align: center;">Advantages cards</td>
@@ -1658,7 +1679,7 @@ function updateSelector(profile) {
                                         <option value="displayChainbornFalse">Invisible</option>
                                     </select>
                                 </td>
-                            </tr>
+                            </tr> -->
                         </tbody>
                     </table>
                 
@@ -1950,7 +1971,7 @@ function updateSelector(profile) {
             </div>
             <div id="lastLinePopup">
                 <button id="lastLineButtonPopup" type="button" class="buttonAltme"
-                    onclick="updateIssuerTable()"></button>
+                    onclick="updateIssuerTable()">UPDATE VC</button>
                 <button id="deleteVCButton" type="button" class="displayNone" onclick="removeIssuer()">DELETE
                     VC</button>
                 <button onclick="openIssuerPopup()" type="button" id="cancelButton">CANCEL</button>
@@ -2427,7 +2448,7 @@ function updateSelector(profile) {
         // document.getElementById("displayGender").value = "displayGender{{config["discoverCardsOptions"]["displayGender"]}}"
         document.getElementById("displayTezotopia").value = "displayTezotopia{{config["discoverCardsOptions"]["displayTezotopia"]}}"
         document.getElementById("displayChainborn").value = "displayChainborn{{config["discoverCardsOptions"]["displayChainborn"]}}"
-        // document.getElementById("displayExternalIssuer").value = "displayExternalIssuer{{config["discoverCardsOptions"]["displayExternalIssuer"]}}"
+        document.getElementById("displayExternalIssuer").value = "displayExternalIssuer{{config["discoverCardsOptions"]["displayExternalIssuer"]}}"
         // document.getElementById("displayAgeRange").value = "displayAgeRange{{config["discoverCardsOptions"]["displayAgeRange"]}}"
         document.getElementById("categoryIssuer").value = "othersCards"
         document.getElementById("backgroundColorIssuer").value = "#ffffff"
