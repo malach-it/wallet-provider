@@ -593,7 +593,7 @@ def set_config():
     # else:
     #     wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = True
 
-    """
+    
     # Vérif si wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] est bien un tableau
     if "displayExternalIssuer" not in wallet_provider_configuration["discoverCardsOptions"]:
         wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = []
@@ -604,19 +604,13 @@ def set_config():
         # ADD id issuer data ds le tableau
         for item in wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"]:
             item["issuer_id"] = id
-
         # 
         print(wallet_provider_configuration)
 
     else:
         print("Erreur : organisation_id non défini")
-    """
-    # update issuer data in external issuer array
-    nb_issuer = len(wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"])
-    for index in range(0, nb_issuer-1):
-        issuer_id = wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"][index]['issuer_id']
-        new_issuer_data = db.read_issuer(issuer_id)[0]
-        wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"][index]= new_issuer_data
+    
+
         
 
     # Part 7 
@@ -637,10 +631,22 @@ def set_config():
     except TypeError:
         issuers = []
     if not issuers:
-        wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = [
-        ]
+        wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = []
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = issuers
+
+    # update external issuer section with issuers in db
+    nb_issuer = len(wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"])
+    new_external_issuer = []
+    for index in range(0, nb_issuer):
+        issuer_id = wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"][index].get('issuer_id')
+        if db.read_issuer(issuer_id):
+            new_issuer_data = json.loads(db.read_issuer(issuer_id)[0])
+            new_issuer_data["issuer_id"] = issuer_id
+            new_external_issuer.append(new_issuer_data)
+    wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = new_external_issuer
+    logging.info("update external issuer")
+    
     file = request.files.get('file')
     if file and allowed_file(file.filename):
         img = Image.open(file)
