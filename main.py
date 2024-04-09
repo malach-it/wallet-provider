@@ -389,6 +389,10 @@ def set_config():
     else:
         wallet_provider_configuration["blockchainOptions"]["polygonSupport"] = False
 
+    oidv4vcProfile = wallet_provider_configuration["selfSovereignIdentityOptions"]["oidv4vcProfile"]
+    wallet_provider_configuration["selfSovereignIdentityOptions"]["oidv4vcProfile"] = request.form.to_dict()[
+        "oidv4vcProfile"]
+    
     if request.form.to_dict()["displayManageDecentralizedId"] == "displayManageDecentralizedIdFalse":
         wallet_provider_configuration["selfSovereignIdentityOptions"]["displayManageDecentralizedId"] = False
     else:
@@ -411,6 +415,11 @@ def set_config():
     else:
         wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"] = True
     
+    if request.form.to_dict()["statusListCache"] == "statusListCacheFalse":
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["statusListCache"] = False
+    else:
+        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["statusListCache"] = True
+        
     if request.form.to_dict()["cryptoHolderBinding"] == "cryptoHolderBindingFalse":
         wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["cryptoHolderBinding"] = False
     else:
@@ -446,7 +455,6 @@ def set_config():
         wallet_provider_configuration["helpCenterOptions"]["customEmailSupport"] = False
 
 
-    # wallet_provider_configuration["selfSovereignIdentityOptions"]["oidv4vcProfile"] = request.form.to_dict()["oidv4vcProfile"]
 
     if request.form.to_dict()["securityLevel"] == "strict":
         wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"] = True
@@ -610,6 +618,8 @@ def set_config():
     else:
         print("Erreur : organisation_id non défini")
     
+    
+   
 
         
 
@@ -622,8 +632,6 @@ def set_config():
     wallet_provider_configuration["companySignature"]["CompanyKey"] = request.form.to_dict()["CompanyKey"]
 
     wallet_provider_configuration["companySignature"]["Companykid"] = request.form.to_dict()["Companykid"]
-
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["oidv4vcProfile"] = request.form.to_dict()["oidv4vcProfile"]
 
 
     try:

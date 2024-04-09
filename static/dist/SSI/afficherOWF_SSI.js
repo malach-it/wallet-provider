@@ -8,7 +8,7 @@ function afficherOWF_SSI() {
     const oidc4vciDraftElement = document.getElementById('thirteenvci');
     const oidc4vpDraftElement = document.getElementById('eighteenvp');
     const scopeFalseElement = document.getElementById('scopeFalse');
-    const securityLevelFalseElement = document.getElementById('permissive');
+    const securityLevelFalseElement = document.getElementById('strict');
     const siopv2DraftElement = document.getElementById('twelvesiop');
     const subjectSyntaxeTypeElement = document.getElementById('did');
     const userPinDigitsElement = document.getElementById('four');

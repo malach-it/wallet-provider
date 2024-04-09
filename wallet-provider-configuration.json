@@ -1,5 +1,5 @@
 {
-    "version": "1.19",
+    "version": "1.20",
     "generalOptions": {
         "walletType": "altme",
         "companyName": "Altme",
@@ -51,6 +51,7 @@
             "vcFormat": "ldp_vc",
             "proofHeader": "kid",
             "proofType": "jwt",
+            "statusListCache": true,
             "securityLevel": false,
             "clientAuthentication": "client_id",
             "credentialManifestSupport": false,

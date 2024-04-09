@@ -24,4 +24,8 @@ function sortTable(order) {
             switching = true;
         }
     }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        sortTable('asc');
+    });
 }

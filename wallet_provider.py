@@ -12,6 +12,7 @@ import math
 import message
 import db # db manager for wallet-provider
 from cryptography.fernet import Fernet
+from random import randint
 
 
 logging.basicConfig(level=logging.INFO)
@@ -198,7 +199,7 @@ def wallet_attestation_endpoint(red):
         return Response(**manage_error('invalid_grant', 'Assertion expected'))
     try:
         wallet_request = get_payload_from_token(assertion)
-        wallet_cnf =  copy.copy(wallet_request['cnf'])
+        wallet_cnf = copy.copy(wallet_request['cnf'])
         wallet_cnf['jwk'].update({'kid': wallet_request['iss']})
     except Exception as e:
         return Response(**manage_error('invalid_request', 'Assertion format is incorrect -> ' + str(e)))
@@ -219,24 +220,65 @@ def wallet_attestation_endpoint(red):
         return Response(**manage_error('invalid_request', 'Nonce incorrect'))
 
     # build and send wallet attestation
+    status_list_index = randint(0, 99999)
     payload = {
         "sub": wallet_request['iss'],
         "cnf": wallet_cnf,
-        "wallet_name": "Talao Altme wallet",
-        "key_type" : "software",
+        "wallet_name": "talao_wallet",
+        "status": {
+            "status_list": {
+                "idx": status_list_index,
+                "uri": "https://talao.co/sandbox/issuer/statuslist/1"
+            }
+        },
+        "key_type": "software",
+        "user_authentication": "system_biometry",
         "authorization_endpoint": "https://app.altme.io/app/download/authorize",
         "response_types_supported": [
             "vp_token",
             "id_token"
+        ],
+        "grant_types_supported": [
+            "authorization_code",
+            "pre-authorized_code"
+        ],
+        "vp_formats_supported": {
+            "jwt_vc_json": {
+                "alg_values_supported": [
+                    "ES256",
+                    "ES256K",
+                    "EdDSA"
+                ]
+            },
+            "jwt_vp_json": {
+                "alg_values_supported": [
+                    "ES256",
+                    "ES256K",
+                    "EdDSA"
+                ]
+            },
+            "vc+sd-jwt": {
+                "alg_values_supported": [
+                    "ES256",
+                    "ES256K",
+                    "EdDSA"
+                ]
+            }
+        },
+        "client_id_schemes_supported": [
+            "did",
+            "redirect_uri",
+            "x509_san_dns",
+            "verifier_attestation"
         ],
         "request_object_signing_alg_values_supported": [
             "ES256",
             "ES256K"
         ],
         "presentation_definition_uri_supported": True,
-    }   
+    }
     jti = str(uuid.uuid1())
-    # TODO can store the jti 
+    # TODO can store the jti and status list index
     wallet_attestation = sign_jwt(payload, 'wallet-attestation+jwt', nonce=nonce, jti=jti)
     logging.info('Watte attestation = %s', wallet_attestation)
     if not wallet_attestation:
@@ -281,7 +323,7 @@ def wallet_configuration_endpoint():
 
     try:
         wallet_attestation = get_payload_from_token(request.form['assertion'])
-    except Exception as e:
+    except Exception:
         return Response(**manage_error('invalid_request', 'assertion missing'))
 
     # check wallet attestation signature
@@ -299,7 +341,12 @@ def wallet_configuration_endpoint():
         user_jwk = wallet_attestation['cnf']['jwk']
         user_sub = wallet_attestation['sub']
     except Exception:
-        return Response(**manage_error('invalid_client', 'incorrect wallet attestation format')) 
+        return Response(**manage_error('invalid_client', 'incorrect wallet attestation format'))
+    try:
+        index = wallet_attestation['status']['status_list']['idx']
+    except Exception:
+        index = None
+
     
     # check if this user has multiple wallet attestation
     if not guest:
@@ -328,9 +375,10 @@ def wallet_configuration_endpoint():
         if not user_data:
             return Response(**manage_error('invalid_client', 'user not found'))
         user_data.update(
-            {        
+            {      
                 "wallet_instance_key_thumbprint": user_sub,
                 "wallet_instance_jti": jti,
+                "wallet_instance_status_list_idx": index,
                 "wallet_cnf_jwk": user_jwk,
                 "attestation_iat": datetime.timestamp(datetime.now().replace(second=0, microsecond=0)),
             })
@@ -401,21 +449,21 @@ def wallet_update_endpoint():
     # Get wallet attestation"
     try:
         wallet_attestation = get_payload_from_token(request.form['assertion'])
-    except Exception as e:
+    except Exception:
         return Response(**manage_error('invalid_request', 'Wallet attestation is missing'))
 
     # check wallet attestation signature
     try:
         verif_token(request.form['assertion'])
         logging.info('wallet attestation signature is ok')
-    except Exception as e:
+    except Exception:
         return Response(**manage_error('invalid_client', 'Wallet attestation signature check failed'))
     
     # check wallet attestation validity and format
     try:
         iss = wallet_attestation['iss']
         exp = wallet_attestation.get('exp')
-    except Exception as e:
+    except Exception:
         return Response(**manage_error('invalid_request', 'Incorrect wallet attestation')) 
     if iss not in TRUSTED_LIST:
         return Response(**manage_error('invalid_request', 'Wallet attestation is not issued by a trusted wallet provider'))

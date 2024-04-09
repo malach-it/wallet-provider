@@ -594,38 +594,26 @@
                     </div>
                 </div>
 
-                <script>
-                    document.addEventListener("DOMContentLoaded", function() {
-                        // Récupérer la valeur de la configuration oidv4vcProfile depuis l'élément input
-                        var oidv4vcProfile = document.getElementById("oidv4vcProfile").value;
-                        
-                        // Afficher le contenu de oidv4vcProfile dans la console
-                        console.log("oidv4vcProfile from organization:", oidv4vcProfile);
-                        
-                        // Sélectionner automatiquement le SSI en fonction de la configuration
-                        selectProfile(oidv4vcProfile);
-                    });
-
-                    function selectProfile(profile) {
-                        // Supprimer la sélection actuelle
-                        document.querySelectorAll('.custom-card').forEach(card => {
-                            card.classList.remove('selected');
-                        });
-
-                        // Sélectionner la carte correspondante
-                        var selectedCard = document.getElementById(profile + 'SSIButton');
-                        if (selectedCard) {
-                            selectedCard.classList.add('selected');
-                        } else {
-                            console.error("Card not found for profile: " + profile);
-                        }
-                    }
-                </script>
+                
+                
+                
                 
                 
                 
                 <div id="step4Div" class="displayNone">
                     <p class="title">Self Sovereign Identity Options</p>
+                    <p id="currentSSI">SSI actuel de la configuration : </p>
+                    <script>
+                        document.addEventListener("DOMContentLoaded", function() {
+                            // Récup oidv4vcProfile de la config
+                            var oidv4vcProfile = wallet_provider_configuration["selfSovereignIdentityOptions"]["oidv4vcProfile"];
+                            
+                            console.log("Valeur de oidv4vcProfile:", oidv4vcProfile);
+                
+                            var currentSSI = document.getElementById("currentSSI");
+                            currentSSI.textContent += oidv4vcProfile;
+                        });
+                    </script>
                     <div class="line1Setup" style="display: flex; justify-content: center; align-items: center;">
                         
                        <!-- Carte Custom SSI -->
@@ -1026,23 +1014,44 @@
                                 </div>
                             </div>
 
-                            <div class="optionDiv">
-                                <p class="optionDivMainTitle">4.14 Push Authorization Request (PAR)</p>
-                                <p class="optionDivSecondTitle">Select your Push Authorization Request (PAR) </p>
-                                
-                                <div class="optionsDivRow">
+                            <div class="line1Setup">                           
+                                <div class="optionDiv">
+                                    <p class="optionDivMainTitle">4.14 Push Authorization Request (PAR)</p>
+                                    <p class="optionDivSecondTitle">Select your Push Authorization Request (PAR) </p>
+                                    
+                                    <div class="optionsDivRow">
 
-                                    <div class="labelAndButton">
+                                        <div class="labelAndButton">
 
-                                        <label for="pushAuthorizationRequestTrue" class="optionLabel">Yes</label>
-                                        <input type="radio" id="pushAuthorizationRequestTrue" name="pushAuthorizationRequest" value="pushAuthorizationRequestTrue"
-                                            autocomplete="off" >
+                                            <label for="pushAuthorizationRequestTrue" class="optionLabel">Yes</label>
+                                            <input type="radio" id="pushAuthorizationRequestTrue" name="pushAuthorizationRequest" value="pushAuthorizationRequestTrue"
+                                                autocomplete="off" >
+                                        </div>
+                                        <div class="labelAndButton">
+
+                                            <label for="pushAuthorizationRequestFalse" class="optionLabel">No</label>
+                                            <input type="radio" id="pushAuthorizationRequestFalse" name="pushAuthorizationRequest" value="pushAuthorizationRequestFalse" checked
+                                                autocomplete="off" >
+                                        </div>
                                     </div>
-                                    <div class="labelAndButton">
+                                </div>
 
-                                        <label for="pushAuthorizationRequestFalse" class="optionLabel">No</label>
-                                        <input type="radio" id="pushAuthorizationRequestFalse" name="pushAuthorizationRequest" value="pushAuthorizationRequestFalse" checked
-                                            autocomplete="off" >
+                                <div class="optionDiv">
+                                    <p class="optionDivMainTitle">4.15 Status List Cache</p>
+                                    <p class="optionDivSecondTitle"> Status List caching 2 days </p>
+                                    <div class="optionsDivRow">
+
+                                        <div class="labelAndButton">
+                                            <label for="statusListCacheTrue" class="optionLabel">Yes</label>
+                                            <input type="radio" id="statusListCacheTrue" name="statusListCache"
+                                                value="statusListCacheTrue" checked >
+                                        </div>
+
+                                        <div class="labelAndButton">
+                                            <label for="statusListCacheFalse" class="optionLabel">No</label>
+                                            <input type="radio" id="statusListCacheFalse" name="statusListCache"
+                                                value="statusListCacheFalse" >
+                                        </div>
                                     </div>
                                 </div>
                             </div>
@@ -1244,20 +1253,6 @@
                             <th style="text-align: center;" class="robotoBold">Status</th>
                         </thead>
                         <tbody>
-                            <script>
-                                document.addEventListener("DOMContentLoaded", function() {
-                                    // Récupérer la valeur actuelle de oidv4vcProfile
-                                    var currentProfile = document.getElementById("oidv4vcProfile").value;
-                            
-                                    // Sélectionner la carte correspondante si un profil est enregistré
-                                    if (currentProfile) {
-                                        var cardElement = document.getElementById(currentProfile + "SSIButton");
-                                        if (cardElement) {
-                                            cardElement.classList.add('selected');
-                                        }
-                                    }
-                                });
-                            </script>
                             <tr class="talaoIssuersRow">
                                 <td class="robotoBold">Proof of Over 13</td>
                                 <td>Prove you are over 13 years old</td>
@@ -2382,6 +2377,7 @@
         //document.getElementById("displayVerifiableDataRegistry{{config["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"]}}").checked = true
 
         document.getElementById("cryptoHolderBinding{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["cryptoHolderBinding"]}}").checked = true
+        document.getElementById("statusListCache{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["statusListCache"]}}").checked = true
         document.getElementById("scope{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"]}}").checked = true
         document.getElementById("credentialManifestSupport{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["credentialManifestSupport"]}}").checked = true
         document.getElementById("pushAuthorizationRequest{{config["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["pushAuthorizationRequest"]}}").checked = true
@@ -2777,6 +2773,51 @@
         }
 
  </script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        // Récup oidv4vcProfile de la config
+        var oidv4vcProfile = wallet_provider_configuration["selfSovereignIdentityOptions"]["oidv4vcProfile"];
+        
+        console.log("Valeur de oidv4vcProfile:", oidv4vcProfile);
+
+        var currentSSI = document.getElementById("currentSSI");
+        currentSSI.textContent += oidv4vcProfile;
+
+        selectProfile(oidv4vcProfile);
+    });
+
+    function selectProfile(profile) {
+        document.querySelectorAll('.custom-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+
+        var selectedCard = document.getElementById(profile + 'SSIButton');
+        if (selectedCard) {
+            selectedCard.classList.add('selected');
+            
+            var checkbox = selectedCard.querySelector('.custom-button');
+            checkbox.classList.add('selected'); 
+        }
+    }
+
+    function updateSelector() {
+        document.querySelectorAll('.custom-card').forEach(card => {
+            // Récup ID
+            var cardId = card.id.replace('SSIButton', '');
+            
+            // Vérif
+            if (cardId === oidv4vcProfile) {
+                card.classList.add('selected');
+                var checkbox = card.querySelector('.custom-button');
+                checkbox.classList.add('selected'); 
+            } else {
+                card.classList.remove('selected');
+                var checkbox = card.querySelector('.custom-button');
+                checkbox.classList.remove('selected'); 
+            }
+        });
+    }
+</script>
 
 </body>
 
