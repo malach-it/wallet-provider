@@ -425,12 +425,10 @@ def set_config():
     else:
         wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["cryptoHolderBinding"] = True
 
-    if request.form.to_dict()["credentialManifestSupport"] == "credentialManifestSupportFalse":
-        wallet_provider_configuration["selfSovereignIdentityOptions"][
-            "customOidc4vcProfile"]["credentialManifestSupport"] = False
-    else:
-        wallet_provider_configuration["selfSovereignIdentityOptions"][
-            "customOidc4vcProfile"]["credentialManifestSupport"] = True
+    # if request.form.to_dict()["credentialManifestSupport"] == "credentialManifestSupportFalse":
+    #     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["credentialManifestSupport"] = False
+    # else:
+    #     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["credentialManifestSupport"] = True
 
     if request.form.to_dict()["pushAuthorizationRequest"] == "pushAuthorizationRequestFalse":
         wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["pushAuthorizationRequest"] = False

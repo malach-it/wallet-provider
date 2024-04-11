@@ -26,10 +26,10 @@ document.addEventListener('DOMContentLoaded', function() {
 
         } else if (defaultDid === 'did:key:eddsa') {
             // Masquer certaines options en 4.11
-            vcFormatSelect.querySelector('option[value="jwt_vc"]').style.display = 'none';
-            vcFormatSelect.querySelector('option[value="jwt_vc_json"]').style.display = 'none';
-            vcFormatSelect.querySelector('option[value="jwt_vc_json-ld"]').style.display = 'none';
-            vcFormatSelect.querySelector('option[value="vc+sd-jwt"]').style.display = 'none';
+            // vcFormatSelect.querySelector('option[value="jwt_vc"]').style.display = 'none';
+            // vcFormatSelect.querySelector('option[value="jwt_vc_json"]').style.display = 'none';
+            // vcFormatSelect.querySelector('option[value="jwt_vc_json-ld"]').style.display = 'none';
+            // vcFormatSelect.querySelector('option[value="vc+sd-jwt"]').style.display = 'none';
         }
     }
 
