@@ -1,14 +1,13 @@
 function afficherOWF_SSI() {
     const vcFormatElement = document.getElementById('vcFormat');
-    const proofHeaderElement = document.getElementById('proofHeader');
     const clientAuthenticationElement = document.getElementById('clientAuthentication');
     const credentialManifestSupportTrueElement = document.getElementById('credentialManifestSupportTrue');
     const cryptoHolderBindingTrueElement = document.getElementById('cryptoHolderBindingTrue');
     const defaultDidElement = document.getElementById('defaultDid');
     const oidc4vciDraftElement = document.getElementById('thirteenvci');
-    const oidc4vpDraftElement = document.getElementById('eighteenvp');
+    const oidc4vpDraftElement = document.getElementById('twentyvp');
     const scopeFalseElement = document.getElementById('scopeFalse');
-    const securityLevelFalseElement = document.getElementById('strict');
+    const securityLevelFalseElement = document.getElementById('permissive');
     const siopv2DraftElement = document.getElementById('twelvesiop');
     const subjectSyntaxeTypeElement = document.getElementById('did');
     const userPinDigitsElement = document.getElementById('four');
@@ -45,6 +44,7 @@ function afficherOWF_SSI() {
     siopv2DraftElement.checked = ssiOptions.siopv2Draft === "12";
     subjectSyntaxeTypeElement.checked = ssiOptions.subjectSyntaxeType === "did";
     userPinDigitsElement.checked = ssiOptions.userPinDigits === "4";
+    statusListCacheElement.checked = true;
 
     toggleBasicAuthDiv();
 }

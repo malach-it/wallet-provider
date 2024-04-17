@@ -20,7 +20,6 @@ document.addEventListener("DOMContentLoaded", function() {
             selectedCard = document.getElementById("customSSIButton");
         }
         
-        // Si une carte est sélectionnée, ajouter la classe 'selected' et définir le style du bouton
         if (selectedCard) {
             selectedCard.classList.add('selected');
             checkbox = selectedCard.querySelector('.custom-button');
@@ -56,8 +55,30 @@ function selectAndShow(cardId, showFunction) {
         card.classList.remove('selected');
     });
     document.getElementById(cardId).classList.add('selected');
+
+    switch (cardId) {
+        case "owfSSIButton":
+            afficherOWF_SSI();
+            break;
+        case "HAIPSSIButton":
+            afficherHAIP_SSI();
+            break;
+        case "ebsiSSIButton":
+            afficherEBSI_SSI();
+            break;
+        case "diipSSIButton":
+            afficherDIIP_SSI();
+            break;
+        // case "customSSIButton":
+        //     break;
+        default:
+            console.error("Unknown cardId:", cardId);
+            break;
+    }
+
     showFunction(); 
 }
+
 
 function switchProfile(cardId) {
     //oidv4vcProfile de la config
@@ -76,3 +97,4 @@ function switchProfile(cardId) {
         console.error("Error any SSI selected");
     }
 }
+

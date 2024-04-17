@@ -5,7 +5,7 @@ function afficherDIIP_SSI() {
     const cryptoHolderBindingTrueElement = document.getElementById('cryptoHolderBindingTrue');
     const defaultDidElement = document.getElementById('defaultDid');
     const oidc4vciDraftElement = document.getElementById('thirteenvci');
-    const oidc4vpDraftElement = document.getElementById('eighteenvp');
+    const oidc4vpDraftElement = document.getElementById('twentyvp');
     const scopeFalseElement = document.getElementById('scopeFalse');
     const securityLevelFalseElement = document.getElementById('permissive');
     const siopv2DraftElement = document.getElementById('twelvesiop');
@@ -25,6 +25,7 @@ function afficherDIIP_SSI() {
     siopv2DraftElement.checked = true;
     subjectSyntaxeTypeElement.checked = true;
     userPinDigitsElement.checked = true;
+    statusListCacheElement.checked = true;
 
     toggleBasicAuthDiv();
 }

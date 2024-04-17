@@ -641,6 +641,132 @@ def set_config():
     else:
         wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = issuers
 
+    # Def de la config
+    config = {
+    'vcFormat': '',
+    'proofHeader' : '',
+    'statusListCache': False,
+    'securityLevel': False,
+    'clientAuthentication': '',
+    'credentialManifestSupport': False,
+    'userPinDigits': '',
+    'defaultDid': '',
+    'subjectSyntaxeType': '',
+    'cryptoHolderBinding': False,
+    'scope': False,
+    'client_id' :'',
+    'client_secret' :'',
+    'oidc4vciDraft': '',
+    'oidc4vpDraft': '',
+    'siopv2Draft': '',
+    'pushAuthorizationRequest': False
+    }
+
+    # config de chaque SSI
+    configurations = {
+        'DIIP': {
+            'vcFormat': 'jwt_vc_json',
+            "proofHeader": "kid",
+            "proofType": "jwt",
+            'statusListCache': True,
+            'securityLevel': False,
+            'clientAuthentication': 'client_id',
+            'credentialManifestSupport': False,
+            'userPinDigits': '4',
+            'defaultDid': 'did:jwk:p-256',
+            'subjectSyntaxeType': 'did',
+            'cryptoHolderBinding': True,
+            'scope': False,
+            'client_id': '',
+            'client_secret': '',
+            'oidc4vciDraft': '13',
+            'oidc4vpDraft': '18',
+            'siopv2Draft': '12',
+            'pushAuthorizationRequest': False
+        },
+        'EBSI': {
+            'vcFormat': 'jwt_vc',
+            "proofHeader": "kid",
+            "proofType": "jwt",
+            'statusListCache': True,
+            'securityLevel': False,
+            'clientAuthentication': 'client_id',
+            'credentialManifestSupport': False,
+            'userPinDigits': '4',
+            'defaultDid': 'did:key:ebsi',
+            'subjectSyntaxeType': 'did',
+            'cryptoHolderBinding': True,
+            'scope': False,
+            'client_id': '',
+            'client_secret': '',
+            'oidc4vciDraft': '11',
+            'oidc4vpDraft': '20',
+            'siopv2Draft': '12',
+            'pushAuthorizationRequest': False           
+        },
+        'HAIP': {
+            'vcFormat': 'vc+sd-jwt',
+            "proofHeader": "kid",
+            "proofType": "jwt",
+            'statusListCache': True,
+            'securityLevel': False,
+            'clientAuthentication': 'client_secret_jwt',
+            'credentialManifestSupport': False,
+            'userPinDigits': '4',
+            'defaultDid': 'urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation',
+            'subjectSyntaxeType': 'did',
+            'cryptoHolderBinding': True,
+            'scope': True,
+            'client_id': '',
+            'client_secret': '',
+            'oidc4vciDraft': '13',
+            'oidc4vpDraft': '20',
+            'siopv2Draft': '12',
+            'pushAuthorizationRequest': False          
+        },
+        'OWF': {
+            'vcFormat': 'vc+sd-jwt',
+            "proofHeader": "kid",
+            "proofType": "jwt",
+            'statusListCache': True,
+            'securityLevel': False,
+            'clientAuthentication': 'client_id',
+            'credentialManifestSupport': False,
+            'userPinDigits': '4',
+            'defaultDid': 'did:jwk:p-256',
+            'subjectSyntaxeType': 'did',
+            'cryptoHolderBinding': True,
+            'scope': False,
+            'client_id': '',
+            'client_secret': '',
+            'oidc4vciDraft': '13',
+            'oidc4vpDraft': '20',
+            'siopv2Draft': '12',
+            'pushAuthorizationRequest': False          
+        }
+    }
+
+    # recup + valeur oidv4vcProfile
+    oidv4vcProfile = request.form.get('oidv4vcProfile') 
+    print("oidv4vcProfile de la config : " + oidv4vcProfile)
+
+    # verif + maj config choisi
+    def update_profile_settings(oidv4vcProfile):
+        if oidv4vcProfile in configurations:
+            new_config = configurations[oidv4vcProfile]
+            wallet_provider_configuration['selfSovereignIdentityOptions']['customOidc4vcProfile'].update(new_config)
+        else:
+            print("Profil non pris en charge : ", oidv4vcProfile)
+
+    # Maj config
+    update_profile_settings(oidv4vcProfile)
+
+    # update db nv valeurs
+    db.update_config(json.dumps(wallet_provider_configuration), session["organisation"])
+
+
+
+
     # update external issuer section with issuers in db
     nb_issuer = len(wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"])
     new_external_issuer = []
@@ -670,6 +796,7 @@ def set_config():
         wallet_provider_configuration["generalOptions"]["companyLogo"] = logo
     db.update_config(json.dumps(wallet_provider_configuration),
                      session["organisation"])
+    # Afficher config 
     print(wallet_provider_configuration)
     return redirect("/dashboard")
 

@@ -5,7 +5,7 @@ function afficherHAIP_SSI() {
     const cryptoHolderBindingTrueElement = document.getElementById('cryptoHolderBindingTrue');
     const defaultDidElement = document.getElementById('defaultDid');
     const oidc4vciDraftElement = document.getElementById('thirteenvci');
-    const oidc4vpDraftElement = document.getElementById('eighteenvp');
+    const oidc4vpDraftElement = document.getElementById('twentyvp');
     const scopeTrueElement = document.getElementById('scopeTrue');
     const securityLevelFalseElement = document.getElementById('permissive');
     const siopv2DraftElement = document.getElementById('twelvesiop');
@@ -29,7 +29,7 @@ function afficherHAIP_SSI() {
     userPinDigitsElement.checked = true;
     ProofheaderElement.value = 'kid';
     PARElement.value = true;
-
+    statusListCacheElement.checked = true;
     
     toggleBasicAuthDiv();
 }
