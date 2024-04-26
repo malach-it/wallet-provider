@@ -1742,26 +1742,37 @@
                                     <script>
                                         // Mettre à jour la classe en fonction de la valeur sélectionnée
                                         document.addEventListener('DOMContentLoaded', function () {
+                                            // console.log("DOMContentLoaded event triggered");
                                             var selectElement = document.getElementById('statusIssuer{{ row[0] }}');
+                                            // console.log("Select element retrieved:", selectElement);
                                             var selectedValue = selectElement.value;
-                                
+                                            // console.log("Selected value:", selectedValue);
+                                    
                                             // Supprime les classes existantes
                                             selectElement.classList.remove('select-invisible', 'select-visible');
-                                
+                                            // console.log("Removed existing classes");
+                                    
                                             // Ajoute la classe en fonction de la valeur sélectionnée
                                             selectElement.classList.add('select-' + selectedValue);
+                                            // console.log("Added class based on selected value");
                                         });
-                                
+                                    
                                         document.getElementById('statusIssuer{{ row[0] }}').addEventListener('change', function() {
+                                            // console.log("Change event triggered");
                                             var selectElement = this;
+                                            // console.log("Select element:", selectElement);
                                             var selectedValue = selectElement.value;
-                                
+                                            // console.log("Selected value:", selectedValue);
+                                    
                                             // Supprime les classes existantes
                                             selectElement.classList.remove('select-invisible', 'select-visible');
-
+                                            // console.log("Removed existing classes");
+                                    
                                             selectElement.classList.add('select-' + selectedValue);
+                                            // console.log("Added class based on selected value");
                                         });
                                     </script>
+                                    
                                 </td>
                             </tr>
                             {% endfor %}
@@ -1990,52 +2001,65 @@
     <script>
         //couleur Status visible/invisible
         document.addEventListener("DOMContentLoaded", function() {
-        var selectElements = document.querySelectorAll('[id^="display"]');
-        
-        selectElements.forEach(function(selectElement) {
-            // Set the initial background color based on the selected option
-            updateSelectBackground(selectElement);
+            // debugger;
+            console.log("DOMContentLoaded event triggered");
+            var selectElements = document.querySelectorAll('[id^="display"]');
+            console.log("Select elements retrieved:", selectElements);
+            
+            selectElements.forEach(function(selectElement) {
+                // debugger;
+                // console.log("element select :", selectElement);
+                // Set the initial background color based on the selected option
+                updateSelectBackground(selectElement);
 
-            // Add an event listener to handle changes in selection
-            selectElement.addEventListener("change", function() {
-            updateSelectBackground(this);
+                // Add an event listener to handle changes in selection
+                selectElement.addEventListener("change", function() {
+                    // debugger;
+                    // console.log("Change select element:", selectElement);
+                    updateSelectBackground(this);
+                });
             });
-        });
 
-        function updateSelectBackground(element) {
-            var selectedValue = element.value;
+            function updateSelectBackground(element) {
+                // console.log("Updating select element:", element);
+                var selectedValue = element.value;
+                console.log("Selected value:", selectedValue);
 
-            // Remove existing classes
-            element.classList.remove("select-visible", "select-invisible");
+                // Remove existing classes
+                element.classList.remove("select-visible", "select-invisible");
+                console.log("Removed existing classes");
 
-            // Add the appropriate class based on the selected option
-            if (selectedValue === "displayOver13True" || selectedValue === "displayOver15True" ||
-                selectedValue === "displayOver18True" || selectedValue === "displayOver18_2True" ||
-                selectedValue === "displayOver21True" || selectedValue === "displayOver50True" ||
-                selectedValue === "displayOver65True" || selectedValue === "displayVerifiableIdTrue" ||
-                selectedValue === "displayVerifiableId2True" || selectedValue === "displayVerifiableIdSdJwtTrue" ||
-                selectedValue === "displayEmailPassTrue" || selectedValue === "displayEmailPassJwtTrue" || 
-                selectedValue === "displayPhonePassTrue" || selectedValue === "displayPhonePassJwtTrue"|| 
-                selectedValue === "displayDefiTrue" || selectedValue === "displayHumanityTrue" || 
-                selectedValue === "displayHumanityJwtTrue"|| selectedValue === "displayAgeRangeTrue" || 
-                selectedValue === "displayGenderTrue" || selectedValue === "displayTezotopiaTrue" || 
-                selectedValue === "displayChainbornTrue") {
-            element.classList.add("select-visible");
-            } else if (selectedValue === "displayOver13False" || selectedValue === "displayOver15False" ||
-                    selectedValue === "displayOver18False" || selectedValue === "displayOver18_2False" ||
-                    selectedValue === "displayOver21False" || selectedValue === "displayOver50False" ||
-                    selectedValue === "displayOver65False" || selectedValue === "displayVerifiableIdFalse" ||
-                    selectedValue === "displayVerifiableId2False" || selectedValue === "displayVerifiableIdSdJwtFalse" ||
-                    selectedValue === "displayEmailPassFalse" || selectedValue === "displayEmailPassJwtFalse" || 
-                    selectedValue === "displayPhonePassFalse" || selectedValue === "displayPhonePassJwtFalse"|| 
-                    selectedValue === "displayDefiFalse" || selectedValue === "displayHumanityFalse" ||
-                    selectedValue === "displayHumanityJwtFalse" || selectedValue === "displayAgeRangeFalse" ||
-                    selectedValue === "displayGenderFalse" || selectedValue === "displayTezotopiaFalse" || 
-                    selectedValue === "displayChainbornFalse") {
-            element.classList.add("select-invisible");
+                // Add the appropriate class based on the selected option
+                if (selectedValue === "displayOver13True" || selectedValue === "displayOver15True" ||
+                    selectedValue === "displayOver18True" || selectedValue === "displayOver18_2True" ||
+                    selectedValue === "displayOver21True" || selectedValue === "displayOver50True" ||
+                    selectedValue === "displayOver65True" || selectedValue === "displayVerifiableIdTrue" ||
+                    selectedValue === "displayVerifiableId2True" || selectedValue === "displayVerifiableIdSdJwtTrue" ||
+                    selectedValue === "displayEmailPassTrue" || selectedValue === "displayEmailPassJwtTrue" || 
+                    selectedValue === "displayPhonePassTrue" || selectedValue === "displayPhonePassJwtTrue"|| 
+                    selectedValue === "displayDefiTrue" || selectedValue === "displayHumanityTrue" || 
+                    selectedValue === "displayHumanityJwtTrue"|| selectedValue === "displayAgeRangeTrue" || 
+                    selectedValue === "displayGenderTrue" || selectedValue === "displayTezotopiaTrue" || 
+                    selectedValue === "displayChainbornTrue") {
+                    element.classList.add("select-visible");
+                    console.log("Add class 'select-visible'");
+                } else if (selectedValue === "displayOver13False" || selectedValue === "displayOver15False" ||
+                        selectedValue === "displayOver18False" || selectedValue === "displayOver18_2False" ||
+                        selectedValue === "displayOver21False" || selectedValue === "displayOver50False" ||
+                        selectedValue === "displayOver65False" || selectedValue === "displayVerifiableIdFalse" ||
+                        selectedValue === "displayVerifiableId2False" || selectedValue === "displayVerifiableIdSdJwtFalse" ||
+                        selectedValue === "displayEmailPassFalse" || selectedValue === "displayEmailPassJwtFalse" || 
+                        selectedValue === "displayPhonePassFalse" || selectedValue === "displayPhonePassJwtFalse"|| 
+                        selectedValue === "displayDefiFalse" || selectedValue === "displayHumanityFalse" ||
+                        selectedValue === "displayHumanityJwtFalse" || selectedValue === "displayAgeRangeFalse" ||
+                        selectedValue === "displayGenderFalse" || selectedValue === "displayTezotopiaFalse" || 
+                        selectedValue === "displayChainbornFalse") {
+                    element.classList.add("select-invisible");
+                    console.log("Add class 'select-invisible'");
+                }
             }
-        }
         });
+
 
         //Copie mail
         function copySpanText() {

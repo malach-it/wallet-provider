@@ -642,7 +642,7 @@ def set_config():
         wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = issuers
 
     # Def de la config
-    config = {
+    config_base = {
     'vcFormat': '',
     'proofHeader' : '',
     'statusListCache': False,
@@ -663,7 +663,7 @@ def set_config():
     }
 
     # config de chaque SSI
-    configurations = {
+    my_SSI_selected = {
         'DIIP': {
             'vcFormat': 'jwt_vc_json',
             "proofHeader": "kid",
@@ -751,9 +751,9 @@ def set_config():
     print("oidv4vcProfile de la config : " + oidv4vcProfile)
 
     # verif + maj config choisi
-    def update_profile_settings(oidv4vcProfile):
-        if oidv4vcProfile in configurations:
-            new_config = configurations[oidv4vcProfile]
+    def update_profile_settings(valeur_OIDC):
+        if valeur_OIDC in my_SSI_selected:
+            new_config = my_SSI_selected[valeur_OIDC]
             wallet_provider_configuration['selfSovereignIdentityOptions']['customOidc4vcProfile'].update(new_config)
         else:
             print("Profil non pris en charge : ", oidv4vcProfile)
@@ -814,6 +814,7 @@ def dashboard():
     if plan == "paid":
         plan = ""
     users = db.read_users(session.get("organisation"))
+    # print(session.get("organisation"))
     return render_template("dashboard.html", organisation=session.get("organisation"), rows=users, customer_plan=plan, version=VERSION)
 
 
