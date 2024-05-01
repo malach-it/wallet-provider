@@ -111,7 +111,7 @@ def create_organisation(name: str, config: str) -> bool:
     conn = sqlite3.connect('db.sqlite')
     c = conn.cursor()
     c.execute(
-        """insert into organisations values ('{name}','{config}',0, 0)""".format(name=name, config=config))
+        """insert into organisations values ('{name}','{config}', 0)""".format(name=name, config=config))
     conn.commit()
     return True
 
