@@ -282,7 +282,7 @@ def increment_instances(organisation):
     except Exception:
         return None
     conn.commit()
-    conn.close() 
+    conn.close()
 
 
 def read_organisation_from_thumbprint(thumbprint):

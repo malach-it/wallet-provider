@@ -9,7 +9,6 @@ from flask_session import Session
 from flask_pyoidc import OIDCAuthentication
 from flask_pyoidc.provider_configuration import ProviderConfiguration, ClientMetadata
 from flask_pyoidc.user_session import UserSession
-import base64
 import db
 from hashlib import sha256
 import random
@@ -17,8 +16,8 @@ import string
 import message
 import wallet_provider
 import uuid
-from datetime import datetime, timedelta
 import base64
+from datetime import datetime, timedelta
 from werkzeug.utils import secure_filename
 from PIL import Image
 from io import BytesIO
@@ -26,6 +25,9 @@ import requests
 from flask_mobility import Mobility
 from flask_qrcode import QRcode
 from db import read_issuer
+
+from repositories.configuration import set_configuration
+from repositories.constants import base_ssi_configuration
 
 
 VERSION = "1.0.0"
@@ -37,27 +39,30 @@ if not myenv:
     myenv = 'achille'
 mode = environment.currentMode(myenv)
 
-app = Flask(__name__)
-app.secret_key = json.load(open("keys.json", "r"))["appSecretKey"]
-app.config['UPLOAD_FOLDER'] = 'logos'
-app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
-app.config.update(
-    # your application redirect uri. Must not be used in your code
-    OIDC_REDIRECT_URI=mode.server+"/redirect",
-    # your application secret code for session, random
-    SECRET_KEY=json.dumps(json.load(open("keys.json", "r"))["appSecretKey"])
-)
-app.config['SESSION_PERMANENT'] = True
-app.config['SESSION_COOKIE_NAME'] = 'talao'
-app.config['SESSION_TYPE'] = 'redis'  # Redis server side session
-app.config['SESSION_FILE_THRESHOLD'] = 100
-app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=60)
-sess = Session()
-sess.init_app(app)
-Mobility(app)
-qrcode = QRcode(app)
+def create_app():
+    app = Flask(__name__)
+    app.secret_key = json.load(open("keys.json", "r"))["appSecretKey"]
+    app.config['UPLOAD_FOLDER'] = 'logos'
+    app.config['ALLOWED_EXTENSIONS'] = {'png', 'jpg', 'jpeg'}
+    app.config.update(
+        # your application redirect uri. Must not be used in your code
+        OIDC_REDIRECT_URI=mode.server+"/redirect",
+        # your application secret code for session, random
+        SECRET_KEY=json.dumps(json.load(open("keys.json", "r"))["appSecretKey"])
+    )
+    app.config['SESSION_PERMANENT'] = True
+    app.config['SESSION_COOKIE_NAME'] = 'talao'
+    app.config['SESSION_TYPE'] = 'redis'  # Redis server side session
+    app.config['SESSION_FILE_THRESHOLD'] = 100
+    app.config['PERMANENT_SESSION_LIFETIME'] = timedelta(minutes=60)
+    sess = Session()
+    sess.init_app(app)
+    Mobility(app)
+    qrcode = QRcode(app)
 
+    return app
 
+app = create_app()
 """
 Init OpenID Connect client PYOIDC with the 3 bridge parameters :  client_id, client_secret and issuer URL
 """
@@ -300,306 +305,14 @@ def allowed_file(filename):
            filename.rsplit('.', 1)[1].lower(
            ) in app.config['ALLOWED_EXTENSIONS']
 
-
 def set_config():
     if not session.get("organisation"):
         return redirect('/')
-    wallet_provider_configuration = json.load(
-        open('./wallet-provider-configuration.json', 'r'))
-    wallet_provider_configuration["generalOptions"]["walletType"] = request.form.to_dict()[
-        "walletType"]
-    wallet_provider_configuration["generalOptions"]["companyName"] = request.form.to_dict()[
-        "companyName"]
 
-    wallet_provider_configuration["generalOptions"]["splashScreenTitle"] = request.form.to_dict()[
-        "splashScreenTitle"]
-    wallet_provider_configuration["generalOptions"]["tagLine"] = request.form.to_dict()[
-        "tagLine"]
-    wallet_provider_configuration["generalOptions"]["published"] = datetime.today(
-    ).strftime('%Y-%m-%d')
-    # time.time()
-    profileId = base64.b64encode(
-        str(uuid.uuid1()).encode()).decode().replace("=", "")[:10]
-    wallet_provider_configuration["generalOptions"]["profileId"] = profileId
-    wallet_provider_configuration["generalOptions"]["profileName"] = request.form.to_dict()[
-        "profileName"]
+    wallet_provider_configuration = set_configuration(
+            session['organisation'],
+            request.form.to_dict())
 
-    wallet_provider_configuration["generalOptions"]["customerPlan"] = db.read_plan(
-        session["organisation"])
-
-    if request.form.to_dict()["displayProfile"] == "displayProfileFalse":
-        wallet_provider_configuration["settingsMenu"]["displayProfile"] = False
-    else:
-        wallet_provider_configuration["settingsMenu"]["displayProfile"] = True
-
-    if request.form.to_dict()["displayDeveloperMode"] == "displayDeveloperModeFalse":
-        wallet_provider_configuration["settingsMenu"]["displayDeveloperMode"] = False
-    else:
-        wallet_provider_configuration["settingsMenu"]["displayDeveloperMode"] = True
-
-    if request.form.to_dict()["displayHelpCenter"] == "displayHelpCenterFalse":
-        wallet_provider_configuration["settingsMenu"]["displayHelpCenter"] = False
-    else:
-        wallet_provider_configuration["settingsMenu"]["displayHelpCenter"] = True
-
-    if request.form.to_dict()["displaySelfSovereignIdentity"] == "displaySelfSovereignIdentityFalse":
-        wallet_provider_configuration["settingsMenu"]["displaySelfSovereignIdentity"] = False
-    else:
-        wallet_provider_configuration["settingsMenu"]["displaySelfSovereignIdentity"] = True
-
-    if request.form.to_dict()["displaySecurityAdvancedSettings"] == "displaySecurityAdvancedSettingsFalse":
-        wallet_provider_configuration["walletSecurityOptions"]["displaySecurityAdvancedSettings"] = False
-    else:
-        wallet_provider_configuration["walletSecurityOptions"]["displaySecurityAdvancedSettings"] = True
-    if request.form.to_dict()["verifySecurityIssuerWebsiteIdentity"] == "verifySecurityIssuerWebsiteIdentityFalse":
-        wallet_provider_configuration["walletSecurityOptions"]["verifySecurityIssuerWebsiteIdentity"] = False
-    else:
-        wallet_provider_configuration["walletSecurityOptions"]["verifySecurityIssuerWebsiteIdentity"] = True
-    if request.form.to_dict()["confirmSecurityVerifierAccess"] == "confirmSecurityVerifierAccessFalse":
-        wallet_provider_configuration["walletSecurityOptions"]["confirmSecurityVerifierAccess"] = False
-    else:
-        wallet_provider_configuration["walletSecurityOptions"]["confirmSecurityVerifierAccess"] = True
-    if request.form.to_dict()["secureSecurityAuthenticationWithPinCode"] == "secureSecurityAuthenticationWithPinCodeFalse":
-        wallet_provider_configuration["walletSecurityOptions"]["secureSecurityAuthenticationWithPinCode"] = False
-    else:
-        wallet_provider_configuration["walletSecurityOptions"]["secureSecurityAuthenticationWithPinCode"] = True
-
-    if request.form.to_dict().get("tezosSupport"):
-        wallet_provider_configuration["blockchainOptions"]["tezosSupport"] = True
-    else:
-        wallet_provider_configuration["blockchainOptions"]["tezosSupport"] = False
-    if request.form.to_dict().get("ethereumSupport"):
-        wallet_provider_configuration["blockchainOptions"]["ethereumSupport"] = True
-    else:
-        wallet_provider_configuration["blockchainOptions"]["ethereumSupport"] = False
-    if request.form.to_dict().get("hederaSupport"):
-        wallet_provider_configuration["blockchainOptions"]["hederaSupport"] = True
-    else:
-        wallet_provider_configuration["blockchainOptions"]["hederaSupport"] = False
-    if request.form.to_dict().get("bnbSupport"):
-        wallet_provider_configuration["blockchainOptions"]["bnbSupport"] = True
-    else:
-        wallet_provider_configuration["blockchainOptions"]["bnbSupport"] = False
-    if request.form.to_dict().get("fantomSupport"):
-        wallet_provider_configuration["blockchainOptions"]["fantomSupport"] = True
-    else:
-        wallet_provider_configuration["blockchainOptions"]["fantomSupport"] = False
-    if request.form.to_dict().get("polygonSupport"):
-        wallet_provider_configuration["blockchainOptions"]["polygonSupport"] = True
-    else:
-        wallet_provider_configuration["blockchainOptions"]["polygonSupport"] = False
-
-    oidv4vcProfile = wallet_provider_configuration["selfSovereignIdentityOptions"]["oidv4vcProfile"]
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["oidv4vcProfile"] = request.form.to_dict()[
-        "oidv4vcProfile"]
-    
-    if request.form.to_dict()["displayManageDecentralizedId"] == "displayManageDecentralizedIdFalse":
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["displayManageDecentralizedId"] = False
-    else:
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["displayManageDecentralizedId"] = True
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"] = False
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = False
-    """if request.form.to_dict()["displaySsiAdvancedSettings"] == "displaySsiAdvancedSettingsFalse":
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = False
-    else:
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["displaySsiAdvancedSettings"] = True
-    
-
-    if request.form.to_dict()["displayVerifiableDataRegistry"] == "displayVerifiableDataRegistryFalse":
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"] = False
-    else:
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["displayVerifiableDataRegistry"] = True"""
-
-    if request.form.to_dict()["scope"] == "scopeFalse":
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"] = False
-    else:
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["scope"] = True
-    
-    if request.form.to_dict()["statusListCache"] == "statusListCacheFalse":
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["statusListCache"] = False
-    else:
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["statusListCache"] = True
-        
-    if request.form.to_dict()["cryptoHolderBinding"] == "cryptoHolderBindingFalse":
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["cryptoHolderBinding"] = False
-    else:
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["cryptoHolderBinding"] = True
-
-    # if request.form.to_dict()["credentialManifestSupport"] == "credentialManifestSupportFalse":
-    #     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["credentialManifestSupport"] = False
-    # else:
-    #     wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["credentialManifestSupport"] = True
-
-    if request.form.to_dict()["pushAuthorizationRequest"] == "pushAuthorizationRequestFalse":
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["pushAuthorizationRequest"] = False
-    else:
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["pushAuthorizationRequest"] = True
-
-    if request.form.to_dict().get("displayChatSupport") == "displayChatSupportTrue":
-        wallet_provider_configuration["helpCenterOptions"]["displayChatSupport"] = True
-    else:
-        wallet_provider_configuration["helpCenterOptions"]["displayChatSupport"] = False
-    if request.form.to_dict().get("customChatSupport") == "customChatSupportTrue":
-        wallet_provider_configuration["helpCenterOptions"]["customChatSupport"] = True
-    else:
-        wallet_provider_configuration["helpCenterOptions"]["customChatSupport"] = False
-    if request.form.to_dict().get("displayEmailSupport") == "displayEmailSupportTrue":
-        wallet_provider_configuration["helpCenterOptions"]["displayEmailSupport"] = True
-    else:
-        wallet_provider_configuration["helpCenterOptions"]["displayEmailSupport"] = False
-    if request.form.to_dict().get("customEmailSupport") == "customEmailSupportTrue":
-        wallet_provider_configuration["helpCenterOptions"]["customEmailSupport"] = True
-    else:
-        wallet_provider_configuration["helpCenterOptions"]["customEmailSupport"] = False
-
-
-
-    if request.form.to_dict()["securityLevel"] == "strict":
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"] = True
-    else:
-        wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["securityLevel"] = False
-    # wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["userPinDigits"] = request.form.to_dict()[
-    #     "userPinDigits"]
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["defaultDid"] = request.form.to_dict()[
-        "defaultDid"]
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["subjectSyntaxeType"] = request.form.to_dict()[
-        "subjectSyntaxeType"]
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["clientAuthentication"] = request.form.to_dict()[
-        "clientAuthentication"]
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_id"] = request.form.to_dict()[
-        "client_id"]
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["client_secret"] = request.form.to_dict()[
-        "client_secret"]
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["oidc4vciDraft"] = request.form.to_dict()[
-        "oidc4vciDraft"]
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["oidc4vpDraft"] = request.form.to_dict()[
-        "oidc4vpDraft"]
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["siopv2Draft"] = request.form.to_dict()[
-        "siopv2Draft"]
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["vcFormat"] = request.form.to_dict().get(
-        "vcFormat","ldp_vc")
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofType"] = request.form.to_dict().get(
-        "proofType","jwt")
-    wallet_provider_configuration["selfSovereignIdentityOptions"]["customOidc4vcProfile"]["proofHeader"] = request.form.to_dict().get(
-        "proofHeader","kid")
-    wallet_provider_configuration["helpCenterOptions"]["customChatSupportName"] = request.form.to_dict()[
-        "customChatSupportName"]
-    wallet_provider_configuration["helpCenterOptions"]["customEmail"] = request.form.to_dict()[
-        "customEmail"]
-    print("resultat","1")
-    print(request.form.to_dict().get("displayExternalIssuer"))
-    if request.form.to_dict()["displayOver13"] == "displayOver13False":
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver13"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver13"] = True
-
-    if request.form.to_dict()["displayOver15"] == "displayOver15False":
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver15"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver15"] = True
-
-    if request.form.to_dict()["displayOver18"] == "displayOver18False":
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver18"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver18"] = True
-
-    if request.form.to_dict()["displayOver18_2"] == "displayOver18_2False":
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver18Jwt"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver18Jwt"] = True
-        
-    if request.form.to_dict()["displayOver21"] == "displayOver21False":
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver21"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver21"] = True
-
-    if request.form.to_dict()["displayOver50"] == "displayOver50False":
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver50"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver50"] = True
-
-    if request.form.to_dict()["displayOver65"] == "displayOver65False":
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver65"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayOver65"] = True
-
-    if request.form.to_dict()["displayVerifiableId"] == "displayVerifiableIdFalse":
-        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableId"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableId"] = True
-    
-    if request.form.to_dict()["displayVerifiableId2"] == "displayVerifiableId2False":
-        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableIdJwt"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableIdJwt"] = True
-
-    if request.form.to_dict()["displayVerifiableIdSdJwt"] == "displayVerifiableIdSdJwtFalse":
-        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableIdSdJwt"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayVerifiableIdSdJwt"] = True
-
-    if request.form.to_dict()["displayEmailPass"] == "displayEmailPassFalse":
-        wallet_provider_configuration["discoverCardsOptions"]["displayEmailPass"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayEmailPass"] = True
-    
-    if request.form.to_dict()["displayEmailPassJwt"] == "displayEmailPassJwtFalse":
-        wallet_provider_configuration["discoverCardsOptions"]["displayEmailPassJwt"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayEmailPassJwt"] = True
-
-    if request.form.to_dict()["displayPhonePass"] == "displayPhonePassFalse":
-        wallet_provider_configuration["discoverCardsOptions"]["displayPhonePass"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayPhonePass"] = True
-
-    if request.form.to_dict()["displayPhonePassJwt"] == "displayPhonePassJwtFalse":
-        wallet_provider_configuration["discoverCardsOptions"]["displayPhonePassJwt"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayPhonePassJwt"] = True
-
-    if request.form.to_dict()["displayDefi"] == "displayDefiFalse":
-        wallet_provider_configuration["discoverCardsOptions"]["displayDefi"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayDefi"] = True
-
-    if request.form.to_dict()["displayHumanity"] == "displayHumanityFalse":
-        wallet_provider_configuration["discoverCardsOptions"]["displayHumanity"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayHumanity"] = True
-
-    if request.form.to_dict()["displayHumanityJwt"] == "displayHumanityJwtFalse":
-        wallet_provider_configuration["discoverCardsOptions"]["displayHumanityJwt"] = False
-    else:
-        wallet_provider_configuration["discoverCardsOptions"]["displayHumanityJwt"] = True
-
-    # if request.form.to_dict()["displayAgeRange"] == "displayAgeRangeFalse":
-    #     wallet_provider_configuration["discoverCardsOptions"]["displayAgeRange"] = False
-    # else:
-    #     wallet_provider_configuration["discoverCardsOptions"]["displayAgeRange"] = True
-
-    # if request.form.to_dict()["displayGender"] == "displayGenderFalse":
-    #     wallet_provider_configuration["discoverCardsOptions"]["displayGender"] = False
-    # else:
-    #     wallet_provider_configuration["discoverCardsOptions"]["displayGender"] = True
-    
-    # if request.form.to_dict()["displayTezotopia"] == "displayTezotopiaFalse":
-    #     wallet_provider_configuration["discoverCardsOptions"]["displayTezotopia"] = False
-    # else:
-    #     wallet_provider_configuration["discoverCardsOptions"]["displayTezotopia"] = True
-
-    
-    # if request.form.to_dict()["displayChainborn"] == "displayChainbornFalse":
-    #     wallet_provider_configuration["discoverCardsOptions"]["displayChainborn"] = False
-    # else:
-    #     wallet_provider_configuration["discoverCardsOptions"]["displayChainborn"] = True
-
-    # if request.form.to_dict()["displayExternalIssuer"] == "displayExternalIssuerFalse":
-    #     wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = False
-    # else:
-    #     wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = True
-
-    
     # Vérif si wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] est bien un tableau
     if "displayExternalIssuer" not in wallet_provider_configuration["discoverCardsOptions"]:
         wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = []
@@ -610,27 +323,10 @@ def set_config():
         # ADD id issuer data ds le tableau
         for item in wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"]:
             item["issuer_id"] = id
-        # 
-        print(wallet_provider_configuration)
-
     else:
         print("Erreur : organisation_id non défini")
-    
-    
-   
 
-        
-
-    # Part 7 
-    if request.form.to_dict()["isAllowed"] == "isAllowedFalse":
-        wallet_provider_configuration["companySignature"]["isAllowed"] = False
-    else:
-        wallet_provider_configuration["companySignature"]["isAllowed"] = True
-
-    wallet_provider_configuration["companySignature"]["CompanyKey"] = request.form.to_dict()["CompanyKey"]
-
-    wallet_provider_configuration["companySignature"]["Companykid"] = request.form.to_dict()["Companykid"]
-
+    # Part 7
 
     try:
         issuers = json.loads(db.read_issuers_config(session["organisation"]))
@@ -663,97 +359,14 @@ def set_config():
     }
 
     # config de chaque SSI
-    my_SSI_selected = {
-        'DIIP': {
-            'vcFormat': 'jwt_vc_json',
-            "proofHeader": "kid",
-            "proofType": "jwt",
-            'statusListCache': True,
-            'securityLevel': False,
-            'clientAuthentication': 'client_id',
-            'credentialManifestSupport': False,
-            'userPinDigits': '4',
-            'defaultDid': 'did:jwk:p-256',
-            'subjectSyntaxeType': 'did',
-            'cryptoHolderBinding': True,
-            'scope': False,
-            'client_id': '',
-            'client_secret': '',
-            'oidc4vciDraft': '13',
-            'oidc4vpDraft': '18',
-            'siopv2Draft': '12',
-            'pushAuthorizationRequest': False
-        },
-        'EBSI': {
-            'vcFormat': 'jwt_vc',
-            "proofHeader": "kid",
-            "proofType": "jwt",
-            'statusListCache': True,
-            'securityLevel': False,
-            'clientAuthentication': 'client_id',
-            'credentialManifestSupport': False,
-            'userPinDigits': '4',
-            'defaultDid': 'did:key:ebsi',
-            'subjectSyntaxeType': 'did',
-            'cryptoHolderBinding': True,
-            'scope': False,
-            'client_id': '',
-            'client_secret': '',
-            'oidc4vciDraft': '11',
-            'oidc4vpDraft': '20',
-            'siopv2Draft': '12',
-            'pushAuthorizationRequest': False           
-        },
-        'HAIP': {
-            'vcFormat': 'vc+sd-jwt',
-            "proofHeader": "kid",
-            "proofType": "jwt",
-            'statusListCache': True,
-            'securityLevel': False,
-            'clientAuthentication': 'client_secret_jwt',
-            'credentialManifestSupport': False,
-            'userPinDigits': '4',
-            'defaultDid': 'urn:ietf:params:oauth:client-assertion-type:jwt-client-attestation',
-            'subjectSyntaxeType': 'did',
-            'cryptoHolderBinding': True,
-            'scope': True,
-            'client_id': '',
-            'client_secret': '',
-            'oidc4vciDraft': '13',
-            'oidc4vpDraft': '20',
-            'siopv2Draft': '12',
-            'pushAuthorizationRequest': False          
-        },
-        'OWF': {
-            'vcFormat': 'vc+sd-jwt',
-            "proofHeader": "kid",
-            "proofType": "jwt",
-            'statusListCache': True,
-            'securityLevel': False,
-            'clientAuthentication': 'client_id',
-            'credentialManifestSupport': False,
-            'userPinDigits': '4',
-            'defaultDid': 'did:jwk:p-256',
-            'subjectSyntaxeType': 'did',
-            'cryptoHolderBinding': True,
-            'scope': False,
-            'client_id': '',
-            'client_secret': '',
-            'oidc4vciDraft': '13',
-            'oidc4vpDraft': '20',
-            'siopv2Draft': '12',
-            'pushAuthorizationRequest': False          
-        }
-    }
 
     # recup + valeur oidv4vcProfile
-    oidv4vcProfile = request.form.get('oidv4vcProfile') 
-    print("oidv4vcProfile de la config : " + oidv4vcProfile)
+    oidv4vcProfile = request.form.get('oidv4vcProfile')
 
     # verif + maj config choisi
     def update_profile_settings(valeur_OIDC):
-        if valeur_OIDC in my_SSI_selected:
-            new_config = my_SSI_selected[valeur_OIDC]
+        if valeur_OIDC in base_ssi_configuration:
+            new_config = base_ssi_configuration[valeur_OIDC]
             wallet_provider_configuration['selfSovereignIdentityOptions']['customOidc4vcProfile'].update(new_config)
         else:
             print("Profil non pris en charge : ", oidv4vcProfile)
@@ -763,9 +376,6 @@ def set_config():
 
     # update db nv valeurs
     db.update_config(json.dumps(wallet_provider_configuration), session["organisation"])
-
-
-
 
     # update external issuer section with issuers in db
     nb_issuer = len(wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"])
@@ -778,7 +388,7 @@ def set_config():
             new_external_issuer.append(new_issuer_data)
     wallet_provider_configuration["discoverCardsOptions"]["displayExternalIssuer"] = new_external_issuer
     logging.info("update external issuer")
-    
+
     file = request.files.get('file')
     if file and allowed_file(file.filename):
         img = Image.open(file)
@@ -796,10 +406,9 @@ def set_config():
         wallet_provider_configuration["generalOptions"]["companyLogo"] = logo
     db.update_config(json.dumps(wallet_provider_configuration),
                      session["organisation"])
-    # Afficher config 
+    # Afficher config
     print(wallet_provider_configuration)
     return redirect("/dashboard")
-
 
 def dashboard():
     if request.MOBILE:
@@ -856,16 +465,16 @@ def add_user_guest():
         return "Unauthorized", 401
     if db.read_plan(session.get("organisation")) == "free":
         return "Unauthorized", 401
-    
+
     random_email = generate_random_email()  # Générer un email aléatoire
     password = generate_random_string(6)  # Générer un mot de passe aléatoire
-    
+
     # Appeler create_user() avec les informations nécessaires
     db.create_user(random_email, password, session["organisation"], first_name="guest", last_name="guest")
-    
+
     # Autres actions, comme l'envoi d'un email ou la réponse HTTP
     return "ok"
- 
+
 
 def add_organisation():
     if session.get("organisation") != "Talao":
@@ -1089,7 +698,7 @@ def get_issuer_infos(id):
         return "Unauthorized", 401
     infos = json.loads(db.read_issuer(id)[0])
     infos["privacy"] = db.read_issuer(id)[1]
-    return infos   
+    return infos
 
 def change_issuer_config():
     if not session.get("organisation"):
